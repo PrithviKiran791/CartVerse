@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+:root {
+  --app-font-family: 'Inter', system-ui, sans-serif;
+}
+
+* {
+  border-color: #2A2A2A;
+}
+
+body {
+  background-color: #0A0A0A;
+  color: #F5F5F5;
+  font-family: var(--app-font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+/* Brutalist Button */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-width: 1px;
+  border-color: #2A2A2A;
+  border-radius: 2px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  transition: all 150ms;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #E31B23;
+  color: #F5F5F5;
+  border-color: #E31B23;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #c7161d;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #F5F5F5;
+  border-color: #2A2A2A;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #181818;
+}
+
+.btn-disabled,
+.btn:disabled {
+  background-color: #181818;
+  color: #666666;
+  cursor: not-allowed;
+  border-color: #181818;
+}
+
+/* Brutalist Input */
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: #181818;
+  border-width: 1px;
+  border-color: #2A2A2A;
+  border-radius: 2px;
+  color: #F5F5F5;
+  transition: border-color 150ms;
+}
+
+.input::placeholder {
+  color: #A0A0A0;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #E31B23;
+}
+
+.input-error {
+  border-color: #E31B23;
+}
+
+/* Brutalist Card */
+.card {
+  border-width: 1px;
+  border-color: #2A2A2A;
+  border-radius: 2px;
+  background-color: #181818;
+}
+
+/* Technical Label */
+.label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #A0A0A0;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Monospace Metadata */
+.metadata {
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #A0A0A0;
+}
+
+/* Section Header */
+.section-header {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: #F5F5F5;
+  margin-bottom: 1rem;
+  border-bottom-width: 1px;
+  border-color: #2A2A2A;
+  padding-bottom: 0.5rem;
+}

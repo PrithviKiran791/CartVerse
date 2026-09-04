@@ -1,0 +1,51 @@
+/* CartVerse Minimalist Loading Screen Styles */
+
+.cartverse-fan-logo {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  will-change: transform;
+  transform-origin: 50% 50%;
+  animation: cartverse-fan-spin 1.4s linear infinite;
+  user-select: none;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .cartverse-fan-logo {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+/* Clockwise continuous rotation animation */
+@keyframes cartverse-fan-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respect user reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .cartverse-fan-logo {
+    animation: cartverse-fan-pulse 2s ease-in-out infinite !important;
+  }
+}
+
+@keyframes cartverse-fan-pulse {
+  0%, 100% {
+    opacity: 0.85;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+.cartverse-status-text {
+  letter-spacing: 0.14em;
+}
