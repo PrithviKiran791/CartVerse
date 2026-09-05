@@ -10,6 +10,10 @@ import { ComponentPickerModal } from './ComponentPickerModal';
 import { BuildSummaryBar } from './BuildSummaryBar';
 import { formatCurrency } from '../../utils/formatters';
 import { NoiseBackground } from '../ui/noise-background';
+import Typography from '../ui/Typography';
+import ShapeGrid from '../common/ShapeGrid';
+import { Boxes } from '../ui/background-boxes';
+import { ContainerScroll } from '../ui/container-scroll-animation';
 
 interface SlotDefinition {
   key: BuilderSlotKey;
@@ -76,10 +80,26 @@ export const PCBuilderStudio: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0C] text-neutral-100 flex flex-col justify-between">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div className="min-h-screen bg-[#0A0A0C] text-neutral-100 flex flex-col justify-between relative overflow-hidden">
+      {/* React Bits ShapeGrid Canvas Animated Background */}
+      <div className="absolute inset-0 z-0 pointer-events-auto opacity-40">
+        <ShapeGrid
+          speed={0.5}
+          squareSize={40}
+          direction="diagonal"
+          borderColor="rgba(227, 27, 35, 0.18)"
+          hoverFillColor="#E31B23"
+          shape="square"
+          hoverTrailAmount={3}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative z-10">
         {/* Studio Header */}
         <div className="bg-gradient-to-r from-neutral-900 via-neutral-950 to-red-950/40 border border-neutral-800 rounded-3xl p-8 mb-8 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+          {/* Aceternity Animated Background Boxes */}
+          <div className="absolute inset-0 w-full h-full bg-neutral-950/70 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+          <Boxes />
           <div className="absolute right-0 top-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <div>
@@ -87,12 +107,12 @@ export const PCBuilderStudio: React.FC = () => {
                 <Cpu className="w-4 h-4 text-red-500" />
                 CartVerse Interactive Hardware Studio
               </div>
-              <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+              <Typography type="h1" className="text-3xl sm:text-5xl font-black text-white tracking-tight">
                 Custom PC Builder & Configurator
-              </h1>
-              <p className="text-sm text-neutral-400 mt-2 max-w-2xl leading-relaxed">
+              </Typography>
+              <Typography type="body-sm" color="muted" className="mt-2 max-w-2xl leading-relaxed">
                 Design and validate your dream gaming or workstation rig. Our real-time hardware compatibility engine continuously verifies pin sockets, RAM generations, physical chassis clearances, and electrical headroom.
-              </p>
+              </Typography>
             </div>
 
             <NoiseBackground
@@ -127,64 +147,79 @@ export const PCBuilderStudio: React.FC = () => {
           </div>
         </div>
 
-        {/* Component Slots Grid */}
-        <div className="space-y-8 mb-20">
-          {/* Core System Components */}
-          <div>
-            <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
-              <div className="flex items-center gap-2">
-                <Layers className="w-4 h-4 text-red-500" />
-                <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-                  Core System Architecture
-                </h3>
+        {/* ContainerScroll 3D Animated Architecture Workspace */}
+        <ContainerScroll
+          titleComponent={
+            <div>
+              <span className="text-xs font-mono uppercase tracking-widest text-red-500 font-bold bg-red-950/80 px-3 py-1 rounded-full border border-red-700/50">
+                Interactive Rig Architecture
+              </span>
+              <Typography type="h2" className="text-2xl sm:text-4xl font-black text-white tracking-tight mt-2">
+                Configure Core Hardware & Peripherals
+              </Typography>
+            </div>
+          }
+          className="mb-12"
+        >
+          {/* Component Slots Grid */}
+          <div className="space-y-8">
+            {/* Core System Components */}
+            <div>
+              <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
+                <div className="flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-red-500" />
+                  <Typography type="h3" className="text-sm font-bold text-white uppercase tracking-wider">
+                    Core System Architecture
+                  </Typography>
+                </div>
+                <span className="text-[11px] font-mono text-neutral-400">Essential PC Slots</span>
               </div>
-              <span className="text-[11px] font-mono text-neutral-400">Essential PC Slots</span>
+
+              <div className="space-y-3">
+                {coreSlots.map((slot) => (
+                  <ComponentSlotCard
+                    key={slot.key}
+                    slotKey={slot.key}
+                    label={slot.label}
+                    categoryName={slot.categoryName}
+                    selectedProduct={build[slot.key]}
+                    onSelect={() => openSlotPicker(slot.key)}
+                    onRemove={() => removeSlot(slot.key)}
+                    conflictIssue={getConflictForSlot(slot.key)}
+                  />
+                ))}
+              </div>
             </div>
 
-            <div className="space-y-3">
-              {coreSlots.map((slot) => (
-                <ComponentSlotCard
-                  key={slot.key}
-                  slotKey={slot.key}
-                  label={slot.label}
-                  categoryName={slot.categoryName}
-                  selectedProduct={build[slot.key]}
-                  onSelect={() => openSlotPicker(slot.key)}
-                  onRemove={() => removeSlot(slot.key)}
-                  conflictIssue={getConflictForSlot(slot.key)}
-                />
-              ))}
+            {/* Peripherals & Accessories */}
+            <div>
+              <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-cyan-400" />
+                  <Typography type="h3" className="text-sm font-bold text-white uppercase tracking-wider">
+                    Cooling, Displays & Peripherals
+                  </Typography>
+                </div>
+                <span className="text-[11px] font-mono text-neutral-400">Optional Battle Station Gear</span>
+              </div>
+
+              <div className="space-y-3">
+                {accessorySlots.map((slot) => (
+                  <ComponentSlotCard
+                    key={slot.key}
+                    slotKey={slot.key}
+                    label={slot.label}
+                    categoryName={slot.categoryName}
+                    selectedProduct={build[slot.key]}
+                    onSelect={() => openSlotPicker(slot.key)}
+                    onRemove={() => removeSlot(slot.key)}
+                    conflictIssue={getConflictForSlot(slot.key)}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-
-          {/* Peripherals & Accessories */}
-          <div>
-            <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-cyan-400" />
-                <h3 className="text-sm font-bold text-white uppercase tracking-wider">
-                  Cooling, Displays & Peripherals
-                </h3>
-              </div>
-              <span className="text-[11px] font-mono text-neutral-400">Optional Battle Station Gear</span>
-            </div>
-
-            <div className="space-y-3">
-              {accessorySlots.map((slot) => (
-                <ComponentSlotCard
-                  key={slot.key}
-                  slotKey={slot.key}
-                  label={slot.label}
-                  categoryName={slot.categoryName}
-                  selectedProduct={build[slot.key]}
-                  onSelect={() => openSlotPicker(slot.key)}
-                  onRemove={() => removeSlot(slot.key)}
-                  conflictIssue={getConflictForSlot(slot.key)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+        </ContainerScroll>
       </div>
 
       {/* Component Selection Modal */}

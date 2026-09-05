@@ -21,6 +21,9 @@ import { ProductCard } from './ProductCard';
 import { FilterSidebar } from './FilterSidebar';
 import { CategorySectionView } from './CategorySectionView';
 import HoverEffect from '../ui/card-hover-effect';
+import Typography from '../ui/Typography';
+import { Boxes } from '../ui/background-boxes';
+import { SidebarNavigationSimple } from '../common/SidebarNavigationSimple';
 
 export const ProductCatalog: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -151,19 +154,22 @@ export const ProductCatalog: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-neutral-900 via-neutral-900/90 to-red-950/40 border border-neutral-800 rounded-3xl p-8 mb-8 backdrop-blur-xl relative overflow-hidden">
+      <div className="bg-gradient-to-r from-neutral-900 via-neutral-900/90 to-red-950/40 border border-neutral-800 rounded-3xl p-8 mb-8 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+        {/* Aceternity Animated Background Boxes */}
+        <div className="absolute inset-0 w-full h-full bg-neutral-950/70 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+        <Boxes />
         <div className="absolute -right-10 -bottom-10 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 max-w-2xl">
           <div className="flex items-center gap-2 text-xs font-mono text-red-400 uppercase tracking-wider mb-2">
             <Sparkles className="w-4 h-4" />
             Direct Indian Channel Hardware
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+          <Typography type="h1" className="text-3xl sm:text-4xl font-black text-white tracking-tight">
             PC Hardware & Components Catalog
-          </h1>
-          <p className="text-sm text-neutral-400 mt-2 leading-relaxed">
+          </Typography>
+          <Typography type="body-sm" color="muted" className="mt-2 leading-relaxed">
             Browse our comprehensive inventory of processors, GPUs, motherboards, high-speed RAM, NVMe SSDs, and peripherals with real-time stock and compatibility validation.
-          </p>
+          </Typography>
         </div>
       </div>
 
@@ -305,8 +311,16 @@ export const ProductCatalog: React.FC = () => {
 
       {/* Main Layout Area */}
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Sidebar Filters */}
-        <div className={`${isMobileFilterOpen ? 'block' : 'hidden'} lg:block`}>
+        {/* Sidebar Container */}
+        <div className={`w-full lg:w-72 shrink-0 space-y-6 ${isMobileFilterOpen ? 'block' : 'hidden'} lg:block`}>
+          <SidebarNavigationSimple
+            activeCategory={filters.category}
+            onSelectCategory={(cat) => {
+              setFilters((prev) => ({ ...prev, category: cat as ComponentCategory }));
+              setViewMode('grid');
+            }}
+          />
+
           <FilterSidebar
             filters={filters}
             setFilters={setFilters}

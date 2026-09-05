@@ -7,6 +7,7 @@ import { getComponentImage } from '../../utils/assetRegistry';
 import { formatCurrency } from '../../utils/formatters';
 import { useCartStore } from '../../store/useCartStore';
 import { useUIStore } from '../../store/useUIStore';
+import CloseButton from '../ui/CloseButton';
 
 interface QuickSearchModalProps {
   isOpen: boolean;
@@ -99,12 +100,7 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({ isOpen, onCl
             className="w-full bg-transparent text-neutral-100 placeholder-neutral-500 font-medium focus:outline-none text-base"
           />
           {query && (
-            <button
-              onClick={() => setQuery('')}
-              className="p-1 rounded-full text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
+            <CloseButton onClick={() => setQuery('')} size="sm" variant="ghost" />
           )}
           <button
             onClick={onClose}

@@ -23,10 +23,13 @@ import { useUIStore } from '../store/useUIStore';
 import { useReviewStore } from '../store/useReviewStore';
 import { BuilderSlotKey } from '../types/hardware';
 import { isComponentCompatibleWithBuild } from '../utils/compatibilityEngine';
+import { motion } from 'framer-motion';
 import { ProductReviewsSection } from '../components/reviews/ProductReviewsSection';
 import { ProductCommentsSection } from '../components/reviews/ProductCommentsSection';
 import { MagneticButton } from '../components/ui/magnetic-button';
 import { NoiseBackground } from '../components/ui/noise-background';
+import ShapeGrid from '../components/common/ShapeGrid';
+import Typography from '../components/ui/Typography';
 
 export const ProductDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -125,56 +128,83 @@ export const ProductDetailsPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-      {/* Breadcrumb / Back */}
-      <Link
-        to="/products"
-        className="inline-flex items-center gap-2 text-xs font-mono text-neutral-400 hover:text-white transition-colors"
+    <div className="relative min-h-screen pb-16 overflow-hidden">
+      {/* React Bits ShapeGrid Canvas Animated Background for Product Details */}
+      <div className="absolute top-0 left-0 right-0 h-[650px] overflow-hidden pointer-events-auto opacity-40 z-0">
+        <ShapeGrid
+          speed={0.5}
+          squareSize={40}
+          direction="diagonal"
+          borderColor="rgba(227, 27, 35, 0.18)"
+          hoverFillColor="#E31B23"
+          shape="square"
+          hoverTrailAmount={3}
+        />
+      </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: 'easeOut' }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10"
       >
-        <ArrowLeft className="w-4 h-4" />
-        <span>Back to Hardware Catalog</span>
-      </Link>
+        {/* Breadcrumb / Back */}
+        <Link
+          to="/products"
+          className="inline-flex items-center gap-2 text-xs font-mono text-neutral-400 hover:text-white transition-colors"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to Hardware Catalog</span>
+        </Link>
 
-      {/* Main product view grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        {/* Left: Product Image Stage */}
-        <div className="bg-neutral-900/80 border border-neutral-800 rounded-3xl p-8 flex items-center justify-center relative overflow-hidden backdrop-blur-md shadow-2xl">
-          <div className="absolute top-4 left-4 flex flex-wrap gap-1.5 z-10">
-            {product.featured && (
-              <span className="bg-red-600 text-white font-bold text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md shadow">
-                Featured
-              </span>
-            )}
-            {product.bestSeller && (
-              <span className="bg-amber-500 text-black font-bold text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md shadow">
-                Best Seller
-              </span>
-            )}
-          </div>
-
-          <div className="w-full h-80 sm:h-96 flex items-center justify-center p-4">
-            <img
-              src={imgUrl}
-              alt={product.name}
-              className="max-h-full max-w-full object-contain filter drop-shadow-2xl"
-            />
-          </div>
-        </div>
-
-        {/* Right: Product Details & Actions */}
-        <div className="space-y-6">
-          <div>
-            <div className="flex items-center gap-2 text-xs font-mono text-neutral-400 mb-1">
-              <span className="text-red-400 font-bold uppercase">{product.brand}</span>
-              <span>•</span>
-              <span className="uppercase">{product.category}</span>
-              <span>•</span>
-              <span className="font-mono text-neutral-500">SKU: {product.sku}</span>
+        {/* Main product view grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          {/* Left: Product Image Stage with hover zoom */}
+          <motion.div
+            whileHover={{ scale: 1.01 }}
+            transition={{ duration: 0.3 }}
+            className="bg-neutral-900/80 border border-neutral-800 hover:border-red-500/50 rounded-3xl p-8 flex items-center justify-center relative overflow-hidden backdrop-blur-md shadow-2xl group"
+          >
+            <div className="absolute top-4 left-4 flex flex-wrap gap-1.5 z-10">
+              {product.featured && (
+                <span className="bg-red-600 text-white font-bold text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md shadow">
+                  Featured
+                </span>
+              )}
+              {product.bestSeller && (
+                <span className="bg-amber-500 text-black font-bold text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-md shadow">
+                  Best Seller
+                </span>
+              )}
             </div>
 
-            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              {product.name}
-            </h1>
+            <motion.div
+              whileHover={{ scale: 1.08, rotate: 1 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+              className="w-full h-80 sm:h-96 flex items-center justify-center p-4 cursor-zoom-in"
+            >
+              <img
+                src={imgUrl}
+                alt={product.name}
+                className="max-h-full max-w-full object-contain filter drop-shadow-2xl"
+              />
+            </motion.div>
+          </motion.div>
+
+          {/* Right: Product Details & Actions */}
+          <div className="space-y-6">
+            <div>
+              <div className="flex items-center gap-2 text-xs font-mono text-neutral-400 mb-1">
+                <span className="text-red-400 font-bold uppercase">{product.brand}</span>
+                <span>•</span>
+                <span className="uppercase">{product.category}</span>
+                <span>•</span>
+                <span className="font-mono text-neutral-500">SKU: {product.sku}</span>
+              </div>
+
+              <Typography type="h1" className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                {product.name}
+              </Typography>
 
             {/* Dynamic Real-Time Rating & Stock */}
             <div className="flex items-center gap-4 mt-3">
@@ -360,6 +390,7 @@ export const ProductDetailsPage: React.FC = () => {
           <ProductCommentsSection productId={product.id} />
         )}
       </div>
+      </motion.div>
     </div>
   );
 };

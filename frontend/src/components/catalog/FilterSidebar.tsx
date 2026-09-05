@@ -3,6 +3,8 @@ import { Filter, RotateCcw, Check, Sparkles } from 'lucide-react';
 import { FilterState, ComponentCategory, CPUSocket, RAMType } from '../../types/hardware';
 import { formatCurrency } from '../../utils/formatters';
 import LineSidebar from '../common/LineSidebar';
+import { HoverBorderGradient } from '../ui/hover-border-gradient';
+import { cn } from '../../lib/utils';
 
 interface FilterSidebarProps {
   filters: FilterState;
@@ -102,13 +104,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           <Filter className="w-4 h-4 text-red-500" />
           <h3 className="text-sm font-bold text-white uppercase tracking-wider">Faceted Filters</h3>
         </div>
-        <button
+        <HoverBorderGradient
           onClick={handleResetFilters}
-          className="text-[11px] text-neutral-400 hover:text-red-400 flex items-center gap-1 transition-colors font-mono cursor-pointer"
+          containerClassName="rounded-full shrink-0"
+          className="bg-neutral-950 text-neutral-300 hover:text-white text-[11px] font-mono py-1 px-2.5 flex items-center gap-1 cursor-pointer"
         >
-          <RotateCcw className="w-3 h-3" />
-          Reset
-        </button>
+          <RotateCcw className="w-3 h-3 text-red-500" />
+          <span>Reset</span>
+        </HoverBorderGradient>
       </div>
 
       {/* Component Category with LineSidebar Animation */}
@@ -180,17 +183,19 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           {sockets.map((sock) => {
             const active = filters.sockets.includes(sock);
             return (
-              <button
+              <HoverBorderGradient
                 key={sock}
                 onClick={() => toggleSocket(sock)}
-                className={`text-xs font-mono px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                containerClassName="rounded-xl shrink-0"
+                className={cn(
+                  'text-xs font-mono px-3 py-1.5 cursor-pointer transition-all',
                   active
-                    ? 'bg-red-950/70 border-red-500 text-red-400 font-bold'
-                    : 'bg-neutral-800/60 border-neutral-700/80 text-neutral-400 hover:border-neutral-600 hover:text-neutral-200'
-                }`}
+                    ? 'bg-red-950 text-red-400 font-bold border border-red-500/60 shadow-md shadow-red-950/50'
+                    : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200'
+                )}
               >
                 {sock}
-              </button>
+              </HoverBorderGradient>
             );
           })}
         </div>
@@ -205,17 +210,19 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           {ramTypes.map((rt) => {
             const active = filters.ramTypes.includes(rt);
             return (
-              <button
+              <HoverBorderGradient
                 key={rt}
                 onClick={() => toggleRamType(rt)}
-                className={`flex-1 text-xs font-mono py-1.5 rounded-lg border text-center transition-all cursor-pointer ${
+                containerClassName="rounded-xl flex-1"
+                className={cn(
+                  'w-full justify-center text-xs font-mono py-1.5 cursor-pointer transition-all',
                   active
-                    ? 'bg-red-950/70 border-red-500 text-red-400 font-bold'
-                    : 'bg-neutral-800/60 border-neutral-700/80 text-neutral-400 hover:border-neutral-600 hover:text-neutral-200'
-                }`}
+                    ? 'bg-red-950 text-red-400 font-bold border border-red-500/60 shadow-md shadow-red-950/50'
+                    : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200'
+                )}
               >
                 {rt}
-              </button>
+              </HoverBorderGradient>
             );
           })}
         </div>
@@ -231,17 +238,19 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
             const active = filters.resolutions.includes(res);
             const label = res === '1920x1080' ? '1080p FHD' : res === '2560x1440' ? '1440p QHD' : '4K UHD';
             return (
-              <button
+              <HoverBorderGradient
                 key={res}
                 onClick={() => toggleResolution(res)}
-                className={`text-xs font-mono px-2.5 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                containerClassName="rounded-xl shrink-0"
+                className={cn(
+                  'text-xs font-mono px-2.5 py-1.5 cursor-pointer transition-all',
                   active
-                    ? 'bg-red-950/70 border-red-500 text-red-400 font-bold'
-                    : 'bg-neutral-800/60 border-neutral-700/80 text-neutral-400 hover:border-neutral-600 hover:text-neutral-200'
-                }`}
+                    ? 'bg-red-950 text-red-400 font-bold border border-red-500/60 shadow-md shadow-red-950/50'
+                    : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200'
+                )}
               >
                 {label}
-              </button>
+              </HoverBorderGradient>
             );
           })}
         </div>
@@ -256,17 +265,19 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           {refreshRates.map((hz) => {
             const active = filters.refreshRates.includes(hz);
             return (
-              <button
+              <HoverBorderGradient
                 key={hz}
                 onClick={() => toggleRefreshRate(hz)}
-                className={`text-xs font-mono py-1 rounded-md border text-center transition-all cursor-pointer ${
+                containerClassName="rounded-xl shrink-0"
+                className={cn(
+                  'w-full justify-center text-xs font-mono py-1 cursor-pointer transition-all',
                   active
-                    ? 'bg-red-950/70 border-red-500 text-red-400 font-bold'
-                    : 'bg-neutral-800/60 border-neutral-700/80 text-neutral-400 hover:border-neutral-600 hover:text-neutral-200'
-                }`}
+                    ? 'bg-red-950 text-red-400 font-bold border border-red-500/60 shadow-md shadow-red-950/50'
+                    : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200'
+                )}
               >
                 {hz}Hz
-              </button>
+              </HoverBorderGradient>
             );
           })}
         </div>
@@ -288,6 +299,16 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           />
         </button>
       </div>
+
+      {/* Reset Action Button */}
+      <HoverBorderGradient
+        onClick={handleResetFilters}
+        containerClassName="w-full rounded-xl"
+        className="w-full justify-center bg-neutral-950 text-xs font-mono font-bold text-neutral-200 hover:text-white py-2.5 flex items-center gap-2 cursor-pointer"
+      >
+        <RotateCcw className="w-3.5 h-3.5 text-red-500" />
+        <span>Reset Faceted Filters</span>
+      </HoverBorderGradient>
 
       {/* Results Count footer */}
       <div className="pt-3 border-t border-neutral-800/80 text-[11px] font-mono text-neutral-400 flex items-center justify-between">

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CheckCircle, ShieldCheck, Truck, CreditCard, Banknote, Building, Zap } from 'lucide-react';
 import { formatCurrency } from '../../utils/formatters';
 import confetti from 'canvas-confetti';
+import CloseButton from '../ui/CloseButton';
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -134,12 +134,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     <p className="text-xs text-neutral-400">{itemsCount} Items · Total: {formatCurrency(grandTotal)}</p>
                   </div>
                 </div>
-                <button
-                  onClick={onClose}
-                  className="p-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-300 transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
+                <CloseButton onClick={onClose} size="lg" variant="flat" />
               </div>
 
               {/* Body */}

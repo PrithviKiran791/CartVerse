@@ -20,6 +20,7 @@ import { formatCurrency, formatWattage } from '../../utils/formatters';
 import { useUIStore } from '../../store/useUIStore';
 import { CheckoutModal } from './CheckoutModal';
 import { Link } from 'react-router-dom';
+import CloseButton from '../ui/CloseButton';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -112,12 +113,7 @@ export const CartDrawer: React.FC = () => {
                     </div>
                   </div>
 
-                  <button
-                    onClick={closeCart}
-                    className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 transition-colors cursor-pointer"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
+                  <CloseButton onClick={closeCart} size="md" variant="flat" />
                 </div>
 
                 {/* Items & Bundles Scroll Area */}

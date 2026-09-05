@@ -7,6 +7,8 @@ import { usePCBuilderStore } from '../../store/usePCBuilderStore';
 import { getComponentImage } from '../../utils/assetRegistry';
 import { formatCurrency, formatWattage } from '../../utils/formatters';
 import { isComponentCompatibleWithBuild } from '../../utils/compatibilityEngine';
+import CloseButton from '../ui/CloseButton';
+import { HoverBorderGradient } from '../ui/hover-border-gradient';
 
 interface ComponentPickerModalProps {
   slotKey: BuilderSlotKey | null;
@@ -133,12 +135,7 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
               </h2>
             </div>
 
-            <button
-              onClick={onClose}
-              className="p-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            <CloseButton onClick={onClose} size="lg" variant="flat" />
           </div>
 
           {/* Controls bar */}
@@ -293,12 +290,13 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
                         </span>
                       </div>
 
-                      <button
+                      <HoverBorderGradient
                         onClick={() => handleSelect(product)}
-                        className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                        containerClassName="rounded-xl shrink-0"
+                        className={`text-xs font-bold px-3.5 py-1.5 flex items-center gap-1.5 cursor-pointer ${
                           isCurrent
-                            ? 'bg-neutral-800 text-neutral-300 border border-neutral-700'
-                            : 'bg-red-600 hover:bg-red-500 text-white shadow-lg shadow-red-950/40'
+                            ? 'bg-neutral-950 text-neutral-300'
+                            : 'bg-red-950 text-white font-black'
                         }`}
                       >
                         {isCurrent ? (
@@ -307,9 +305,9 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
                             <span>Selected</span>
                           </>
                         ) : (
-                          <span>Choose</span>
+                          <span>Select</span>
                         )}
-                      </button>
+                      </HoverBorderGradient>
                     </div>
                   </div>
                 );

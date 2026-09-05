@@ -11,6 +11,7 @@ import { isComponentCompatibleWithBuild } from '../../utils/compatibilityEngine'
 import { CardContainer, CardBody, CardItem } from '../ui/3d-card';
 import { MagneticButton } from '../ui/magnetic-button';
 import { NoiseBackground } from '../ui/noise-background';
+import { motion } from 'framer-motion';
 
 interface ProductCardProps {
   product: Product;
@@ -136,7 +137,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Image container */}
         <CardItem translateZ="60" className="w-full">
           <Link to={`/product/${product.id}`} className="block relative pt-6 px-4 pb-2 bg-neutral-950/50 overflow-hidden">
-            <div className="w-full h-48 flex items-center justify-center p-2 group-hover/card:scale-105 transition-transform duration-300">
+            <motion.div
+              whileHover={{ scale: 1.06, rotate: 0.5 }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="w-full h-48 flex items-center justify-center p-2"
+            >
               <img
                 src={imgUrl}
                 alt={product.name}
@@ -146,7 +152,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                   (e.target as HTMLImageElement).src = getComponentImage(undefined, product.category);
                 }}
               />
-            </div>
+            </motion.div>
           </Link>
         </CardItem>
 

@@ -23,33 +23,14 @@ import TextType from '../components/common/TextType';
 import HoverEffect from '../components/ui/card-hover-effect';
 import { MagneticButton } from '../components/ui/magnetic-button';
 import { NoiseBackground } from '../components/ui/noise-background';
-import MaskedHeading from '../components/common/MaskedHeading';
+import GradientText from '../components/common/GradientText';
 import DepthCarousel from '../components/common/DepthCarousel';
+import ShapeGrid from '../components/common/ShapeGrid';
+import Typography from '../components/ui/Typography';
+import { Boxes } from '../components/ui/background-boxes';
 
 export const HomePage: React.FC = () => {
   const [selectedPrebuiltIndex, setSelectedPrebuiltIndex] = useState(0);
-  const [maskedBgIndex, setMaskedBgIndex] = useState(0);
-
-  const maskedBgImages = [
-    getComponentImage('Pre-Built PC/ARES Gaming PC.jpeg', 'prebuilt'),
-    getComponentImage('GPU/Nvidia/rtx_5090.jpeg', 'gpu'),
-    'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop',
-    'https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=1600&auto=format&fit=crop',
-    getComponentImage('Pre-Built PC/Bitkart Blaze P4.jpeg', 'prebuilt'),
-    getComponentImage('ASUS ROG Strix X870-A Gaming WiFi.jpg', 'motherboard'),
-    getComponentImage('CPU_Image/AMD/AMD_Ryzen_7_9850x3d.jpeg', 'cpu'),
-  ];
-
-  // Automated cyclic animation for background text mask images
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setMaskedBgIndex((prev) => (prev + 1) % maskedBgImages.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [maskedBgImages.length]);
-
-  const currentMaskedBg = maskedBgImages[maskedBgIndex];
 
   const featuredProducts = mockProducts.filter((p) => p.featured).slice(0, 8);
 
@@ -133,7 +114,20 @@ export const HomePage: React.FC = () => {
       <div className="space-y-16">
         {/* Hero Section */}
         <section id="hero-overview" className="relative overflow-hidden pt-12 pb-20 bg-gradient-to-b from-neutral-950 via-neutral-900 to-neutral-950 border-b border-neutral-800">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none" />
+          {/* React Bits ShapeGrid Canvas Animated Background */}
+          <div className="absolute inset-0 z-0 pointer-events-auto opacity-50">
+            <ShapeGrid
+              speed={0.5}
+              squareSize={40}
+              direction="diagonal"
+              borderColor="rgba(227, 27, 35, 0.18)"
+              hoverFillColor="#E31B23"
+              shape="square"
+              hoverTrailAmount={3}
+            />
+          </div>
+
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none z-0" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -157,38 +151,29 @@ export const HomePage: React.FC = () => {
                   />
                 </div>
 
-                {/* React Bits MaskedHeading Animation for Enlarged Title with Cyclic Background Animation */}
+                {/* React Bits GradientText Animation for Hero Title */}
                 <div className="py-2">
-                  <MaskedHeading
-                    key={currentMaskedBg}
-                    text="BUILD YOUR APEX RIG WITH CARTVERSE"
-                    tag="h1"
-                    src={currentMaskedBg}
-                    fillScale={1.35}
-                    parallax={28}
-                    reveal="rise"
-                    trigger="view"
-                    drift={20}
-                    brightness={1.3}
-                    saturation={1.5}
-                    duration={1.2}
-                    stagger={0.08}
-                    align="left"
-                    weight={900}
-                    tracking={-0.03}
-                    lineHeight={1.05}
-                    textScale={0.075}
-                    className="text-red-500 uppercase tracking-tight font-black"
-                  />
+                  <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-tight drop-shadow-md">
+                    <GradientText
+                      colors={['#FFFFFF', '#E31B23', '#FF6B6B', '#FFFFFF', '#E31B23']}
+                      animationSpeed={6}
+                      showBorder={false}
+                      direction="horizontal"
+                      pauseOnHover={false}
+                      yoyo={true}
+                    >
+                      BUILD YOUR APEX RIG WITH CARTVERSE
+                    </GradientText>
+                  </h1>
                 </div>
 
-                <h2 className="text-lg sm:text-2xl font-bold text-neutral-200 tracking-tight leading-snug">
+                <Typography type="h2" className="text-lg sm:text-2xl font-bold text-neutral-200 tracking-tight leading-snug">
                   Real-Time Pin Socket & Wattage Headroom Matching for 500+ Verified Components
-                </h2>
+                </Typography>
 
-                <p className="text-base text-neutral-400 max-w-xl leading-relaxed">
+                <Typography type="body" color="muted" className="max-w-xl">
                   CartVerse empowers PC enthusiasts, gamers, and architects with guaranteed socket compatibility, wattage headroom estimation, and authentic hardware with 100% Indian warranty.
-                </p>
+                </Typography>
 
                 <div className="flex flex-wrap items-center gap-4 pt-2">
                   <NoiseBackground
@@ -277,8 +262,8 @@ export const HomePage: React.FC = () => {
         <section id="hardware-categories" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl font-black text-white tracking-tight">Shop by Hardware Category</h2>
-              <p className="text-xs text-neutral-400 mt-1">Direct authorized stock with official Indian distributor RMA</p>
+              <Typography type="h2" className="text-2xl font-black text-white tracking-tight">Shop by Hardware Category</Typography>
+              <Typography type="body-sm" color="muted" className="mt-1">Direct authorized stock with official Indian distributor RMA</Typography>
             </div>
             <Link
               to="/products"
@@ -330,12 +315,12 @@ export const HomePage: React.FC = () => {
             <span className="text-xs font-mono text-red-400 uppercase tracking-widest font-bold bg-red-950/60 px-3 py-1 rounded-full border border-red-800/40">
               Interactive 3D Hardware Wall
             </span>
-            <h2 className="text-2xl font-black text-white tracking-tight mt-2">
+            <Typography type="h2" className="text-2xl font-black text-white tracking-tight mt-2">
               Explore 500+ Local Components & Rig Gear
-            </h2>
-            <p className="text-xs text-neutral-400 max-w-lg mx-auto mt-1">
+            </Typography>
+            <Typography type="body-sm" color="muted" className="max-w-lg mx-auto mt-1">
               Hover over tiles to pause, lift, and inspect premium GPUs, CPUs, cooling systems, and custom gaming chassis.
-            </p>
+            </Typography>
           </div>
 
           <div className="h-[480px] sm:h-[550px] w-full rounded-3xl overflow-hidden border border-neutral-800 bg-[#060010] shadow-2xl relative">
@@ -373,12 +358,12 @@ export const HomePage: React.FC = () => {
             <span className="text-xs font-mono text-red-400 uppercase tracking-widest font-bold bg-red-950/60 px-3 py-1 rounded-full border border-red-800/40">
               CartVerse Advantage
             </span>
-            <h2 className="text-2xl font-black text-white tracking-tight mt-2">
+            <Typography type="h2" className="text-2xl font-black text-white tracking-tight mt-2">
               Why Enthusiasts & Engineers Trust CartVerse
-            </h2>
-            <p className="text-xs text-neutral-400 max-w-lg mx-auto mt-1">
+            </Typography>
+            <Typography type="body-sm" color="muted" className="max-w-lg mx-auto mt-1">
               Hover over cards below to experience dynamic animated background highlight cards.
-            </p>
+            </Typography>
           </div>
 
           <HoverEffect
@@ -437,8 +422,12 @@ export const HomePage: React.FC = () => {
 
         {/* Interactive Builder Feature Promo Banner */}
         <section id="compatibility-engine" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-red-950/60 via-neutral-900 to-neutral-950 border border-red-800/50 rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div className="bg-gradient-to-r from-red-950/70 via-neutral-900 to-neutral-950 border border-red-800/50 rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl">
+            {/* Aceternity Animated Background Boxes */}
+            <div className="absolute inset-0 w-full h-full bg-neutral-950/70 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+            <Boxes />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center relative z-10">
               <div className="space-y-4">
                 <span className="text-xs font-mono uppercase tracking-wider text-red-400 font-bold bg-red-950/80 px-3 py-1 rounded-full border border-red-700/50">
                   CartVerse Compatibility Engine

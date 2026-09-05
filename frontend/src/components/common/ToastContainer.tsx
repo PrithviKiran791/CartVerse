@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useUIStore } from '../../store/useUIStore';
-import { CheckCircle2, AlertTriangle, AlertCircle, Info, X } from 'lucide-react';
+import { CheckCircle2, AlertTriangle, AlertCircle, Info } from 'lucide-react';
+import CloseButton from '../ui/CloseButton';
 
 export const ToastContainer: React.FC = () => {
   const { toasts, removeToast } = useUIStore();
@@ -51,13 +52,12 @@ export const ToastContainer: React.FC = () => {
               <h4 className="text-sm font-bold text-neutral-100 leading-tight">{toast.title}</h4>
               <p className="text-xs text-neutral-400 mt-1 leading-relaxed">{toast.message}</p>
             </div>
-            <button
+            <CloseButton
               onClick={() => removeToast(toast.id)}
-              className="text-neutral-500 hover:text-neutral-200 transition-colors p-1"
+              size="sm"
+              variant="ghost"
               aria-label="Dismiss"
-            >
-              <X className="w-4 h-4" />
-            </button>
+            />
           </motion.div>
         ))}
       </AnimatePresence>

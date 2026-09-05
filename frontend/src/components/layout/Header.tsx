@@ -2,18 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PillNav from './PillNav';
 import CurvedInput from '../common/CurvedInput';
-import { ShoppingBag, Search } from 'lucide-react';
+import { ShoppingBag, Search, LogIn, LogOut, User as UserIcon } from 'lucide-react';
 import { useCartStore } from '../../store/useCartStore';
+import { useAuthStore } from '../../store/useAuthStore';
 import { QuickSearchModal } from '../common/QuickSearchModal';
 import { MagneticButton } from '../ui/magnetic-button';
 import { NoiseBackground } from '../ui/noise-background';
-import FontSelector from '../common/FontSelector';
+import { HoverBorderGradient } from '../ui/hover-border-gradient';
 import webIcon from '../../assets/icons/web_icon.png';
+import { Link } from 'react-router-dom';
 
 export const Header: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { getItemsCount, openCart } = useCartStore();
+  const { user, isAuthenticated, logout } = useAuthStore();
   const itemsCount = getItemsCount();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
@@ -35,7 +38,6 @@ export const Header: React.FC = () => {
     { label: 'Catalog', href: '/products' },
     { label: 'PC Builder', href: '/builder' },
     { label: 'Pre-Builts', href: '/products?category=prebuilt' },
-    { label: `Cart (${itemsCount})`, href: '/cart' }
   ];
 
   const handleSearchSubmit = (val?: string) => {
@@ -104,8 +106,41 @@ export const Header: React.FC = () => {
             />
           </div>
 
-          {/* FontSelector Popover */}
-          <FontSelector />
+          {/* User Auth Profile / Login Button */}
+          {isAuthenticated ? (
+            <div className="flex items-center gap-2 bg-[#16151f] border border-[#392e4e] rounded-full px-3 py-1.5 shadow-md">
+              <div className="w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center text-[11px] font-bold font-mono shadow-sm">
+                {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+              </div>
+              <span className="text-xs font-mono text-neutral-200 hidden lg:inline max-w-[110px] truncate" title={user?.name || user?.email}>
+                {user?.name || 'Gamer'}
+              </span>
+              <button
+                onClick={() => logout()}
+                className="text-neutral-400 hover:text-red-500 transition-colors p-1 cursor-pointer"
+                title="Log Out"
+                aria-label="Log Out"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ) : (
+            <Link to="/login" title="Sign In to CartVerse" className="shrink-0">
+              <NoiseBackground
+                containerClassName="w-fit p-0.5 rounded-full mx-auto shadow-lg"
+                gradientColors={[
+                  "rgb(255, 100, 150)",
+                  "rgb(100, 150, 255)",
+                  "rgb(255, 200, 100)",
+                ]}
+              >
+                <button className="h-full w-full cursor-pointer rounded-full bg-neutral-950 hover:bg-neutral-900 px-4 py-1.5 text-xs font-rajdhani font-bold uppercase tracking-widest text-white flex items-center gap-1.5 transition-all duration-100 active:scale-98">
+                  <LogIn className="w-3.5 h-3.5 text-red-500" />
+                  <span className="hidden sm:inline">Log In &rarr;</span>
+                </button>
+              </NoiseBackground>
+            </Link>
+          )}
 
           {/* Quick Cart Drawer Trigger Button */}
           <MagneticButton>

@@ -1,0 +1,24 @@
+.shuffle-container {
+  display: inline-block;
+  font-family: inherit;
+}
+
+.shuffle-part {
+  display: inline;
+}
+
+.shuffle-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.shuffle-char {
+  display: inline-block;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  will-change: opacity, transform;
+}
+
+.shuffle-char.is-scrambling {
+  opacity: 0.9;
+  filter: brightness(1.2);
+}

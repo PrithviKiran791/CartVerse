@@ -19,6 +19,7 @@ import {
 import { Product, BuilderSlotKey, CompatibilityIssue } from '../../types/hardware';
 import { getComponentImage } from '../../utils/assetRegistry';
 import { formatCurrency, formatWattage } from '../../utils/formatters';
+import { HoverBorderGradient } from '../ui/hover-border-gradient';
 
 interface ComponentSlotCardProps {
   slotKey: BuilderSlotKey;
@@ -93,13 +94,14 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
           </div>
         </div>
 
-        <button
-          type="button"
-          className="px-4 py-2 rounded-lg bg-neutral-800 group-hover:bg-red-600 text-neutral-300 group-hover:text-white text-xs font-bold transition-all shadow shrink-0 flex items-center gap-1.5"
+        <HoverBorderGradient
+          onClick={onSelect}
+          containerClassName="rounded-xl shrink-0"
+          className="bg-neutral-950 text-white group-hover:text-red-400 text-xs font-bold px-3.5 py-1.5 flex items-center gap-1.5 cursor-pointer"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 text-red-500" />
           <span>Select</span>
-        </button>
+        </HoverBorderGradient>
       </div>
     );
   }
@@ -195,14 +197,14 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
-          <button
+          <HoverBorderGradient
             onClick={onSelect}
-            className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 hover:text-white text-xs font-semibold flex items-center gap-1 transition-colors border border-neutral-700 cursor-pointer"
-            title="Change Component"
+            containerClassName="rounded-xl shrink-0"
+            className="bg-neutral-950 text-neutral-200 hover:text-white text-xs font-semibold px-3 py-1.5 flex items-center gap-1 cursor-pointer"
           >
-            <RefreshCw className="w-3.5 h-3.5" />
+            <RefreshCw className="w-3.5 h-3.5 text-red-500" />
             <span className="hidden md:inline">Change</span>
-          </button>
+          </HoverBorderGradient>
 
           <button
             onClick={onRemove}

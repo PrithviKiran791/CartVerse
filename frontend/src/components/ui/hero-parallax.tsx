@@ -7,6 +7,8 @@ import {
   MotionValue,
 } from 'framer-motion';
 
+import Typography from './Typography';
+
 export interface ParallaxProduct {
   title: string;
   link: string;
@@ -113,12 +115,12 @@ export const Header = ({ title, subtitle }: { title: string; subtitle: string })
       <div className="inline-flex items-center gap-2 bg-red-950/70 border border-red-500/40 px-3.5 py-1.5 rounded-full text-xs font-mono text-red-400 font-bold mb-4">
         <span>CARTVERSE 3D PARALLAX SHOWCASE</span>
       </div>
-      <h1 className="text-3xl md:text-7xl font-black text-white leading-tight tracking-tight">
+      <Typography type="h1" className="text-3xl md:text-7xl font-black text-white leading-tight tracking-tight">
         {title}
-      </h1>
-      <p className="max-w-2xl text-base md:text-xl mt-6 text-neutral-400 leading-relaxed font-medium">
+      </Typography>
+      <Typography type="lead" color="muted" className="max-w-2xl text-base md:text-xl mt-6 font-medium">
         {subtitle}
-      </p>
+      </Typography>
     </div>
   );
 };
