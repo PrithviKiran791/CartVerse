@@ -30,6 +30,7 @@ export const PillNav: React.FC<PillNavProps> = ({
   items = [
     { label: 'Home', href: '/' },
     { label: 'Catalog', href: '/products' },
+    { label: 'Consoles', href: '/console' },
     { label: 'PC Builder', href: '/builder' },
     { label: 'Cart', href: '/cart' },
   ],

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PillNav from './PillNav';
-import CurvedInput from '../common/CurvedInput';
+import { GooeyInput } from '../ui/gooey-input';
 import { ShoppingBag, Search, LogIn, LogOut, User as UserIcon } from 'lucide-react';
 import { useCartStore } from '../../store/useCartStore';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -36,6 +36,7 @@ export const Header: React.FC = () => {
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Catalog', href: '/products' },
+    { label: 'Consoles', href: '/console' },
     { label: 'PC Builder', href: '/builder' },
     { label: 'Pre-Builts', href: '/products?category=prebuilt' },
   ];
@@ -72,38 +73,35 @@ export const Header: React.FC = () => {
           />
         </div>
 
-        {/* Extended Curved Search Bar & Cart Drawer Trigger */}
-        <div className="flex-1 flex items-center justify-end gap-4 max-w-2xl">
-          {/* React-Bits CurvedInput Search Bar */}
-          <div className="flex-1 max-w-lg min-w-[240px]" onClick={() => setIsSearchOpen(true)}>
-            <CurvedInput
-              placeholder="Search components (Ctrl+K)..."
-              buttonText="Search"
-              theme="dark"
-              bend={14}
-              height={44}
-              width="100%"
-              cornerRadius={18}
-              borderWidth={1.5}
-              fontSize={14}
-              backgroundColor="#16151f"
-              textColor="#f5f5f5"
-              placeholderColor="#a1a1aa"
-              borderColor="#392e4e"
-              buttonColor="#E31B23"
-              buttonTextColor="#ffffff"
-              showButton={true}
-              showIcon={true}
-              icon={
-                <g transform="translate(0, 0)">
-                  <rect x="-10" y="-10" width="20" height="20" rx="5" fill="#E31B23" />
-                  <path d="M-4 -4 L2 2 M1 1 A 4 4 0 1 0 -4 -4" stroke="#ffffff" strokeWidth="1.6" fill="none" strokeLinecap="round" />
-                </g>
-              }
+        {/* Aceternity UI Gooey Search Bar & Cart Drawer Trigger */}
+        <div className="flex-1 flex items-center justify-end gap-3 max-w-2xl">
+          {/* GooeyInput Search Bar */}
+          <div className="flex items-center gap-2">
+            <GooeyInput
+              placeholder="Search components..."
+              collapsedWidth={135}
+              expandedWidth={280}
+              expandedOffset={48}
+              gooeyBlur={5}
               value={searchValue}
-              onChange={(val: string) => setSearchValue(val)}
+              onValueChange={(val) => setSearchValue(val)}
               onSubmit={handleSearchSubmit}
+              classNames={{
+                root: "relative",
+                trigger: "bg-[#16151f] text-neutral-200 ring-1 ring-[#392e4e] hover:ring-red-500/50 shadow-md font-sans",
+                bubbleSurface: "bg-[#16151f] text-red-500 ring-1 ring-[#392e4e] hover:ring-red-500 shadow-md",
+                input: "text-neutral-100 placeholder:text-neutral-500 font-sans",
+              }}
             />
+            <button
+              type="button"
+              onClick={() => setIsSearchOpen(true)}
+              className="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 text-[11px] font-mono font-semibold text-neutral-400 hover:text-white bg-[#16151f] hover:bg-[#221f2f] border border-[#392e4e] hover:border-neutral-600 rounded-full transition-all cursor-pointer shadow-sm"
+              title="Quick Search Modal (Ctrl+K)"
+              aria-label="Quick Search Modal"
+            >
+              <span>⌘K</span>
+            </button>
           </div>
 
           {/* User Auth Profile / Login Button */}

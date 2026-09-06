@@ -12,7 +12,6 @@ import {
   AlertTriangle,
   Minus,
   Plus,
-  MessageSquare,
 } from 'lucide-react';
 import { mockProducts } from '../data/mockProducts';
 import { getComponentImage } from '../utils/assetRegistry';
@@ -20,16 +19,17 @@ import { formatCurrency } from '../utils/formatters';
 import { useCartStore } from '../store/useCartStore';
 import { usePCBuilderStore } from '../store/usePCBuilderStore';
 import { useUIStore } from '../store/useUIStore';
-import { useReviewStore } from '../store/useReviewStore';
 import { BuilderSlotKey } from '../types/hardware';
 import { isComponentCompatibleWithBuild } from '../utils/compatibilityEngine';
 import { motion } from 'framer-motion';
-import { ProductReviewsSection } from '../components/reviews/ProductReviewsSection';
 import { ProductCommentsSection } from '../components/reviews/ProductCommentsSection';
 import { MagneticButton } from '../components/ui/magnetic-button';
 import { NoiseBackground } from '../components/ui/noise-background';
 import ShapeGrid from '../components/common/ShapeGrid';
 import Typography from '../components/ui/Typography';
+import { DetailedSpecView } from '../components/catalog/DetailedSpecView';
+import { BreadcrumbNav } from '../components/navigation/BreadcrumbNav';
+import FadeContent from '../components/common/FadeContent';
 
 export const ProductDetailsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -37,10 +37,9 @@ export const ProductDetailsPage: React.FC = () => {
   const { addItem } = useCartStore();
   const { build, setSlot } = usePCBuilderStore();
   const { addToast } = useUIStore();
-  const { getReviewSummary } = useReviewStore();
 
   const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState<'reviews' | 'comments'>('reviews');
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const product = mockProducts.find((p) => p.id === id);
 
@@ -60,7 +59,6 @@ export const ProductDetailsPage: React.FC = () => {
   }
 
   const imgUrl = getComponentImage(product.imageSlug, product.category);
-  const reviewSummary = getReviewSummary(product.id, product.name);
 
   const getSlotKey = (cat: string): BuilderSlotKey | null => {
     switch (cat) {
@@ -148,14 +146,15 @@ export const ProductDetailsPage: React.FC = () => {
         transition={{ duration: 0.45, ease: 'easeOut' }}
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10"
       >
-        {/* Breadcrumb / Back */}
-        <Link
-          to="/products"
-          className="inline-flex items-center gap-2 text-xs font-mono text-neutral-400 hover:text-white transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Hardware Catalog</span>
-        </Link>
+        {/* Clickable Breadcrumbs & Back Navigation */}
+        <BreadcrumbNav
+          items={[
+            { label: product.category.toUpperCase(), href: `/products?category=${product.category}` },
+            { label: product.brand.toUpperCase() },
+            { label: product.name },
+          ]}
+          backTo={{ label: 'CATALOG', href: '/products' }}
+        />
 
         {/* Main product view grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
@@ -189,6 +188,24 @@ export const ProductDetailsPage: React.FC = () => {
                 className="max-h-full max-w-full object-contain filter drop-shadow-2xl"
               />
             </motion.div>
+
+            {/* Multiple Thumbnails Gallery Selector */}
+            <div className="flex items-center gap-3 pt-3 border-t border-neutral-800/80 w-full justify-center">
+              {[0, 1, 2].map((idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setSelectedImageIndex(idx)}
+                  className={`w-14 h-14 rounded-lg border p-1 bg-neutral-950 overflow-hidden cursor-pointer transition-all ${
+                    selectedImageIndex === idx
+                      ? 'border-red-500 shadow-[0_0_12px_rgba(227,27,35,0.4)]'
+                      : 'border-neutral-800 opacity-60 hover:opacity-100 hover:border-neutral-700'
+                  }`}
+                >
+                  <img src={imgUrl} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-contain" />
+                </button>
+              ))}
+            </div>
           </motion.div>
 
           {/* Right: Product Details & Actions */}
@@ -202,28 +219,15 @@ export const ProductDetailsPage: React.FC = () => {
                 <span className="font-mono text-neutral-500">SKU: {product.sku}</span>
               </div>
 
-              <Typography type="h1" className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              <Typography type="h1" className="text-2xl sm:text-3xl font-black text-white mb-2">
                 {product.name}
               </Typography>
 
-            {/* Dynamic Real-Time Rating & Stock */}
-            <div className="flex items-center gap-4 mt-3">
-              <div className="flex items-center gap-1.5 text-amber-400 text-sm">
+              <div className="flex items-center gap-1.5 text-amber-400 text-sm mb-4">
                 <Star className="w-4 h-4 fill-amber-400" />
-                <span className="font-bold text-white">{reviewSummary.averageRating}</span>
-                <span className="text-xs text-neutral-400 font-mono">({reviewSummary.totalReviews} verified reviews)</span>
+                <span className="font-bold text-white">{product.rating}</span>
               </div>
-              <span className="text-neutral-600">|</span>
-              <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-medium">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>In Stock ({product.stock} units available)</span>
-              </div>
-            </div>
-          </div>
 
-          {/* Pricing Box */}
-          <div className="bg-neutral-950/80 border border-neutral-800 p-5 rounded-2xl flex items-baseline justify-between">
-            <div>
               <div className="flex items-baseline gap-3">
                 <span className="text-3xl font-black font-mono text-white">
                   {formatCurrency(product.price)}
@@ -240,7 +244,7 @@ export const ProductDetailsPage: React.FC = () => {
             </div>
 
             {/* Quantity modifier */}
-            <div className="flex items-center bg-neutral-900 border border-neutral-800 rounded-xl p-1">
+            <div className="flex items-center bg-neutral-900 border border-neutral-800 rounded-xl p-1 w-fit">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 className="p-1.5 text-neutral-400 hover:text-white"
@@ -255,141 +259,100 @@ export const ProductDetailsPage: React.FC = () => {
                 <Plus className="w-3.5 h-3.5" />
               </button>
             </div>
-          </div>
 
-          {/* Description */}
-          <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
-            {product.description}
-          </p>
+            {/* Description */}
+            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
+              {product.description}
+            </p>
 
-          {/* Real-time PC Builder Compatibility Status */}
-          {slotKey && compatibility && (
-            <div
-              className={`p-4 rounded-2xl border flex items-start gap-3 ${
-                compatibility.isCompatible
-                  ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
-                  : 'bg-red-950/30 border-red-500/50 text-red-300'
-              }`}
-            >
-              {compatibility.isCompatible ? (
-                <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-              ) : (
-                <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-              )}
-              <div className="text-xs">
-                <div className="font-bold mb-0.5">
-                  {compatibility.isCompatible
-                    ? '100% Compatible with Current PC Builder Setup'
-                    : 'Compatibility Conflict Detected'}
-                </div>
-                <div className="text-neutral-400 leading-relaxed">
-                  {compatibility.isCompatible
-                    ? `Matches your active socket, memory channel, and physical clearances.`
-                    : compatibility.reason}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Actions */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            <MagneticButton className="w-full">
-              <button
-                onClick={handleAddToCart}
-                className="w-full py-3.5 px-6 rounded-xl bg-neutral-800 hover:bg-neutral-750 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-neutral-700 transition-all cursor-pointer shadow-lg"
+            {/* Real-time PC Builder Compatibility Status */}
+            {slotKey && compatibility && (
+              <div
+                className={`p-4 rounded-2xl border flex items-start gap-3 ${
+                  compatibility.isCompatible
+                    ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
+                    : 'bg-red-950/30 border-red-500/50 text-red-300'
+                }`}
               >
-                <ShoppingCart className="w-4 h-4" />
-                <span>Add to Cart</span>
-              </button>
-            </MagneticButton>
-
-            {slotKey && (
-              <MagneticButton className="w-full">
-                <NoiseBackground containerClassName="rounded-xl shadow-lg w-full">
-                  <button
-                    onClick={handleAddToBuilder}
-                    className="w-full py-3.5 px-6 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
-                  >
-                    <Cpu className="w-4 h-4" />
-                    <span>Assign to Custom Rig</span>
-                  </button>
-                </NoiseBackground>
-              </MagneticButton>
-            )}
-          </div>
-
-          {/* Value props */}
-          <div className="grid grid-cols-3 gap-3 pt-4 border-t border-neutral-800 text-[11px] text-neutral-400">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-red-500 shrink-0" />
-              <span>Direct Brand RMA</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Truck className="w-4 h-4 text-red-500 shrink-0" />
-              <span>Insured Transit</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <RotateCcw className="w-4 h-4 text-red-500 shrink-0" />
-              <span>7-Day Replacement</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Full Specs Breakdown Table */}
-      <div className="bg-neutral-900/80 border border-neutral-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md">
-        <h3 className="text-lg font-bold text-white mb-4">Technical Specifications</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 font-mono text-xs">
-          {Object.entries(product.specs).map(([key, val]) => {
-            if (val === undefined || val === null) return null;
-            return (
-              <div key={key} className="bg-neutral-950 p-3.5 rounded-xl border border-neutral-850">
-                <span className="text-[10px] text-neutral-500 uppercase block mb-1">
-                  {key.replace(/([A-Z])/g, ' $1')}
-                </span>
-                <span className="text-neutral-200 font-bold">
-                  {Array.isArray(val) ? val.join(', ') : String(val)}
-                </span>
+                {compatibility.isCompatible ? (
+                  <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                ) : (
+                  <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                )}
+                <div className="text-xs">
+                  <div className="font-bold mb-0.5">
+                    {compatibility.isCompatible
+                      ? '100% Compatible with Current PC Builder Setup'
+                      : 'Compatibility Conflict Detected'}
+                  </div>
+                  <div className="text-neutral-400 leading-relaxed">
+                    {compatibility.isCompatible
+                      ? `Matches your active socket, memory channel, and physical clearances.`
+                      : compatibility.reason}
+                  </div>
+                </div>
               </div>
-            );
-          })}
+            )}
+
+            {/* Actions */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <MagneticButton className="w-full">
+                <button
+                  onClick={handleAddToCart}
+                  className="w-full py-3.5 px-6 rounded-xl bg-neutral-800 hover:bg-neutral-750 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-neutral-700 transition-all cursor-pointer shadow-lg"
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  <span>Add to Cart</span>
+                </button>
+              </MagneticButton>
+
+              {slotKey && (
+                <MagneticButton className="w-full">
+                  <NoiseBackground containerClassName="rounded-xl shadow-lg w-full">
+                    <button
+                      onClick={handleAddToBuilder}
+                      className="w-full py-3.5 px-6 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
+                    >
+                      <Cpu className="w-4 h-4" />
+                      <span>Assign to Custom Rig</span>
+                    </button>
+                  </NoiseBackground>
+                </MagneticButton>
+              )}
+            </div>
+
+            {/* Value props */}
+            <div className="grid grid-cols-3 gap-3 pt-4 border-t border-neutral-800 text-[11px] text-neutral-400">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-red-500 shrink-0" />
+                <span>Direct Brand RMA</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Truck className="w-4 h-4 text-red-500 shrink-0" />
+                <span>Insured Transit</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <RotateCcw className="w-4 h-4 text-red-500 shrink-0" />
+                <span>7-Day Replacement</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Tab Switcher: Dynamic Real-Time Reviews vs Community Comments */}
-      <div className="pt-4">
-        <div className="flex border-b border-neutral-800 gap-4 mb-2 font-mono text-xs">
-          <button
-            onClick={() => setActiveTab('reviews')}
-            className={`pb-3 font-bold uppercase transition-colors border-b-2 ${
-              activeTab === 'reviews'
-                ? 'border-red-500 text-white'
-                : 'border-transparent text-neutral-400 hover:text-neutral-200'
-            }`}
-          >
-            Verified Reviews ({reviewSummary.totalReviews})
-          </button>
+        {/* Full Specs Breakdown Table */}
+        <FadeContent blur={true} duration={850} delay={50} easing="ease-out" initialOpacity={0}>
+          <DetailedSpecView product={product} />
+        </FadeContent>
 
-          <button
-            onClick={() => setActiveTab('comments')}
-            className={`pb-3 font-bold uppercase transition-colors border-b-2 ${
-              activeTab === 'comments'
-                ? 'border-red-500 text-white'
-                : 'border-transparent text-neutral-400 hover:text-neutral-200'
-            }`}
-          >
-            Q&A & Community Discussion
-          </button>
-        </div>
-
-        {activeTab === 'reviews' && (
-          <ProductReviewsSection productId={product.id} productName={product.name} />
-        )}
-
-        {activeTab === 'comments' && (
-          <ProductCommentsSection productId={product.id} />
-        )}
-      </div>
+        {/* Community Discussion / Q&A */}
+        <FadeContent blur={true} duration={850} delay={100} easing="ease-out" initialOpacity={0}>
+          <div className="pt-6 border-t border-neutral-800">
+            <h3 className="text-base font-black uppercase text-white tracking-wider mb-6 flex items-center gap-2">
+              <span>Q&A & Community Discussion</span>
+            </h3>
+            <ProductCommentsSection productId={product.id} />
+          </div>
+        </FadeContent>
       </motion.div>
     </div>
   );

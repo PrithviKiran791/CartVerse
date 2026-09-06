@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 420" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="topFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#26222F" />
+      <stop offset="100%" stop-color="#16131D" />
+    </linearGradient>
+    <linearGradient id="leftFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#191622" />
+      <stop offset="100%" stop-color="#0D0B12" />
+    </linearGradient>
+    <linearGradient id="rightFace" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#201C2A" />
+      <stop offset="100%" stop-color="#120F18" />
+    </linearGradient>
+    <linearGradient id="metalBrace" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3A3347" />
+      <stop offset="50%" stop-color="#4E445F" />
+      <stop offset="100%" stop-color="#282232" />
+    </linearGradient>
+    <linearGradient id="tapeStrip" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#E31B23" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#991B1B" stop-opacity="0.95" />
+    </linearGradient>
+    <radialGradient id="redGlow" cx="65%" cy="55%" r="60%">
+      <stop offset="0%" stop-color="#E31B23" stop-opacity="0.35" />
+      <stop offset="60%" stop-color="#E31B23" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#E31B23" stop-opacity="0" />
+    </radialGradient>
+    <filter id="boxShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#000000" flood-opacity="0.85" />
+      <feDropShadow dx="0" dy="0" stdDeviation="15" flood-color="#E31B23" flood-opacity="0.2" />
+    </filter>
+  </defs>
+
+  <ellipse cx="250" cy="350" rx="200" ry="45" fill="url(#redGlow)" />
+
+  <g filter="url(#boxShadow)">
+    <polygon points="250,55 420,135 250,215 80,135" fill="url(#topFace)" stroke="#383144" stroke-width="2" />
+    <polygon points="80,135 250,215 250,370 80,290" fill="url(#leftFace)" stroke="#2D2737" stroke-width="2" />
+    <polygon points="250,215 420,135 420,290 250,370" fill="url(#rightFace)" stroke="#342D3F" stroke-width="2" />
+
+    <polygon points="250,55 265,62 405,128 420,135 405,142 250,68" fill="url(#metalBrace)" opacity="0.85" />
+    <polygon points="250,55 235,62 95,128 80,135 95,142 250,68" fill="url(#metalBrace)" opacity="0.85" />
+
+    <polygon points="76,133 88,139 88,294 76,288" fill="url(#metalBrace)" />
+    <polygon points="246,215 254,215 254,370 246,370" fill="url(#metalBrace)" />
+    <polygon points="247,215 250,213 253,215 253,370 250,372 247,370" fill="#E31B23" opacity="0.8" />
+    <polygon points="412,139 424,133 424,288 412,294" fill="url(#metalBrace)" />
+
+    <polygon points="80,290 250,370 250,375 80,295" fill="#1C1824" />
+    <polygon points="250,370 420,290 420,295 250,375" fill="#181520" />
+
+    <circle cx="82" cy="148" r="2.5" fill="#8E859E" />
+    <circle cx="82" cy="200" r="2.5" fill="#8E859E" />
+    <circle cx="82" cy="275" r="2.5" fill="#8E859E" />
+
+    <circle cx="250" cy="232" r="3" fill="#E31B23" />
+    <circle cx="250" cy="290" r="3" fill="#E31B23" />
+    <circle cx="250" cy="355" r="3" fill="#E31B23" />
+
+    <circle cx="418" cy="148" r="2.5" fill="#8E859E" />
+    <circle cx="418" cy="200" r="2.5" fill="#8E859E" />
+    <circle cx="418" cy="275" r="2.5" fill="#8E859E" />
+
+    <polygon points="215,72 285,105 285,350 215,317" fill="url(#tapeStrip)" opacity="0.3" />
+    <line x1="250" y1="55" x2="250" y2="215" stroke="#E31B23" stroke-width="2.5" stroke-dasharray="6,4" />
+
+    <g transform="translate(250, 135) rotate(-25) skewX(-30) scale(0.85)">
+      <text x="-90" y="-15" fill="#8B8599" font-family="monospace" font-size="11" font-weight="900" letter-spacing="3">CARTVERSE LOGISTICS</text>
+      <text x="-90" y="5" fill="#E31B23" font-family="monospace" font-size="9" font-weight="700" letter-spacing="2">PRIORITY INSURED PARCEL</text>
+    </g>
+
+    <g>
+      <polygon points="305,210 375,177 375,225 305,258" fill="#0C0A10" stroke="#453C53" stroke-width="1.5" />
+      <polygon points="315,220 365,196 365,214 315,238" fill="#201C2A" stroke="#E31B23" stroke-width="1" />
+
+      <polygon points="275,260 355,222 355,302 275,340" fill="#E2E8F0" opacity="0.9" />
+      <line x1="285" y1="262" x2="285" y2="330" stroke="#0F172A" stroke-width="2" />
+      <line x1="290" y1="260" x2="290" y2="327" stroke="#0F172A" stroke-width="3.5" />
+      <line x1="297" y1="256" x2="297" y2="324" stroke="#0F172A" stroke-width="1.5" />
+      <line x1="302" y1="254" x2="302" y2="321" stroke="#0F172A" stroke-width="4" />
+      <line x1="310" y1="250" x2="310" y2="317" stroke="#0F172A" stroke-width="2" />
+      <line x1="316" y1="247" x2="316" y2="314" stroke="#0F172A" stroke-width="1" />
+      <line x1="322" y1="244" x2="322" y2="311" stroke="#0F172A" stroke-width="3" />
+      <line x1="329" y1="241" x2="329" y2="307" stroke="#0F172A" stroke-width="2" />
+      <line x1="337" y1="237" x2="337" y2="303" stroke="#0F172A" stroke-width="4.5" />
+      <line x1="346" y1="233" x2="346" y2="299" stroke="#0F172A" stroke-width="2" />
+      <polygon points="275,260 355,222 355,232 275,270" fill="#E31B23" />
+      <text x="280" y="268" fill="#FFFFFF" font-family="monospace" font-size="7" font-weight="900" letter-spacing="1">CV-EXPRESS AIR</text>
+    </g>
+
+    <g>
+      <path d="M125,185 L165,166 L165,205 Q165,225 145,235 Q125,225 125,205 Z" fill="none" stroke="#E31B23" stroke-width="2.5" />
+      <path d="M135,195 L143,203 L157,189" fill="none" stroke="#E31B23" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="110" y="255" fill="#A8A29E" font-family="monospace" font-size="9" font-weight="800" letter-spacing="2">100% AUTHENTIC</text>
+      <text x="110" y="270" fill="#EF4444" font-family="monospace" font-size="8" font-weight="700" letter-spacing="1.5">DIRECT BRAND RMA</text>
+    </g>
+  </g>
+</svg>

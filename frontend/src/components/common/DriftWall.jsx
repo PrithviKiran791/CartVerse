@@ -57,9 +57,9 @@ const DriftWall = ({
   const lastTsRef = useRef(null);
 
   const [containerHeight, setContainerHeight] = useState(600);
-  const [activeId, setActiveId] = useState(null);
   const activeIdRef = useRef(null);
   const [reduced, setReduced] = useState(false);
+  const [isInView, setIsInView] = useState(true);
 
   useEffect(() => {
     setReduced(prefersReducedMotion());
@@ -67,6 +67,19 @@ const DriftWall = ({
     const onChange = e => setReduced(e.matches);
     mq.addEventListener('change', onChange);
     return () => mq.removeEventListener('change', onChange);
+  }, []);
+
+  // IntersectionObserver to pause rAF loop when out of viewport
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
   }, []);
 
   const columnItems = useMemo(() => {
@@ -119,6 +132,13 @@ const DriftWall = ({
   );
 
   useEffect(() => {
+    if (!isInView) {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+      lastTsRef.current = null;
+      return;
+    }
+
     const animate = ts => {
       if (lastTsRef.current === null) lastTsRef.current = ts;
       const dt = Math.min(0.05, Math.max(0, ts - lastTsRef.current) / 1000);
@@ -166,17 +186,15 @@ const DriftWall = ({
       rafRef.current = null;
       lastTsRef.current = null;
     };
-  }, [baseVelocities, columnMeta, pauseOnHover, parallax, reduced, applyPlaneTransform]);
+  }, [isInView, baseVelocities, columnMeta, pauseOnHover, parallax, reduced, applyPlaneTransform]);
 
   const activate = useCallback((id, index) => {
     activeIdRef.current = id;
     hoveredColRef.current = index;
-    setActiveId(id);
   }, []);
   const release = useCallback(() => {
     activeIdRef.current = null;
     hoveredColRef.current = -1;
-    setActiveId(null);
   }, []);
 
   const handlePointerMove = useCallback(
@@ -189,14 +207,6 @@ const DriftWall = ({
           y: (e.clientY - rect.top) / rect.height - 0.5
         };
       }
-      const hit = document.elementFromPoint(e.clientX, e.clientY);
-      const tile = hit && hit.closest ? hit.closest('[data-tile-id]') : null;
-      if (!tile) return;
-      const id = tile.dataset.tileId;
-      if (id === activeIdRef.current) return;
-      activeIdRef.current = id;
-      hoveredColRef.current = Number(tile.dataset.col);
-      setActiveId(id);
     },
     [parallax, reduced]
   );
@@ -232,9 +242,11 @@ const DriftWall = ({
       </span>
     );
     const commonProps = {
-      className: `drift-wall__tile${activeId === id ? ' is-active' : ''}`,
+      className: 'drift-wall__tile',
       'data-tile-id': id,
       'data-col': colIndex,
+      onMouseEnter: () => activate(id, colIndex),
+      onMouseLeave: release,
       onFocus: () => activate(id, colIndex),
       onBlur: release
     };

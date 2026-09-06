@@ -19,7 +19,6 @@ import { mockProducts } from '../../data/mockProducts';
 import { Product, FilterState, ComponentCategory } from '../../types/hardware';
 import { ProductCard } from './ProductCard';
 import { FilterSidebar } from './FilterSidebar';
-import { CategorySectionView } from './CategorySectionView';
 import HoverEffect from '../ui/card-hover-effect';
 import Typography from '../ui/Typography';
 import { Boxes } from '../ui/background-boxes';
@@ -30,8 +29,8 @@ export const ProductCatalog: React.FC = () => {
   const initialCategory = (searchParams.get('category') as ComponentCategory) || 'all';
   const initialSearch = searchParams.get('search') || '';
 
-  const [viewMode, setViewMode] = useState<'sections' | 'grid'>('sections');
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState<number>(24);
 
   const [filters, setFilters] = useState<FilterState>({
     searchQuery: initialSearch,
@@ -46,6 +45,11 @@ export const ProductCatalog: React.FC = () => {
     sortBy: 'featured',
   });
 
+  // Reset pagination on filter change
+  useEffect(() => {
+    setVisibleCount(24);
+  }, [filters]);
+
   // Sync url param changes to filters
   useEffect(() => {
     const cat = searchParams.get('category') as ComponentCategory;
@@ -53,11 +57,9 @@ export const ProductCatalog: React.FC = () => {
 
     if (cat && cat !== filters.category) {
       setFilters((prev) => ({ ...prev, category: cat }));
-      setViewMode('grid'); // switch to grid for specific category filtering
     }
     if (search !== null && search !== filters.searchQuery) {
       setFilters((prev) => ({ ...prev, searchQuery: search }));
-      setViewMode('grid');
     }
   }, [searchParams]);
 
@@ -67,11 +69,58 @@ export const ProductCatalog: React.FC = () => {
       // Search
       if (filters.searchQuery.trim()) {
         const q = filters.searchQuery.toLowerCase();
+        const matchesIntel =
+          product.specs.intelSpecs &&
+          (product.specs.intelSpecs.codename.toLowerCase().includes(q) ||
+            product.specs.intelSpecs.exactModel.toLowerCase().includes(q) ||
+            product.specs.intelSpecs.generation.toLowerCase().includes(q) ||
+            product.specs.intelSpecs.tier.toLowerCase().includes(q) ||
+            product.specs.intelSpecs.suffix.toLowerCase().includes(q) ||
+            product.specs.intelSpecs.igpu.toLowerCase().includes(q) ||
+            product.specs.intelSpecs.architecturalNotes.toLowerCase().includes(q));
+
+        const matchesRyzen =
+          product.specs.ryzenSpecs &&
+          (product.specs.ryzenSpecs.architecture.toLowerCase().includes(q) ||
+            product.specs.ryzenSpecs.codename.toLowerCase().includes(q) ||
+            product.specs.ryzenSpecs.modelName.toLowerCase().includes(q) ||
+            product.specs.ryzenSpecs.generation.toLowerCase().includes(q) ||
+            product.specs.ryzenSpecs.tier.toLowerCase().includes(q) ||
+            product.specs.ryzenSpecs.suffix.toLowerCase().includes(q) ||
+            product.specs.ryzenSpecs.l3Cache.toLowerCase().includes(q) ||
+            product.specs.ryzenSpecs.architecturalNotes.toLowerCase().includes(q));
+
+        const matchesRadeon =
+          product.specs.radeonSpecs &&
+          (product.specs.radeonSpecs.architecture.toLowerCase().includes(q) ||
+            product.specs.radeonSpecs.gpuCodename.toLowerCase().includes(q) ||
+            product.specs.radeonSpecs.modelName.toLowerCase().includes(q) ||
+            product.specs.radeonSpecs.series.toLowerCase().includes(q) ||
+            product.specs.radeonSpecs.vram.toLowerCase().includes(q) ||
+            product.specs.radeonSpecs.infinityCache.toLowerCase().includes(q) ||
+            product.specs.radeonSpecs.architecturalNotes.toLowerCase().includes(q));
+
+        const matchesNvidia =
+          product.specs.nvidiaSpecs &&
+          (product.specs.nvidiaSpecs.architecture.toLowerCase().includes(q) ||
+            product.specs.nvidiaSpecs.series.toLowerCase().includes(q) ||
+            product.specs.nvidiaSpecs.model.toLowerCase().includes(q) ||
+            product.specs.nvidiaSpecs.variant.toLowerCase().includes(q) ||
+            product.specs.nvidiaSpecs.generation.toLowerCase().includes(q) ||
+            product.specs.nvidiaSpecs.dlssAiFeatures.toLowerCase().includes(q) ||
+            product.specs.nvidiaSpecs.mediaEngines.toLowerCase().includes(q));
+
         const matches =
           product.name.toLowerCase().includes(q) ||
           product.brand.toLowerCase().includes(q) ||
           product.category.toLowerCase().includes(q) ||
-          (product.tags && product.tags.some((t) => t.toLowerCase().includes(q)));
+          (product.subcategory && product.subcategory.toLowerCase().includes(q)) ||
+          (product.description && product.description.toLowerCase().includes(q)) ||
+          (product.tags && product.tags.some((t) => t.toLowerCase().includes(q))) ||
+          matchesIntel ||
+          matchesRyzen ||
+          matchesRadeon ||
+          matchesNvidia;
         if (!matches) return false;
       }
 
@@ -195,7 +244,7 @@ export const ProductCatalog: React.FC = () => {
           )}
         </div>
 
-        {/* View Mode & Sort */}
+        {/* Sort & Mobile Filters */}
         <div className="flex items-center gap-3 justify-between sm:justify-end">
           {/* Mobile Filter Toggle */}
           <button
@@ -205,34 +254,6 @@ export const ProductCatalog: React.FC = () => {
             <SlidersHorizontal className="w-3.5 h-3.5 text-red-500" />
             <span>Filters</span>
           </button>
-
-          {/* View Mode Toggle */}
-          <div className="flex items-center bg-neutral-950 border border-neutral-800 rounded-lg p-1">
-            <button
-              onClick={() => setViewMode('sections')}
-              className={`px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                viewMode === 'sections'
-                  ? 'bg-red-600 text-white shadow-sm'
-                  : 'text-neutral-400 hover:text-neutral-200'
-              }`}
-              title="Category Sections View"
-            >
-              <Layers className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Category Sections</span>
-            </button>
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`px-3 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all ${
-                viewMode === 'grid'
-                  ? 'bg-red-600 text-white shadow-sm'
-                  : 'text-neutral-400 hover:text-neutral-200'
-              }`}
-              title="Faceted Grid View"
-            >
-              <Grid className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Faceted Grid</span>
-            </button>
-          </div>
 
           {/* Sort selector */}
           <div className="relative">
@@ -317,7 +338,6 @@ export const ProductCatalog: React.FC = () => {
             activeCategory={filters.category}
             onSelectCategory={(cat) => {
               setFilters((prev) => ({ ...prev, category: cat as ComponentCategory }));
-              setViewMode('grid');
             }}
           />
 
@@ -330,46 +350,65 @@ export const ProductCatalog: React.FC = () => {
 
         {/* Catalog Content */}
         <div className="flex-1 min-w-0">
-          {viewMode === 'sections' && filters.category === 'all' && !filters.searchQuery ? (
-            /* Dedicated Categorized Showcase */
-            <CategorySectionView products={sortedProducts} />
+          {/* Faceted Grid View */}
+          {sortedProducts.length === 0 ? (
+            <div className="bg-neutral-900/60 border border-neutral-800 rounded-2xl p-12 text-center">
+              <div className="w-16 h-16 rounded-full bg-neutral-800 mx-auto flex items-center justify-center mb-4 text-neutral-500">
+                <Search className="w-8 h-8" />
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">No Matching Hardware Found</h3>
+              <p className="text-xs text-neutral-400 max-w-md mx-auto mb-6">
+                We couldn't find any components matching your active filters or search query. Try broadening your criteria.
+              </p>
+              <button
+                onClick={() =>
+                  setFilters({
+                    searchQuery: '',
+                    category: 'all',
+                    brands: [],
+                    priceRange: [500, 250000],
+                    sockets: [],
+                    ramTypes: [],
+                    resolutions: [],
+                    refreshRates: [],
+                    inStockOnly: false,
+                    sortBy: 'featured',
+                  })
+                }
+                className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-lg transition-all"
+              >
+                Clear All Filters
+              </button>
+            </div>
           ) : (
-            /* Faceted Grid View */
-            <div>
-              {sortedProducts.length === 0 ? (
-                <div className="bg-neutral-900/60 border border-neutral-800 rounded-2xl p-12 text-center">
-                  <div className="w-16 h-16 rounded-full bg-neutral-800 mx-auto flex items-center justify-center mb-4 text-neutral-500">
-                    <Search className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-2">No Matching Hardware Found</h3>
-                  <p className="text-xs text-neutral-400 max-w-md mx-auto mb-6">
-                    We couldn't find any components matching your active filters or search query. Try broadening your criteria.
+            <div className="space-y-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+                {sortedProducts.slice(0, visibleCount).map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+
+              {/* Progressive Loading & Pagination Controls */}
+              {visibleCount < sortedProducts.length && (
+                <div className="pt-6 pb-2 text-center flex flex-col items-center gap-3">
+                  <p className="text-xs font-mono text-neutral-400">
+                    Showing <span className="text-white font-bold">{Math.min(visibleCount, sortedProducts.length)}</span> of{' '}
+                    <span className="text-red-400 font-bold">{sortedProducts.length}</span> models
                   </p>
-                  <button
-                    onClick={() =>
-                      setFilters({
-                        searchQuery: '',
-                        category: 'all',
-                        brands: [],
-                        priceRange: [500, 250000],
-                        sockets: [],
-                        ramTypes: [],
-                        resolutions: [],
-                        refreshRates: [],
-                        inStockOnly: false,
-                        sortBy: 'featured',
-                      })
-                    }
-                    className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-lg transition-all"
-                  >
-                    Clear All Filters
-                  </button>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {sortedProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                  ))}
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setVisibleCount((prev) => prev + 24)}
+                      className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-xl transition-all shadow-lg hover:shadow-red-950/40 cursor-pointer"
+                    >
+                      Load More Hardware (+24)
+                    </button>
+                    <button
+                      onClick={() => setVisibleCount(sortedProducts.length)}
+                      className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 border border-neutral-750 text-neutral-300 hover:text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
+                    >
+                      View All ({sortedProducts.length})
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

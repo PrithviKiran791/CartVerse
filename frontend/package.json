@@ -14,6 +14,7 @@
     "@iconify/react": "^6.0.2",
     "@react-login-page/page8": "^1.0.6",
     "@reduxjs/toolkit": "^2.12.0",
+    "@tabler/icons-react": "^3.46.0",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "framer-motion": "^13.2.0",

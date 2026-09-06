@@ -20,19 +20,25 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
     { id: 'motherboard', label: 'Motherboards' },
     { id: 'ram', label: 'Memory (RAM)' },
     { id: 'ssd', label: 'Solid State Drives (SSD)' },
-    { id: 'hdd', label: 'Hard Drives (HDD)' },
+    { id: 'hdd', label: 'Hard Disk Drives (HDD)' },
     { id: 'cabinet', label: 'PC Cabinets' },
     { id: 'psu', label: 'Power Supplies (PSU)' },
+    { id: 'cooler', label: 'CPU Coolers & AIOs' },
+    { id: 'coolant', label: 'PC Coolants & Fluids' },
     { id: 'monitor', label: 'Gaming Monitors' },
     { id: 'keyboard', label: 'Keyboards' },
-    { id: 'mouse', label: 'Mice' },
-    { id: 'headphones', label: 'Headphones & Audio' },
-    { id: 'controller', label: 'Controllers' },
-    { id: 'cables', label: 'Cables & Accessories' },
+    { id: 'mouse', label: 'Gaming Mice' },
+    { id: 'mousepad', label: 'Mousepads & Deskmats' },
+    { id: 'headphones', label: 'Headphones & Headsets' },
+    { id: 'speakers', label: 'Desktop Speakers' },
+    { id: 'webcam', label: 'Webcams & Cameras' },
+    { id: 'controller', label: 'Game Controllers' },
+    { id: 'console', label: 'Gaming Consoles' },
+    { id: 'cables', label: 'Cables & Interconnects' },
     { id: 'prebuilt', label: 'Pre-Built Rigs' },
   ];
 
-  const sockets: CPUSocket[] = ['AM4', 'AM5', 'LGA1700', 'LGA1851'];
+  const sockets: CPUSocket[] = ['AM4', 'AM5', 'LGA1200', 'LGA1700', 'LGA1851'];
   const ramTypes: RAMType[] = ['DDR4', 'DDR5'];
   const resolutions = ['1920x1080', '2560x1440', '3840x2160'];
   const refreshRates = [144, 180, 240, 360];

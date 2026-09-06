@@ -8,6 +8,7 @@ import {
 } from 'framer-motion';
 
 import Typography from './Typography';
+import { useScrollContainer } from '../../context/ScrollContainerContext';
 
 export interface ParallaxProduct {
   title: string;
@@ -30,12 +31,14 @@ export const HeroParallax = ({
   const secondRow = products.slice(5, 10);
   const thirdRow = products.slice(10, 15);
   const ref = React.useRef(null);
+  const { scrollContainerRef } = useScrollContainer();
   const { scrollYProgress } = useScroll({
     target: ref,
+    container: scrollContainerRef?.current ? scrollContainerRef : undefined,
     offset: ['start start', 'end start'],
   });
 
-  const springConfig = { stiffness: 300, damping: 30, bounce: 0 };
+  const springConfig = { stiffness: 220, damping: 35, bounce: 0 };
 
   const translateX = useSpring(
     useTransform(scrollYProgress, [0, 1], [0, 1000]),
@@ -46,26 +49,26 @@ export const HeroParallax = ({
     springConfig
   );
   const rotateX = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [15, 0]),
+    useTransform(scrollYProgress, [0, 0.25], [15, 0]),
     springConfig
   );
   const opacity = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [0.2, 1]),
+    useTransform(scrollYProgress, [0, 0.25], [0.2, 1]),
     springConfig
   );
   const rotateZ = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [20, 0]),
+    useTransform(scrollYProgress, [0, 0.25], [20, 0]),
     springConfig
   );
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
+    useTransform(scrollYProgress, [0, 0.35], [-350, 100]),
     springConfig
   );
 
   return (
     <div
       ref={ref}
-      className="h-[280vh] py-20 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-[#0A0A0C]"
+      className="h-[185vh] py-16 overflow-hidden antialiased relative flex flex-col self-auto [perspective:1000px] [transform-style:preserve-3d] bg-[#0A0A0C]"
     >
       <Header title={headerTitle} subtitle={headerSubtitle} />
       <motion.div
@@ -105,6 +108,9 @@ export const HeroParallax = ({
           ))}
         </motion.div>
       </motion.div>
+
+      {/* Smooth bottom fade into the catalog */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0A0A0C] via-[#0A0A0C]/90 to-transparent pointer-events-none z-20" />
     </div>
   );
 };

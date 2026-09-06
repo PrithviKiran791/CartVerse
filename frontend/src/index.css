@@ -138,3 +138,75 @@ h1, h2, h3, h4, h5, h6 {
   border-color: #2A2A2A;
   padding-bottom: 0.5rem;
 }
+
+/* ==========================================================================
+   HeroUI ScrollShadow Styles
+   ========================================================================== */
+.scroll-shadow {
+  position: relative;
+  --scroll-shadow-size: 48px;
+  --scroll-shadow-scrollbar-size: 8px;
+}
+
+.scroll-shadow--vertical {
+  overflow-y: auto;
+}
+
+.scroll-shadow--horizontal {
+  overflow-x: auto;
+}
+
+.scroll-shadow--fade.scroll-shadow--vertical:where([data-top-scroll="true"], [data-bottom-scroll="true"], [data-top-bottom-scroll="true"]) {
+  mask-image: linear-gradient(var(--scroll-linear-gradient)), linear-gradient(#000, #000);
+  mask-position: left top, right top;
+  mask-repeat: no-repeat;
+  mask-size: calc(100% - var(--scroll-shadow-scrollbar-size)) 100%, var(--scroll-shadow-scrollbar-size) 100%;
+  -webkit-mask-image: linear-gradient(var(--scroll-linear-gradient)), linear-gradient(#000, #000);
+  -webkit-mask-position: left top, right top;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: calc(100% - var(--scroll-shadow-scrollbar-size)) 100%, var(--scroll-shadow-scrollbar-size) 100%;
+}
+
+.scroll-shadow--fade.scroll-shadow--vertical[data-top-scroll="true"] {
+  --scroll-linear-gradient: 0deg, #000 calc(100% - var(--scroll-shadow-size)), transparent;
+}
+
+.scroll-shadow--fade.scroll-shadow--vertical[data-bottom-scroll="true"] {
+  --scroll-linear-gradient: 180deg, #000 calc(100% - var(--scroll-shadow-size)), transparent;
+}
+
+.scroll-shadow--fade.scroll-shadow--vertical[data-top-bottom-scroll="true"] {
+  --scroll-linear-gradient:
+    #000, #000, transparent 0, #000 var(--scroll-shadow-size),
+    #000 calc(100% - var(--scroll-shadow-size)), transparent;
+}
+
+.scroll-shadow--hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  --scroll-shadow-scrollbar-size: 0px;
+}
+.scroll-shadow--hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom Sleek Scrollbar for CartVerse */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0C;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E31B23;
+}
+
+/* Aceternity UI Input Shadow */
+.shadow-input {
+  box-shadow: 0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(25, 28, 33, 0.02), 0px 0px 0px 1px rgba(25, 28, 33, 0.08);
+}

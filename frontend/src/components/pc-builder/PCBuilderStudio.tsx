@@ -13,7 +13,48 @@ import { NoiseBackground } from '../ui/noise-background';
 import Typography from '../ui/Typography';
 import ShapeGrid from '../common/ShapeGrid';
 import { Boxes } from '../ui/background-boxes';
+import MagicBento from '../common/MagicBento';
+import FadeContent from '../common/FadeContent';
 import { ContainerScroll } from '../ui/container-scroll-animation';
+
+const builderBentoCards = [
+  {
+    color: '#120F17',
+    title: 'Socket Alignment',
+    description: 'Pin-level matching for Intel LGA1700/LGA1851 & AMD AM5',
+    label: 'Compatibility Engine'
+  },
+  {
+    color: '#120F17',
+    title: 'Wattage Budgeting',
+    description: 'Live 80+ headroom calculation and transient spike safety',
+    label: 'Power Delivery'
+  },
+  {
+    color: '#120F17',
+    title: 'Thermal Clearances',
+    description: 'Chassis radiator support and AIO pump header validation',
+    label: 'Cooling Clearance'
+  },
+  {
+    color: '#120F17',
+    title: 'Memory Topologies',
+    description: 'DDR4 vs DDR5 dual-channel EXPO & XMP profile verification',
+    label: 'RAM Optimization'
+  },
+  {
+    color: '#120F17',
+    title: 'GPU Dimension Checks',
+    description: 'Chassis length and bracket slot clearance verification',
+    label: 'Form Factor'
+  },
+  {
+    color: '#120F17',
+    title: 'Direct Brand RMA',
+    description: '100% genuine parts with brand replacement guarantee',
+    label: 'Peace of Mind'
+  }
+];
 
 interface SlotDefinition {
   key: BuilderSlotKey;
@@ -96,70 +137,76 @@ export const PCBuilderStudio: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative z-10">
         {/* Studio Header */}
-        <div className="bg-gradient-to-r from-neutral-900 via-neutral-950 to-red-950/40 border border-neutral-800 rounded-3xl p-8 mb-8 backdrop-blur-xl relative overflow-hidden shadow-2xl">
-          {/* Aceternity Animated Background Boxes */}
-          <div className="absolute inset-0 w-full h-full bg-neutral-950/70 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-          <Boxes />
-          <div className="absolute right-0 top-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-red-400 uppercase tracking-widest mb-2 font-bold">
-                <Cpu className="w-4 h-4 text-red-500" />
-                CartVerse Interactive Hardware Studio
+        <FadeContent blur={true} duration={800} easing="ease-out" initialOpacity={0}>
+          <div className="bg-gradient-to-r from-neutral-900 via-neutral-950 to-red-950/40 border border-neutral-800 rounded-3xl p-8 mb-8 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+            {/* Aceternity Animated Background Boxes */}
+            <div className="absolute inset-0 w-full h-full bg-neutral-950/70 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+            <Boxes />
+            <div className="absolute right-0 top-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div>
+                <div className="flex items-center gap-2 text-xs font-mono text-red-400 uppercase tracking-widest mb-2 font-bold">
+                  <Cpu className="w-4 h-4 text-red-500" />
+                  CartVerse Interactive Hardware Studio
+                </div>
+                <Typography type="h1" className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                  Custom PC Builder & Configurator
+                </Typography>
+                <Typography type="body-sm" color="muted" className="mt-2 max-w-2xl leading-relaxed">
+                  Design and validate your dream gaming or workstation rig. Our real-time hardware compatibility engine continuously verifies pin sockets, RAM generations, physical chassis clearances, and electrical headroom.
+                </Typography>
               </div>
-              <Typography type="h1" className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-                Custom PC Builder & Configurator
-              </Typography>
-              <Typography type="body-sm" color="muted" className="mt-2 max-w-2xl leading-relaxed">
-                Design and validate your dream gaming or workstation rig. Our real-time hardware compatibility engine continuously verifies pin sockets, RAM generations, physical chassis clearances, and electrical headroom.
-              </Typography>
-            </div>
 
-            <NoiseBackground
-              containerClassName="w-fit p-1.5 rounded-full shrink-0 shadow-2xl"
-              gradientColors={[
-                'rgb(255, 100, 150)',
-                'rgb(100, 150, 255)',
-                'rgb(255, 200, 100)',
-              ]}
-            >
-              <button
-                onClick={() => openSlotPicker('cpu')}
-                className="h-full w-full cursor-pointer rounded-full bg-neutral-950 hover:bg-neutral-900 px-6 py-3 text-xs font-black uppercase tracking-wider text-white shadow-[0px_1px_0px_0px_rgba(255,255,255,0.25)_inset,0px_1px_0px_0px_rgba(0,0,0,0.9)] transition-all duration-100 active:scale-95 flex items-center gap-2"
+              <NoiseBackground
+                containerClassName="w-fit p-1.5 rounded-full shrink-0 shadow-2xl"
+                gradientColors={[
+                  'rgb(255, 100, 150)',
+                  'rgb(100, 150, 255)',
+                  'rgb(255, 200, 100)',
+                ]}
               >
-                <span>Start Component Selection &rarr;</span>
-              </button>
-            </NoiseBackground>
+                <button
+                  onClick={() => openSlotPicker('cpu')}
+                  className="h-full w-full cursor-pointer rounded-full bg-neutral-950 hover:bg-neutral-900 px-6 py-3 text-xs font-black uppercase tracking-wider text-white shadow-[0px_1px_0px_0px_rgba(255,255,255,0.25)_inset,0px_1px_0px_0px_rgba(0,0,0,0.9)] transition-all duration-100 active:scale-95 flex items-center gap-2"
+                >
+                  <span>Start Component Selection &rarr;</span>
+                </button>
+              </NoiseBackground>
+            </div>
           </div>
-        </div>
+        </FadeContent>
 
         {/* Real-time Status Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          <div className="lg:col-span-2">
-            <CompatibilityBar report={report} filledSlotsCount={filledSlots} />
+        <FadeContent blur={true} duration={850} delay={100} easing="ease-out" initialOpacity={0}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div className="lg:col-span-2">
+              <CompatibilityBar report={report} filledSlotsCount={filledSlots} />
+            </div>
+            <div>
+              <WattageGauge
+                estimatedWattage={estimatedWattage}
+                recommendedPsuWattage={report.recommendedPsuWattage}
+                selectedPsuWattage={build.psu?.specs.wattage}
+              />
+            </div>
           </div>
-          <div>
-            <WattageGauge
-              estimatedWattage={estimatedWattage}
-              recommendedPsuWattage={report.recommendedPsuWattage}
-              selectedPsuWattage={build.psu?.specs.wattage}
-            />
-          </div>
-        </div>
+        </FadeContent>
 
-        {/* ContainerScroll 3D Animated Architecture Workspace */}
+        {/* Interactive Rig Architecture Workspace with Aceternity ContainerScroll */}
         <ContainerScroll
           titleComponent={
-            <div>
-              <span className="text-xs font-mono uppercase tracking-widest text-red-500 font-bold bg-red-950/80 px-3 py-1 rounded-full border border-red-700/50">
+            <div className="text-center mb-6">
+              <span className="text-xs font-mono uppercase tracking-widest text-red-400 font-bold bg-red-950/80 px-3 py-1 rounded-full border border-red-700/50">
                 Interactive Rig Architecture
               </span>
-              <Typography type="h2" className="text-2xl sm:text-4xl font-black text-white tracking-tight mt-2">
+              <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-2">
                 Configure Core Hardware & Peripherals
+              </Typography>
+              <Typography type="body-sm" color="muted" className="mt-1 max-w-xl mx-auto">
+                Select verified components with real-time socket, dimension, and wattage validation.
               </Typography>
             </div>
           }
-          className="mb-12"
         >
           {/* Component Slots Grid */}
           <div className="space-y-8">
@@ -220,6 +267,39 @@ export const PCBuilderStudio: React.FC = () => {
             </div>
           </div>
         </ContainerScroll>
+
+
+        {/* Interactive Rig Architecture Intelligence: Magic Bento Showcase */}
+        <FadeContent blur={true} duration={900} delay={100} easing="ease-out" initialOpacity={0}>
+          <div className="mt-14 mb-10 flex flex-col items-center">
+            <div className="text-center mb-8">
+              <span className="text-xs font-mono uppercase tracking-widest text-purple-400 font-bold bg-purple-950/80 px-3.5 py-1 rounded-full border border-purple-700/50">
+                Architecture Intelligence
+              </span>
+              <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-2">
+                Automated Build Validation
+              </Typography>
+              <Typography type="body-sm" color="muted" className="mt-1 max-w-xl mx-auto">
+                Our hardware engine continuously checks 20+ electrical, thermal, and mechanical compatibility parameters as you assemble your custom rig.
+              </Typography>
+            </div>
+
+            <MagicBento
+              cards={builderBentoCards}
+              textAutoHide={true}
+              enableStars={true}
+              enableSpotlight={true}
+              enableBorderGlow={true}
+              enableTilt={false}
+              enableMagnetism={false}
+              clickEffect={true}
+              spotlightRadius={400}
+              particleCount={12}
+              glowColor="132, 0, 255"
+              disableAnimations={false}
+            />
+          </div>
+        </FadeContent>
       </div>
 
       {/* Component Selection Modal */}

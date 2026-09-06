@@ -16,6 +16,16 @@ import {
   Monitor,
   Wrench,
   CheckCircle2,
+  HardDrive,
+  Keyboard,
+  Mouse,
+  Headphones,
+  Volume2,
+  Camera,
+  Gamepad2,
+  Cable,
+  Fan,
+  Droplets,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import Typography from '../ui/Typography';
@@ -54,8 +64,8 @@ export const defaultNavItems: NavItemType[] = [
     icon: Home,
     items: [
       { label: 'Catalog Overview', href: '/products', category: 'all', icon: LayoutGrid },
-      { label: 'Processors (CPUs)', href: '/products?category=cpu', category: 'cpu', icon: Cpu, badge: 'VERIFIED' },
-      { label: 'Graphics Cards (GPUs)', href: '/products?category=gpu', category: 'gpu', icon: Tv, badge: 'HOT' },
+      { label: 'Processors (CPUs)', href: '/products?category=cpu', category: 'cpu', icon: Cpu, badge: '282' },
+      { label: 'Graphics Cards (GPUs)', href: '/products?category=gpu', category: 'gpu', icon: Tv, badge: '102' },
       { label: 'Pre-Built Systems', href: '/products?category=prebuilt', category: 'prebuilt', icon: Flame, badge: 'SIGNATURE' },
     ],
   },
@@ -65,21 +75,30 @@ export const defaultNavItems: NavItemType[] = [
     icon: Layers,
     items: [
       { label: 'Motherboards', href: '/products?category=motherboard', category: 'motherboard', icon: Layers },
-      { label: 'Memory (DDR4/DDR5)', href: '/products?category=ram', category: 'ram', icon: Zap },
+      { label: 'Memory (DDR4 / DDR5)', href: '/products?category=ram', category: 'ram', icon: Zap },
       { label: 'NVMe SSD Storage', href: '/products?category=ssd', category: 'ssd', icon: Sparkles },
+      { label: 'Hard Drives (HDD)', href: '/products?category=hdd', category: 'hdd', icon: HardDrive },
+      { label: 'CPU Coolers & AIOs', href: '/products?category=cooler', category: 'cooler', icon: Fan, badge: 'AIO & AIR' },
+      { label: 'PC Coolants & Fluids', href: '/products?category=coolant', category: 'coolant', icon: Droplets },
       { label: 'Power Supplies (PSU)', href: '/products?category=psu', category: 'psu', icon: Zap },
-      { label: 'PC Cabinets', href: '/products?category=cabinet', category: 'cabinet', icon: Box },
+      { label: 'PC Cabinets & Cases', href: '/products?category=cabinet', category: 'cabinet', icon: Box },
     ],
   },
   {
-    label: 'Cooling & Gear',
+    label: 'Peripherals & Accessories',
     href: '/products',
-    icon: ShieldCheck,
+    icon: Gamepad2,
     items: [
-      { label: 'CPU Coolers', href: '/products?category=cooler', category: 'cooler', icon: Flame },
       { label: 'Gaming Monitors', href: '/products?category=monitor', category: 'monitor', icon: Monitor },
-      { label: 'Esports Mice & Boards', href: '/products?category=mouse', category: 'mouse', icon: Sparkles },
-      { label: 'Audio & Headsets', href: '/products?category=headphones', category: 'headphones', icon: Sparkles },
+      { label: 'Mechanical Keyboards', href: '/products?category=keyboard', category: 'keyboard', icon: Keyboard },
+      { label: 'Esports Gaming Mice', href: '/products?category=mouse', category: 'mouse', icon: Mouse },
+      { label: 'Mousepads & Deskmats', href: '/products?category=mousepad', category: 'mousepad', icon: Sparkles },
+      { label: 'Headphones & Headsets', href: '/products?category=headphones', category: 'headphones', icon: Headphones },
+      { label: 'Desktop Speakers', href: '/products?category=speakers', category: 'speakers', icon: Volume2 },
+      { label: 'Game Controllers', href: '/products?category=controller', category: 'controller', icon: Gamepad2 },
+      { label: 'Gaming Consoles', href: '/console', category: 'console', icon: Gamepad2, badge: 'NINTENDO / SONY / XBOX' },
+      { label: 'Webcams & Streaming', href: '/products?category=webcam', category: 'webcam', icon: Camera },
+      { label: 'Cables & Custom Extensions', href: '/products?category=cables', category: 'cables', icon: Cable },
     ],
   },
   {
@@ -141,7 +160,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({
     'Hardware Catalog': true,
     'Core Components': true,
-    'Cooling & Gear': false,
+    'Peripherals & Accessories': true,
   });
 
   const location = useLocation();
