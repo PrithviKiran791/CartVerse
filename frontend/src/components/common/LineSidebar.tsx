@@ -1,7 +1,9 @@
 import React, { useState, useRef, useCallback } from 'react';
 
+export type LineSidebarItem = string | { label: string; icon?: string };
+
 export interface LineSidebarProps {
-  items: string[];
+  items: LineSidebarItem[];
   accentColor?: string;
   textColor?: string;
   markerColor?: string;
@@ -74,7 +76,9 @@ export const LineSidebar: React.FC<LineSidebarProps> = ({
       className={`relative flex flex-col font-mono select-none ${className}`}
       style={{ gap: `${itemGap}px` }}
     >
-      {items.map((label, idx) => {
+      {items.map((item, idx) => {
+        const label = typeof item === 'string' ? item : item.label;
+        const icon = typeof item === 'object' ? item.icon : undefined;
         const isActive = activeIndex === idx;
 
         // Calculate proximity shift & tick scale based on mouse Y distance
@@ -141,9 +145,18 @@ export const LineSidebar: React.FC<LineSidebarProps> = ({
               </span>
             )}
 
+            {/* Optional Hardware Icon */}
+            {icon && (
+              <img
+                src={icon}
+                alt=""
+                className="w-4 h-4 object-contain shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)] transition-transform group-hover:scale-110"
+              />
+            )}
+
             {/* Label Text */}
             <span
-              className="font-bold tracking-wide transition-colors uppercase"
+              className="font-bold tracking-wide transition-colors uppercase truncate"
               style={{
                 fontSize: `${fontSize}rem`,
                 color: isActive ? accentColor : textColor,

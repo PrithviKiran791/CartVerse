@@ -26,9 +26,11 @@ import {
   Cable,
   Fan,
   Droplets,
+  Server,
 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import Typography from '../ui/Typography';
+import { getHardwareIcon, isMonochromeHardwareIcon } from '../../utils/hardwareIcons';
 
 export interface NavSubItem {
   label: string;
@@ -102,8 +104,21 @@ export const defaultNavItems: NavItemType[] = [
     ],
   },
   {
+    label: 'Enterprise Infrastructure',
+    href: '/servers',
+    category: 'server',
+    icon: Server,
+    items: [
+      { label: 'Turnkey Server Nodes', href: '/servers/pre-configured', category: 'server', icon: Server, badge: 'HPC' },
+      { label: 'AI Supercomputers', href: '/servers?useCase=ai-training', category: 'ai', icon: Sparkles, badge: 'H100/B200' },
+      { label: 'Storage & Database Clusters', href: '/servers?useCase=database', category: 'database', icon: HardDrive, badge: 'NVMe SAN' },
+      { label: 'Server Studio Configurator', href: '/servers/builder', category: 'server', icon: Wrench, badge: 'ENTERPRISE' },
+    ],
+  },
+  {
     label: 'PC Builder Studio',
     href: '/builder',
+    category: 'cabinet',
     icon: Wrench,
     badge: 'LIVE',
   },
@@ -161,6 +176,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
     'Hardware Catalog': true,
     'Core Components': true,
     'Peripherals & Accessories': true,
+    'Enterprise Infrastructure': true,
   });
 
   const location = useLocation();
@@ -209,7 +225,18 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                     className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-neutral-300 hover:text-white hover:bg-neutral-800/80 transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon className="w-4 h-4 text-red-500 shrink-0" />
+                      {item.category && getHardwareIcon(item.category) ? (
+                        <img
+                          src={getHardwareIcon(item.category)}
+                          alt=""
+                          className={cn(
+                            "w-4 h-4 object-contain shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]",
+                            isMonochromeHardwareIcon(item.category) && "dark:invert dark:brightness-125"
+                          )}
+                        />
+                      ) : (
+                        <Icon className="w-4 h-4 text-red-500 shrink-0" />
+                      )}
                       <span>{item.label}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
@@ -237,7 +264,18 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                     )}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon className="w-4 h-4 text-red-500 shrink-0" />
+                      {item.category && getHardwareIcon(item.category) ? (
+                        <img
+                          src={getHardwareIcon(item.category)}
+                          alt=""
+                          className={cn(
+                            "w-4 h-4 object-contain shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]",
+                            isMonochromeHardwareIcon(item.category) && (activeCategory === item.category ? "brightness-0 invert" : "dark:invert dark:brightness-125")
+                          )}
+                        />
+                      ) : (
+                        <Icon className="w-4 h-4 text-red-500 shrink-0" />
+                      )}
                       <span>{item.label}</span>
                     </div>
                     {item.badge && (
@@ -254,6 +292,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                     {item.items?.map((sub) => {
                       const SubIcon = sub.icon || LayoutGrid;
                       const isSubActive = activeCategory === sub.category;
+                      const subIconSrc = sub.category ? getHardwareIcon(sub.category) : undefined;
 
                       return (
                         <Link
@@ -268,7 +307,18 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                           )}
                         >
                           <div className="flex items-center gap-2">
-                            <SubIcon className="w-3.5 h-3.5 shrink-0" />
+                            {subIconSrc ? (
+                              <img
+                                src={subIconSrc}
+                                alt=""
+                                className={cn(
+                                  "w-3.5 h-3.5 object-contain shrink-0 drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]",
+                                  isMonochromeHardwareIcon(sub.category || '') && (isSubActive ? "brightness-0 invert" : "dark:invert dark:brightness-125")
+                                )}
+                              />
+                            ) : (
+                              <SubIcon className="w-3.5 h-3.5 shrink-0" />
+                            )}
                             <span>{sub.label}</span>
                           </div>
                           {sub.badge && (

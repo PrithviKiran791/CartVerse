@@ -25,6 +25,7 @@ import Typography from '../ui/Typography';
 import { Boxes } from '../ui/background-boxes';
 import { SidebarNavigationSimple } from '../common/SidebarNavigationSimple';
 import FaultyTerminal from '../common/FaultyTerminal';
+import { HardwareIcon, getHardwareIcon } from '../../utils/hardwareIcons';
 
 export const ProductCatalog: React.FC = () => {
   const location = useLocation();
@@ -348,10 +349,11 @@ export const ProductCatalog: React.FC = () => {
         <div className="flex flex-wrap items-center gap-2 mb-6 text-xs">
           <span className="text-neutral-500 font-mono">Active Filters:</span>
           {filters.category !== 'all' && (
-            <span className="bg-red-950/60 border border-red-800 text-red-300 px-2.5 py-1 rounded-full flex items-center gap-1 font-mono">
-              Category: {filters.category.toUpperCase()}
+            <span className="bg-red-950/60 border border-red-800 text-red-300 px-2.5 py-1 rounded-full flex items-center gap-1.5 font-mono">
+              <HardwareIcon name={filters.category} className="w-3.5 h-3.5 object-contain" />
+              <span>Category: {filters.category.toUpperCase()}</span>
               <X
-                className="w-3 h-3 cursor-pointer hover:text-white"
+                className="w-3 h-3 cursor-pointer hover:text-white ml-0.5"
                 onClick={() => setFilters((p) => ({ ...p, category: 'all' }))}
               />
             </span>

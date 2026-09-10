@@ -5,6 +5,7 @@ import { formatCurrency } from '../../utils/formatters';
 import LineSidebar from '../common/LineSidebar';
 import { HoverBorderGradient } from '../ui/hover-border-gradient';
 import { cn } from '../../lib/utils';
+import { getHardwareIcon } from '../../utils/hardwareIcons';
 
 interface FilterSidebarProps {
   filters: FilterState;
@@ -264,7 +265,10 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
         </label>
         <div className="max-h-64 overflow-y-auto pr-1 scrollbar-thin overflow-x-hidden pt-1">
           <LineSidebar
-            items={currentCategories.map((c) => c.label)}
+            items={currentCategories.map((c) => ({
+              label: c.label,
+              icon: c.id !== 'all' ? getHardwareIcon(c.id) : undefined,
+            }))}
             accentColor="#e31b23"
             textColor="#a1a1aa"
             markerColor="#52525b"

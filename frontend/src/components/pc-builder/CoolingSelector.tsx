@@ -8,6 +8,7 @@ import {
   Fan, Droplets, CheckCircle, AlertTriangle, XCircle, 
   ThermometerSnowflake, ShieldCheck, Gauge, Layers 
 } from 'lucide-react';
+import { getHardwareIcon } from '../../utils/hardwareIcons';
 
 export const CoolingSelector: React.FC = () => {
   const { build, setSlot } = usePCBuilderStore();
@@ -38,41 +39,60 @@ export const CoolingSelector: React.FC = () => {
     <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 text-slate-100 shadow-2xl backdrop-blur-md">
       {/* Component Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center pb-6 border-b border-slate-800 gap-4">
-        <div>
-          <h2 className="text-xl font-bold flex items-center gap-2.5 text-white">
-            <ThermometerSnowflake className="w-6 h-6 text-sky-400" />
-            Thermal Management & Coolants
-          </h2>
-          <p className="text-xs text-slate-400 mt-1">
-            Compare tower heatsinks, AIO closed-loops, and custom-loop fluids with active socket and TDP verification.
-          </p>
+        <div className="flex items-center gap-3">
+          <div className="w-11 h-11 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center p-2 shrink-0 shadow-inner">
+            <img
+              src={getHardwareIcon('cooler')}
+              alt="Cooler"
+              className="w-7 h-7 object-contain dark:invert dark:brightness-125"
+            />
+          </div>
+          <div>
+            <h2 className="text-xl font-bold flex items-center gap-2.5 text-white">
+              Thermal Management & Coolants
+            </h2>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Compare tower heatsinks, AIO closed-loops, and custom-loop fluids with active socket and TDP verification.
+            </p>
+          </div>
         </div>
 
         {/* Category Navigation Tabs */}
         <div className="flex bg-slate-950 p-1.5 rounded-xl border border-slate-800">
           <button
             onClick={() => { setSelectedTab('air'); setBrandFilter('ALL'); }}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition cursor-pointer ${
               selectedTab === 'air' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <Fan className="w-3.5 h-3.5" /> Air Coolers
+            <img
+              src={getHardwareIcon('cooler')}
+              alt=""
+              className={`w-3.5 h-3.5 object-contain ${selectedTab === 'air' ? 'brightness-0 invert' : 'dark:invert dark:brightness-125'}`}
+            />
+            <span>Air Coolers</span>
           </button>
           <button
             onClick={() => { setSelectedTab('aio_liquid'); setBrandFilter('ALL'); }}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition cursor-pointer ${
               selectedTab === 'aio_liquid' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <Layers className="w-3.5 h-3.5" /> Liquid AIO
+            <Layers className="w-3.5 h-3.5" />
+            <span>Liquid AIO</span>
           </button>
           <button
             onClick={() => { setSelectedTab('coolant'); setBrandFilter('ALL'); }}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition ${
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition cursor-pointer ${
               selectedTab === 'coolant' ? 'bg-blue-600 text-white shadow-md' : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <Droplets className="w-3.5 h-3.5" /> PC Coolants
+            <img
+              src={getHardwareIcon('coolant')}
+              alt=""
+              className="w-3.5 h-3.5 object-contain"
+            />
+            <span>PC Coolants</span>
           </button>
         </div>
       </div>

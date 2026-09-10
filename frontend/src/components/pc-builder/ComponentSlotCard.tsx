@@ -20,6 +20,7 @@ import { Product, BuilderSlotKey, CompatibilityIssue } from '../../types/hardwar
 import { getComponentImage } from '../../utils/assetRegistry';
 import { formatCurrency, formatWattage } from '../../utils/formatters';
 import { HoverBorderGradient } from '../ui/hover-border-gradient';
+import { HardwareIcon, getHardwareIcon, isMonochromeHardwareIcon } from '../../utils/hardwareIcons';
 
 interface ComponentSlotCardProps {
   slotKey: BuilderSlotKey;
@@ -72,6 +73,7 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
   };
 
   const Icon = getSlotIcon();
+  const iconSrc = getHardwareIcon(slotKey);
 
   if (!selectedProduct) {
     return (
@@ -80,8 +82,18 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
         className="group relative bg-neutral-900/40 hover:bg-neutral-850/80 border-2 border-dashed border-neutral-800 hover:border-red-500/80 rounded-2xl p-4 sm:p-5 transition-all duration-200 cursor-pointer flex items-center justify-between gap-4"
       >
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-800 group-hover:border-red-500/50 group-hover:bg-red-950/20 flex items-center justify-center text-neutral-500 group-hover:text-red-400 transition-all shrink-0">
-            <Icon className="w-6 h-6" />
+          <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-neutral-950 border border-neutral-800 group-hover:border-red-500/50 group-hover:bg-red-950/20 flex items-center justify-center p-2.5 text-neutral-500 group-hover:text-red-400 transition-all shrink-0 shadow-inner">
+            {iconSrc ? (
+              <img
+                src={iconSrc}
+                alt={categoryName}
+                className={`w-8 h-8 sm:w-9 sm:h-9 object-contain drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)] transition-transform group-hover:scale-110 ${
+                  isMonochromeHardwareIcon(slotKey) ? 'dark:invert dark:brightness-125' : ''
+                }`}
+              />
+            ) : (
+              <Icon className="w-6 h-6" />
+            )}
           </div>
 
           <div>
@@ -128,6 +140,15 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
+            {iconSrc && (
+              <img
+                src={iconSrc}
+                alt=""
+                className={`w-3.5 h-3.5 object-contain shrink-0 ${
+                  isMonochromeHardwareIcon(slotKey) ? 'dark:invert dark:brightness-125' : ''
+                }`}
+              />
+            )}
             <span className="text-[10px] font-mono uppercase tracking-wider text-red-400 font-bold">
               {label}
             </span>

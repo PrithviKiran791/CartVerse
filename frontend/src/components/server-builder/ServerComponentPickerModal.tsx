@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Search, Check, AlertCircle, ShieldCheck, Filter, ArrowUpDown } from 'lucide-react';
+import { X, Search, Check, AlertCircle, ShieldCheck, Filter, ArrowUpDown, Cpu } from 'lucide-react';
 import { ServerSlotKey, Product, ComponentCategory } from '../../types/hardware';
 import { mockProducts } from '../../data/mockProducts';
 import { useServerBuilderStore } from '../../store/useServerBuilderStore';
@@ -8,6 +8,7 @@ import { getComponentImage } from '../../utils/assetRegistry';
 import { formatCurrency, formatWattage } from '../../utils/formatters';
 import { isServerComponentCompatibleWithBuild } from '../../utils/compatibilityEngine';
 import CloseButton from '../ui/CloseButton';
+import { HardwareIcon } from '../../utils/hardwareIcons';
 
 interface ServerComponentPickerModalProps {
   slotKey: ServerSlotKey | null;
@@ -130,18 +131,27 @@ export const ServerComponentPickerModal: React.FC<ServerComponentPickerModalProp
         >
           {/* Modal Header */}
           <div className="p-5 sm:p-6 border-b border-neutral-800 flex items-center justify-between gap-4 bg-neutral-950/60">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-red-500 bg-red-950/60 px-2 py-0.5 rounded border border-red-900/50">
-                  Infrastructure Component Selection
-                </span>
-                <span className="text-xs font-mono text-neutral-400">
-                  Slot: <strong className="text-white uppercase">{slotKey}</strong>
-                </span>
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center p-2 shrink-0 shadow-inner">
+                <HardwareIcon
+                  name={slotKey === 'cpu2' ? 'cpu' : (slotKey || '')}
+                  className="w-8 h-8 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
+                  fallback={<Cpu className="w-6 h-6 text-red-500" />}
+                />
               </div>
-              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-                Select Compatible Server Hardware
-              </h2>
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-red-500 bg-red-950/60 px-2 py-0.5 rounded border border-red-900/50">
+                    Infrastructure Component Selection
+                  </span>
+                  <span className="text-xs font-mono text-neutral-400">
+                    Slot: <strong className="text-white uppercase">{slotKey}</strong>
+                  </span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  Select Compatible Server Hardware
+                </h2>
+              </div>
             </div>
             <CloseButton onClick={onClose} />
           </div>

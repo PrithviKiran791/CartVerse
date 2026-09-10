@@ -17,6 +17,7 @@ import {
 import { ServerSlotKey, Product, CompatibilityIssue } from '../../types/hardware';
 import { getComponentImage } from '../../utils/assetRegistry';
 import { formatCurrency, formatWattage } from '../../utils/formatters';
+import { HardwareIcon } from '../../utils/hardwareIcons';
 
 interface ServerSlotCardProps {
   slotKey: ServerSlotKey;
@@ -98,13 +99,18 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
                 className="w-full h-full object-contain"
               />
             ) : (
-              getSlotIcon()
+              <HardwareIcon
+                name={slotKey === 'cpu2' ? 'cpu' : slotKey}
+                className="w-9 h-9 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)] transition-transform group-hover:scale-110"
+                fallback={getSlotIcon()}
+              />
             )}
           </div>
 
           {/* Details */}
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 mb-1">
+              <HardwareIcon name={slotKey === 'cpu2' ? 'cpu' : slotKey} className="w-3.5 h-3.5 object-contain shrink-0" />
               <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-500 bg-red-950/40 px-2 py-0.5 rounded border border-red-900/50">
                 {label}
               </span>

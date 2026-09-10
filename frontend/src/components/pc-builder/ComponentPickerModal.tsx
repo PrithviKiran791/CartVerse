@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Search, Check, AlertCircle, ShieldCheck, Filter, ArrowUpDown } from 'lucide-react';
+import { X, Search, Check, AlertCircle, ShieldCheck, Filter, ArrowUpDown, Cpu } from 'lucide-react';
 import { BuilderSlotKey, Product, ComponentCategory } from '../../types/hardware';
 import { mockProducts } from '../../data/mockProducts';
 import { usePCBuilderStore } from '../../store/usePCBuilderStore';
@@ -10,6 +10,7 @@ import { isComponentCompatibleWithBuild } from '../../utils/compatibilityEngine'
 import { useToastStore } from '../../store/useToastStore';
 import CloseButton from '../ui/CloseButton';
 import { HoverBorderGradient } from '../ui/hover-border-gradient';
+import { HardwareIcon } from '../../utils/hardwareIcons';
 
 interface ComponentPickerModalProps {
   slotKey: BuilderSlotKey | null;
@@ -136,13 +137,22 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
         >
           {/* Header */}
           <div className="p-6 border-b border-neutral-800 flex items-center justify-between bg-neutral-950/60">
-            <div>
-              <div className="text-[11px] font-mono text-red-400 uppercase tracking-wider font-bold">
-                CartVerse Configurator
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center p-2 shrink-0 shadow-inner">
+                <HardwareIcon
+                  name={slotKey}
+                  className="w-8 h-8 object-contain drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]"
+                  fallback={<Cpu className="w-6 h-6 text-red-500" />}
+                />
               </div>
-              <h2 className="text-xl font-black text-white capitalize mt-0.5">
-                Choose {slotKey.replace(/([A-Z])/g, ' $1')}
-              </h2>
+              <div>
+                <div className="text-[11px] font-mono text-red-400 uppercase tracking-wider font-bold">
+                  CartVerse Configurator
+                </div>
+                <h2 className="text-xl font-black text-white capitalize mt-0.5">
+                  Choose {slotKey.replace(/([A-Z])/g, ' $1')}
+                </h2>
+              </div>
             </div>
 
             <CloseButton onClick={onClose} size="lg" variant="flat" />

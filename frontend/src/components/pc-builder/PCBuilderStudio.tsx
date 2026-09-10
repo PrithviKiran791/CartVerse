@@ -16,6 +16,7 @@ import { Boxes } from '../ui/background-boxes';
 import MagicBento from '../common/MagicBento';
 import FadeContent from '../common/FadeContent';
 import { ContainerScroll } from '../ui/container-scroll-animation';
+import { getHardwareIcon, isMonochromeHardwareIcon } from '../../utils/hardwareIcons';
 
 const builderBentoCards = [
   {
@@ -219,8 +220,8 @@ export const PCBuilderStudio: React.FC = () => {
             {/* Core System Components */}
             <div>
               <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
-                <div className="flex items-center gap-2">
-                  <Layers className="w-4 h-4 text-red-500" />
+                <div className="flex items-center gap-2.5">
+                  <img src={getHardwareIcon('cpu')} alt="" className="w-5 h-5 object-contain shrink-0" />
                   <Typography type="h3" className="text-sm font-bold text-white uppercase tracking-wider">
                     Core System Architecture
                   </Typography>
@@ -247,8 +248,8 @@ export const PCBuilderStudio: React.FC = () => {
             {/* Peripherals & Accessories */}
             <div>
               <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-cyan-400" />
+                <div className="flex items-center gap-2.5">
+                  <img src={getHardwareIcon('monitor')} alt="" className="w-5 h-5 object-contain shrink-0 dark:invert dark:brightness-125" />
                   <Typography type="h3" className="text-sm font-bold text-white uppercase tracking-wider">
                     Cooling, Displays & Peripherals
                   </Typography>

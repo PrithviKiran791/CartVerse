@@ -47,6 +47,7 @@ import LogoLoop from '../components/common/LogoLoop';
 import { brandLogos } from '../data/brandLogos';
 import { useTheme } from '../context/ThemeContext';
 import FaultyTerminal from '../components/common/FaultyTerminal';
+import { getHardwareIcon, isMonochromeHardwareIcon } from '../utils/hardwareIcons';
 
 export const HomePage: React.FC = () => {
   const { isDarkMode } = useTheme();
@@ -460,29 +461,44 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {/* Category Filter Chips Bar */}
+            {/* Category Filter Chips Bar with Custom Hardware Icons */}
             <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-5 scrollbar-none">
               {[
-                { id: 'all', label: 'All Apex Hardware', count: driftWallItems.length },
-                { id: 'gpu', label: 'Flagship GPUs' },
-                { id: 'cpu', label: 'Processors' },
-                { id: 'prebuilt', label: 'Pre-Built PCs' },
-                { id: 'cooler', label: 'Coolers & AIO' },
-                { id: 'monitor', label: 'Displays' },
-                { id: 'console', label: 'Consoles' },
-                { id: 'peripherals', label: 'Peripherals' },
+                { id: 'all', label: 'All Apex Hardware', iconKey: 'ai', count: driftWallItems.length },
+                { id: 'gpu', label: 'Flagship GPUs', iconKey: 'gpu' },
+                { id: 'cpu', label: 'Processors', iconKey: 'cpu' },
+                { id: 'prebuilt', label: 'Pre-Built PCs', iconKey: 'prebuilt' },
+                { id: 'cooler', label: 'Coolers & AIO', iconKey: 'cooler' },
+                { id: 'monitor', label: 'Displays', iconKey: 'monitor' },
+                { id: 'console', label: 'Consoles', iconKey: 'console' },
+                { id: 'peripherals', label: 'Peripherals', iconKey: 'keyboard' },
               ].map((tab) => {
                 const isActive = driftCategoryFilter === tab.id;
+                const iconSrc = getHardwareIcon(tab.iconKey);
+                const isMono = isMonochromeHardwareIcon(tab.iconKey);
                 return (
                   <button
                     key={tab.id}
                     onClick={() => setDriftCategoryFilter(tab.id)}
-                    className={`px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider uppercase transition-all whitespace-nowrap cursor-pointer flex items-center gap-2 ${
+                    className={`px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider uppercase transition-all whitespace-nowrap cursor-pointer flex items-center gap-2.5 ${
                       isActive
                         ? 'bg-red-600 text-white shadow-lg shadow-red-950/40 border border-red-500'
                         : 'bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-900/80 dark:hover:bg-neutral-850 text-neutral-600 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-700'
                     }`}
                   >
+                    {iconSrc && (
+                      <img
+                        src={iconSrc}
+                        alt=""
+                        className={`w-4 h-4 object-contain filter drop-shadow-sm ${
+                          isMono
+                            ? isActive
+                              ? 'brightness-0 invert'
+                              : 'dark:invert dark:brightness-125'
+                            : ''
+                        }`}
+                      />
+                    )}
                     <span>{tab.label}</span>
                     {tab.id === 'all' && (
                       <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${isActive ? 'bg-white text-red-600' : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-500'}`}>
@@ -541,38 +557,54 @@ export const HomePage: React.FC = () => {
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {[
-                { name: 'Processors', icon: Cpu, href: '/products?category=cpu', count: '282 Models' },
-                { name: 'Graphics Cards', icon: Tv, href: '/products?category=gpu', count: '102 Models' },
-                { name: 'Motherboards', icon: Layers, href: '/products?category=motherboard', count: '24 Models' },
-                { name: 'Memory (RAM)', icon: Zap, href: '/products?category=ram', count: '28 Kits' },
-                { name: 'NVMe SSDs', icon: Sparkles, href: '/products?category=ssd', count: '32 Drives' },
-                { name: 'Hard Drives', icon: HardDrive, href: '/products?category=hdd', count: '38 Drives' },
-                { name: 'PC Cabinets', icon: Box, href: '/products?category=cabinet', count: '20 Cases' },
-                { name: 'Power Supplies', icon: Zap, href: '/products?category=psu', count: '20 Models' },
-                { name: 'CPU Coolers & AIOs', icon: Fan, href: '/products?category=cooler', count: '10 Coolers' },
-                { name: 'PC Coolants & Fluids', icon: Droplets, href: '/products?category=coolant', count: '6 Fluids' },
-                { name: 'Gaming Monitors', icon: Monitor, href: '/products?category=monitor', count: '37 Displays' },
-                { name: 'Keyboards', icon: Keyboard, href: '/products?category=keyboard', count: '38 Boards' },
-                { name: 'Gaming Mice', icon: Mouse, href: '/products?category=mouse', count: '35 Mice' },
-                { name: 'Mousepads', icon: Layers, href: '/products?category=mousepad', count: '30 Mats' },
-                { name: 'Headphones', icon: Headphones, href: '/products?category=headphones', count: '20 Models' },
-                { name: 'Desktop Speakers', icon: Volume2, href: '/products?category=speakers', count: '20 Systems' },
-                { name: 'Game Controllers', icon: Gamepad2, href: '/products?category=controller', count: '20 Gamepads' },
-                { name: 'Webcams & Cam', icon: Camera, href: '/products?category=webcam', count: '10 Cameras' },
-                { name: 'Cables & Links', icon: Cable, href: '/products?category=cables', count: '12 Cables' },
-                { name: 'Pre-Built PCs', icon: Flame, href: '/products?category=prebuilt', count: '10 Signature' },
+                { name: 'Processors', iconKey: 'cpu', icon: Cpu, href: '/products?category=cpu', count: '282 Models' },
+                { name: 'Graphics Cards', iconKey: 'gpu', icon: Tv, href: '/products?category=gpu', count: '102 Models' },
+                { name: 'Motherboards', iconKey: 'motherboard', icon: Layers, href: '/products?category=motherboard', count: '24 Models' },
+                { name: 'Memory (RAM)', iconKey: 'ram', icon: Zap, href: '/products?category=ram', count: '28 Kits' },
+                { name: 'NVMe SSDs', iconKey: 'ssd', icon: Sparkles, href: '/products?category=ssd', count: '32 Drives' },
+                { name: 'Hard Drives', iconKey: 'hdd', icon: HardDrive, href: '/products?category=hdd', count: '38 Drives' },
+                { name: 'PC Cabinets', iconKey: 'cabinet', icon: Box, href: '/products?category=cabinet', count: '20 Cases' },
+                { name: 'Power Supplies', iconKey: 'psu', icon: Zap, href: '/products?category=psu', count: '20 Models' },
+                { name: 'CPU Coolers & AIOs', iconKey: 'cooler', icon: Fan, href: '/products?category=cooler', count: '10 Coolers' },
+                { name: 'PC Coolants & Fluids', iconKey: 'coolant', icon: Droplets, href: '/products?category=coolant', count: '6 Fluids' },
+                { name: 'Gaming Monitors', iconKey: 'monitor', icon: Monitor, href: '/products?category=monitor', count: '37 Displays' },
+                { name: 'Keyboards', iconKey: 'keyboard', icon: Keyboard, href: '/products?category=keyboard', count: '38 Boards' },
+                { name: 'Gaming Mice', iconKey: 'mouse', icon: Mouse, href: '/products?category=mouse', count: '35 Mice' },
+                { name: 'Mousepads', iconKey: 'mousepad', icon: Layers, href: '/products?category=mousepad', count: '30 Mats' },
+                { name: 'Headphones', iconKey: 'headphones', icon: Headphones, href: '/products?category=headphones', count: '20 Models' },
+                { name: 'Desktop Speakers', iconKey: 'speakers', icon: Volume2, href: '/products?category=speakers', count: '20 Systems' },
+                { name: 'Game Controllers', iconKey: 'controller', icon: Gamepad2, href: '/products?category=controller', count: '20 Gamepads' },
+                { name: 'Webcams & Cam', iconKey: 'webcam', icon: Camera, href: '/products?category=webcam', count: '10 Cameras' },
+                { name: 'Cables & Links', iconKey: 'cables', icon: Cable, href: '/products?category=cables', count: '12 Cables' },
+                { name: 'Pre-Built PCs', iconKey: 'prebuilt', icon: Flame, href: '/products?category=prebuilt', count: '10 Signature' },
+                { name: 'Enterprise Servers', iconKey: 'server', icon: Layers, href: '/servers', count: 'Turnkey HPC' },
+                { name: 'AI Supercomputers', iconKey: 'ai', icon: Sparkles, href: '/servers?useCase=ai-training', count: 'Exascale AI' },
+                { name: 'Enterprise Storage', iconKey: 'database', icon: HardDrive, href: '/servers?useCase=storage', count: 'SAN / All-Flash' },
+                { name: 'Gaming Consoles', iconKey: 'console', icon: Gamepad2, href: '/console', count: 'Nintendo / PS / Xbox' },
               ].map((cat, idx) => {
                 const Icon = cat.icon;
+                const iconSrc = getHardwareIcon(cat.iconKey);
+                const isMono = isMonochromeHardwareIcon(cat.iconKey);
                 return (
                   <Link
                     key={idx}
                     to={cat.href}
                     className="group bg-white hover:bg-neutral-50 dark:bg-neutral-900/80 dark:hover:bg-neutral-850 border border-neutral-200 dark:border-neutral-800 hover:border-red-500/60 rounded-2xl p-4 transition-all flex flex-col items-center text-center shadow-sm hover:shadow-lg dark:shadow-none"
                   >
-                    <div className="w-11 h-11 rounded-xl bg-neutral-100 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 group-hover:border-red-500/50 group-hover:bg-red-50 dark:group-hover:bg-red-950/20 flex items-center justify-center text-red-600 dark:text-red-500 mb-2.5 transition-colors">
-                      <Icon className="w-5 h-5" />
+                    <div className="w-14 h-14 rounded-2xl bg-neutral-100 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 group-hover:border-red-500/50 group-hover:bg-red-50 dark:group-hover:bg-red-950/20 p-2.5 flex items-center justify-center mb-2.5 transition-all duration-300 group-hover:scale-110 shadow-inner">
+                      {iconSrc ? (
+                        <img
+                          src={iconSrc}
+                          alt={cat.name}
+                          className={`w-9 h-9 object-contain filter drop-shadow-[0_2px_6px_rgba(0,0,0,0.4)] transition-transform group-hover:scale-105 ${
+                            isMono ? 'dark:invert dark:brightness-125' : ''
+                          }`}
+                        />
+                      ) : (
+                        <Icon className="w-6 h-6 text-red-600 dark:text-red-500" />
+                      )}
                     </div>
-                    <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-red-600 dark:group-hover:text-white transition-colors">
+                    <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-red-600 dark:group-hover:text-white transition-colors line-clamp-1">
                       {cat.name}
                     </span>
                     <span className="text-[10px] font-mono text-neutral-500 dark:text-neutral-400 mt-1">{cat.count}</span>
