@@ -5,17 +5,17 @@
   overflow: hidden;
   perspective: var(--dw-perspective, 1200px);
   perspective-origin: 50% 50%;
-  --dw-tile-w: 200px;
-  --dw-tile-h: 132px;
+  --dw-tile-w: 230px;
+  --dw-tile-h: 175px;
   --dw-gap: 18px;
-  --dw-radius: 14px;
+  --dw-radius: 16px;
   --dw-lift: 64px;
-  --dw-dim: 0.88;
+  --dw-dim: 0.9;
   --dw-gray: 0;
   --dw-overlay: #000000;
   --dw-edge: 55%;
-  -webkit-mask-image: radial-gradient(ellipse 90% 88% at 50% 50%, #000 var(--dw-edge), transparent 100%);
-  mask-image: radial-gradient(ellipse 90% 88% at 50% 50%, #000 var(--dw-edge), transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 92% 90% at 50% 50%, #000 var(--dw-edge), transparent 100%);
+  mask-image: radial-gradient(ellipse 92% 90% at 50% 50%, #000 var(--dw-edge), transparent 100%);
 }
 
 .drift-wall__plane {
@@ -51,72 +51,222 @@
   flex: 0 0 auto;
   outline: none;
   transform-style: preserve-3d;
+  cursor: pointer;
 }
 
 .drift-wall__inner {
   position: absolute;
   inset: calc(var(--dw-gap) / 2);
-  display: block;
+  display: flex;
+  flex-direction: column;
   border-radius: var(--dw-radius);
   overflow: hidden;
-  background: #0d0d14;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #111018;
+  border: 1px solid rgba(255, 255, 255, 0.09);
   opacity: var(--dw-dim);
   transform: translateZ(0);
-  pointer-events: none;
+  pointer-events: auto;
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6);
   transition:
     transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    border-color 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.2s ease;
 }
 
-.drift-wall__tile img {
+html:not(.dark) .drift-wall__inner {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.08);
+}
+
+.drift-wall__img-wrap {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 14px 44px 14px;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--dw-radius);
+}
+
+html:not(.dark) .drift-wall__img-wrap {
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.02) 0%, transparent 70%);
+}
+
+.drift-wall__img-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
   display: block;
-  background-color: #121218;
-  filter: grayscale(var(--dw-gray)) saturate(0.95);
-  transition: filter 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
   user-select: none;
   -webkit-user-drag: none;
+}
+
+html:not(.dark) .drift-wall__img-wrap img {
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.12));
+}
+
+.drift-wall__tile:hover .drift-wall__img-wrap img {
+  transform: scale(1.08);
 }
 
 .drift-wall__overlay {
   position: absolute;
   inset: 0;
   background: var(--dw-overlay);
-  opacity: 0.14;
+  opacity: 0.15;
   pointer-events: none;
   transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: var(--dw-radius);
 }
 
+/* Product Info Overlay Card */
+.drift-wall__card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 8px 10px 10px 10px;
+  background: linear-gradient(180deg, transparent 0%, rgba(12, 11, 18, 0.75) 30%, rgba(12, 11, 18, 0.95) 100%);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  pointer-events: auto;
+  transition: all 0.3s ease;
+  z-index: 5;
+  border-bottom-left-radius: var(--dw-radius);
+  border-bottom-right-radius: var(--dw-radius);
+}
+
+html:not(.dark) .drift-wall__card-info {
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.82) 30%, rgba(255, 255, 255, 0.97) 100%);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.drift-wall__category-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 1.5px 5px;
+  border-radius: 3px;
+  background: rgba(227, 27, 35, 0.16);
+  color: #ef4444;
+  border: 1px solid rgba(227, 27, 35, 0.3);
+  text-transform: uppercase;
+}
+
+.drift-wall__brand-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #a1a1aa;
+  text-transform: uppercase;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+html:not(.dark) .drift-wall__brand-tag {
+  color: #64748b;
+}
+
+.drift-wall__title {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #f4f4f5;
+  line-height: 1.25;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+html:not(.dark) .drift-wall__title {
+  color: #0f172a;
+}
+
+.drift-wall__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+.drift-wall__price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 800;
+  color: #e31b23;
+  letter-spacing: -0.02em;
+}
+
+.drift-wall__cta {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  background: #dc2626;
+  padding: 2px 7px;
+  border-radius: 4px;
+  opacity: 0.85;
+  transition: all 0.2s ease;
+}
+
+/* Hover States & 3D Lift */
 .drift-wall__tile:hover .drift-wall__inner,
 .drift-wall__tile.is-active .drift-wall__inner,
 .drift-wall__tile:focus-visible .drift-wall__inner {
   opacity: 1;
-  transform: translateZ(var(--dw-lift)) scale(1.05);
-  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.9), 0 0 30px 4px rgba(227, 27, 35, 0.45);
-  border-color: rgba(227, 27, 35, 0.7);
+  transform: translateZ(var(--dw-lift)) scale(1.06);
+  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px 6px rgba(227, 27, 35, 0.45);
+  border-color: rgba(227, 27, 35, 0.85);
 }
 
-.drift-wall__tile:hover img,
-.drift-wall__tile.is-active img,
-.drift-wall__tile:focus-visible img {
-  filter: grayscale(0) saturate(1.15);
+html:not(.dark) .drift-wall__tile:hover .drift-wall__inner,
+html:not(.dark) .drift-wall__tile.is-active .drift-wall__inner,
+html:not(.dark) .drift-wall__tile:focus-visible .drift-wall__inner {
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2), 0 0 25px 4px rgba(227, 27, 35, 0.35);
+  border-color: rgba(227, 27, 35, 0.8);
+}
+
+.drift-wall__tile:hover .drift-wall__img-wrap img,
+.drift-wall__tile.is-active .drift-wall__img-wrap img {
+  transform: scale(1.1) translateY(-3px);
+}
+
+.drift-wall__tile:hover .drift-wall__cta {
+  opacity: 1;
+  background: #ef4444;
+  transform: translateX(2px);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
 }
 
 .drift-wall__tile:hover .drift-wall__overlay,
-.drift-wall__tile.is-active .drift-wall__overlay,
-.drift-wall__tile:focus-visible .drift-wall__overlay {
+.drift-wall__tile.is-active .drift-wall__overlay {
   opacity: 0;
 }
 
 .drift-wall__tile:focus-visible .drift-wall__inner {
   box-shadow:
     0 24px 60px -18px rgba(0, 0, 0, 0.7),
-    0 0 0 2px rgba(255, 255, 255, 0.9);
+    0 0 0 2px rgba(227, 27, 35, 0.9);
 }
 
 @media (prefers-reduced-motion: reduce) {

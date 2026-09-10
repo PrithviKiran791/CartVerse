@@ -1,7 +1,37 @@
-import React, { useState } from 'react';
-import { Star, ThumbsUp, ThumbsDown, CheckCircle2, MessageSquare, Plus, Filter, SortAsc } from 'lucide-react';
-import { useReviewStore } from '../../store/useReviewStore';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  Star,
+  ThumbsUp,
+  ShieldCheck,
+  Plus,
+  ArrowUpDown,
+  Flag,
+  Edit3,
+  Trash2,
+  Image as ImageIcon,
+  CheckCircle2,
+  AlertCircle,
+  LogIn,
+  Loader2,
+  MessageSquareOff,
+} from 'lucide-react';
+import {
+  Review,
+  ProductReviewSummary,
+  ReviewPagination,
+  NewReviewInput,
+} from '../../types/reviews';
+import {
+  fetchProductReviews,
+  submitProductReview,
+  updateProductReview,
+  deleteProductReview,
+  voteReviewHelpful,
+  reportProductReview,
+} from '../../services/reviewService';
+import { useAuthStore } from '../../store/useAuthStore';
 import { useUIStore } from '../../store/useUIStore';
+import { Link } from 'react-router-dom';
 
 interface ProductReviewsSectionProps {
   productId: string;
@@ -12,77 +42,336 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
   productId,
   productName,
 }) => {
-  const { getReviewsForProduct, getReviewSummary, addReview, voteReviewHelpful } = useReviewStore();
+  const { user, isAuthenticated } = useAuthStore();
   const { addToast } = useUIStore();
 
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [filterRating, setFilterRating] = useState<number | 'all'>('all');
-  const [sortBy, setSortBy] = useState<'recent' | 'highest' | 'helpful'>('recent');
+  // Review List State
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [summary, setSummary] = useState<ProductReviewSummary>({
+    avgRating: 0,
+    reviewCount: 0,
+    breakdown: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 },
+    percentageRecommended: 0,
+  });
+  const [pagination, setPagination] = useState<ReviewPagination>({
+    page: 1,
+    limit: 8,
+    total: 0,
+    pages: 1,
+    hasMore: false,
+  });
+  const [currentUserReview, setCurrentUserReview] = useState<Review | null>(null);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [sortBy, setSortBy] = useState<'recent' | 'helpful' | 'rating_high' | 'rating_low'>('recent');
 
   // Form State
-  const [userName, setUserName] = useState('');
-  const [rating, setRating] = useState(5);
-  const [hoverRating, setHoverRating] = useState(0);
-  const [title, setTitle] = useState('');
-  const [comment, setComment] = useState('');
-  const [proInput, setProInput] = useState('');
-  const [conInput, setConInput] = useState('');
-  const [pros, setPros] = useState<string[]>([]);
-  const [cons, setCons] = useState<string[]>([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formRating, setFormRating] = useState<number>(5);
+  const [hoverRating, setHoverRating] = useState<number>(0);
+  const [formTitle, setFormTitle] = useState('');
+  const [formBody, setFormBody] = useState('');
+  const [formImageUrl, setFormImageUrl] = useState('');
+  const [formImages, setFormImages] = useState<string[]>([]);
+  const [reportingReviewId, setReportingReviewId] = useState<string | null>(null);
 
-  const reviews = getReviewsForProduct(productId, productName);
-  const summary = getReviewSummary(productId, productName);
+  // Fetch reviews from API
+  const loadReviews = useCallback(
+    async (pageToLoad: number, append: boolean = false) => {
+      if (append) {
+        setIsLoadingMore(true);
+      } else {
+        setIsLoading(true);
+      }
 
-  const handleAddPro = () => {
-    if (proInput.trim()) {
-      setPros([...pros, proInput.trim()]);
-      setProInput('');
+      try {
+        const data = await fetchProductReviews(productId, {
+          page: pageToLoad,
+          limit: 8,
+          sort: sortBy,
+        });
+
+        if (append) {
+          setReviews((prev) => [...prev, ...data.reviews]);
+        } else {
+          setReviews(data.reviews);
+        }
+
+        setSummary(data.summary);
+        setPagination(data.pagination);
+        setCurrentUserReview(data.currentUserReview);
+      } catch (err: any) {
+        console.error('Failed to load reviews:', err.message);
+      } finally {
+        setIsLoading(false);
+        setIsLoadingMore(false);
+      }
+    },
+    [productId, sortBy]
+  );
+
+  // Initial fetch and sort changes
+  useEffect(() => {
+    loadReviews(1, false);
+  }, [loadReviews]);
+
+  // Real-time polling: refetch reviews every 30 seconds while active
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // Background silent refresh for current page
+      fetchProductReviews(productId, {
+        page: 1,
+        limit: pagination.limit * pagination.page,
+        sort: sortBy,
+      })
+        .then((data) => {
+          setReviews(data.reviews);
+          setSummary(data.summary);
+          setPagination((prev) => ({
+            ...prev,
+            total: data.pagination.total,
+            pages: data.pagination.pages,
+            hasMore: data.pagination.hasMore,
+          }));
+          setCurrentUserReview(data.currentUserReview);
+        })
+        .catch(() => {});
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [productId, sortBy, pagination.limit, pagination.page]);
+
+  // Open Form for Editing
+  const handleOpenEdit = () => {
+    if (currentUserReview) {
+      setFormRating(currentUserReview.rating);
+      setFormTitle(currentUserReview.title || '');
+      setFormBody(currentUserReview.body || currentUserReview.comment || '');
+      setFormImages(currentUserReview.images || []);
+      setIsFormOpen(true);
     }
   };
 
-  const handleAddCon = () => {
-    if (conInput.trim()) {
-      setCons([...cons, conInput.trim()]);
-      setConInput('');
+  // Open Form for New Submission
+  const handleOpenNew = () => {
+    if (!isAuthenticated) {
+      addToast({
+        type: 'info',
+        title: 'Authentication Required',
+        message: 'Please sign in to write a review for this product.',
+      });
+      return;
+    }
+    setFormRating(5);
+    setFormTitle('');
+    setFormBody('');
+    setFormImages([]);
+    setIsFormOpen(true);
+  };
+
+  const handleAddImage = () => {
+    if (formImageUrl.trim()) {
+      if (formImages.length >= 3) {
+        addToast({
+          type: 'warning',
+          title: 'Limit Reached',
+          message: 'You can attach a maximum of 3 images per review.',
+        });
+        return;
+      }
+      setFormImages([...formImages, formImageUrl.trim()]);
+      setFormImageUrl('');
     }
   };
 
-  const handleSubmitReview = (e: React.FormEvent) => {
+  const handleRemoveImage = (index: number) => {
+    setFormImages(formImages.filter((_, i) => i !== index));
+  };
+
+  // Submit or Update Review
+  const handleSubmitReview = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!comment.trim()) {
-      addToast({ type: 'warning', title: 'Review Required', message: 'Please enter review comments.' });
+    if (!formBody.trim() || formBody.trim().length < 5) {
+      addToast({
+        type: 'warning',
+        title: 'Review Too Short',
+        message: 'Please write at least 5 characters in your review body.',
+      });
       return;
     }
 
-    addReview(productId, {
-      userName: userName || 'Verified Buyer',
-      rating,
-      title: title || `${rating}-Star Hardware Review`,
-      comment,
-      pros,
-      cons,
-    });
+    setIsSubmitting(true);
+    try {
+      const reviewPayload: NewReviewInput = {
+        rating: formRating,
+        title: formTitle.trim(),
+        body: formBody.trim(),
+        images: formImages,
+      };
 
-    addToast({ type: 'success', title: 'Review Submitted!', message: 'Thank you for your real-time review.' });
+      if (currentUserReview?._id || currentUserReview?.id) {
+        const reviewId = currentUserReview._id || currentUserReview.id;
+        const res = await updateProductReview(reviewId, reviewPayload);
+        addToast({
+          type: 'success',
+          title: 'Review Updated',
+          message: res.message || 'Your review has been updated successfully.',
+        });
+      } else {
+        const res = await submitProductReview(productId, reviewPayload);
+        addToast({
+          type: 'success',
+          title: 'Review Submitted',
+          message: res.message || 'Thank you for submitting your real-time review.',
+        });
+      }
 
-    // Reset Form
-    setIsFormOpen(false);
-    setUserName('');
-    setRating(5);
-    setTitle('');
-    setComment('');
-    setPros([]);
-    setCons([]);
+      setIsFormOpen(false);
+      // Reload reviews immediately
+      loadReviews(1, false);
+    } catch (err: any) {
+      addToast({
+        type: 'error',
+        title: 'Submission Error',
+        message: err.message || 'Could not save your review.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  // Filter & Sort
-  const processedReviews = reviews
-    .filter((rev) => (filterRating === 'all' ? true : rev.rating === filterRating))
-    .sort((a, b) => {
-      if (sortBy === 'highest') return b.rating - a.rating;
-      if (sortBy === 'helpful') return b.helpfulCount - a.helpfulCount;
-      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
+  // Delete own review
+  const handleDeleteReview = async () => {
+    if (!currentUserReview) return;
+    const reviewId = currentUserReview._id || currentUserReview.id;
+    if (!window.confirm('Are you sure you want to permanently delete your review?')) return;
+
+    try {
+      await deleteProductReview(reviewId);
+      addToast({
+        type: 'success',
+        title: 'Review Deleted',
+        message: 'Your review has been removed.',
+      });
+      setIsFormOpen(false);
+      loadReviews(1, false);
+    } catch (err: any) {
+      addToast({
+        type: 'error',
+        title: 'Delete Failed',
+        message: err.message || 'Could not delete review.',
+      });
+    }
+  };
+
+  // Optimistic Helpful Vote
+  const handleVoteHelpful = async (review: Review) => {
+    if (!isAuthenticated) {
+      addToast({
+        type: 'info',
+        title: 'Sign In Required',
+        message: 'Please sign in to vote on reviews.',
+      });
+      return;
+    }
+
+    const reviewId = review._id || review.id;
+    const currentVoted = Boolean(review.isHelpfulVoted);
+    const prevVotes = review.helpfulVotes ?? review.helpfulCount ?? 0;
+
+    // Optimistic UI update
+    setReviews((prev) =>
+      prev.map((r) => {
+        if ((r._id || r.id) === reviewId) {
+          return {
+            ...r,
+            isHelpfulVoted: !currentVoted,
+            helpfulVotes: currentVoted ? Math.max(0, prevVotes - 1) : prevVotes + 1,
+            helpfulCount: currentVoted ? Math.max(0, prevVotes - 1) : prevVotes + 1,
+          };
+        }
+        return r;
+      })
+    );
+
+    try {
+      await voteReviewHelpful(reviewId);
+    } catch (err: any) {
+      // Rollback on error
+      setReviews((prev) =>
+        prev.map((r) => {
+          if ((r._id || r.id) === reviewId) {
+            return {
+              ...r,
+              isHelpfulVoted: currentVoted,
+              helpfulVotes: prevVotes,
+              helpfulCount: prevVotes,
+            };
+          }
+          return r;
+        })
+      );
+      addToast({
+        type: 'error',
+        title: 'Vote Error',
+        message: err.message || 'Could not register helpful vote.',
+      });
+    }
+  };
+
+  // Report Inappropriate Review
+  const handleReport = async (reviewId: string) => {
+    if (!isAuthenticated) {
+      addToast({
+        type: 'info',
+        title: 'Sign In Required',
+        message: 'Please sign in to report a review.',
+      });
+      return;
+    }
+
+    if (!window.confirm('Report this review for violating community guidelines?')) return;
+
+    try {
+      const res = await reportProductReview(reviewId);
+      addToast({
+        type: 'info',
+        title: 'Report Received',
+        message: res.message || 'Thank you. Our moderators will review this content.',
+      });
+
+      if (res.isHidden) {
+        // Remove from current view
+        setReviews((prev) => prev.filter((r) => (r._id || r.id) !== reviewId));
+      }
+    } catch (err: any) {
+      addToast({
+        type: 'error',
+        title: 'Report Failed',
+        message: err.message || 'Could not submit report.',
+      });
+    }
+  };
+
+  // Rating descriptor labels
+  const getRatingLabel = (score: number) => {
+    switch (score) {
+      case 5:
+        return '5 Stars — Exceptional Performance';
+      case 4:
+        return '4 Stars — Very Good & Recommended';
+      case 3:
+        return '3 Stars — Adequate / Average';
+      case 2:
+        return '2 Stars — Below Expectations';
+      case 1:
+        return '1 Star — Major Issues / Unacceptable';
+      default:
+        return `${score} Stars`;
+    }
+  };
 
   return (
     <div className="bg-neutral-900/80 border border-neutral-800 rounded-3xl p-6 sm:p-8 backdrop-blur-md space-y-8 my-8">
@@ -90,346 +379,480 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800 pb-6">
         <div>
           <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
-            <span>Customer Reviews</span>
+            <span>Customer Reviews & Ratings</span>
             <span className="text-xs font-mono bg-neutral-800 text-neutral-300 px-2.5 py-1 rounded-full font-normal">
-              {summary.totalReviews} Total
+              {summary.reviewCount} {summary.reviewCount === 1 ? 'Review' : 'Reviews'}
             </span>
           </h3>
           <p className="text-xs text-neutral-400 font-mono mt-1">
-            Real-Time Verified Ratings & Feedback for {productName}
+            Real, verified customer ratings & benchmark experiences for {productName}
           </p>
         </div>
 
-        <button
-          onClick={() => setIsFormOpen(!isFormOpen)}
-          className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 shrink-0 cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Write a Review</span>
-        </button>
-      </div>
-
-      {/* Rating Summary Dashboard */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-neutral-950/80 border border-neutral-800 p-6 rounded-2xl">
-        {/* Rating Score Big Pill */}
-        <div className="flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-neutral-800 pb-6 md:pb-0 md:pr-6">
-          <div className="text-5xl font-black text-white font-mono">{summary.averageRating}</div>
-          <div className="flex items-center gap-1 my-2">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <Star
-                key={star}
-                className={`w-5 h-5 ${
-                  star <= Math.round(summary.averageRating)
-                    ? 'fill-amber-400 text-amber-400'
-                    : 'text-neutral-700'
-                }`}
-              />
-            ))}
-          </div>
-          <span className="text-xs text-neutral-400 font-mono text-center">
-            {summary.percentageRecommended}% of buyers recommend this product
-          </span>
-        </div>
-
-        {/* 5-Star Breakdown Bars */}
-        <div className="col-span-2 space-y-2 justify-center flex flex-col">
-          {[5, 4, 3, 2, 1].map((starKey) => {
-            const count = summary.breakdown[starKey as 1 | 2 | 3 | 4 | 5] || 0;
-            const pct = summary.totalReviews > 0 ? Math.round((count / summary.totalReviews) * 100) : 0;
-
-            return (
-              <button
-                key={starKey}
-                onClick={() => setFilterRating(filterRating === starKey ? 'all' : (starKey as number))}
-                className="flex items-center gap-3 w-full group text-left cursor-pointer"
-              >
-                <div className="flex items-center gap-1 w-12 text-xs font-mono text-neutral-400 group-hover:text-white">
-                  <span>{starKey}</span>
-                  <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                </div>
-
-                <div className="flex-1 h-2.5 bg-neutral-900 border border-neutral-800 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-amber-400 transition-all duration-300 rounded-full"
-                    style={{ width: `${pct}%` }}
-                  />
-                </div>
-
-                <span className="w-12 text-right text-xs font-mono text-neutral-500 group-hover:text-neutral-300">
-                  {pct}%
-                </span>
-              </button>
-            );
-          })}
+        <div>
+          {currentUserReview ? (
+            <button
+              type="button"
+              onClick={handleOpenEdit}
+              className="px-5 py-2.5 bg-neutral-800 hover:bg-neutral-750 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-700 hover:border-red-500/60 shadow-lg flex items-center gap-2 transition-all cursor-pointer"
+            >
+              <Edit3 className="w-4 h-4 text-red-500" />
+              <span>Edit Your Review</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleOpenNew}
+              className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg flex items-center gap-2 transition-all cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Write a Review</span>
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Write Review Form Collapsible */}
+      {/* Review Submission / Editing Modal Form */}
       {isFormOpen && (
-        <form onSubmit={handleSubmitReview} className="bg-neutral-950 border border-neutral-800 p-6 rounded-2xl space-y-4 animate-in fade-in">
-          <h4 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
-            Write Your Product Review
-          </h4>
+        <form
+          onSubmit={handleSubmitReview}
+          className="bg-neutral-950 border border-red-500/30 rounded-2xl p-6 space-y-5 animate-in fade-in duration-200"
+        >
+          <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
+            <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 font-mono">
+              <Star className="w-4 h-4 text-red-500 fill-red-500" />
+              <span>{currentUserReview ? 'Edit Your Product Review' : 'Share Your Experience'}</span>
+            </h4>
+            <button
+              type="button"
+              onClick={() => setIsFormOpen(false)}
+              className="text-xs text-neutral-400 hover:text-white font-mono"
+            >
+              Cancel
+            </button>
+          </div>
 
-          {/* Star Rating Picker */}
+          {/* Interactive Star Picker */}
           <div>
-            <label className="block text-xs text-neutral-400 mb-1.5 font-mono">Overall Rating:</label>
-            <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  type="button"
-                  onClick={() => setRating(star)}
-                  onMouseEnter={() => setHoverRating(star)}
-                  onMouseLeave={() => setHoverRating(0)}
-                  className="p-1 cursor-pointer"
-                >
-                  <Star
-                    className={`w-6 h-6 transition-colors ${
-                      star <= (hoverRating || rating)
-                        ? 'fill-amber-400 text-amber-400'
-                        : 'text-neutral-700'
-                    }`}
-                  />
-                </button>
-              ))}
-              <span className="ml-2 font-mono text-xs text-amber-400 font-bold">
-                {hoverRating || rating} / 5 Stars
+            <label className="block text-xs font-mono uppercase text-neutral-400 mb-2">
+              Overall Hardware Rating *
+            </label>
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => setFormRating(star)}
+                    onMouseEnter={() => setHoverRating(star)}
+                    onMouseLeave={() => setHoverRating(0)}
+                    className="p-1 text-neutral-600 hover:text-amber-400 transition-colors focus:outline-none"
+                  >
+                    <Star
+                      className={`w-6 h-6 ${
+                        (hoverRating || formRating) >= star
+                          ? 'text-amber-400 fill-amber-400'
+                          : 'text-neutral-700'
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+              <span className="text-xs font-mono text-neutral-300 font-bold ml-2">
+                {getRatingLabel(hoverRating || formRating)}
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs text-neutral-400 mb-1 font-mono">Your Name / Alias:</label>
-              <input
-                type="text"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                placeholder="e.g. Vikram Sharma"
-                className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none focus:border-red-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-neutral-400 mb-1 font-mono">Review Headline:</label>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="e.g. Excellent thermals and performance!"
-                className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2.5 text-xs text-white outline-none focus:border-red-500"
-              />
-            </div>
-          </div>
-
+          {/* Headline / Title */}
           <div>
-            <label className="block text-xs text-neutral-400 mb-1 font-mono">Detailed Feedback:</label>
-            <textarea
-              rows={3}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              placeholder="Describe your gaming, workstation, or physical setup experience with this product..."
-              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-3.5 text-xs text-white outline-none focus:border-red-500"
+            <label className="block text-xs font-mono uppercase text-neutral-400 mb-1.5">
+              Review Title (Optional)
+            </label>
+            <input
+              type="text"
+              value={formTitle}
+              onChange={(e) => setFormTitle(e.target.value)}
+              placeholder="e.g. Blazing fast thermals, runs cyberpunk at 120 FPS!"
+              maxLength={120}
+              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-neutral-500 font-mono outline-none focus:border-red-500"
             />
           </div>
 
-          {/* Pros & Cons Inputs */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs text-emerald-400 mb-1 font-mono">Add Pro (+):</label>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={proInput}
-                  onChange={(e) => setProInput(e.target.value)}
-                  placeholder="e.g. Low power draw"
-                  className="flex-1 bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white outline-none"
-                />
-                <button
-                  type="button"
-                  onClick={handleAddPro}
-                  className="px-3 py-2 bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold text-xs rounded-xl"
-                >
-                  Add
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-1 mt-2">
-                {pros.map((p, idx) => (
-                  <span key={idx} className="bg-emerald-950/60 text-emerald-400 border border-emerald-800 text-[10px] px-2 py-0.5 rounded font-mono">
-                    + {p}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs text-red-400 mb-1 font-mono">Add Con (-):</label>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={conInput}
-                  onChange={(e) => setConInput(e.target.value)}
-                  placeholder="e.g. Needs large cabinet"
-                  className="flex-1 bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white outline-none"
-                />
-                <button
-                  type="button"
-                  onClick={handleAddCon}
-                  className="px-3 py-2 bg-red-950 border border-red-800 text-red-300 font-bold text-xs rounded-xl"
-                >
-                  Add
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-1 mt-2">
-                {cons.map((c, idx) => (
-                  <span key={idx} className="bg-red-950/60 text-red-400 border border-red-800 text-[10px] px-2 py-0.5 rounded font-mono">
-                    - {c}
-                  </span>
-                ))}
-              </div>
+          {/* Review Body */}
+          <div>
+            <label className="block text-xs font-mono uppercase text-neutral-400 mb-1.5">
+              Detailed Feedback & Build Experience * (Min 5 Characters)
+            </label>
+            <textarea
+              rows={4}
+              value={formBody}
+              onChange={(e) => setFormBody(e.target.value)}
+              placeholder="Share how this hardware performs in your rig, installation experience, thermals, acoustic profile, or silicon stability..."
+              required
+              minLength={5}
+              maxLength={2000}
+              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-xs text-white placeholder-neutral-500 font-mono outline-none focus:border-red-500 leading-relaxed"
+            />
+            <div className="flex justify-between items-center text-[10px] font-mono text-neutral-500 mt-1">
+              <span>Minimum 5 characters required</span>
+              <span>{formBody.length} / 2000</span>
             </div>
           </div>
 
-          <div className="flex justify-end gap-2 pt-2">
-            <button
-              type="button"
-              onClick={() => setIsFormOpen(false)}
-              className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 font-bold text-xs rounded-xl"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-6 py-2 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-xl shadow-lg"
-            >
-              Submit Review
-            </button>
+          {/* Image Attachments */}
+          <div>
+            <label className="block text-xs font-mono uppercase text-neutral-400 mb-1.5">
+              Build / Benchmark Images (Optional URL, Max 3)
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="url"
+                value={formImageUrl}
+                onChange={(e) => setFormImageUrl(e.target.value)}
+                placeholder="https://images.cloudinary.com/... or image link"
+                className="flex-1 bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-neutral-500 font-mono outline-none focus:border-red-500"
+              />
+              <button
+                type="button"
+                onClick={handleAddImage}
+                disabled={!formImageUrl.trim() || formImages.length >= 3}
+                className="px-4 py-2 bg-neutral-800 hover:bg-neutral-750 disabled:opacity-40 text-neutral-200 text-xs font-mono rounded-xl border border-neutral-700 cursor-pointer"
+              >
+                Add Image
+              </button>
+            </div>
+            {formImages.length > 0 && (
+              <div className="flex gap-2 mt-2">
+                {formImages.map((img, idx) => (
+                  <div key={idx} className="relative w-16 h-16 rounded-lg overflow-hidden border border-neutral-700">
+                    <img src={img} alt="Preview" className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(idx)}
+                      className="absolute top-1 right-1 bg-black/80 rounded-full w-4 h-4 text-[10px] text-white flex items-center justify-center hover:bg-red-600"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Form Actions */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-neutral-800">
+            {currentUserReview && (
+              <button
+                type="button"
+                onClick={handleDeleteReview}
+                className="text-xs font-mono text-red-400 hover:text-red-300 flex items-center gap-1.5 cursor-pointer"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Delete Review</span>
+              </button>
+            )}
+            <div className="flex items-center gap-3 ml-auto">
+              <button
+                type="button"
+                onClick={() => setIsFormOpen(false)}
+                className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-xs font-mono text-neutral-400 rounded-xl cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-6 py-2.5 bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg flex items-center gap-2 cursor-pointer"
+              >
+                {isSubmitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                <span>{currentUserReview ? 'Update Review' : 'Publish Review'}</span>
+              </button>
+            </div>
           </div>
         </form>
       )}
 
-      {/* Filter & Sort Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-4 font-mono text-xs border-b border-neutral-800 pb-4">
-        <div className="flex items-center gap-2">
-          <Filter className="w-3.5 h-3.5 text-neutral-400" />
-          <span className="text-neutral-400 uppercase">Filter:</span>
-          {['all', 5, 4, 3, 2, 1].map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilterRating(f as number | 'all')}
-              className={`px-2.5 py-1 rounded-lg border uppercase ${
-                filterRating === f
-                  ? 'bg-red-600 text-white border-red-500 font-bold'
-                  : 'bg-neutral-900 text-neutral-400 border-neutral-800 hover:text-white'
-              }`}
-            >
-              {f === 'all' ? 'All' : `${f}★`}
-            </button>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <SortAsc className="w-3.5 h-3.5 text-neutral-400" />
-          <span className="text-neutral-400 uppercase">Sort By:</span>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as 'recent' | 'highest' | 'helpful')}
-            className="bg-neutral-900 text-white border border-neutral-800 rounded-lg px-2.5 py-1 outline-none text-xs"
-          >
-            <option value="recent">Most Recent</option>
-            <option value="highest">Highest Rating</option>
-            <option value="helpful">Most Helpful</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Reviews List */}
-      <div className="space-y-4">
-        {processedReviews.length === 0 ? (
-          <div className="text-center py-8 text-neutral-500 font-mono text-xs">
-            No reviews match the selected filter rating.
-          </div>
-        ) : (
-          processedReviews.map((rev) => (
-            <div key={rev.id} className="bg-neutral-950/70 border border-neutral-850 p-5 rounded-2xl space-y-3">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-neutral-800 font-mono font-bold text-xs text-neutral-200 flex items-center justify-center border border-neutral-700">
-                    {rev.userName.slice(0, 2).toUpperCase()}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-white">{rev.userName}</span>
-                      {rev.verifiedPurchase && (
-                        <span className="flex items-center gap-1 text-[10px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.2 rounded">
-                          <CheckCircle2 className="w-3 h-3" />
-                          Verified Buyer
-                        </span>
-                      )}
-                    </div>
-                    <span className="text-[10px] font-mono text-neutral-500">
-                      {new Date(rev.createdAt).toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' })}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Rating Stars */}
-                <div className="flex items-center gap-1">
-                  {[1, 2, 3, 4, 5].map((s) => (
-                    <Star
-                      key={s}
-                      className={`w-4 h-4 ${
-                        s <= rev.rating ? 'fill-amber-400 text-amber-400' : 'text-neutral-800'
-                      }`}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Title & Comment */}
-              <div>
-                <h4 className="text-sm font-bold text-white tracking-tight">{rev.title}</h4>
-                <p className="text-xs text-neutral-300 mt-1 leading-relaxed">{rev.comment}</p>
-              </div>
-
-              {/* Pros & Cons Chips */}
-              {((rev.pros && rev.pros.length > 0) || (rev.cons && rev.cons.length > 0)) && (
-                <div className="flex flex-wrap gap-2 pt-2 border-t border-neutral-900">
-                  {rev.pros?.map((p, pIdx) => (
-                    <span key={pIdx} className="text-[10px] font-mono text-emerald-400 bg-emerald-950/40 border border-emerald-900/60 px-2 py-0.5 rounded">
-                      + {p}
-                    </span>
-                  ))}
-                  {rev.cons?.map((c, cIdx) => (
-                    <span key={cIdx} className="text-[10px] font-mono text-red-400 bg-red-950/40 border border-red-900/60 px-2 py-0.5 rounded">
-                      - {c}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {/* Helpful feedback voting */}
-              <div className="flex items-center gap-4 pt-2 text-neutral-500 font-mono text-[11px]">
-                <span>Was this review helpful?</span>
-                <button
-                  onClick={() => voteReviewHelpful(productId, rev.id, true)}
-                  className="flex items-center gap-1 hover:text-emerald-400 transition-colors cursor-pointer"
-                >
-                  <ThumbsUp className="w-3.5 h-3.5" />
-                  <span>({rev.helpfulCount})</span>
-                </button>
-                <button
-                  onClick={() => voteReviewHelpful(productId, rev.id, false)}
-                  className="flex items-center gap-1 hover:text-red-400 transition-colors cursor-pointer"
-                >
-                  <ThumbsDown className="w-3.5 h-3.5" />
-                  <span>({rev.unhelpfulCount})</span>
-                </button>
-              </div>
+      {/* Ratings Summary & Breakdown Widget */}
+      {summary.reviewCount > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 bg-neutral-950/70 border border-neutral-800 p-6 rounded-2xl">
+          {/* Left: Score Badge */}
+          <div className="md:col-span-4 flex flex-col items-center justify-center text-center p-4 border-b md:border-b-0 md:border-r border-neutral-800">
+            <span className="text-5xl sm:text-6xl font-black text-white font-mono tracking-tight">
+              {summary.avgRating.toFixed(1)}
+            </span>
+            <div className="flex items-center gap-1 my-2">
+              {[1, 2, 3, 4, 5].map((s) => (
+                <Star
+                  key={s}
+                  className={`w-4 h-4 ${
+                    summary.avgRating >= s
+                      ? 'text-amber-400 fill-amber-400'
+                      : summary.avgRating >= s - 0.5
+                      ? 'text-amber-400 fill-amber-400/50'
+                      : 'text-neutral-700'
+                  }`}
+                />
+              ))}
             </div>
-          ))
-        )}
-      </div>
+            <span className="text-xs font-mono text-neutral-400">
+              Based on {summary.reviewCount} verified {summary.reviewCount === 1 ? 'rating' : 'ratings'}
+            </span>
+            <span className="text-[11px] font-mono text-emerald-400 font-bold mt-1">
+              {summary.percentageRecommended}% of customers recommend this hardware
+            </span>
+          </div>
+
+          {/* Right: Server-Calculated Distribution Bar Chart */}
+          <div className="md:col-span-8 flex flex-col justify-center space-y-2">
+            {[5, 4, 3, 2, 1].map((star) => {
+              const count = summary.breakdown[star as 1 | 2 | 3 | 4 | 5] || 0;
+              const percent = summary.reviewCount > 0 ? Math.round((count / summary.reviewCount) * 100) : 0;
+              return (
+                <div key={star} className="flex items-center gap-3 text-xs font-mono">
+                  <div className="flex items-center gap-1 w-12 shrink-0">
+                    <span className="text-white font-bold">{star}</span>
+                    <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                  </div>
+                  <div className="flex-1 h-2 bg-neutral-900 rounded-full overflow-hidden border border-neutral-800">
+                    <div
+                      className="h-full bg-gradient-to-r from-red-600 to-amber-500 rounded-full transition-all duration-500"
+                      style={{ width: `${percent}%` }}
+                    />
+                  </div>
+                  <span className="w-10 text-right text-neutral-400 text-[11px]">{percent}%</span>
+                  <span className="w-10 text-right text-neutral-500 text-[11px]">({count})</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
+      {/* Sorting & Filter Controls */}
+      {summary.reviewCount > 0 && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
+          <div className="text-neutral-400">
+            Showing <span className="text-white font-bold">{reviews.length}</span> of{' '}
+            <span className="text-white font-bold">{summary.reviewCount}</span> verified reviews
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-neutral-500 uppercase tracking-wider text-[11px]">Sort By:</span>
+            <div className="inline-flex rounded-xl bg-neutral-950 border border-neutral-800 p-1">
+              <button
+                type="button"
+                onClick={() => setSortBy('recent')}
+                className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+                  sortBy === 'recent' ? 'bg-red-600 text-white font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Recent
+              </button>
+              <button
+                type="button"
+                onClick={() => setSortBy('helpful')}
+                className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+                  sortBy === 'helpful' ? 'bg-red-600 text-white font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Helpful
+              </button>
+              <button
+                type="button"
+                onClick={() => setSortBy('rating_high')}
+                className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+                  sortBy === 'rating_high' ? 'bg-red-600 text-white font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Highest
+              </button>
+              <button
+                type="button"
+                onClick={() => setSortBy('rating_low')}
+                className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+                  sortBy === 'rating_low' ? 'bg-red-600 text-white font-bold' : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Lowest
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reviews List / Loading / Empty State */}
+      {isLoading ? (
+        <div className="py-16 text-center space-y-3">
+          <Loader2 className="w-8 h-8 text-red-500 animate-spin mx-auto" />
+          <p className="text-xs font-mono text-neutral-400">Loading verified community reviews...</p>
+        </div>
+      ) : reviews.length === 0 ? (
+        /* Empty State: No real reviews yet — genuine empty state with clear CTA */
+        <div className="bg-neutral-950/60 border border-neutral-800/80 rounded-2xl p-10 sm:p-14 text-center space-y-4">
+          <div className="w-12 h-12 rounded-2xl bg-neutral-900 border border-neutral-800 flex items-center justify-center mx-auto text-neutral-500">
+            <MessageSquareOff className="w-6 h-6" />
+          </div>
+          <div>
+            <h4 className="text-lg font-black text-white uppercase tracking-wider font-mono">
+              No reviews yet
+            </h4>
+            <p className="text-xs text-neutral-400 font-mono mt-1 max-w-md mx-auto">
+              Be the first to review this component. Share your benchmarks, thermals, and build experience with the CartVerse community.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={handleOpenNew}
+            className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg inline-flex items-center gap-2 cursor-pointer transition-all"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Write the First Review</span>
+          </button>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {reviews.map((rev) => {
+            const revId = rev._id || rev.id;
+            const isOwnReview = currentUserReview && (currentUserReview._id || currentUserReview.id) === revId;
+            const reviewVotes = rev.helpfulVotes ?? rev.helpfulCount ?? 0;
+
+            return (
+              <div
+                key={revId}
+                className="bg-neutral-950/80 border border-neutral-800/90 rounded-2xl p-5 sm:p-6 space-y-3.5 hover:border-neutral-700 transition-colors"
+              >
+                {/* Header: User & Rating */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-neutral-850 pb-3">
+                  <div className="flex items-center gap-3">
+                    {/* User Avatar Initial */}
+                    <div className="w-8 h-8 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center font-mono text-xs font-bold text-white uppercase">
+                      {rev.userName.slice(0, 2) || 'CV'}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-black text-white font-mono">{rev.userName}</span>
+                        {rev.verifiedPurchase && (
+                          <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-950/50 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">
+                            <ShieldCheck className="w-3 h-3" />
+                            Verified Purchase
+                          </span>
+                        )}
+                        {isOwnReview && (
+                          <span className="text-[10px] font-mono bg-red-950 text-red-300 border border-red-500/30 px-2 py-0.5 rounded-full font-bold">
+                            Your Review
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 text-[10px] font-mono text-neutral-500 mt-0.5">
+                        <span>{new Date(rev.createdAt).toLocaleDateString('en-IN', { dateStyle: 'medium' })}</span>
+                        {rev.editedAt && <span>· Edited</span>}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Stars */}
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star
+                        key={s}
+                        className={`w-3.5 h-3.5 ${
+                          rev.rating >= s ? 'text-amber-400 fill-amber-400' : 'text-neutral-700'
+                        }`}
+                      />
+                    ))}
+                    <span className="text-xs font-mono font-bold text-white ml-1.5">{rev.rating}.0</span>
+                  </div>
+                </div>
+
+                {/* Review Title & Body */}
+                <div className="space-y-1.5">
+                  {rev.title && (
+                    <h5 className="text-sm font-black text-white font-mono tracking-tight">{rev.title}</h5>
+                  )}
+                  <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans whitespace-pre-line">
+                    {rev.body || rev.comment}
+                  </p>
+                </div>
+
+                {/* Attached Images */}
+                {rev.images && rev.images.length > 0 && (
+                  <div className="flex gap-2 pt-1">
+                    {rev.images.map((img, idx) => (
+                      <a
+                        key={idx}
+                        href={img}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-16 h-16 rounded-xl overflow-hidden border border-neutral-800 hover:border-red-500 transition-colors block"
+                      >
+                        <img src={img} alt="Review attachment" className="w-full h-full object-cover" />
+                      </a>
+                    ))}
+                  </div>
+                )}
+
+                {/* Actions Bar: Helpful Vote & Report */}
+                <div className="flex items-center justify-between pt-2 border-t border-neutral-850 text-xs font-mono">
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleVoteHelpful(rev)}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs transition-colors cursor-pointer ${
+                        rev.isHelpfulVoted
+                          ? 'bg-red-950/60 border-red-500 text-red-300 font-bold'
+                          : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700'
+                      }`}
+                    >
+                      <ThumbsUp className="w-3.5 h-3.5" />
+                      <span>Helpful ({reviewVotes})</span>
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    {isOwnReview ? (
+                      <button
+                        type="button"
+                        onClick={handleOpenEdit}
+                        className="text-neutral-400 hover:text-white flex items-center gap-1 text-[11px] cursor-pointer"
+                      >
+                        <Edit3 className="w-3.5 h-3.5 text-red-500" />
+                        <span>Edit</span>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => handleReport(revId)}
+                        className="text-neutral-500 hover:text-red-400 flex items-center gap-1 text-[11px] cursor-pointer transition-colors"
+                      >
+                        <Flag className="w-3 h-3" />
+                        <span>Report</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Load More Pagination */}
+          {pagination.hasMore && (
+            <div className="text-center pt-4">
+              <button
+                type="button"
+                onClick={() => loadReviews(pagination.page + 1, true)}
+                disabled={isLoadingMore}
+                className="px-6 py-2.5 bg-neutral-900 hover:bg-neutral-850 border border-neutral-800 text-neutral-200 font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer inline-flex items-center gap-2"
+              >
+                {isLoadingMore && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+                <span>Load More Reviews</span>
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
+
+export default ProductReviewsSection;

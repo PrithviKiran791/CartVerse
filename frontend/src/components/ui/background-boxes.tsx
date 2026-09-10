@@ -5,16 +5,20 @@ import { cn } from '../../lib/utils';
 export interface BoxesProps {
   className?: string;
   colors?: string[];
+  rows?: number;
+  cols?: number;
   [key: string]: any;
 }
 
 export const BoxesCore = ({
   className,
   colors: customColors,
+  rows: numRows = 75,
+  cols: numCols = 60,
   ...rest
 }: BoxesProps) => {
-  const rows = new Array(70).fill(1);
-  const cols = new Array(40).fill(1);
+  const rows = React.useMemo(() => new Array(numRows).fill(1), [numRows]);
+  const cols = React.useMemo(() => new Array(numCols).fill(1), [numCols]);
   const defaultColors = [
     '#E31B23',
     '#FF4D4D',
@@ -34,10 +38,10 @@ export const BoxesCore = ({
   return (
     <div
       style={{
-        transform: `translate(-40%,-60%) skewX(-48deg) skewY(14deg) scale(0.675) rotate(0deg) translateZ(0)`,
+        transform: `translate(-50%,-50%) skewX(-48deg) skewY(14deg) scale(0.75) rotate(0deg) translateZ(0)`,
       }}
       className={cn(
-        'absolute left-1/4 p-4 -top-1/4 flex -translate-x-1/2 -translate-y-1/2 w-full h-full z-0 pointer-events-auto opacity-40',
+        'absolute left-1/2 top-1/2 flex w-full h-full z-0 pointer-events-auto opacity-60',
         className
       )}
       {...rest}
@@ -45,7 +49,7 @@ export const BoxesCore = ({
       {rows.map((_, i) => (
         <motion.div
           key={`row` + i}
-          className="w-16 h-8 border-l border-neutral-800/70 relative"
+          className="w-16 h-8 border-l border-neutral-700/50 relative flex-shrink-0"
         >
           {cols.map((_, j) => (
             <motion.div
@@ -57,7 +61,7 @@ export const BoxesCore = ({
                 transition: { duration: 2 },
               }}
               key={`col` + j}
-              className="w-16 h-8 border-r border-t border-neutral-800/70 relative"
+              className="w-16 h-8 border-r border-t border-neutral-700/50 relative"
             >
               {j % 2 === 0 && i % 2 === 0 ? (
                 <svg
@@ -66,7 +70,7 @@ export const BoxesCore = ({
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="absolute h-6 w-10 -top-[14px] -left-[22px] text-neutral-800/50 pointer-events-none"
+                  className="absolute h-6 w-10 -top-[14px] -left-[22px] text-neutral-600/60 pointer-events-none"
                 >
                   <path
                     strokeLinecap="round"
@@ -148,5 +152,34 @@ export function BackgroundBoxesDemo({
     </div>
   );
 }
+
+export interface BoxesBackgroundProps {
+  className?: string;
+  maskClassName?: string;
+  colors?: string[];
+  opacity?: string;
+  children?: React.ReactNode;
+}
+
+export const BoxesBackground: React.FC<BoxesBackgroundProps> = ({
+  className,
+  maskClassName,
+  colors,
+  opacity = 'opacity-40',
+  children,
+}) => {
+  return (
+    <div className={cn('absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0', className)}>
+      <div
+        className={cn(
+          'absolute inset-0 w-full h-full bg-[#0A0A0C]/80 z-10 [mask-image:radial-gradient(transparent,white)] pointer-events-none',
+          maskClassName
+        )}
+      />
+      <Boxes colors={colors} className={opacity} />
+      {children}
+    </div>
+  );
+};
 
 export default Boxes;

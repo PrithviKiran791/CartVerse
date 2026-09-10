@@ -5,7 +5,7 @@ import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { CartDrawer } from './components/cart/CartDrawer';
 import { ToastContainer } from './components/common/ToastContainer';
-import { RouteLoadingHandler } from './components/LoadingScreen';
+import { RouteLoadingHandler, LoadingScreen } from './components/LoadingScreen';
 import { useAuthStore } from './store/useAuthStore';
 import { RequireAuth } from './components/auth/RequireAuth';
 import { ScrollContainerProvider } from './context/ScrollContainerContext';
@@ -13,6 +13,8 @@ import { ScrollToTop } from './components/common/ScrollToTop';
 
 import { Provider } from 'react-redux';
 import { store } from './store/redux/store';
+import { ThemeProvider } from './context/ThemeContext';
+import { FontProvider } from './context/FontContext';
 
 // Route-level Dynamic Code Splitting for Ultra-Fast Initial Load
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -22,6 +24,11 @@ const ProductDetailsPage = lazy(() => import('./pages/ProductDetailsPage'));
 const ConsolePage = lazy(() => import('./pages/ConsolePage'));
 const CartPage = lazy(() => import('./pages/CartPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
+const OrderConfirmationPage = lazy(() => import('./pages/OrderConfirmationPage'));
+const OrdersPage = lazy(() => import('./pages/OrdersPage'));
+const OrderDetailPage = lazy(() => import('./pages/OrderDetailPage'));
+const TransactionsPage = lazy(() => import('./pages/TransactionsPage'));
+const TrackOrderPage = lazy(() => import('./pages/TrackOrderPage'));
 
 // Hierarchical Category Hub & Product Listing Pages
 const ProcessorsGpusPage = lazy(() => import('./pages/category/ProcessorsGpusPage'));
@@ -31,6 +38,12 @@ const CablesHeadersPage = lazy(() => import('./pages/category/CablesHeadersPage'
 const DisplaysPage = lazy(() => import('./pages/category/DisplaysPage'));
 const WarrantyDeliveryPage = lazy(() => import('./pages/category/WarrantyDeliveryPage'));
 const ProductListingPage = lazy(() => import('./pages/category/ProductListingPage'));
+const ProductCatalog = lazy(() => import('./components/catalog/ProductCatalog'));
+
+// Servers & Supercomputers Vertical Pages
+const ServersLandingPage = lazy(() => import('./pages/ServersLandingPage'));
+const ServerBuilderPage = lazy(() => import('./pages/ServerBuilderPage'));
+const PreConfiguredServersPage = lazy(() => import('./pages/PreConfiguredServersPage'));
 
 export function App() {
   const { hydrateFromStorage } = useAuthStore();
@@ -43,16 +56,18 @@ export function App() {
 
   return (
     <Provider store={store}>
-      <Router>
-        <ScrollContainerProvider scrollContainerRef={scrollContainerRef}>
-          <ScrollToTop />
+      <ThemeProvider>
+        <FontProvider>
+          <Router>
+          <ScrollContainerProvider scrollContainerRef={scrollContainerRef}>
+            <ScrollToTop />
 
-          {/* Global Minimal Loading Screen Triggered On Route Endpoint Navigation */}
-          <RouteLoadingHandler />
+            {/* Global Minimal Loading Screen Triggered On Route Endpoint Navigation */}
+            <RouteLoadingHandler />
 
-          <div className="h-screen w-full flex flex-col bg-[#0A0A0C] text-neutral-100 font-sans selection:bg-red-600 selection:text-white overflow-hidden">
-            {/* Navigation Header */}
-            <Header />
+            <div className="h-screen w-full flex flex-col bg-[#f8fafc] text-neutral-900 dark:bg-[#0A0A0C] dark:text-neutral-100 font-sans selection:bg-red-600 selection:text-white overflow-hidden transition-colors duration-200">
+              {/* Navigation Header */}
+              <Header />
 
             {/* Global Cart Slide-Over Drawer */}
             <CartDrawer />
@@ -70,19 +85,28 @@ export function App() {
               <main className="flex-grow min-h-[calc(100vh-140px)]">
                 <Suspense
                   fallback={
-                    <div className="min-h-[60vh] flex items-center justify-center">
-                      <div className="w-8 h-8 rounded-full border-2 border-red-500 border-t-transparent animate-spin" />
-                    </div>
+                    <LoadingScreen
+                      fullScreen={true}
+                      message="SYNCHRONIZING CARTVERSE ARCHITECTURE..."
+                    />
                   }
                 >
                   <Routes>
                     {/* Public Routes */}
                     <Route path="/" element={<HomePage />} />
                     <Route path="/builder" element={<PCBuilderPage />} />
+                    <Route path="/pc-builder" element={<PCBuilderPage />} />
                     <Route path="/products" element={<ProductsPage />} />
                     <Route path="/console" element={<ConsolePage />} />
                     <Route path="/product/:id" element={<ProductDetailsPage />} />
                     <Route path="/login" element={<LoginPage />} />
+
+                    {/* Servers & Supercomputers Vertical Routes */}
+                    <Route path="/servers" element={<ServersLandingPage />} />
+                    <Route path="/servers/catalog" element={<ProductCatalog />} />
+                    <Route path="/servers/builder" element={<ServerBuilderPage />} />
+                    <Route path="/servers/pre-configured" element={<PreConfiguredServersPage />} />
+                    <Route path="/servers/:id" element={<ProductDetailsPage />} />
 
                     {/* Category Hub & Reusable Product Discovery Routes */}
                     <Route path="/processors-gpus" element={<ProcessorsGpusPage />} />
@@ -106,20 +130,42 @@ export function App() {
 
                     <Route path="/warranty-delivery" element={<WarrantyDeliveryPage />} />
 
-                    {/* Protected Routes */}
+                    {/* Public Shopping, Cart & Guest Checkout Routes */}
+                    <Route path="/cart" element={<CartPage />} />
+                    <Route path="/checkout" element={<CartPage />} />
+                    <Route path="/order-confirmation/:orderId" element={<OrderConfirmationPage />} />
+                    <Route path="/track-order" element={<TrackOrderPage />} />
+
+                    {/* Protected Customer Dashboard Routes */}
                     <Route
-                      path="/cart"
+                      path="/orders"
                       element={
                         <RequireAuth>
-                          <CartPage />
+                          <OrdersPage />
                         </RequireAuth>
                       }
                     />
                     <Route
-                      path="/checkout"
+                      path="/orders/:orderId"
                       element={
                         <RequireAuth>
-                          <CartPage />
+                          <OrderDetailPage />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="/account/transactions"
+                      element={
+                        <RequireAuth>
+                          <TransactionsPage />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="/transactions"
+                      element={
+                        <RequireAuth>
+                          <TransactionsPage />
                         </RequireAuth>
                       }
                     />
@@ -136,8 +182,10 @@ export function App() {
           </div>
         </ScrollContainerProvider>
       </Router>
-    </Provider>
-  );
+    </FontProvider>
+  </ThemeProvider>
+</Provider>
+);
 }
 
 export default App;

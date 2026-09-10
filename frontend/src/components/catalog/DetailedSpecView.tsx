@@ -28,6 +28,9 @@ import {
   Fan,
   Droplets,
   Thermometer,
+  Network,
+  Database,
+  Globe,
 } from 'lucide-react';
 import { Product } from '../../types/hardware';
 
@@ -1252,6 +1255,171 @@ export const DetailedSpecView: React.FC<DetailedSpecViewProps> = ({ product }) =
             <p className="text-xs text-neutral-300 leading-relaxed">
               {cs.standoutFeaturesLegacy}
             </p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // SUPERCOMPUTER SPECIFICATIONS
+  const sc = product.supercomputerSpecs || specs.supercomputerSpecs;
+  if (sc) {
+    return (
+      <div className="bg-gradient-to-b from-[#0e0a0d] via-[#120d12] to-[#1a0f18] border border-rose-500/40 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-2xl shadow-rose-950/20 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-rose-500/20">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="bg-gradient-to-r from-rose-600 to-red-700 text-white font-mono text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider flex items-center gap-1 shadow">
+                <Sparkles className="w-3 h-3" />
+                TOP500 Class Exascale & HPC Architecture
+              </span>
+              <span className="bg-rose-950 text-rose-300 font-mono text-[10px] font-bold px-2 py-0.5 rounded border border-rose-500/30">
+                {sc.systemName}
+              </span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+              {sc.systemName} — Supercomputer Architectural Profile
+            </h3>
+          </div>
+          <div className="text-right font-mono text-xs text-rose-400">
+            <span className="text-neutral-500">Host Institution:</span>{' '}
+            <span className="text-white font-bold">{sc.operatingInstitutionCountry}</span>
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-2 text-xs font-mono text-rose-400 font-bold uppercase tracking-wider mb-3">
+            <Cpu className="w-4 h-4 text-rose-400" />
+            <span>Exascale Compute Fabric & Metrics</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
+            <div className="bg-black/70 p-4 rounded-2xl border border-rose-500/30 text-center">
+              <span className="text-[10px] text-neutral-400 uppercase block mb-1">Peak Compute</span>
+              <span className="text-lg sm:text-xl font-black text-rose-300">{sc.peakCompute}</span>
+              <span className="text-[10px] text-neutral-500 block mt-1">Sustained Rmax/Rpeak</span>
+            </div>
+            <div className="bg-black/70 p-4 rounded-2xl border border-rose-500/30 text-center">
+              <span className="text-[10px] text-neutral-400 uppercase block mb-1">Total Cores</span>
+              <span className="text-lg sm:text-xl font-black text-red-400">{sc.totalCores}</span>
+              <span className="text-[10px] text-neutral-500 block mt-1">Parallel Heterogeneous</span>
+            </div>
+            <div className="bg-black/70 p-4 rounded-2xl border border-rose-500/30 text-center">
+              <span className="text-[10px] text-neutral-400 uppercase block mb-1">Power Consumption</span>
+              <span className="text-lg sm:text-xl font-black text-amber-400">{sc.powerConsumption}</span>
+              <span className="text-[10px] text-neutral-500 block mt-1">Direct-to-Chip Liquid</span>
+            </div>
+            <div className="bg-black/70 p-4 rounded-2xl border border-rose-500/30 text-center">
+              <span className="text-[10px] text-neutral-400 uppercase block mb-1">Interconnect</span>
+              <span className="text-sm font-bold text-cyan-300 truncate block mt-1">{sc.interconnectFabric}</span>
+              <span className="text-[10px] text-neutral-500 block mt-1">Ultra-Low Latency</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+          <div className="bg-black/60 p-4 rounded-2xl border border-neutral-800 space-y-2">
+            <div className="flex items-center gap-2 text-rose-400">
+              <Layers className="w-4 h-4" />
+              <span className="font-bold uppercase text-[11px]">Hardware Topology</span>
+            </div>
+            <p className="text-neutral-200 text-xs leading-relaxed font-sans">{sc.coreHardwareTopology}</p>
+          </div>
+          <div className="bg-black/60 p-4 rounded-2xl border border-neutral-800 space-y-2">
+            <div className="flex items-center gap-2 text-cyan-400">
+              <Network className="w-4 h-4" />
+              <span className="font-bold uppercase text-[11px]">Interconnect & Fabric</span>
+            </div>
+            <p className="text-neutral-200 text-xs leading-relaxed font-sans">{sc.interconnectFabric}</p>
+          </div>
+        </div>
+
+        <div className="bg-rose-950/30 border border-rose-500/30 rounded-2xl p-5 relative">
+          <div className="flex items-center gap-2 text-xs font-mono text-rose-400 font-bold uppercase tracking-wider mb-2">
+            <Globe className="w-4 h-4" />
+            <span>Primary Research Domains & Applications</span>
+          </div>
+          <p className="text-xs sm:text-sm text-neutral-200 leading-relaxed font-sans">{sc.primaryResearchDomain}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // ENTERPRISE SERVER SPECIFICATIONS
+  const srv = product.serverSpecs || specs.serverSpecs;
+  if (srv) {
+    return (
+      <div className="bg-gradient-to-b from-[#0a0a0c] via-[#111115] to-[#15151c] border border-red-500/40 rounded-3xl p-6 sm:p-8 backdrop-blur-md shadow-2xl shadow-red-950/20 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-red-500/20">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <span className="bg-gradient-to-r from-red-600 to-neutral-700 text-white font-mono text-[10px] font-bold px-2.5 py-0.5 rounded uppercase tracking-wider flex items-center gap-1 shadow">
+                <Server className="w-3 h-3 text-red-400" />
+                Enterprise Server Profile
+              </span>
+              <span className="bg-red-950/60 text-red-300 font-mono text-[10px] font-bold px-2 py-0.5 rounded border border-red-500/30">
+                {srv.formFactor}
+              </span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight font-mono">
+              {srv.model}
+            </h3>
+          </div>
+          <div className="text-right font-mono text-xs text-neutral-400">
+            <span className="text-neutral-500">Form Factor:</span>{' '}
+            <span className="text-white font-bold">{srv.formFactor}</span>
+          </div>
+        </div>
+
+        <div>
+          <div className="flex items-center gap-2 text-xs font-mono text-red-400 font-bold uppercase tracking-wider mb-3">
+            <Gauge className="w-4 h-4 text-red-400" />
+            <span>Compute & Platform Infrastructure</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 font-mono">
+            <div className="bg-black/70 p-4 rounded-2xl border border-neutral-800 text-center">
+              <span className="text-[10px] text-neutral-400 uppercase block mb-1">Sockets</span>
+              <span className="text-xs sm:text-sm font-bold text-red-400 block line-clamp-2">{srv.processorSockets}</span>
+              <span className="text-[10px] text-neutral-500 block mt-1">CPU Architecture</span>
+            </div>
+            <div className="bg-black/70 p-4 rounded-2xl border border-neutral-800 text-center">
+              <span className="text-[10px] text-neutral-400 uppercase block mb-1">Memory Capacity</span>
+              <span className="text-xs sm:text-sm font-bold text-white block line-clamp-2">{srv.maxMemory}</span>
+              <span className="text-[10px] text-neutral-500 block mt-1">RDIMM / LRDIMM</span>
+            </div>
+            <div className="bg-black/70 p-4 rounded-2xl border border-neutral-800 text-center">
+              <span className="text-[10px] text-neutral-400 uppercase block mb-1">Drive Bays</span>
+              <span className="text-xs sm:text-sm font-bold text-neutral-200 block line-clamp-2">{srv.storageDriveBays}</span>
+              <span className="text-[10px] text-neutral-500 block mt-1">Hot-Swap Storage</span>
+            </div>
+            <div className="bg-black/70 p-4 rounded-2xl border border-neutral-800 text-center">
+              <span className="text-[10px] text-neutral-400 uppercase block mb-1">Management</span>
+              <span className="text-xs sm:text-sm font-bold text-red-300 block line-clamp-2">{srv.managementEngine}</span>
+              <span className="text-[10px] text-neutral-500 block mt-1">Out-Of-Band IPMI</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
+          <div className="bg-black/60 p-4 rounded-2xl border border-neutral-800 space-y-2">
+            <div className="flex items-center gap-2 text-red-400">
+              <Network className="w-4 h-4" />
+              <span className="font-bold uppercase text-[11px]">Expansion & Networking</span>
+            </div>
+            <p className="text-neutral-200 text-xs leading-relaxed font-sans">{srv.expansionNetworking}</p>
+          </div>
+          <div className="bg-black/60 p-4 rounded-2xl border border-neutral-800 space-y-2">
+            <div className="flex items-center gap-2 text-amber-400">
+              <Database className="w-4 h-4" />
+              <span className="font-bold uppercase text-[11px]">Target Enterprise Workloads</span>
+            </div>
+            <p className="text-neutral-200 text-xs leading-relaxed font-sans">{srv.targetWorkload}</p>
+          </div>
+        </div>
+
+        {srv.approxStreetPriceInr && (
+          <div className="bg-neutral-950/80 border border-neutral-800/80 rounded-2xl p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 font-mono text-xs">
+            <span className="text-neutral-400">Estimated Enterprise Price Band:</span>
+            <span className="text-red-400 font-bold text-sm">{srv.approxStreetPriceInr}</span>
           </div>
         )}
       </div>

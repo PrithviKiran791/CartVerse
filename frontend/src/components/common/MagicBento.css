@@ -355,4 +355,30 @@
   transform: translateX(4px);
 }
 
+/* Light Theme Adaptive Overrides for Magic Bento Cards */
+html:not(.dark) .magic-bento-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+html:not(.dark) .magic-bento-card__header,
+html:not(.dark) .magic-bento-card__content {
+  color: #0f172a;
+}
+
+html:not(.dark) .magic-bento-card__label,
+html:not(.dark) .magic-bento-card__title {
+  color: #0f172a;
+}
+
+html:not(.dark) .magic-bento-card__description {
+  color: #475569;
+}
+
+html:not(.dark) .magic-bento-card__image-overlay {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.72) 32%, transparent 68%);
+}
+
+
 

@@ -1,7 +1,60 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --app-font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --app-font-heading: 'Space Grotesk', 'Inter', sans-serif;
+  --app-font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --bg-page: #f8fafc;
+  --text-page: #0f172a;
+  --border-page: #e2e8f0;
+  --card-bg: #ffffff;
+  --input-bg: #f1f5f9;
+}
+
+@theme {
+  --font-sans: var(--app-font-family);
+  --font-heading: var(--app-font-heading);
+  --font-mono: var(--app-font-mono);
+}
+
+html.dark,
+.dark {
+  --bg-page: #0A0A0C;
+  --text-page: #F5F5F5;
+  --border-page: #2A2A2A;
+  --card-bg: #181818;
+  --input-bg: #181818;
+}
+
+/* Font Engine Utility Classes */
+.font-space-grotesk {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.font-geist {
+  font-family: 'Geist', sans-serif;
+}
+
+.font-plex-sans {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.font-plex-mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.font-space-mono {
+  font-family: 'Space Mono', monospace;
+}
+
+.font-unbounded {
+  font-family: 'Unbounded', sans-serif;
+}
+
+.font-jetbrains {
+  font-family: 'JetBrains Mono', monospace;
 }
 
 .font-rajdhani {
@@ -12,30 +65,40 @@
   font-family: 'Orbitron', 'Inter', sans-serif;
 }
 
+.font-heading {
+  font-family: var(--app-font-heading, var(--app-font-family));
+}
+
 * {
-  border-color: #2A2A2A;
+  border-color: var(--border-page);
 }
 
 body {
-  background-color: #0A0A0A;
-  color: #F5F5F5;
+  background-color: var(--bg-page);
+  color: var(--text-page);
   font-family: var(--app-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
+  transition: background-color 200ms ease, color 200ms ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--app-font-heading, var(--app-font-family));
   font-weight: 700;
   letter-spacing: -0.025em;
+}
+
+code, kbd, samp, pre, .font-mono {
+  font-family: var(--app-font-mono, 'JetBrains Mono', monospace);
 }
 
 /* Brutalist Button */
 .btn {
   padding: 0.75rem 1.5rem;
   border-width: 1px;
-  border-color: #2A2A2A;
+  border-color: var(--border-page);
   border-radius: 2px;
   font-weight: 700;
   text-transform: uppercase;
@@ -57,19 +120,30 @@ h1, h2, h3, h4, h5, h6 {
 
 .btn-secondary {
   background-color: transparent;
-  color: #F5F5F5;
-  border-color: #2A2A2A;
+  color: var(--text-page);
+  border-color: var(--border-page);
 }
 
 .btn-secondary:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark .btn-secondary:hover:not(:disabled) {
   background-color: #181818;
 }
 
 .btn-disabled,
 .btn:disabled {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #888888;
+  cursor: not-allowed;
+  border-color: transparent;
+}
+
+.dark .btn-disabled,
+.dark .btn:disabled {
   background-color: #181818;
   color: #666666;
-  cursor: not-allowed;
   border-color: #181818;
 }
 
@@ -77,15 +151,19 @@ h1, h2, h3, h4, h5, h6 {
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
-  background-color: #181818;
+  background-color: var(--input-bg);
   border-width: 1px;
-  border-color: #2A2A2A;
+  border-color: var(--border-page);
   border-radius: 2px;
-  color: #F5F5F5;
-  transition: border-color 150ms;
+  color: var(--text-page);
+  transition: border-color 150ms, background-color 150ms;
 }
 
 .input::placeholder {
+  color: #94a3b8;
+}
+
+.dark .input::placeholder {
   color: #A0A0A0;
 }
 
@@ -101,9 +179,11 @@ h1, h2, h3, h4, h5, h6 {
 /* Brutalist Card */
 .card {
   border-width: 1px;
-  border-color: #2A2A2A;
+  border-color: var(--border-page);
   border-radius: 2px;
-  background-color: #181818;
+  background-color: var(--card-bg);
+  color: var(--text-page);
+  transition: background-color 150ms, border-color 150ms;
 }
 
 /* Technical Label */
@@ -111,10 +191,14 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #A0A0A0;
+  color: #64748b;
   font-weight: 700;
   margin-bottom: 0.5rem;
   display: block;
+}
+
+.dark .label {
+  color: #A0A0A0;
 }
 
 /* Monospace Metadata */
@@ -123,6 +207,10 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+.dark .metadata {
   color: #A0A0A0;
 }
 
@@ -132,10 +220,10 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-weight: 700;
-  color: #F5F5F5;
+  color: var(--text-page);
   margin-bottom: 1rem;
   border-bottom-width: 1px;
-  border-color: #2A2A2A;
+  border-color: var(--border-page);
   padding-bottom: 0.5rem;
 }
 
@@ -196,11 +284,17 @@ h1, h2, h3, h4, h5, h6 {
   height: 8px;
 }
 ::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+.dark ::-webkit-scrollbar-track {
   background: #0A0A0C;
 }
 ::-webkit-scrollbar-thumb {
-  background: #262626;
+  background: #cbd5e1;
   border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #262626;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #E31B23;
@@ -210,3 +304,35 @@ h1, h2, h3, h4, h5, h6 {
 .shadow-input {
   box-shadow: 0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(25, 28, 33, 0.02), 0px 0px 0px 1px rgba(25, 28, 33, 0.08);
 }
+
+/* Light Mode Global Adaptive Overrides for Hardware Catalog and Sections */
+html:not(.dark) .bg-\[\#0A0A0C\] {
+  background-color: #f8fafc;
+}
+html:not(.dark) .bg-\[\#0A0A0C\]\/95 {
+  background-color: rgba(255, 255, 255, 0.95);
+}
+html:not(.dark) .bg-\[\#120F17\] {
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.06);
+}
+html:not(.dark) .bg-\[\#16151f\] {
+  background-color: #f1f5f9;
+}
+html:not(.dark) .bg-\[\#121118\] {
+  background-color: #ffffff;
+}
+html:not(.dark) .bg-\[\#0E0E12\] {
+  background-color: #ffffff;
+}
+html:not(.dark) .border-neutral-800,
+html:not(.dark) .border-neutral-800\/80,
+html:not(.dark) .border-neutral-800\/90,
+html:not(.dark) .border-neutral-900 {
+  border-color: #e2e8f0;
+}
+html:not(.dark) .border-\[\#392e4e\] {
+  border-color: #cbd5e1;
+}
+
+

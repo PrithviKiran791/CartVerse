@@ -46,26 +46,26 @@ const defaultElementMap: Record<TypographyType, React.ElementType> = {
 };
 
 const defaultStyleMap: Record<TypographyType, string> = {
-  h1: 'font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-white uppercase',
-  h2: 'font-bold text-2xl sm:text-3xl lg:text-4xl tracking-tight text-white',
-  h3: 'font-bold text-xl sm:text-2xl text-neutral-100',
-  h4: 'font-semibold text-lg text-neutral-200',
-  h5: 'font-semibold text-base text-neutral-200',
-  h6: 'font-medium text-sm text-neutral-300',
-  lead: 'text-lg sm:text-xl text-neutral-300 font-normal leading-relaxed',
-  body: 'text-base text-neutral-300 leading-relaxed',
-  'body-sm': 'text-sm text-neutral-400 leading-normal',
-  code: 'font-mono text-xs bg-neutral-900 text-red-400 border border-neutral-800 px-2 py-1 rounded inline-block',
-  label: 'text-xs font-semibold uppercase tracking-wider text-neutral-400',
+  h1: 'font-black text-3xl sm:text-5xl lg:text-6xl tracking-tight text-neutral-900 dark:text-white uppercase',
+  h2: 'font-bold text-2xl sm:text-3xl lg:text-4xl tracking-tight text-neutral-900 dark:text-white',
+  h3: 'font-bold text-xl sm:text-2xl text-neutral-900 dark:text-neutral-100',
+  h4: 'font-semibold text-lg text-neutral-800 dark:text-neutral-200',
+  h5: 'font-semibold text-base text-neutral-800 dark:text-neutral-200',
+  h6: 'font-medium text-sm text-neutral-700 dark:text-neutral-300',
+  lead: 'text-lg sm:text-xl text-neutral-700 dark:text-neutral-300 font-normal leading-relaxed',
+  body: 'text-base text-neutral-600 dark:text-neutral-300 leading-relaxed',
+  'body-sm': 'text-sm text-neutral-500 dark:text-neutral-400 leading-normal',
+  code: 'font-mono text-xs bg-neutral-100 dark:bg-neutral-900 text-red-600 dark:text-red-400 border border-neutral-300 dark:border-neutral-800 px-2 py-1 rounded inline-block',
+  label: 'text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400',
 };
 
 const colorMap: Record<TypographyColor, string> = {
   default: '',
-  muted: 'text-neutral-400',
-  primary: 'text-red-500',
-  danger: 'text-red-500',
-  success: 'text-emerald-400',
-  warning: 'text-amber-400',
+  muted: 'text-neutral-500 dark:text-neutral-400',
+  primary: 'text-red-600 dark:text-red-500',
+  danger: 'text-red-600 dark:text-red-500',
+  success: 'text-emerald-600 dark:text-emerald-400',
+  warning: 'text-amber-600 dark:text-amber-400',
   white: 'text-white',
 };
 

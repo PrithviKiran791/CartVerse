@@ -30,6 +30,7 @@ export const PillNav: React.FC<PillNavProps> = ({
   items = [
     { label: 'Home', href: '/' },
     { label: 'Catalog', href: '/products' },
+    { label: 'Servers', href: '/servers' },
     { label: 'Consoles', href: '/console' },
     { label: 'PC Builder', href: '/builder' },
     { label: 'Cart', href: '/cart' },
@@ -62,7 +63,9 @@ export const PillNav: React.FC<PillNavProps> = ({
         <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
           {logo ? (
             <div className="flex items-center gap-2.5">
-              <img src={logo} alt={logoAlt} className="h-9 w-9 object-contain rounded-lg shadow-md" />
+              <div className="h-10 w-10 rounded-2xl bg-neutral-900 border border-neutral-700/60 p-1 flex items-center justify-center shadow-md group-hover:border-red-500/60 group-hover:scale-105 transition-all duration-300">
+                <img src={logo} alt={logoAlt} className="h-full w-full object-contain rounded-xl" />
+              </div>
               <span className="text-xl font-black tracking-tight text-white font-sans">
                 CART<span className="text-red-500">VERSE</span>
               </span>

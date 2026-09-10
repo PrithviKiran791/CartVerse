@@ -21,8 +21,15 @@ export default {
         },
       },
       fontFamily: {
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
-        'mono': ['JetBrains Mono', 'Courier New', 'monospace'],
+        'sans': ['var(--app-font-family)', 'Inter', 'system-ui', 'sans-serif'],
+        'heading': ['var(--app-font-heading)', 'Space Grotesk', 'Inter', 'sans-serif'],
+        'mono': ['var(--app-font-mono)', 'JetBrains Mono', 'Courier New', 'monospace'],
+        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+        'geist': ['Geist', 'sans-serif'],
+        'plex-sans': ['IBM Plex Sans', 'sans-serif'],
+        'plex-mono': ['IBM Plex Mono', 'monospace'],
+        'space-mono': ['Space Mono', 'monospace'],
+        'unbounded': ['Unbounded', 'sans-serif'],
       },
       borderRadius: {
         'brutalist': '2px',

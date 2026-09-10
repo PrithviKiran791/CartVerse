@@ -57,24 +57,13 @@ export const CartDrawer: React.FC = () => {
     setExpandedBundles((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleApplyCoupon = (e: React.FormEvent) => {
+  const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!couponInput.trim()) return;
 
-    const success = applyCoupon(couponInput);
+    const success = await applyCoupon(couponInput);
     if (success) {
-      addToast({
-        type: 'success',
-        title: 'Coupon Applied!',
-        message: `Code ${couponInput.toUpperCase()} successfully applied.`,
-      });
       setCouponInput('');
-    } else {
-      addToast({
-        type: 'error',
-        title: 'Invalid Coupon',
-        message: 'Try code CARTVERSE10 for 10% off or FIRSTBUILD for 5% off.',
-      });
     }
   };
 

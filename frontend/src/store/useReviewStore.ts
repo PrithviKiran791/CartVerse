@@ -2,16 +2,17 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Review, Comment, ProductReviewSummary, NewReviewInput, NewCommentInput } from '../types/reviews';
-import { generateInitialMockReviews, generateInitialMockComments, calculateReviewSummary } from '../services/reviewService';
+import { calculateReviewSummary } from '../services/reviewService';
 
 interface ReviewStoreState {
   reviewsRecord: Record<string, Review[]>;
   commentsRecord: Record<string, Comment[]>;
 
   // Review Actions
-  getReviewsForProduct: (productId: string, productName?: string) => Review[];
-  getReviewSummary: (productId: string, productName?: string) => ProductReviewSummary;
-  addReview: (productId: string, input: NewReviewInput) => void;
+  getReviewsForProduct: (productId: string) => Review[];
+  getReviewSummary: (productId: string) => ProductReviewSummary;
+  setProductReviews: (productId: string, reviews: Review[]) => void;
+  addReview: (productId: string, input: NewReviewInput, user?: { name: string; avatar?: string }) => void;
   voteReviewHelpful: (productId: string, reviewId: string, isHelpful: boolean) => void;
 
   // Comment Actions
@@ -26,36 +27,43 @@ export const useReviewStore = create<ReviewStoreState>()(
       reviewsRecord: {},
       commentsRecord: {},
 
-      getReviewsForProduct: (productId: string, productName: string = 'Hardware Component') => {
+      getReviewsForProduct: (productId: string) => {
         const { reviewsRecord } = get();
-        if (!reviewsRecord[productId]) {
-          const initialReviews = generateInitialMockReviews(productId, productName);
-          set((state) => ({
-            reviewsRecord: { ...state.reviewsRecord, [productId]: initialReviews },
-          }));
-          return initialReviews;
-        }
-        return reviewsRecord[productId];
+        return reviewsRecord[productId] || [];
       },
 
-      getReviewSummary: (productId: string, productName: string = 'Hardware Component') => {
-        const reviews = get().getReviewsForProduct(productId, productName);
+      getReviewSummary: (productId: string) => {
+        const reviews = get().getReviewsForProduct(productId);
         return calculateReviewSummary(reviews);
       },
 
-      addReview: (productId: string, input: NewReviewInput) => {
+      setProductReviews: (productId: string, reviews: Review[]) => {
+        set((state) => ({
+          reviewsRecord: {
+            ...state.reviewsRecord,
+            [productId]: reviews,
+          },
+        }));
+      },
+
+      addReview: (productId: string, input: NewReviewInput, user?: { name: string; avatar?: string }) => {
         const newReview: Review = {
           id: `rev-${productId}-${Date.now()}`,
           productId,
-          userName: input.userName.trim() || 'Verified Customer',
+          userName: user?.name || 'Verified Customer',
+          userAvatar: user?.avatar,
           rating: input.rating,
-          title: input.title.trim() || 'Product Review',
-          comment: input.comment.trim(),
-          pros: input.pros?.filter(p => p.trim()) || [],
-          cons: input.cons?.filter(c => c.trim()) || [],
+          title: input.title?.trim() || '',
+          body: (input.body || input.comment || '').trim(),
+          comment: (input.body || input.comment || '').trim(),
+          images: input.images || [],
+          pros: input.pros?.filter((p) => p.trim()) || [],
+          cons: input.cons?.filter((c) => c.trim()) || [],
           verifiedPurchase: true,
+          helpfulVotes: 0,
           helpfulCount: 0,
-          unhelpfulCount: 0,
+          isHelpfulVoted: false,
+          status: 'published',
           createdAt: new Date().toISOString(),
         };
 
@@ -75,10 +83,12 @@ export const useReviewStore = create<ReviewStoreState>()(
           const currentReviews = state.reviewsRecord[productId] || [];
           const updatedReviews = currentReviews.map((rev) => {
             if (rev.id === reviewId) {
+              const currentVotes = rev.helpfulVotes || rev.helpfulCount || 0;
               return {
                 ...rev,
-                helpfulCount: isHelpful ? rev.helpfulCount + 1 : rev.helpfulCount,
-                unhelpfulCount: !isHelpful ? rev.unhelpfulCount + 1 : rev.unhelpfulCount,
+                helpfulVotes: isHelpful ? currentVotes + 1 : Math.max(0, currentVotes - 1),
+                helpfulCount: isHelpful ? currentVotes + 1 : Math.max(0, currentVotes - 1),
+                isHelpfulVoted: isHelpful,
               };
             }
             return rev;
@@ -92,23 +102,17 @@ export const useReviewStore = create<ReviewStoreState>()(
 
       getCommentsForProduct: (productId: string) => {
         const { commentsRecord } = get();
-        if (!commentsRecord[productId]) {
-          const initialComments = generateInitialMockComments(productId);
-          set((state) => ({
-            commentsRecord: { ...state.commentsRecord, [productId]: initialComments },
-          }));
-          return initialComments;
-        }
-        return commentsRecord[productId];
+        return commentsRecord[productId] || [];
       },
 
       addComment: (productId: string, input: NewCommentInput) => {
-        const initials = input.userName
-          .split(' ')
-          .map((n) => n[0])
-          .join('')
-          .toUpperCase()
-          .slice(0, 2) || 'CV';
+        const initials =
+          input.userName
+            .split(' ')
+            .map((n) => n[0])
+            .join('')
+            .toUpperCase()
+            .slice(0, 2) || 'CV';
 
         const newComment: Comment = {
           id: `cmt-${productId}-${Date.now()}`,
@@ -126,7 +130,6 @@ export const useReviewStore = create<ReviewStoreState>()(
           const currentComments = state.commentsRecord[productId] || [];
 
           if (input.parentId) {
-            // Add reply to existing parent comment
             const updatedComments = currentComments.map((cmt) => {
               if (cmt.id === input.parentId) {
                 return {
@@ -141,7 +144,6 @@ export const useReviewStore = create<ReviewStoreState>()(
             };
           }
 
-          // New top-level comment
           return {
             commentsRecord: {
               ...state.commentsRecord,

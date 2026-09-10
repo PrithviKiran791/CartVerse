@@ -21,9 +21,11 @@ export type ComponentCategory =
   | 'controller'
   | 'cables'
   | 'console'
-  | 'prebuilt';
+  | 'prebuilt'
+  | 'server'
+  | 'supercomputer';
 
-export type CPUSocket = 'AM4' | 'AM5' | 'LGA1200' | 'LGA1700' | 'LGA1851' | 'sTR5' | 'SP3';
+export type CPUSocket = 'AM4' | 'AM5' | 'LGA1200' | 'LGA1700' | 'LGA1851' | 'sTR5' | 'SP3' | 'SP5' | 'LGA4677';
 export type RAMType = 'DDR4' | 'DDR5';
 export type FormFactor = 'ATX' | 'Micro-ATX' | 'Mini-ITX' | 'E-ATX';
 export type StorageInterface = 'SATA III' | 'PCIe 3.0 NVMe' | 'PCIe 4.0 NVMe' | 'PCIe 5.0 NVMe';
@@ -351,6 +353,45 @@ export interface HardwareSpecs {
   coolerSpecs?: CoolerSpecs;
   coolantSpecs?: CoolantSpecs;
   consoleSpecs?: ConsoleDetailedSpecs;
+  // Server-specific specs
+  socketCount?: 1 | 2 | 4;
+  memoryType?: 'UDIMM' | 'RDIMM' | 'LRDIMM';
+  eccSupport?: boolean;
+  rackUnits?: number; // 1U, 2U, 4U, 5U, 6U or undefined for tower
+  psuRedundancy?: 'single' | 'N+1' | 'N+N';
+  ipmiSupport?: boolean;
+  useCaseTags?: string[];
+  driveBays?: number | string;
+  serverSpecs?: ServerDetailedSpecs;
+  supercomputerSpecs?: SupercomputerDetailedSpecs;
+}
+
+export interface ServerDetailedSpecs {
+  model: string;
+  formFactor: string; // e.g. "1U Rackmount", "2U Rackmount", "4.5U Tower"
+  processorSockets: string; // e.g. "Up to 2x AMD EPYC 9004/9005", "1x Intel Xeon E-2400"
+  maxMemory: string; // e.g. "Up to 6 TB DDR5 (24x RDIMM slots)"
+  storageDriveBays: string; // e.g. "Up to 24x 2.5\" Gen5 NVMe SSDs"
+  expansionNetworking: string; // e.g. "128 PCIe Gen5 lanes + Dual 25GbE OCP"
+  managementEngine: string; // e.g. "iDRAC9 Enterprise", "HPE iLO 6 Advanced", "IPMI 2.0"
+  targetWorkload: string; // e.g. "Massive multi-tenant cloud hosting, container pods"
+  approxStreetPriceInr: string; // e.g. "₹4,80,000 – ₹11,50,000"
+  rackUnits?: number;
+  socketCount?: 1 | 2 | 4;
+  eccSupport?: boolean;
+  psuRedundancy?: 'single' | 'N+1' | 'N+N';
+}
+
+export interface SupercomputerDetailedSpecs {
+  systemName: string; // e.g. "El Capitan", "Frontier", "Aurora", "AIRAWAT"
+  operatingInstitutionCountry: string; // e.g. "Lawrence Livermore National Laboratory (USA)"
+  peakCompute: string; // e.g. "1.742 – 2.74 Exaflops", "13.17 Petaflops"
+  coreHardwareTopology: string; // e.g. "AMD EPYC 4th Gen + AMD Instinct MI300A APUs"
+  interconnectFabric: string; // e.g. "HPE Slingshot-11", "Mellanox HDR 200 Gbps InfiniBand"
+  totalCores: string; // e.g. "11,039,616"
+  powerConsumption: string; // e.g. "29.5 MW"
+  primaryResearchDomain: string; // e.g. "Nuclear stockpile stewardship, climate modeling"
+  benchmarkRmaxRpeak?: string;
 }
 
 export interface Product {
@@ -366,12 +407,24 @@ export interface Product {
   stock: number;
   rating: number;
   reviewsCount: number;
+  avgRating?: number;
+  reviewCount?: number;
   specs: HardwareSpecs;
   featured?: boolean;
   isNew?: boolean;
   bestSeller?: boolean;
   tags?: string[];
   description: string;
+  productClass?: 'consumer' | 'server';
+  socketCount?: 1 | 2 | 4;
+  memoryType?: 'UDIMM' | 'RDIMM' | 'LRDIMM';
+  eccSupport?: boolean;
+  rackUnits?: number;
+  psuRedundancy?: 'single' | 'N+1' | 'N+N';
+  ipmiSupport?: boolean;
+  useCaseTags?: string[];
+  serverSpecs?: ServerDetailedSpecs;
+  supercomputerSpecs?: SupercomputerDetailedSpecs;
 }
 
 export type BuilderSlotKey =
@@ -435,6 +488,47 @@ export interface CartBuildBundle {
   totalPrice: number;
   totalWattage: number;
   createdAt: string;
+  productClass?: 'consumer' | 'server';
+}
+
+export type ServerSlotKey =
+  | 'cpu'
+  | 'cpu2'
+  | 'motherboard'
+  | 'ram'
+  | 'gpu'
+  | 'primaryStorage'
+  | 'secondaryStorage'
+  | 'psu'
+  | 'cabinet'
+  | 'cooler'
+  | 'networkCard'
+  | 'raidController';
+
+export interface ServerBuildState {
+  cpu: Product | null;
+  cpu2: Product | null; // For dual-socket
+  motherboard: Product | null;
+  ram: Product | null;
+  gpu: Product | null; // Accelerator / Compute GPU
+  primaryStorage: Product | null; // NVMe / U.2 SSD
+  secondaryStorage: Product | null; // SAS / SATA Enterprise HDD/SSD
+  psu: Product | null; // Redundant PSU module
+  cabinet: Product | null; // Rackmount Chassis (1U/2U/4U/Tower)
+  cooler: Product | null; // Active Server Heatsink / Coldplate
+  networkCard: Product | null; // 10G/25G/100G NIC
+  raidController: Product | null; // Hardware RAID / HBA
+}
+
+export interface ServerCartBuildBundle {
+  id: string;
+  title: string;
+  build: ServerBuildState;
+  items: CartItem[];
+  totalPrice: number;
+  totalWattage: number;
+  createdAt: string;
+  productClass: 'server';
 }
 
 export interface FilterState {
@@ -448,4 +542,10 @@ export interface FilterState {
   refreshRates: number[];
   inStockOnly: boolean;
   sortBy: 'featured' | 'price-asc' | 'price-desc' | 'rating' | 'newest';
+  productClass?: 'all' | 'consumer' | 'server';
+  socketCounts?: number[];
+  rackUnits?: number[];
+  memoryTypes?: ('UDIMM' | 'RDIMM' | 'LRDIMM')[];
+  psuRedundancies?: ('single' | 'N+1' | 'N+N')[];
+  useCases?: string[];
 }

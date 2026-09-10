@@ -7,6 +7,7 @@ import { usePCBuilderStore } from '../../store/usePCBuilderStore';
 import { getComponentImage } from '../../utils/assetRegistry';
 import { formatCurrency, formatWattage } from '../../utils/formatters';
 import { isComponentCompatibleWithBuild } from '../../utils/compatibilityEngine';
+import { useToastStore } from '../../store/useToastStore';
 import CloseButton from '../ui/CloseButton';
 import { HoverBorderGradient } from '../ui/hover-border-gradient';
 
@@ -20,10 +21,9 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating'>('featured');
 
-  if (!slotKey) return null;
-
   // Map slot key to mock product category
-  const getCategoryForSlot = (key: BuilderSlotKey): ComponentCategory[] => {
+  const getCategoryForSlot = (key: BuilderSlotKey | null): ComponentCategory[] => {
+    if (!key) return [];
     switch (key) {
       case 'cpu':
         return ['cpu'];
@@ -55,15 +55,17 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
     }
   };
 
-  const categories = getCategoryForSlot(slotKey);
+  const categories = useMemo(() => getCategoryForSlot(slotKey), [slotKey]);
 
   // Filter candidates for this slot
   const candidateProducts = useMemo(() => {
-    return mockProducts.filter((p) => categories.includes(p.category));
-  }, [categories]);
+    if (!slotKey || categories.length === 0) return [];
+    return mockProducts.filter((p) => categories.includes(p.category) && p.productClass !== 'server');
+  }, [categories, slotKey]);
 
   // Check compatibility & search filtering
   const processedProducts = useMemo(() => {
+    if (!slotKey) return [];
     return candidateProducts
       .map((product) => {
         const comp = isComponentCompatibleWithBuild(product, slotKey, build);
@@ -99,10 +101,18 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
       });
   }, [candidateProducts, slotKey, build, showOnlyCompatible, searchQuery, sortBy]);
 
-  const handleSelect = (product: Product) => {
+  const handleSelect = (product: Product, isCompatible: boolean, reason?: string) => {
+    if (!slotKey) return;
     setSlot(slotKey, product);
+    if (!isCompatible && reason) {
+      useToastStore.getState().warning(`Added ${product.name} with warning: ${reason}`);
+    } else {
+      useToastStore.getState().success(`Selected ${product.name} for ${slotKey.toUpperCase()} slot.`);
+    }
     onClose();
   };
+
+  if (!slotKey) return null;
 
   return (
     <AnimatePresence>
@@ -291,7 +301,7 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
                       </div>
 
                       <HoverBorderGradient
-                        onClick={() => handleSelect(product)}
+                        onClick={() => handleSelect(product, isCompatible, reason)}
                         containerClassName="rounded-xl shrink-0"
                         className={`text-xs font-bold px-3.5 py-1.5 flex items-center gap-1.5 cursor-pointer ${
                           isCurrent

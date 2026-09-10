@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import {
   Grid,
   LayoutGrid,
@@ -14,6 +14,7 @@ import {
   Zap,
   ShieldCheck,
   Flame,
+  Server,
 } from 'lucide-react';
 import { mockProducts } from '../../data/mockProducts';
 import { Product, FilterState, ComponentCategory } from '../../types/hardware';
@@ -23,11 +24,17 @@ import HoverEffect from '../ui/card-hover-effect';
 import Typography from '../ui/Typography';
 import { Boxes } from '../ui/background-boxes';
 import { SidebarNavigationSimple } from '../common/SidebarNavigationSimple';
+import FaultyTerminal from '../common/FaultyTerminal';
 
 export const ProductCatalog: React.FC = () => {
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const isServerRoute =
+    location.pathname.startsWith('/servers') || searchParams.get('productClass') === 'server';
+  const initialProductClass = isServerRoute ? 'server' : 'consumer';
   const initialCategory = (searchParams.get('category') as ComponentCategory) || 'all';
   const initialSearch = searchParams.get('search') || '';
+  const initialUseCase = searchParams.get('useCase');
 
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState<number>(24);
@@ -36,13 +43,18 @@ export const ProductCatalog: React.FC = () => {
     searchQuery: initialSearch,
     category: initialCategory,
     brands: [],
-    priceRange: [500, 250000],
+    priceRange: [500, initialProductClass === 'server' ? 35000000 : 250000],
     sockets: [],
     ramTypes: [],
     resolutions: [],
     refreshRates: [],
     inStockOnly: false,
     sortBy: 'featured',
+    productClass: initialProductClass,
+    memoryTypes: [],
+    rackUnits: [],
+    psuRedundancies: [],
+    useCases: initialUseCase ? [initialUseCase] : [],
   });
 
   // Reset pagination on filter change
@@ -54,13 +66,16 @@ export const ProductCatalog: React.FC = () => {
   useEffect(() => {
     const cat = searchParams.get('category') as ComponentCategory;
     const search = searchParams.get('search');
+    const pc = searchParams.get('productClass') as 'consumer' | 'server';
+    const uc = searchParams.get('useCase');
 
-    if (cat && cat !== filters.category) {
-      setFilters((prev) => ({ ...prev, category: cat }));
-    }
-    if (search !== null && search !== filters.searchQuery) {
-      setFilters((prev) => ({ ...prev, searchQuery: search }));
-    }
+    setFilters((prev) => ({
+      ...prev,
+      ...(cat && { category: cat }),
+      ...(search !== null && { searchQuery: search }),
+      ...(pc && { productClass: pc, priceRange: [500, pc === 'server' ? 35000000 : 250000] }),
+      ...(uc && { useCases: [uc] }),
+    }));
   }, [searchParams]);
 
   // Filter and sort products
@@ -129,6 +144,24 @@ export const ProductCatalog: React.FC = () => {
         return false;
       }
 
+      // Product Class Filter (Consumer vs Server)
+      if (filters.productClass === 'server') {
+        const isServerProduct =
+          product.productClass === 'server' ||
+          product.category === 'server' ||
+          product.category === 'supercomputer' ||
+          product.specs.socket === 'SP5' ||
+          product.specs.socket === 'SP3' ||
+          product.specs.socket === 'LGA4677';
+        if (!isServerProduct) return false;
+      } else if (filters.productClass === 'consumer') {
+        const isServerProduct =
+          product.productClass === 'server' ||
+          product.category === 'server' ||
+          product.category === 'supercomputer';
+        if (isServerProduct) return false;
+      }
+
       // Price
       if (product.price < filters.priceRange[0] || product.price > filters.priceRange[1]) {
         return false;
@@ -144,6 +177,39 @@ export const ProductCatalog: React.FC = () => {
       // RAM types
       if (filters.ramTypes.length > 0) {
         if (!product.specs.ramType || !filters.ramTypes.includes(product.specs.ramType)) {
+          return false;
+        }
+      }
+
+      // Server Memory Types (RDIMM / LRDIMM)
+      if (filters.memoryTypes && filters.memoryTypes.length > 0) {
+        const mType = product.memoryType || product.specs.memoryType;
+        if (!mType || !filters.memoryTypes.includes(mType as any)) {
+          return false;
+        }
+      }
+
+      // Rack Units (1U, 2U, 4U, etc.)
+      if (filters.rackUnits && filters.rackUnits.length > 0) {
+        const ru = product.rackUnits || product.specs.rackUnits;
+        if (!ru || !filters.rackUnits.includes(ru)) {
+          return false;
+        }
+      }
+
+      // PSU Redundancy
+      if (filters.psuRedundancies && filters.psuRedundancies.length > 0) {
+        const red = product.psuRedundancy || product.specs.psuRedundancy;
+        if (!red || !filters.psuRedundancies.includes(red as any)) {
+          return false;
+        }
+      }
+
+      // Use Case Tags
+      if (filters.useCases && filters.useCases.length > 0) {
+        const tags = product.useCaseTags || [];
+        const matchesUseCase = filters.useCases.some((uc) => tags.includes(uc));
+        if (!matchesUseCase) {
           return false;
         }
       }
@@ -413,6 +479,75 @@ export const ProductCatalog: React.FC = () => {
               )}
             </div>
           )}
+
+          {/* Hardware Telemetry Terminal Matrix (Catalog Below Part) */}
+          <div className="relative w-full h-[320px] sm:h-[380px] mt-16 rounded-3xl border border-neutral-800/90 overflow-hidden bg-neutral-950 shadow-2xl">
+            <div className="absolute inset-0 z-0">
+              <FaultyTerminal
+                scale={1.5}
+                gridMul={[2, 1]}
+                digitSize={1.2}
+                timeScale={0.4}
+                scanlineIntensity={0.45}
+                glitchAmount={1.05}
+                flickerAmount={0.8}
+                noiseAmp={1.0}
+                chromaticAberration={0.25}
+                curvature={0.08}
+                tint="#E31B23"
+                secondaryTint="#F59E0B"
+                greyTint="#6B7280"
+                multiColorMix={true}
+                mouseReact={true}
+                mouseStrength={0.5}
+                brightness={0.85}
+              />
+            </div>
+
+            {/* Gradient Vignette Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60 pointer-events-none z-10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80 pointer-events-none z-10" />
+
+            {/* Content overlay */}
+            <div className="relative z-20 h-full p-6 sm:p-10 flex flex-col justify-between pointer-events-none">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+                  <span className="text-xs font-mono font-bold tracking-widest text-red-500 uppercase bg-red-950/80 px-2.5 py-1 rounded border border-red-800/60">
+                    ENTERPRISE CATALOG TELEMETRY // HARDWARE MATRIX
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-neutral-400 bg-neutral-900/80 px-3 py-1 rounded-full border border-neutral-800">
+                  MULTI-COLOR MATRIX // RED • YELLOW • GREY • BLACK
+                </span>
+              </div>
+
+              <div className="max-w-xl">
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight font-sans">
+                  Real-Time Component Bus Telemetry
+                </h3>
+                <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-1.5 leading-relaxed">
+                  Live stock telemetry across enterprise and consumer component categories with automated architectural validation.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-neutral-800/80 text-xs font-mono pointer-events-auto">
+                <div className="flex items-center gap-4 text-neutral-400">
+                  <span className="text-red-400 font-bold">● RED // ARCHITECTURE</span>
+                  <span className="text-amber-400 font-bold">● YELLOW // GLITCH/BUS</span>
+                  <span className="text-neutral-400 font-bold">● GREY // TELEMETRY</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-red-500/60 text-white font-mono font-bold text-xs rounded-xl transition-all cursor-pointer shadow-lg"
+                >
+                  <span>Back to Top</span>
+                  <ArrowUpDown className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -12,6 +12,7 @@ import {
   AlertTriangle,
   Minus,
   Plus,
+  Server,
 } from 'lucide-react';
 import { mockProducts } from '../data/mockProducts';
 import { getComponentImage } from '../utils/assetRegistry';
@@ -22,6 +23,7 @@ import { useUIStore } from '../store/useUIStore';
 import { BuilderSlotKey } from '../types/hardware';
 import { isComponentCompatibleWithBuild } from '../utils/compatibilityEngine';
 import { motion } from 'framer-motion';
+import { ProductReviewsSection } from '../components/reviews/ProductReviewsSection';
 import { ProductCommentsSection } from '../components/reviews/ProductCommentsSection';
 import { MagneticButton } from '../components/ui/magnetic-button';
 import { NoiseBackground } from '../components/ui/noise-background';
@@ -148,12 +150,27 @@ export const ProductDetailsPage: React.FC = () => {
       >
         {/* Clickable Breadcrumbs & Back Navigation */}
         <BreadcrumbNav
-          items={[
-            { label: product.category.toUpperCase(), href: `/products?category=${product.category}` },
-            { label: product.brand.toUpperCase() },
-            { label: product.name },
-          ]}
-          backTo={{ label: 'CATALOG', href: '/products' }}
+          items={
+            product.productClass === 'server'
+              ? [
+                  { label: 'SERVERS', href: '/servers' },
+                  {
+                    label: product.category === 'supercomputer' ? 'SUPERCOMPUTERS' : 'SERVER INFRASTRUCTURE',
+                    href: '/servers/catalog',
+                  },
+                  { label: product.name },
+                ]
+              : [
+                  { label: product.category.toUpperCase(), href: `/products?category=${product.category}` },
+                  { label: product.brand.toUpperCase() },
+                  { label: product.name },
+                ]
+          }
+          backTo={
+            product.productClass === 'server'
+              ? { label: 'SERVERS CATALOG', href: '/servers/catalog' }
+              : { label: 'CATALOG', href: '/products' }
+          }
         />
 
         {/* Main product view grid */}
@@ -223,10 +240,20 @@ export const ProductDetailsPage: React.FC = () => {
                 {product.name}
               </Typography>
 
-              <div className="flex items-center gap-1.5 text-amber-400 text-sm mb-4">
-                <Star className="w-4 h-4 fill-amber-400" />
-                <span className="font-bold text-white">{product.rating}</span>
-              </div>
+              {product.avgRating || product.rating ? (
+                <div className="flex items-center gap-1.5 text-amber-400 text-sm mb-4">
+                  <Star className="w-4 h-4 fill-amber-400" />
+                  <span className="font-bold text-white">{(product.avgRating || product.rating).toFixed(1)}</span>
+                  <span className="text-xs font-mono text-neutral-400">
+                    ({product.reviewCount || product.reviewsCount || 0} reviews)
+                  </span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-400 mb-4">
+                  <Star className="w-4 h-4 text-neutral-600" />
+                  <span>No reviews yet</span>
+                </div>
+              )}
 
               <div className="flex items-baseline gap-3">
                 <span className="text-3xl font-black font-mono text-white">
@@ -265,8 +292,8 @@ export const ProductDetailsPage: React.FC = () => {
               {product.description}
             </p>
 
-            {/* Real-time PC Builder Compatibility Status */}
-            {slotKey && compatibility && (
+            {/* Real-time PC Builder Compatibility Status (Consumer builds only) */}
+            {product.productClass !== 'server' && slotKey && compatibility && (
               <div
                 className={`p-4 rounded-2xl border flex items-start gap-3 ${
                   compatibility.isCompatible
@@ -306,7 +333,19 @@ export const ProductDetailsPage: React.FC = () => {
                 </button>
               </MagneticButton>
 
-              {slotKey && (
+              {product.productClass === 'server' ? (
+                <MagneticButton className="w-full">
+                  <NoiseBackground containerClassName="rounded-xl shadow-lg w-full">
+                    <button
+                      onClick={() => navigate('/servers/builder')}
+                      className="w-full py-3.5 px-6 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
+                    >
+                      <Server className="w-4 h-4" />
+                      <span>Configure in Server Studio</span>
+                    </button>
+                  </NoiseBackground>
+                </MagneticButton>
+              ) : slotKey ? (
                 <MagneticButton className="w-full">
                   <NoiseBackground containerClassName="rounded-xl shadow-lg w-full">
                     <button
@@ -318,7 +357,7 @@ export const ProductDetailsPage: React.FC = () => {
                     </button>
                   </NoiseBackground>
                 </MagneticButton>
-              )}
+              ) : null}
             </div>
 
             {/* Value props */}
@@ -342,6 +381,11 @@ export const ProductDetailsPage: React.FC = () => {
         {/* Full Specs Breakdown Table */}
         <FadeContent blur={true} duration={850} delay={50} easing="ease-out" initialOpacity={0}>
           <DetailedSpecView product={product} />
+        </FadeContent>
+
+        {/* Customer Reviews & Ratings */}
+        <FadeContent blur={true} duration={850} delay={75} easing="ease-out" initialOpacity={0}>
+          <ProductReviewsSection productId={product.id} productName={product.name} />
         </FadeContent>
 
         {/* Community Discussion / Q&A */}

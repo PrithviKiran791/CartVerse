@@ -45,7 +45,9 @@ const CATEGORY_DIR_MAP: Record<string, string[]> = {
   cables: ['cables'],
   cooler: ['cooler', 'liquid cooler'],
   coolant: ['coolant'],
-  console: ['console']
+  console: ['console'],
+  server: ['server'],
+  supercomputer: ['supercomputer']
 };
 
 // Populate indices on startup
@@ -116,7 +118,27 @@ const ASSET_ALIASES: Record<string, string> = {
   'rtx_4090.jpg': 'gpu/nvidia/rtx_4080_super.jpg',
   'gpu/radeon/radeon_rx_7900_xtx.jpg': 'gpu/radeon/radeon_rx_7900_xtx.jpg',
   'cooler/nzxt kraken elite 360 rgb.jpg': 'liquid cooler/nzxt kraken elite 360 rgb (v2).jpg',
-  'cables/psu cables/corsair premium individually sleeved type 4 gen 4.jpg': 'cables/psu cables/custom sleeved cable extension kit.jpg'
+  'cables/psu cables/corsair premium individually sleeved type 4 gen 4.jpg': 'cables/psu cables/custom sleeved cable extension kit.jpg',
+
+  // Cooler Aliases
+  'cooler/deepcool-ag400.png': 'cooler/deepcool ag400.jpeg',
+  'cooler/thermalright-pa120se.png': 'cooler/thermalright peerless assassin 120 se.jpg',
+  'cooler/deepcool-ak620-zerodark.png': 'cooler/deepcool ak620 .jpeg',
+  'cooler/noctua-nhd15-chromax.png': 'cooler/noctua nh-d15.jpg',
+  'cooler/cm-masterliquid-240l.png': 'liquid cooler/cooler master masterliquid 240l core.jpeg',
+  'cooler/arctic-lf3-240.png': 'liquid cooler/arctic liquid freezer iii 240.jpg',
+  'cooler/arctic-lf3-360-argb.png': 'liquid cooler/arctic liquid freezer iii 360 (argb).jpg',
+  'cooler/deepcool-lt720.png': 'liquid cooler/deepcool lt720.jpg',
+  'cooler/nzxt-kraken-elite-360.png': 'liquid cooler/nzxt kraken elite 360 rgb (v2).jpg',
+  'cooler/lian-li-galahad2-lcd.png': 'liquid cooler/lian li galahad ii lcd 360.jpg',
+
+  // Coolant Aliases
+  'coolant/ek-cryofuel-clear.png': 'coolant/ekwb ek-cryofuel clear.jpg',
+  'coolant/corsair-xl8-blue.png': 'coolant/corsair hydro x series xl8 colored.avif',
+  'coolant/ek-cryofuel-solid-white.png': 'coolant/ekwb ek-cryofuel clear.jpg',
+  'coolant/ek-mystic-fog.png': 'coolant/ekwb ek-cryofuel mystic fog.jpeg',
+  'coolant/mayhems-blitz-kit.png': 'coolant/mayhems blitz kit.jpg',
+  'coolant/primochill-utopia.png': 'coolant/primochill utopia biocide.jpg',
 };
 
 /**
@@ -128,6 +150,15 @@ const ASSET_ALIASES: Record<string, string> = {
 export const getComponentImage = (imageSlug?: string, category: string = 'hardware'): string => {
   if (!imageSlug) {
     return createCategoryPlaceholderSvg(category, category);
+  }
+
+  // 0. Direct HTTP/HTTPS or Data URL (Cloudinary / CDN / External)
+  if (
+    imageSlug.startsWith('http://') ||
+    imageSlug.startsWith('https://') ||
+    imageSlug.startsWith('data:')
+  ) {
+    return imageSlug;
   }
 
   // 1. Direct match in assetIndex (full path)

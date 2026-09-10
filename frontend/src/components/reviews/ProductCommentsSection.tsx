@@ -103,7 +103,14 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
 
       {/* Discussion Threads */}
       <div className="space-y-4">
-        {comments.map((cmt) => (
+        {comments.length === 0 ? (
+          <div className="text-center py-8 bg-neutral-950/40 rounded-2xl border border-neutral-850 p-6">
+            <p className="text-xs font-mono text-neutral-400">
+              No questions or community discussions yet. Be the first to ask!
+            </p>
+          </div>
+        ) : (
+          comments.map((cmt) => (
           <div key={cmt.id} className="bg-neutral-950/70 border border-neutral-850 p-5 rounded-2xl space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
@@ -197,7 +204,8 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
               </div>
             )}
           </div>
-        ))}
+        ))
+      )}
       </div>
     </div>
   );

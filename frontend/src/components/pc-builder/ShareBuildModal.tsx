@@ -95,9 +95,24 @@ export const ShareBuildModal: React.FC<ShareBuildModalProps> = ({
           <div className="p-6 overflow-y-auto space-y-6">
             {/* Shareable Link Section */}
             <div>
-              <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider block mb-2">
-                Direct Shareable Link
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs font-bold text-neutral-300 uppercase tracking-wider block">
+                  Direct Shareable Link
+                </label>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    const slug = await usePCBuilderStore.getState().saveBuildToCloud();
+                    if (slug) {
+                      setCopiedLink(false);
+                    }
+                  }}
+                  className="text-[11px] font-bold text-red-400 hover:text-red-300 flex items-center gap-1 cursor-pointer"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Save Build to Cloud</span>
+                </button>
+              </div>
               <div className="flex items-center gap-2">
                 <input
                   type="text"

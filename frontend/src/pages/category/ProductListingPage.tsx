@@ -18,6 +18,7 @@ import { ProductCardSkeleton } from '../../components/catalog/ProductCardSkeleto
 import { ProductFilters } from '../../components/catalog/ProductFilters';
 import ShapeGrid from '../../components/common/ShapeGrid';
 import FadeContent from '../../components/common/FadeContent';
+import { Boxes } from '../../components/ui/background-boxes';
 
 export const ProductListingPage: React.FC = () => {
   const location = useLocation();
@@ -601,21 +602,12 @@ export const ProductListingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0C] text-neutral-100 relative pb-24">
-      {/* Background ShapeGrid */}
-      <div className="absolute top-0 left-0 right-0 h-[360px] overflow-hidden pointer-events-none opacity-15 z-0">
-        <ShapeGrid
-          speed={0.25}
-          squareSize={40}
-          direction="diagonal"
-          borderColor="rgba(227, 27, 35, 0.15)"
-          hoverFillColor="#E31B23"
-          shape="square"
-          hoverTrailAmount={2}
-        />
-      </div>
+    <div className="min-h-screen bg-[#0A0A0C] text-neutral-100 relative pb-24 overflow-hidden">
+      {/* Aceternity Full-Page Background Boxes & Radial Mask */}
+      <div className="absolute inset-0 w-full h-full bg-[#0A0A0C]/85 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <Boxes className="opacity-35" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         {/* Clickable Breadcrumbs & Back Navigation */}
         <BreadcrumbNav
           items={routeMeta.breadcrumbs}

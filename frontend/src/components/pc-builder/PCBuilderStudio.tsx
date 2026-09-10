@@ -77,12 +77,18 @@ export const PCBuilderStudio: React.FC = () => {
     getFilledSlotsCount,
   } = usePCBuilderStore();
 
-  // Load build from URL query parameters if present (e.g. from a shared link)
+  // Load build from URL query parameters or cloud slug if present
   useEffect(() => {
     if (location.search && location.search.length > 1) {
-      loadBuildFromUrl(location.search);
+      const params = new URLSearchParams(location.search);
+      const buildSlug = params.get('build');
+      if (buildSlug) {
+        usePCBuilderStore.getState().loadBuildFromCloud(buildSlug);
+      } else {
+        loadBuildFromUrl(location.search);
+      }
     }
-  }, [location.search]);
+  }, [location.search, loadBuildFromUrl]);
 
   const report = getCompatibilityReport();
   const estimatedWattage = getEstimatedWattage();

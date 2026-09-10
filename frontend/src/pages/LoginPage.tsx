@@ -3,13 +3,12 @@ import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldAlert, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
-import { InteractiveGridPattern } from '../components/ui/interactive-grid-pattern';
+import { Boxes } from '../components/ui/background-boxes';
 import { HoverBorderGradient } from '../components/ui/hover-border-gradient';
 import { NoiseBackground } from '../components/ui/noise-background';
 import { Social } from '../components/common/SocialButtons';
 import { cn } from '../lib/utils';
 import webIcon from '../assets/icons/web_icon.png';
-import { MacbookScroll, Badge } from '../components/ui/macbook-scroll';
 import {
   IconBrandGithub,
   IconBrandGoogle,
@@ -160,50 +159,32 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
   const displayError = clientError || storeError;
 
   return (
-    <div className="min-h-screen w-full bg-[#070709] text-white flex flex-col items-center justify-start py-6 px-2 sm:px-4 relative overflow-x-hidden">
-      <MacbookScroll
-        title={
-          <span className="font-rajdhani font-black tracking-tight uppercase text-2xl sm:text-4xl text-white">
-            CartVerse Terminal Authentication. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-orange-400 to-purple-400">
-              Sign In to Access Cloud Rig Profiles.
-            </span>
-          </span>
-        }
-        badge={
-          <a href="https://peerlist.io/manuarora" target="_blank" rel="noopener noreferrer">
-            <Badge className="h-10 w-10 -rotate-12 transform hover:rotate-0 transition-transform duration-300" />
-          </a>
-        }
-        url="cartverse.io/login"
-        showGradient={false}
-      >
-        <div className="min-h-full w-full flex flex-col items-center justify-center py-8 px-4 sm:px-6 relative overflow-hidden bg-[#000000]">
-          {/* MagicUI Interactive Grid Pattern in Black & Red */}
-          <InteractiveGridPattern
-            className={cn(
-              'opacity-60 [mask-image:radial-gradient(400px_circle_at_center,white,transparent)]'
-            )}
-            width={24}
-            height={24}
-            squares={[40, 30]}
-            squaresClassName="hover:fill-red-600/50 hover:stroke-red-500 transition-all duration-150"
-          />
+    <div className="min-h-[calc(100vh-100px)] w-full bg-[#070709] text-white flex flex-col items-center justify-center py-10 px-4 sm:px-6 relative overflow-hidden">
+      {/* Aceternity Background Boxes Animation with Radial Mask */}
+      <div className="absolute inset-0 w-full h-full bg-[#070709]/80 z-10 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <Boxes className="opacity-45" />
 
-          {/* Subtle Red Ambient Glow against deep black */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-red-600/[0.08] rounded-full blur-[120px] pointer-events-none" />
+      {/* Subtle Red Ambient Glow against deep black */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-red-600/[0.08] rounded-full blur-[130px] pointer-events-none z-10" />
 
-          {/* Main Container */}
-          <div className="w-full max-w-md flex flex-col items-center z-10">
-            {/* Top Header with Logo and Brand */}
-            <div className="flex items-center gap-2.5 mb-5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 to-red-800 p-0.5 shadow-lg shadow-red-950/60 flex items-center justify-center">
-                <img src={webIcon} alt="CartVerse Logo" className="w-6 h-6 object-contain" />
+      {/* Main Container */}
+      <div className="w-full max-w-md flex flex-col items-center relative z-20">
+        {/* Top Header with Logo and Brand */}
+        <div className="flex flex-col items-center text-center mb-6">
+          <Link to="/" className="flex items-center gap-2.5 mb-2 group">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-red-600 to-red-800 p-0.5 shadow-xl shadow-red-950/60 flex items-center justify-center group-hover:scale-105 transition-transform">
+              <div className="w-full h-full bg-neutral-950 rounded-[14px] p-1.5 flex items-center justify-center">
+                <img src={webIcon} alt="CartVerse Logo" className="w-full h-full object-contain rounded-xl" />
               </div>
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white font-sans uppercase">
-                {mode === 'login' ? 'Login' : 'Sign Up'}
-              </h1>
             </div>
+            <span className="text-2xl font-black tracking-tight text-white font-sans uppercase">
+              Cart<span className="text-red-500">Verse</span>
+            </span>
+          </Link>
+          <span className="text-[11px] font-mono text-neutral-400 uppercase tracking-widest">
+            {mode === 'login' ? 'Account Sign In' : 'New Account Registration'}
+          </span>
+        </div>
 
             {/* Tab Buttons (LOGIN / SIGNUP) */}
             <div className="flex items-center justify-center gap-10 mb-6 font-mono text-xs font-bold tracking-widest uppercase">
@@ -250,10 +231,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
             {mode === 'signup' ? (
               <div className="shadow-input mx-auto w-full max-w-md rounded-2xl bg-white p-6 sm:p-8 dark:bg-black border border-neutral-200 dark:border-neutral-800/90 shadow-2xl">
                 <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
-                  Welcome to Aceternity
+                  Create CartVerse Account
                 </h2>
-                <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300">
-                  Login to aceternity if you can because we don&apos;t have a login flow yet
+                <p className="mt-1 max-w-sm text-xs text-neutral-600 dark:text-neutral-400">
+                  Save custom rig builds, track hardware dispatches, and sync your cart orders.
                 </p>
 
                 {/* Inline Error Alert */}
@@ -501,8 +482,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
               </Link>
             </div>
           </div>
-        </div>
-      </MacbookScroll>
     </div>
   );
 };

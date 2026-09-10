@@ -21,6 +21,7 @@ import { MagneticButton } from '../components/ui/magnetic-button';
 import { NoiseBackground } from '../components/ui/noise-background';
 import Typography from '../components/ui/Typography';
 import { ContainerScroll } from '../components/ui/container-scroll-animation';
+import { Boxes } from '../components/ui/background-boxes';
 
 export const CartPage: React.FC = () => {
   const {
@@ -55,58 +56,58 @@ export const CartPage: React.FC = () => {
     setExpandedBundles((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleApplyCoupon = (e: React.FormEvent) => {
+  const handleApplyCoupon = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!couponInput.trim()) return;
 
-    const success = applyCoupon(couponInput);
+    const success = await applyCoupon(couponInput);
     if (success) {
-      addToast({
-        type: 'success',
-        title: 'Coupon Applied!',
-        message: `Code ${couponInput.toUpperCase()} successfully applied.`,
-      });
       setCouponInput('');
-    } else {
-      addToast({
-        type: 'error',
-        title: 'Invalid Coupon',
-        message: 'Try code CARTVERSE10 for 10% off.',
-      });
     }
   };
 
   if (items.length === 0 && bundles.length === 0) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-24 text-center">
-        <div className="w-20 h-20 rounded-3xl bg-neutral-900 border border-neutral-800 mx-auto flex items-center justify-center text-neutral-600 mb-6">
-          <ShoppingCart className="w-10 h-10" />
-        </div>
-        <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white mb-2">Your Shopping Cart is Empty</Typography>
-        <Typography type="body-sm" color="muted" className="max-w-md mx-auto mb-8">
-          Explore our high-performance hardware inventory or start crafting your dream rig in our interactive PC Builder Studio.
-        </Typography>
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link
-            to="/builder"
-            className="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-red-950/60"
-          >
-            Launch PC Builder
-          </Link>
-          <Link
-            to="/products"
-            className="px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-200 font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-800"
-          >
-            Browse Products
-          </Link>
+      <div className="relative min-h-[calc(100vh-140px)] w-full overflow-hidden bg-[#0A0A0C] flex items-center justify-center">
+        {/* Aceternity Background Boxes Animation with Radial Mask */}
+        <div className="absolute inset-0 w-full h-full bg-[#0A0A0C]/85 z-10 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+        <Boxes className="opacity-40" />
+
+        <div className="relative z-20 max-w-7xl mx-auto px-4 py-24 text-center">
+          <div className="w-20 h-20 rounded-3xl bg-neutral-900 border border-neutral-800 mx-auto flex items-center justify-center text-neutral-600 mb-6">
+            <ShoppingCart className="w-10 h-10" />
+          </div>
+          <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white mb-2">Your Shopping Cart is Empty</Typography>
+          <Typography type="body-sm" color="muted" className="max-w-md mx-auto mb-8">
+            Explore our high-performance hardware inventory or start crafting your dream rig in our interactive PC Builder Studio.
+          </Typography>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              to="/builder"
+              className="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-red-950/60"
+            >
+              Launch PC Builder
+            </Link>
+            <Link
+              to="/products"
+              className="px-6 py-3 bg-neutral-900 hover:bg-neutral-800 text-neutral-200 font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-800"
+            >
+              Browse Products
+            </Link>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <ContainerScroll
+    <div className="relative min-h-[calc(100vh-140px)] w-full overflow-hidden bg-[#0A0A0C]">
+      {/* Aceternity Background Boxes Animation with Radial Mask */}
+      <div className="absolute inset-0 w-full h-full bg-[#0A0A0C]/85 z-10 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+      <Boxes className="opacity-40" />
+
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <ContainerScroll
         titleComponent={
           <div>
             <span className="text-xs font-mono uppercase tracking-widest text-red-500 font-bold bg-red-950/80 px-3 py-1 rounded-full border border-red-700/50">
@@ -325,6 +326,7 @@ export const CartPage: React.FC = () => {
           clearCart();
         }}
       />
+      </div>
     </div>
   );
 };

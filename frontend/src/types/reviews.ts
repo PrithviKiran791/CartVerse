@@ -1,18 +1,29 @@
 // ─── Dynamic Real-Time Review & Comment Data Models ───────────────────────────
 
 export interface Review {
+  _id?: string;
   id: string;
   productId: string;
+  userId?: string;
   userName: string;
-  rating: number; // 1 to 5
+  userAvatar?: string;
+  orderId?: string | null;
+  rating: number; // 1 to 5 integer
   title: string;
-  comment: string;
+  body: string;
+  comment?: string; // Backwards compatibility with comment field
+  images?: string[];
   pros?: string[];
   cons?: string[];
   verifiedPurchase: boolean;
-  helpfulCount: number;
-  unhelpfulCount: number;
+  helpfulVotes: number;
+  helpfulCount?: number; // Backwards compatibility
+  isHelpfulVoted?: boolean;
+  status?: 'published' | 'pending' | 'rejected';
+  reportCount?: number;
+  editedAt?: string | null;
   createdAt: string; // ISO date format
+  updatedAt?: string;
 }
 
 export interface Comment {
@@ -36,17 +47,35 @@ export interface RatingBreakdown {
 }
 
 export interface ProductReviewSummary {
-  averageRating: number;
-  totalReviews: number;
+  avgRating: number;
+  averageRating?: number; // Backwards compatibility
+  reviewCount: number;
+  totalReviews?: number; // Backwards compatibility
   breakdown: RatingBreakdown;
   percentageRecommended: number;
 }
 
+export interface ReviewPagination {
+  page: number;
+  limit: number;
+  total: number;
+  pages: number;
+  hasMore: boolean;
+}
+
+export interface GetProductReviewsResponse {
+  reviews: Review[];
+  pagination: ReviewPagination;
+  summary: ProductReviewSummary;
+  currentUserReview: Review | null;
+}
+
 export interface NewReviewInput {
-  userName: string;
   rating: number;
-  title: string;
-  comment: string;
+  title?: string;
+  body: string;
+  comment?: string;
+  images?: string[];
   pros?: string[];
   cons?: string[];
 }

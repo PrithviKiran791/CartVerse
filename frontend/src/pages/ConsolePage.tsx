@@ -32,6 +32,10 @@ import { useCartStore } from '../store/useCartStore';
 import { formatCurrency } from '../utils/formatters';
 import { cn } from '../lib/utils';
 import { Boxes, BackgroundBoxesDemo } from '../components/ui/background-boxes';
+import playstationIcon from '../assets/icons/Playstation.png';
+import nintendoIcon from '../assets/icons/nintendo.png';
+import xboxIcon from '../assets/icons/xbox.png';
+import FaultyTerminal from '../components/common/FaultyTerminal';
 
 type BrandTab = 'all' | 'nintendo' | 'sony' | 'xbox';
 
@@ -387,6 +391,16 @@ export const ConsolePage: React.FC = () => {
     ];
   }, []);
 
+  // Dynamic WebGL matrix tint for FaultyTerminal
+  // Defaults to the retro cyber green (#A7EF9E) requested by the user,
+  // shifting to PlayStation blue (#3B82F6) or Nintendo red (#E31B23) when filtering.
+  const terminalTint = useMemo(() => {
+    if (activeBrand === 'sony') return '#3B82F6';
+    if (activeBrand === 'nintendo') return '#E31B23';
+    if (activeBrand === 'xbox') return '#A7EF9E';
+    return '#A7EF9E';
+  }, [activeBrand]);
+
   // Reset all page counters when filters or search change
   useEffect(() => {
     setDraggablePage(1);
@@ -490,17 +504,30 @@ export const ConsolePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black text-neutral-100 flex flex-col pb-24 relative overflow-hidden">
-      {/* Aceternity Background Boxes - Full Page Background Animation in Black & Red */}
-      <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-auto z-0 select-none">
-        {/* Pure Black Radial Mask Vignette to keep content clear */}
-        <div className="absolute inset-0 w-full h-full bg-black/75 z-10 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black_80%)] pointer-events-none" />
-        <Boxes
-          colors={blackAndRedBoxColors}
-          className="opacity-70"
+      {/* Full-Page Dynamic Faulty Terminal WebGL Matrix Background */}
+      <div className="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0 select-none opacity-60">
+        <FaultyTerminal
+          scale={1.5}
+          gridMul={[2, 1]}
+          digitSize={1.2}
+          timeScale={0.5}
+          pause={false}
+          scanlineIntensity={0.5}
+          glitchAmount={1}
+          flickerAmount={1}
+          noiseAmp={1}
+          chromaticAberration={0}
+          dither={0}
+          curvature={0.1}
+          tint={terminalTint}
+          mouseReact={true}
+          mouseStrength={0.5}
+          pageLoadAnimation={true}
+          brightness={0.6}
         />
-        {/* Subtle Ambient Red Glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-red-600/[0.08] rounded-full blur-[160px] pointer-events-none" />
-        <div className="absolute bottom-1/4 right-10 w-[500px] h-[500px] bg-red-800/[0.06] rounded-full blur-[160px] pointer-events-none" />
+        {/* Pure Black Vignette Gradients to keep console cards and typography 100% crisp & readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/85 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_25%,black_85%)] pointer-events-none" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 z-10 w-full space-y-8 relative pointer-events-none">
@@ -572,7 +599,11 @@ export const ConsolePage: React.FC = () => {
                   : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50'
               }`}
             >
-              <span className="w-2 h-2 rounded-full bg-red-500" />
+              <img
+                src={nintendoIcon}
+                alt="Nintendo"
+                className="h-3.5 w-auto object-contain transition-all"
+              />
               <span>Nintendo ({nintendoProducts.length})</span>
             </button>
 
@@ -584,7 +615,11 @@ export const ConsolePage: React.FC = () => {
                   : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50'
               }`}
             >
-              <span className="w-2 h-2 rounded-full bg-blue-500" />
+              <img
+                src={playstationIcon}
+                alt="PlayStation"
+                className="w-4 h-4 object-contain transition-all"
+              />
               <span>PlayStation ({sonyProducts.length})</span>
             </button>
 
@@ -596,7 +631,13 @@ export const ConsolePage: React.FC = () => {
                   : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50'
               }`}
             >
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <img
+                src={xboxIcon}
+                alt="Xbox"
+                className={`w-4 h-4 object-contain transition-all ${
+                  activeBrand === 'xbox' ? 'brightness-0 invert' : ''
+                }`}
+              />
               <span>Xbox ({xboxProducts.length})</span>
             </button>
           </div>
@@ -935,7 +976,7 @@ export const ConsolePage: React.FC = () => {
                 </div>
 
                 <div className="bg-red-950/40 border border-red-800/40 p-5 rounded-2xl flex items-center justify-center shrink-0">
-                  <img src={nintendoLogoImg} alt="Nintendo Logo" className="h-16 max-w-xs object-contain" />
+                  <img src={nintendoIcon} alt="Nintendo Logo" className="h-14 max-w-xs object-contain drop-shadow-[0_0_20px_rgba(239,68,68,0.3)]" />
                 </div>
               </div>
             </div>
@@ -1020,7 +1061,7 @@ export const ConsolePage: React.FC = () => {
                 </div>
 
                 <div className="bg-blue-950/40 border border-blue-800/40 p-5 rounded-2xl flex items-center justify-center shrink-0">
-                  <img src={sonyLogoImg} alt="PlayStation Logo" className="h-16 max-w-xs object-contain" />
+                  <img src={playstationIcon} alt="PlayStation Logo" className="h-14 max-w-xs object-contain drop-shadow-[0_0_20px_rgba(59,130,246,0.3)]" />
                 </div>
               </div>
             </div>
@@ -1105,7 +1146,7 @@ export const ConsolePage: React.FC = () => {
                 </div>
 
                 <div className="bg-emerald-950/40 border border-emerald-800/40 p-5 rounded-2xl flex items-center justify-center shrink-0">
-                  <img src={xboxLogoImg} alt="Xbox Logo" className="h-16 max-w-xs object-contain" />
+                  <img src={xboxIcon} alt="Xbox Logo" className="h-14 max-w-xs object-contain drop-shadow-[0_0_20px_rgba(16,185,129,0.3)]" />
                 </div>
               </div>
             </div>
@@ -1193,33 +1234,39 @@ export const ConsolePage: React.FC = () => {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 mt-6 border-t border-neutral-800/80">
                 <a
                   href="#section-nintendo"
-                  className="bg-neutral-900/70 hover:bg-neutral-800 border border-neutral-800 hover:border-red-500/50 p-3.5 rounded-2xl transition-all flex items-center justify-between"
+                  className="bg-neutral-900/70 hover:bg-neutral-800 border border-neutral-800 hover:border-red-500/50 p-3.5 rounded-2xl transition-all flex items-center justify-between group"
                 >
                   <div className="flex items-center space-x-3">
-                    <span className="w-3 h-3 rounded-full bg-red-500" />
-                    <span className="text-xs font-bold text-white">Nintendo Section</span>
+                    <div className="w-8 h-8 rounded-xl bg-red-950/40 border border-red-800/30 flex items-center justify-center p-1">
+                      <img src={nintendoIcon} alt="Nintendo" className="w-full h-full object-contain" />
+                    </div>
+                    <span className="text-xs font-bold text-white group-hover:text-red-400 transition-colors">Nintendo Section</span>
                   </div>
                   <span className="text-xs font-mono text-neutral-400">{nintendoProducts.length} models</span>
                 </a>
 
                 <a
                   href="#section-playstation"
-                  className="bg-neutral-900/70 hover:bg-neutral-800 border border-neutral-800 hover:border-blue-500/50 p-3.5 rounded-2xl transition-all flex items-center justify-between"
+                  className="bg-neutral-900/70 hover:bg-neutral-800 border border-neutral-800 hover:border-blue-500/50 p-3.5 rounded-2xl transition-all flex items-center justify-between group"
                 >
                   <div className="flex items-center space-x-3">
-                    <span className="w-3 h-3 rounded-full bg-blue-500" />
-                    <span className="text-xs font-bold text-white">PlayStation Section</span>
+                    <div className="w-8 h-8 rounded-xl bg-blue-950/40 border border-blue-800/30 flex items-center justify-center p-1.5">
+                      <img src={playstationIcon} alt="PlayStation" className="w-full h-full object-contain" />
+                    </div>
+                    <span className="text-xs font-bold text-white group-hover:text-blue-400 transition-colors">PlayStation Section</span>
                   </div>
                   <span className="text-xs font-mono text-neutral-400">{sonyProducts.length} models</span>
                 </a>
 
                 <a
                   href="#section-xbox"
-                  className="bg-neutral-900/70 hover:bg-neutral-800 border border-neutral-800 hover:border-emerald-500/50 p-3.5 rounded-2xl transition-all flex items-center justify-between"
+                  className="bg-neutral-900/70 hover:bg-neutral-800 border border-neutral-800 hover:border-emerald-500/50 p-3.5 rounded-2xl transition-all flex items-center justify-between group"
                 >
                   <div className="flex items-center space-x-3">
-                    <span className="w-3 h-3 rounded-full bg-emerald-500" />
-                    <span className="text-xs font-bold text-white">Xbox Section</span>
+                    <div className="w-8 h-8 rounded-xl bg-emerald-950/40 border border-emerald-800/30 flex items-center justify-center p-1.5">
+                      <img src={xboxIcon} alt="Xbox" className="w-full h-full object-contain" />
+                    </div>
+                    <span className="text-xs font-bold text-white group-hover:text-emerald-400 transition-colors">Xbox Section</span>
                   </div>
                   <span className="text-xs font-mono text-neutral-400">{xboxProducts.length} models</span>
                 </a>
@@ -1232,8 +1279,9 @@ export const ConsolePage: React.FC = () => {
                 <div className="flex items-center space-x-3">
                   <span className="w-3 h-7 bg-red-600 rounded-full" />
                   <div>
-                    <h2 className="text-2xl font-black text-white flex items-center gap-2">
-                      Nintendo Vault
+                    <h2 className="text-2xl font-black text-white flex items-center gap-2.5">
+                      <img src={nintendoIcon} alt="Nintendo" className="h-5 w-auto object-contain" />
+                      <span>Nintendo Vault</span>
                     </h2>
                     <p className="text-xs text-neutral-400">Strictly Nintendo Switch, 3DS, DS & Game Boy systems ({filteredNintendo.length} consoles)</p>
                   </div>
@@ -1274,8 +1322,9 @@ export const ConsolePage: React.FC = () => {
                 <div className="flex items-center space-x-3">
                   <span className="w-3 h-7 bg-blue-600 rounded-full" />
                   <div>
-                    <h2 className="text-2xl font-black text-white flex items-center gap-2">
-                      Sony PlayStation Hub
+                    <h2 className="text-2xl font-black text-white flex items-center gap-2.5">
+                      <img src={playstationIcon} alt="PlayStation" className="w-5 h-5 object-contain" />
+                      <span>Sony PlayStation Hub</span>
                     </h2>
                     <p className="text-xs text-neutral-400">Strictly PS5, PS4 & PS3 console systems and bundles ({filteredSony.length} consoles)</p>
                   </div>
@@ -1316,8 +1365,9 @@ export const ConsolePage: React.FC = () => {
                 <div className="flex items-center space-x-3">
                   <span className="w-3 h-7 bg-emerald-600 rounded-full" />
                   <div>
-                    <h2 className="text-2xl font-black text-white flex items-center gap-2">
-                      Microsoft Xbox Ecosystem
+                    <h2 className="text-2xl font-black text-white flex items-center gap-2.5">
+                      <img src={xboxIcon} alt="Xbox" className="w-5 h-5 object-contain" />
+                      <span>Microsoft Xbox Ecosystem</span>
                     </h2>
                     <p className="text-xs text-neutral-400">Strictly Xbox Series X|S, Xbox One & Xbox 360 systems ({filteredXbox.length} consoles)</p>
                   </div>

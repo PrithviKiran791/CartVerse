@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './DriftWall.css';
 
 const DEFAULT_ITEMS = Array.from({ length: 15 }, (_, i) => {
@@ -6,7 +7,7 @@ const DEFAULT_ITEMS = Array.from({ length: 15 }, (_, i) => {
   return {
     image: `https://picsum.photos/id/${ids[i % ids.length]}/600/400`,
     title: `Tile ${i + 1}`,
-    href: undefined
+    href: undefined,
   };
 });
 
@@ -21,28 +22,29 @@ const columnFactor = (index, variance) => {
 const DriftWall = ({
   items = DEFAULT_ITEMS,
   columns = 5,
-  tileWidth = 200,
-  tileHeight = 132,
+  tileWidth = 230,
+  tileHeight = 175,
   gap = 18,
-  radius = 14,
-  tilt = 16,
-  turn = -14,
+  radius = 16,
+  tilt = 14,
+  turn = -12,
   roll = 0,
-  perspective = 1200,
-  depth = 120,
-  speed = 42,
+  perspective = 1300,
+  depth = 110,
+  speed = 34,
   direction = 'up',
-  variance = 0.45,
+  variance = 0.35,
   parallax = 0.6,
-  pauseOnHover = false,
+  pauseOnHover = true,
   lift = 64,
-  fade = 0.6,
-  dim = 0.55,
+  fade = 0.55,
+  dim = 0.9,
   grayscale = false,
-  overlayColor = '#060010',
+  overlayColor = '#000000',
   className = '',
-  style
+  style,
 }) => {
+  const navigate = useNavigate();
   const containerRef = useRef(null);
   const planeRef = useRef(null);
   const trackRefs = useRef([]);
@@ -61,10 +63,29 @@ const DriftWall = ({
   const [reduced, setReduced] = useState(false);
   const [isInView, setIsInView] = useState(true);
 
+  // Responsive column count based on window viewport
+  const [responsiveCols, setResponsiveCols] = useState(columns);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth;
+      if (w < 640) {
+        setResponsiveCols(Math.min(columns, 3));
+      } else if (w < 1024) {
+        setResponsiveCols(Math.min(columns, 4));
+      } else {
+        setResponsiveCols(columns);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [columns]);
+
   useEffect(() => {
     setReduced(prefersReducedMotion());
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onChange = e => setReduced(e.matches);
+    const onChange = (e) => setReduced(e.matches);
     mq.addEventListener('change', onChange);
     return () => mq.removeEventListener('change', onChange);
   }, []);
@@ -82,15 +103,17 @@ const DriftWall = ({
     return () => observer.disconnect();
   }, []);
 
+  const safeItems = items && items.length > 0 ? items : DEFAULT_ITEMS;
+
   const columnItems = useMemo(() => {
-    const cols = Array.from({ length: columns }, () => []);
-    items.forEach((item, i) => cols[i % columns].push(item));
-    return cols.map(col => (col.length ? col : items.slice(0, 1)));
-  }, [items, columns]);
+    const cols = Array.from({ length: responsiveCols }, () => []);
+    safeItems.forEach((item, i) => cols[i % responsiveCols].push(item));
+    return cols.map((col) => (col.length ? col : safeItems.slice(0, 1)));
+  }, [safeItems, responsiveCols]);
 
   const columnMeta = useMemo(() => {
     const unit = tileHeight + gap;
-    return columnItems.map(col => {
+    return columnItems.map((col) => {
       const copyHeight = Math.max(unit, col.length * unit);
       const copies = Math.max(2, Math.ceil((containerHeight * 1.6) / copyHeight) + 1);
       return { copyHeight, copies };
@@ -139,7 +162,7 @@ const DriftWall = ({
       return;
     }
 
-    const animate = ts => {
+    const animate = (ts) => {
       if (lastTsRef.current === null) lastTsRef.current = ts;
       const dt = Math.min(0.05, Math.max(0, ts - lastTsRef.current) / 1000);
       lastTsRef.current = ts;
@@ -192,19 +215,20 @@ const DriftWall = ({
     activeIdRef.current = id;
     hoveredColRef.current = index;
   }, []);
+
   const release = useCallback(() => {
     activeIdRef.current = null;
     hoveredColRef.current = -1;
   }, []);
 
   const handlePointerMove = useCallback(
-    e => {
+    (e) => {
       const rect = containerRef.current?.getBoundingClientRect();
       if (!rect) return;
       if (parallax > 0 && !reduced) {
         pointerRef.current = {
           x: (e.clientX - rect.left) / rect.width - 0.5,
-          y: (e.clientY - rect.top) / rect.height - 0.5
+          y: (e.clientY - rect.top) / rect.height - 0.5,
         };
       }
     },
@@ -216,6 +240,18 @@ const DriftWall = ({
     pointerRef.current = { x: 0, y: 0 };
     release();
   }, [release]);
+
+  const handleTileClick = useCallback(
+    (item) => {
+      if (!item.href) return;
+      if (item.href.startsWith('http://') || item.href.startsWith('https://')) {
+        window.open(item.href, '_blank', 'noopener,noreferrer');
+      } else {
+        navigate(item.href);
+      }
+    },
+    [navigate]
+  );
 
   const cssVars = useMemo(
     () => ({
@@ -229,18 +265,68 @@ const DriftWall = ({
       '--dw-gray': grayscale ? 1 : 0,
       '--dw-overlay': overlayColor,
       '--dw-edge': `${Math.max(0, (1 - fade) * 100)}%`,
-      ...style
+      ...style,
     }),
     [tileWidth, tileHeight, gap, radius, perspective, lift, dim, grayscale, overlayColor, fade, style]
   );
 
   const renderTile = (item, id, colIndex) => {
+    const formattedPrice = item.price
+      ? typeof item.price === 'number'
+        ? `₹${item.price.toLocaleString('en-IN')}`
+        : item.price.startsWith('₹')
+        ? item.price
+        : `₹${item.price}`
+      : null;
+
     const inner = (
-      <span className="drift-wall__inner">
-        <img src={item.image} alt={item.title ?? ''} loading="lazy" decoding="async" draggable={false} />
+      <span className="drift-wall__inner group">
+        <div className="drift-wall__img-wrap">
+          <img
+            src={item.image}
+            alt={item.title ?? ''}
+            loading="lazy"
+            decoding="async"
+            draggable={false}
+          />
+        </div>
         <span className="drift-wall__overlay" aria-hidden="true" />
+
+        {/* Product Information Overlay */}
+        {(item.title || item.price || item.category) && (
+          <div className="drift-wall__card-info">
+            <div className="flex items-center justify-between gap-1 mb-0.5">
+              {item.category && (
+                <span className="drift-wall__category-tag">
+                  {item.category.toUpperCase()}
+                </span>
+              )}
+              {item.brand && (
+                <span className="drift-wall__brand-tag">
+                  {item.brand}
+                </span>
+              )}
+            </div>
+            {item.title && (
+              <h4 className="drift-wall__title" title={item.title}>
+                {item.title}
+              </h4>
+            )}
+            <div className="drift-wall__footer">
+              {formattedPrice && (
+                <span className="drift-wall__price">
+                  {formattedPrice}
+                </span>
+              )}
+              <span className="drift-wall__cta">
+                Inspect &rarr;
+              </span>
+            </div>
+          </div>
+        )}
       </span>
     );
+
     const commonProps = {
       className: 'drift-wall__tile',
       'data-tile-id': id,
@@ -248,17 +334,24 @@ const DriftWall = ({
       onMouseEnter: () => activate(id, colIndex),
       onMouseLeave: release,
       onFocus: () => activate(id, colIndex),
-      onBlur: release
+      onBlur: release,
+      onClick: () => handleTileClick(item),
     };
-    if (item.href) {
-      return (
-        <a key={id} href={item.href} target="_blank" rel="noreferrer noopener" {...commonProps}>
-          {inner}
-        </a>
-      );
-    }
+
     return (
-      <div key={id} tabIndex={0} role="button" aria-label={item.title ?? 'tile'} {...commonProps}>
+      <div
+        key={id}
+        tabIndex={0}
+        role="button"
+        aria-label={item.title ? `View ${item.title}` : 'View hardware component'}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleTileClick(item);
+          }
+        }}
+        {...commonProps}
+      >
         {inner}
       </div>
     );
@@ -277,7 +370,7 @@ const DriftWall = ({
       }}
       onPointerLeave={handlePointerLeaveWall}
       role="group"
-      aria-label="Drifting wall of tiles"
+      aria-label="Drifting 3D hardware wall gallery"
     >
       <div ref={planeRef} className="drift-wall__plane">
         {columnItems.map((col, c) => {
@@ -285,7 +378,7 @@ const DriftWall = ({
           const copies = Array.from({ length: meta.copies });
           return (
             <div className="drift-wall__col" key={`col-${c}`}>
-              <div className="drift-wall__track" ref={el => (trackRefs.current[c] = el)}>
+              <div className="drift-wall__track" ref={(el) => (trackRefs.current[c] = el)}>
                 {copies.map((_, copyIndex) =>
                   col.map((item, itemIndex) => renderTile(item, `${c}-${copyIndex}-${itemIndex}`, c))
                 )}
