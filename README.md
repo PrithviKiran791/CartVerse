@@ -24,12 +24,16 @@ A modern, high-performance gaming PC configuration and e-commerce platform engin
 - [Key Features](#-key-features)
   - [1. Real-Time Custom PC Builder Studio](#1-real-time-custom-pc-builder-studio)
   - [2. Comprehensive Hardware Catalog](#2-comprehensive-hardware-catalog)
-  - [3. CartVerse Turbine Fan Loading System](#3-cartverse-turbine-fan-loading-system)
-  - [4. Dynamic Font Engine](#4-dynamic-font-engine)
-  - [5. Interactive 3D Visual Showcases](#5-interactive-3d-visual-showcases)
-  - [6. Slide-Over Cart & Checkout](#6-slide-over-cart--checkout)
-  - [7. AI Shopping & PC Build Assistant (assistant-ui)](#7-ai-shopping--pc-build-assistant-assistant-ui)
-  - [8. Dedicated Workspace & Battlestation Setup (Desks & Ergonomic Chairs)](#8-dedicated-workspace--battlestation-setup-desks--ergonomic-chairs)
+  - [3. Neobrutalism Design System & UI Primitives](#3-neobrutalism-design-system--ui-primitives)
+  - [4. Enterprise Server Infrastructure & Pre-Configured Nodes](#4-enterprise-server-infrastructure--pre-configured-nodes)
+  - [5. Handheld & Home Gaming Console Hub](#5-handheld--home-gaming-console-hub)
+  - [6. High-Contrast Red & White About Us Showcase](#6-high-contrast-red--white-about-us-showcase)
+  - [7. CartVerse Turbine Fan Loading System](#7-cartverse-turbine-fan-loading-system)
+  - [8. Dynamic Font Engine](#8-dynamic-font-engine)
+  - [9. Interactive 3D Visual Showcases](#9-interactive-3d-visual-showcases)
+  - [10. Slide-Over Cart & Checkout](#10-slide-over-cart--checkout)
+  - [11. AI Shopping & PC Build Assistant (assistant-ui)](#11-ai-shopping--pc-build-assistant-assistant-ui)
+  - [12. Dedicated Workspace & Battlestation Setup (Desks & Ergonomic Chairs)](#12-dedicated-workspace--battlestation-setup-desks--ergonomic-chairs)
 - [Design Philosophy & Color System](#-design-philosophy--color-system)
 - [Architecture & Directory Structure](#-architecture--directory-structure)
 - [Compatibility & Calculation Engine](#-compatibility--calculation-engine)
@@ -66,29 +70,54 @@ A modern, high-performance gaming PC configuration and e-commerce platform engin
 - **Multi-Facet Filtering**: Filter by category, manufacturer, socket type, chipset, memory type, price range, and rating.
 - **Keyboard-Accessible Quick Search**: Modal search engine accessible via shortcut (`Cmd/Ctrl + K`) for instant hardware lookup.
 
-### 3. CartVerse Turbine Fan Loading System
+### 3. Neobrutalism Design System & UI Primitives
+- **High-Contrast Raw Brutalism**: Strict 2px and 3px solid black borders (`border-neutral-950`), unrounded geometry (`rounded-none`), stark shadows (`4px 4px` / `6px 6px` offset shadows without blur), and tactile click-in physics.
+- **Neobrutalism Component Suite**:
+  - `Alert` (`frontend/src/components/ui/alert.tsx`): Status banners with `default`, `destructive`, `success`, `warning`, and `info` variations, featuring crisp icons and custom typography.
+  - `Card` (`frontend/src/components/ui/card.tsx`): Robust content containers with specialized sub-components (`CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`, `CardAction`).
+  - `Button` (`frontend/src/components/ui/button.tsx`): Dynamic button variants (`default`, `neutral`, `reverse`, `noShadow`, `outline`) with press-down mechanical interactions (`translate-x-[2px] translate-y-[2px]`).
+  - `Input` & `Label` (`frontend/src/components/ui/input.tsx`): High-contrast input fields with distinct focus outlines and custom placeholder styling.
+- **Refined Authentication Experience**: Login and registration rebuilt using the Neobrutalism Card framework, integrating email/password validation, demo provider login (Google, GitHub), and clean responsive layouts.
+- **System-Wide Toast Alerts**: Global notification toasts integrated with the brutalist Alert component.
+
+### 4. Enterprise Server Infrastructure & Pre-Configured Nodes
+- **Pre-Configured Enterprise Nodes**: Turnkey server racks spanning AI Inference clusters (Dual AMD EPYC 9654 + Quad RTX 6000 Ada), High-Density Virtualization, High-Frequency Trading (100GbE Mellanox), and 4U PB-Scale Storage.
+- **Server Builder Studio**: Interactive rackmount configurator with socket-level memory channel verification (12-channel DDR5 ECC RDIMM), PCIe 5.0 lane topology checks, and redundant $N+1$ Titanium PSU calculations.
+- **Brutalist Telemetry & Specs**: Monospaced throughput figures, rack-unit gauges, memory bandwidth metrics, and direct procurement flows.
+
+### 5. Handheld & Home Gaming Console Hub
+- **Unified Console Ecosystem**: Dedicated landing page showcasing flagship next-gen home consoles (PS5 Pro, Xbox Series X) alongside ultra-portable PC gaming handhelds (Steam Deck OLED, ROG Ally X, Legion Go).
+- **Raw Brutalist Console Cards**: Performance metrics (TFLOPs, SoC architecture, storage bandwidth, display refresh rate) styled with high-contrast borders and red/black accent geometry.
+- **One-Click Cart Dispatch**: Fast checkout pipeline to purchase consoles, expansion SSDs, and controller peripherals together.
+
+### 6. High-Contrast Red & White About Us Showcase
+- **Signature Brutalist Aesthetic**: High-contrast white and CartVerse Red (`#FF1E2D`) branding with structural black grid dividers and raw typographic hierarchy.
+- **Brand Story & Core Tenets**: Complete breakdown of CartVerse's mission—Zero Incompatibility, Real-Time Hardware Intelligence, and Transparent Pricing.
+- **Interactive Metric Blocks**: Highlighted counters for verified components, active builders, and compatibility rules.
+
+### 7. CartVerse Turbine Fan Loading System
 - **Minimalist Hardware Aesthetic**: High-contrast, technical brutalist loading experience inspired by PC hardware telemetry.
 - **Continuous GPU Clockwise Rotation**: Custom-animated rotating fan turbine logo (`Spin_logo.png`) executing smooth 360° transform loops with zero layout shift.
 - **Intelligent Route Navigation Detection**: Automatically triggers a smooth ~350ms loading overlay when transitioning across routes without blocking initial homepage render.
 - **Accessibility Friendly**: Fully honors `prefers-reduced-motion` with subtle opacity pulsation.
 
-### 4. Dynamic Font Engine
+### 8. Dynamic Font Engine
 - **Global Font Provider (`FontProvider`)**: Provides application-wide typography switching persisted in `localStorage`.
 - **Supported Typefaces**: Inter, Roboto, Open Sans, Arial, Times New Roman, and JetBrains Mono.
 - **Header Font Selector**: Live interactive typography popover in the top navigation bar.
 
-### 5. Interactive 3D Visual Showcases
+### 9. Interactive 3D Visual Showcases
 - **3D DepthCarousel**: Multi-card perspective carousel rendering 3D tilted depth layers for flagship pre-built rigs.
 - **DriftWall Hardware Gallery**: Draggable, hovering 3D component grid showcasing verified graphics cards and processors.
 - **MaskedHeading & TextType**: Cinematic cyclic background texture animations and terminal typewriter headers.
 - **PillNav Navigation**: Floating responsive pill navigation bar with hover glow indicators.
 
-### 6. Slide-Over Cart & Checkout
+### 10. Slide-Over Cart & Checkout
 - **Zustand & LocalStorage Cart State**: Persistent shopping cart with real-time tax calculation and discount support.
 - **Interactive Slide-Over Drawer**: Add individual components or complete assembled rigs directly to cart with one click.
 - **Checkout Modal**: Streamlined multi-step checkout with delivery address capture, payment method selection, and instant order placement with celebratory confetti animations.
 
-### 7. AI Shopping & PC Build Assistant (assistant-ui)
+### 11. AI Shopping & PC Build Assistant (assistant-ui)
 - **Built Natively with assistant-ui & Vercel AI SDK**: Seamless conversational shopping companion embedded into the CartVerse design system.
 - **Hardware Intelligence & Recommendations**: Answers component queries, explains complex specifications in plain language, and suggests balanced rigs within specific budgets (INR ₹).
 - **Interactive In-Chat Product & Build Cards**: Renders live CartVerse product cards with ratings, specs, and instant "Add to Cart", plus complete PC build cards with wattage estimates and "Load in Builder" actions.
@@ -97,7 +126,7 @@ A modern, high-performance gaming PC configuration and e-commerce platform engin
 - **Compatibility & Power Checks**: Leverages CartVerse hardware metadata to check socket matchups, DDR generations, and PSU wattage headroom.
 - **Strict Brand Typography**: Inherits global **Inter Tight** typography and CartVerse styling tokens, with zero monospace or terminal chatbot appearance.
 
-### 8. Dedicated Workspace & Battlestation Setup (Desks & Ergonomic Chairs)
+### 12. Dedicated Workspace & Battlestation Setup (Desks & Ergonomic Chairs)
 - **Curated Battlestation Furniture**: Dedicated catalog of 40 hand-selected models featuring 20 desks (Standard fixed-frame, Dual-Motor Sit-Stand, L-Shaped Corner Rigs) and 20 ergonomic chairs (Full-mesh executive chairs, Premium gaming bucket seats with frog tilt mechanisms).
 - **Minimalist Technical Blueprint UI**: Distraction-free, high-density interface with quick-toggle segment chips, live INR price sorting, clean technical specification tags (dimensions, materials, weight capacity, tilt mechanism, lumbar support, target desktop rig), and zero visual clutter.
 - **Hardware Clearance & Selection Matrix**:
@@ -161,12 +190,12 @@ CartVerse/
     │   │   ├── assistant/         # AI Assistant components (Trigger, Modal, Thread, Cards, Tools)
     │   │   ├── cart/              # CartDrawer, CheckoutModal
     │   │   ├── catalog/           # ProductCard, FilterSidebar, CategorySection
-    │   │   ├── common/            # DepthCarousel, DriftWall, TextType, FontSelector
+    │   │   ├── common/            # DepthCarousel, DriftWall, TextType, FontSelector, ToastContainer
     │   │   ├── layout/            # Header, PillNav, Footer, Navbar
     │   │   ├── LoadingScreen/     # LoadingScreen, RouteLoadingHandler
     │   │   ├── pc-builder/        # PCBuilderStudio, CompatibilityBar, WattageGauge
     │   │   ├── reviews/           # ProductReviewsSection, ProductComments
-    │   │   └── ui/                # MagneticButton, NoiseBackground, 3D cards
+    │   │   └── ui/                # Neobrutalism Alert, Card, Button, Input + 3D cards
     │   ├── data/
     │   │   ├── mockProducts.ts    # 500+ Verified hardware items with full specs
     │   │   └── workspaceFurnitureData.ts # 40 Curated desks & chairs + clearance rules
@@ -178,6 +207,11 @@ CartVerse/
     │   │   ├── ProductsPage.tsx   # Catalog & hardware filter engine
     │   │   ├── ProductDetailsPage.tsx # Individual component breakdown
     │   │   ├── WorkspaceFurniturePage.tsx # Minimalist battlestation furniture studio
+    │   │   ├── ServersLandingPage.tsx # Enterprise server infrastructure showcase
+    │   │   ├── PreConfiguredServersPage.tsx # Turnkey enterprise nodes
+    │   │   ├── ConsolePage.tsx    # Gaming handhelds & home consoles hub
+    │   │   ├── AboutPage.tsx      # High-contrast brutalist mission & story
+    │   │   ├── LoginPage.tsx      # Neobrutalism authentication portal
     │   │   └── CartPage.tsx       # Full cart review & checkout route
     │   ├── store/
     │   │   ├── useAssistantStore.ts # AI assistant drawer & queued prompt state
@@ -191,8 +225,8 @@ CartVerse/
     │   │   ├── assetRegistry.ts   # Dynamic Vite image resolver & SVG fallback engine
     │   │   ├── compatibilityEngine.ts # Core socket & wattage validator
     │   │   └── formatters.ts      # Indian currency (INR ₹) & wattage formatters
-    │   ├── App.tsx                # Master app router (`/workspace`, `/builder`, etc.)
-    │   ├── index.css              # Global styles & Tailwind v4 directives
+    │   ├── App.tsx                # Master app router (`/workspace`, `/builder`, `/servers`, `/consoles`, `/about`)
+    │   ├── index.css              # Global styles, Neobrutalism utilities & Tailwind v4
     │   └── main.tsx               # Client React root entrypoint
     ├── package.json
     ├── tailwind.config.js
