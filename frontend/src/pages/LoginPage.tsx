@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { ShieldAlert, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
@@ -358,8 +358,42 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
           </CardFooter>
         </Card>
 
+        {/* Bottom Page Navigation Card */}
+        <div className="mt-6 w-full max-w-sm sm:max-w-md rounded-none border-2 border-neutral-950 dark:border-neutral-800 bg-white dark:bg-[#0E0C13] p-3.5 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D]">
+          <div className="flex items-center justify-between text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-500 pb-2 mb-2.5 border-b border-neutral-200 dark:border-neutral-800">
+            <span>// DIRECTORY_INDEX</span>
+            <span className="text-[#FF1E2D]">[CARTVERSE_NETWORK]</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <Link
+              to="/about"
+              className="py-2 px-2 bg-neutral-100 dark:bg-neutral-900 hover:bg-[#FF1E2D] hover:text-white dark:hover:bg-[#FF1E2D] dark:hover:text-white text-neutral-800 dark:text-neutral-200 border border-neutral-300 dark:border-neutral-800 text-center font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#1a1a1a] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+            >
+              About Us
+            </Link>
+            <Link
+              to="/products"
+              className="py-2 px-2 bg-neutral-100 dark:bg-neutral-900 hover:bg-[#FF1E2D] hover:text-white dark:hover:bg-[#FF1E2D] dark:hover:text-white text-neutral-800 dark:text-neutral-200 border border-neutral-300 dark:border-neutral-800 text-center font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#1a1a1a] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+            >
+              Catalog
+            </Link>
+            <Link
+              to="/builder"
+              className="py-2 px-2 bg-neutral-100 dark:bg-neutral-900 hover:bg-[#FF1E2D] hover:text-white dark:hover:bg-[#FF1E2D] dark:hover:text-white text-neutral-800 dark:text-neutral-200 border border-neutral-300 dark:border-neutral-800 text-center font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#1a1a1a] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+            >
+              PC Builder
+            </Link>
+            <Link
+              to="/servers"
+              className="py-2 px-2 bg-neutral-100 dark:bg-neutral-900 hover:bg-[#FF1E2D] hover:text-white dark:hover:bg-[#FF1E2D] dark:hover:text-white text-neutral-800 dark:text-neutral-200 border border-neutral-300 dark:border-neutral-800 text-center font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#1a1a1a] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+            >
+              Servers
+            </Link>
+          </div>
+        </div>
+
         {/* Footer Back Link */}
-        <div className="mt-6 text-center">
+        <div className="mt-4 text-center">
           <Link
             to="/"
             className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 hover:text-[#FF1E2D] transition-colors py-1.5 px-3 border border-transparent hover:border-neutral-800 bg-neutral-900/50"

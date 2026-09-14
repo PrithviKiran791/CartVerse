@@ -142,25 +142,6 @@ export const Footer: React.FC = () => {
           <span className="text-[#FF1E2D] font-sans font-bold text-[11px] tracking-wider">BUILD. SHOP. PLAY.</span>
         </div>
 
-        {/* Footer Navigation Links */}
-        <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-wider">
-          <Link to="/about" className="hover:text-[#FF1E2D] transition-colors font-bold text-neutral-700 dark:text-neutral-300">
-            About Us
-          </Link>
-          <span className="text-neutral-400 dark:text-neutral-700">•</span>
-          <Link to="/products" className="hover:text-[#FF1E2D] transition-colors font-medium">
-            Catalog
-          </Link>
-          <span className="text-neutral-400 dark:text-neutral-700">•</span>
-          <Link to="/builder" className="hover:text-[#FF1E2D] transition-colors font-medium">
-            PC Builder
-          </Link>
-          <span className="text-neutral-400 dark:text-neutral-700">•</span>
-          <Link to="/servers" className="hover:text-[#FF1E2D] transition-colors font-medium">
-            Servers
-          </Link>
-        </div>
-
         {/* Copyright */}
         <p className="font-sans text-[11px] text-[#FF1E2D] font-medium tracking-wide">
           © {new Date().getFullYear()} CartVerse Hardware. All rights reserved.
