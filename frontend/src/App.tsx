@@ -109,6 +109,16 @@ export function App() {
                     <Route path="/console" element={<ConsolePage />} />
                     <Route path="/product/:id" element={<ProductDetailsPage />} />
                     <Route path="/login" element={<LoginPage />} />
+                    <Route
+                      path="/loading"
+                      element={
+                        <LoadingScreen
+                          fullScreen={true}
+                          duration={0}
+                          message="SYSTEM TELEMETRY // BRUTALIST KERNEL ACTIVE"
+                        />
+                      }
+                    />
 
                     {/* Servers & Supercomputers Vertical Routes */}
                     <Route path="/servers" element={<ServersLandingPage />} />

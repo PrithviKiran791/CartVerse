@@ -38,6 +38,7 @@ export function getEndpointMessage(pathname: string, search: string = ''): strin
 
   // Security & Authentication
   if (pathname.startsWith('/login')) return 'INITIALIZING SECURE AUTHENTICATION';
+  if (pathname.startsWith('/loading')) return 'INITIALIZING SYSTEM BOOTLOADER';
 
   return 'NAVIGATING TO DESTINATION';
 }

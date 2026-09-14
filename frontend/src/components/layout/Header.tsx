@@ -49,6 +49,7 @@ export const Header: React.FC = () => {
     { label: 'Workspace', href: '/workspace' },
     { label: 'PC Builder', href: '/builder' },
     { label: 'Pre-Builts', href: '/products?category=prebuilt' },
+    { label: 'About', href: '/about' },
   ];
 
   const handleSearchSubmit = (val?: string) => {
