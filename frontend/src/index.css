@@ -460,3 +460,25 @@ html:not(.dark) .border-\[\#392e4e\] {
 [data-assistant-ui-thread] {
   font-family: var(--font-primary) !important;
 }
+
+/* ============================================================
+   NEOBRUTALISM UTILITY CLASSES & TOKENS
+   ============================================================ */
+@utility rounded-base {
+  border-radius: 0px;
+}
+@utility shadow-shadow {
+  box-shadow: 4px 4px 0px 0px #000000;
+}
+.dark .shadow-shadow {
+  box-shadow: 4px 4px 0px 0px #FF1E2D;
+}
+@utility border-border {
+  border-color: var(--border-page);
+}
+@utility font-heading {
+  font-family: var(--font-display);
+}
+@utility font-base {
+  font-family: var(--font-primary);
+}

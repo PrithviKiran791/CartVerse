@@ -17,6 +17,7 @@ import {
 import { Label } from '../components/ui/label';
 import { Input } from '../components/ui/input';
 import { BottomGradient, LabelInputContainer } from '../components/ui/signup-form';
+import { Alert, AlertTitle, AlertDescription } from '../components/ui/alert';
 
 export interface LoginPageProps {
   onLogin?: (credentials: { email: string; password: string }) => Promise<void> | void;
@@ -236,10 +237,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
               <motion.div
                 initial={{ opacity: 0, y: -4 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-4 p-3 rounded-none bg-red-950/40 border-2 border-[#FF1E2D] flex items-start gap-2.5 text-xs text-red-200 font-mono shadow-[3px_3px_0px_0px_#FF1E2D]"
+                className="mt-4"
               >
-                <ShieldAlert className="w-4 h-4 text-[#FF1E2D] shrink-0 mt-0.5" />
-                <span className="flex-1">{displayError}</span>
+                <Alert variant="destructive">
+                  <ShieldAlert className="w-4 h-4" />
+                  <AlertTitle>Authentication Error</AlertTitle>
+                  <AlertDescription>{displayError}</AlertDescription>
+                </Alert>
               </motion.div>
             )}
 
@@ -393,10 +397,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
 
             {/* Inline Query Notification Message */}
             {queryMessage && !displayError && (
-              <div className="mt-4 p-3 rounded-none bg-neutral-100 dark:bg-neutral-900 border-2 border-neutral-800 flex items-start gap-2 text-xs text-neutral-300 font-mono shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D]">
-                <CheckCircle2 className="w-4 h-4 text-[#FF1E2D] shrink-0 mt-0.5" />
-                <span>{queryMessage}</span>
-              </div>
+              <Alert variant="default" className="mt-4">
+                <CheckCircle2 className="w-4 h-4 text-[#FF1E2D]" />
+                <AlertTitle>Notice</AlertTitle>
+                <AlertDescription>{queryMessage}</AlertDescription>
+              </Alert>
             )}
 
             {/* Inline Error Alert */}
@@ -404,10 +409,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
               <motion.div
                 initial={{ opacity: 0, y: -4 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-4 p-3 rounded-none bg-red-950/40 border-2 border-[#FF1E2D] flex items-start gap-2.5 text-xs text-red-200 font-mono shadow-[3px_3px_0px_0px_#FF1E2D]"
+                className="mt-4"
               >
-                <ShieldAlert className="w-4 h-4 text-[#FF1E2D] shrink-0 mt-0.5" />
-                <span className="flex-1">{displayError}</span>
+                <Alert variant="destructive">
+                  <ShieldAlert className="w-4 h-4" />
+                  <AlertTitle>Authentication Error</AlertTitle>
+                  <AlertDescription>{displayError}</AlertDescription>
+                </Alert>
               </motion.div>
             )}
 
