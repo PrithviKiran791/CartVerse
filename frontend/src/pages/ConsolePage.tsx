@@ -147,60 +147,69 @@ const NumberPagination: React.FC<NumberPaginationProps> = ({
   return (
     <div
       className={cn(
-        'flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl bg-neutral-900/80 border border-neutral-800/80 backdrop-blur-md shadow-xl select-none',
+        'flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-none bg-[#0E0C13] border-2 border-neutral-800 shadow-[5px_5px_0px_0px_#000000] select-none',
         className
       )}
     >
       {/* Items count summary */}
-      <div className="text-xs text-neutral-400 font-medium flex items-center gap-2">
+      <div className="text-xs text-neutral-400 font-mono font-bold flex items-center gap-2 uppercase tracking-wider">
         <span
           className={cn(
-            'w-2 h-2 rounded-full animate-pulse',
+            'w-2 h-2 rounded-none animate-pulse',
             accentColor === 'blue'
               ? 'bg-blue-500'
               : accentColor === 'emerald'
               ? 'bg-emerald-500'
-              : 'bg-red-500'
+              : 'bg-[#FF1E2D]'
           )}
         />
         <span>
-          Showing <strong className="text-white font-sans">{startItem}–{endItem}</strong> of{' '}
-          <strong className="text-white font-sans">{totalItems}</strong> {itemLabel}
+          Showing <strong className="text-white font-mono">{startItem}–{endItem}</strong> of{' '}
+          <strong className="text-white font-mono">{totalItems}</strong> {itemLabel}
         </span>
       </div>
 
       {/* Numbered Page Buttons & Navigation */}
-      <div className="flex items-center gap-1.5 flex-wrap justify-center">
+      <div className="flex items-center gap-1.5 flex-wrap justify-center font-mono">
         {/* Previous Button */}
         <button
           type="button"
           onClick={() => onPageChange(Math.max(1, currentPage - 1))}
           disabled={currentPage <= 1}
           className={cn(
-            'px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 transition-all border cursor-pointer',
+            'px-3 py-1.5 rounded-none text-xs font-bold uppercase tracking-wider flex items-center gap-1 transition-all border-2 cursor-pointer',
             currentPage <= 1
-              ? 'opacity-40 cursor-not-allowed text-neutral-500 border-neutral-800/50 bg-neutral-950/50'
-              : 'text-neutral-300 hover:text-white bg-neutral-900 hover:bg-neutral-800 border-neutral-800'
+              ? 'opacity-40 cursor-not-allowed text-neutral-600 border-neutral-800 bg-neutral-950'
+              : 'text-neutral-300 hover:text-white bg-neutral-900 hover:bg-neutral-800 border-neutral-700 shadow-[2px_2px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px]'
           )}
         >
           <ChevronLeft className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Prev</span>
+          <span className="hidden sm:inline">PREV</span>
         </button>
 
         {/* Page Number Buttons */}
-        {pages.map((pageNum) => (
-          <button
-            key={pageNum}
-            type="button"
-            onClick={() => onPageChange(pageNum)}
-            className={cn(
-              'min-w-[34px] h-[34px] px-2.5 rounded-xl text-xs font-bold transition-all border flex items-center justify-center cursor-pointer',
-              getAccentClass(pageNum === currentPage)
-            )}
-          >
-            {pageNum}
-          </button>
-        ))}
+        {pages.map((pageNum) => {
+          const isActive = pageNum === currentPage;
+          let activeClass = 'bg-[#FF1E2D] text-white border-white shadow-[2px_2px_0px_0px_#ffffff]';
+          if (accentColor === 'blue') activeClass = 'bg-blue-600 text-white border-white shadow-[2px_2px_0px_0px_#ffffff]';
+          if (accentColor === 'emerald') activeClass = 'bg-emerald-600 text-white border-white shadow-[2px_2px_0px_0px_#ffffff]';
+
+          return (
+            <button
+              key={pageNum}
+              type="button"
+              onClick={() => onPageChange(pageNum)}
+              className={cn(
+                'min-w-[34px] h-[34px] px-2.5 rounded-none text-xs font-mono font-bold transition-all border-2 flex items-center justify-center cursor-pointer',
+                isActive
+                  ? activeClass
+                  : 'bg-neutral-900 text-neutral-400 hover:text-white hover:bg-neutral-800 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
+              )}
+            >
+              {pageNum}
+            </button>
+          );
+        })}
 
         {/* Next Button */}
         <button
@@ -208,20 +217,20 @@ const NumberPagination: React.FC<NumberPaginationProps> = ({
           onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
           disabled={currentPage >= totalPages}
           className={cn(
-            'px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1 transition-all border cursor-pointer',
+            'px-3 py-1.5 rounded-none text-xs font-bold uppercase tracking-wider flex items-center gap-1 transition-all border-2 cursor-pointer',
             currentPage >= totalPages
-              ? 'opacity-40 cursor-not-allowed text-neutral-500 border-neutral-800/50 bg-neutral-950/50'
-              : 'text-neutral-300 hover:text-white bg-neutral-900 hover:bg-neutral-800 border-neutral-800'
+              ? 'opacity-40 cursor-not-allowed text-neutral-600 border-neutral-800 bg-neutral-950'
+              : 'text-neutral-300 hover:text-white bg-neutral-900 hover:bg-neutral-800 border-neutral-700 shadow-[2px_2px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px]'
           )}
         >
-          <span className="hidden sm:inline">Next</span>
+          <span className="hidden sm:inline">NEXT</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>
 
       {/* Page X of Y Badge */}
-      <div className="text-xs font-sans text-neutral-500 hidden md:block">
-        Page <span className="text-neutral-300 font-bold">{currentPage}</span> / {totalPages}
+      <div className="text-xs font-mono text-neutral-500 uppercase hidden md:block">
+        PAGE <span className="text-neutral-200 font-bold">{currentPage}</span> / {totalPages}
       </div>
     </div>
   );
@@ -439,25 +448,32 @@ export const ConsolePage: React.FC = () => {
           <BackgroundBoxesDemo
             colors={blackAndRedBoxColors}
             containerBg="bg-black"
-            className="min-h-[22rem] sm:min-h-[25rem] py-8 px-6 sm:px-10 rounded-3xl bg-black border border-red-900/40 shadow-2xl shadow-red-950/40"
+            className="min-h-[22rem] sm:min-h-[25rem] py-8 px-6 sm:px-10 rounded-none bg-[#0A080F] border-2 sm:border-[3px] border-neutral-800 shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#FF1E2D] relative"
           >
+            {/* Viewport Corner Crosshairs */}
+            <span className="absolute top-2 left-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+            <span className="absolute top-2 right-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+            <span className="absolute bottom-2 left-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+            <span className="absolute bottom-2 right-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+
             <div className="relative z-20 w-full max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
               {/* Left Column: Badge, Title, Subtitle */}
               <div className="flex-1 text-center lg:text-left space-y-3">
-                <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider backdrop-blur-md border border-red-500/30 bg-red-500/10 text-red-400">
+                <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-none text-xs font-mono font-bold uppercase tracking-wider border-2 border-[#FF1E2D] bg-[#FF1E2D]/15 text-[#FF1E2D] shadow-[3px_3px_0px_0px_#FF1E2D]">
                   <Gamepad2 className="w-3.5 h-3.5" />
                   <span>
+                    //{' '}
                     {activeBrand === 'nintendo'
-                      ? `Nintendo Hardware Vault (${nintendoProducts.length} Systems)`
+                      ? `NINTENDO HARDWARE VAULT (${nintendoProducts.length} SYSTEMS)`
                       : activeBrand === 'sony'
-                      ? `PlayStation Hardware Hub (${sonyProducts.length} Systems)`
+                      ? `PLAYSTATION HARDWARE HUB (${sonyProducts.length} SYSTEMS)`
                       : activeBrand === 'xbox'
-                      ? `Xbox Hardware Ecosystem (${xboxProducts.length} Systems)`
-                      : `Consoles & Gaming Ecosystem (${allConsoleProducts.length} Systems)`}
+                      ? `XBOX HARDWARE ECOSYSTEM (${xboxProducts.length} SYSTEMS)`
+                      : `CONSOLES & GAMING ECOSYSTEM (${allConsoleProducts.length} SYSTEMS)`}
                   </span>
                 </div>
 
-                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
+                <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase font-sans">
                   {activeBrand === 'nintendo'
                     ? 'Nintendo Hardware Vault'
                     : activeBrand === 'sony'
@@ -467,7 +483,7 @@ export const ConsolePage: React.FC = () => {
                     : 'Gaming Consoles & Hardware'}
                 </h1>
 
-                <p className="max-w-2xl text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed">
+                <p className="max-w-2xl text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed font-sans">
                   {activeBrand === 'nintendo'
                     ? 'Explore authentic Nintendo Switch OLED, Switch 2, 3DS/2DS XL, DS Lite, and Game Boy Advance.'
                     : activeBrand === 'sony'
@@ -478,9 +494,15 @@ export const ConsolePage: React.FC = () => {
                 </p>
               </div>
 
-              {/* Right Column: Hero Visual (Console.gif for All, Brand Logos for Nintendo / PlayStation / Xbox) */}
+              {/* Right Column: Hero Visual Box */}
               <div className="shrink-0 relative group/hero">
-                <div className="relative w-64 sm:w-72 md:w-80 aspect-video rounded-2xl overflow-hidden border border-neutral-800 group-hover/hero:border-[#FF1E2D]/80 bg-[#120F17]/95 shadow-[0_0_35px_rgba(255,30,45,0.25)] transition-all duration-300 flex items-center justify-center p-6">
+                <div className="relative w-64 sm:w-72 md:w-80 aspect-video rounded-none overflow-hidden border-2 border-neutral-700 bg-neutral-950 shadow-[6px_6px_0px_0px_#FF1E2D] transition-all duration-300 flex items-center justify-center p-6">
+                  {/* Chamber top label */}
+                  <div className="absolute top-1 left-2 right-2 flex items-center justify-between text-[8px] font-mono text-neutral-400 border-b border-neutral-900 pb-0.5 z-10">
+                    <span>HARDWARE // VIEWPORT</span>
+                    <span className="text-[#FF1E2D] font-bold">ONLINE</span>
+                  </div>
+
                   {activeBrand === 'all' ? (
                     <>
                       <img
@@ -516,26 +538,26 @@ export const ConsolePage: React.FC = () => {
         </div>
 
         {/* Navigation Tabs Bar for Consoles & Brand Sub-Pages */}
-        <div className="flex flex-col md:flex-row items-center justify-between bg-neutral-900/90 border border-neutral-800 p-2.5 rounded-2xl backdrop-blur-md shadow-2xl gap-3 pointer-events-auto">
-          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 custom-scrollbar">
+        <div className="flex flex-col md:flex-row items-center justify-between bg-[#0E0C13] border-2 border-neutral-800 p-3 rounded-none shadow-[6px_6px_0px_0px_#000000] gap-3 pointer-events-auto">
+          <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 custom-scrollbar font-mono">
             <button
               onClick={() => handleBrandChange('all')}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shrink-0 ${
+              className={`px-4 py-2 rounded-none font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shrink-0 border-2 cursor-pointer ${
                 activeBrand === 'all'
-                  ? 'bg-neutral-800 text-white border border-neutral-700 shadow-lg'
-                  : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50'
+                  ? 'bg-[#FF1E2D] text-white border-white shadow-[3px_3px_0px_0px_#ffffff]'
+                  : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
               }`}
             >
-              <Gamepad2 className="w-4 h-4 text-red-500" />
-              <span>All Consoles ({allConsoleProducts.length})</span>
+              <Gamepad2 className="w-4 h-4 text-white" />
+              <span>[ALL] CONSOLES ({allConsoleProducts.length})</span>
             </button>
 
             <button
               onClick={() => handleBrandChange('nintendo')}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2.5 shrink-0 ${
+              className={`px-4 py-2 rounded-none font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 shrink-0 border-2 cursor-pointer ${
                 activeBrand === 'nintendo'
-                  ? 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-lg shadow-red-950/50'
-                  : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50'
+                  ? 'bg-[#FF1E2D] text-white border-white shadow-[3px_3px_0px_0px_#FF1E2D]'
+                  : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
               }`}
             >
               <img
@@ -543,15 +565,15 @@ export const ConsolePage: React.FC = () => {
                 alt="Nintendo"
                 className="h-3.5 w-auto object-contain transition-all"
               />
-              <span>Nintendo ({nintendoProducts.length})</span>
+              <span>NINTENDO ({nintendoProducts.length})</span>
             </button>
 
             <button
               onClick={() => handleBrandChange('sony')}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2.5 shrink-0 ${
+              className={`px-4 py-2 rounded-none font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 shrink-0 border-2 cursor-pointer ${
                 activeBrand === 'sony'
-                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg shadow-blue-950/50'
-                  : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50'
+                  ? 'bg-blue-600 text-white border-white shadow-[3px_3px_0px_0px_#3B82F6]'
+                  : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
               }`}
             >
               <img
@@ -559,15 +581,15 @@ export const ConsolePage: React.FC = () => {
                 alt="PlayStation"
                 className="w-4 h-4 object-contain transition-all"
               />
-              <span>PlayStation ({sonyProducts.length})</span>
+              <span>PLAYSTATION ({sonyProducts.length})</span>
             </button>
 
             <button
               onClick={() => handleBrandChange('xbox')}
-              className={`px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2.5 shrink-0 ${
+              className={`px-4 py-2 rounded-none font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2.5 shrink-0 border-2 cursor-pointer ${
                 activeBrand === 'xbox'
-                  ? 'bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg shadow-emerald-950/50'
-                  : 'text-neutral-400 hover:text-white hover:bg-neutral-800/50'
+                  ? 'bg-emerald-600 text-white border-white shadow-[3px_3px_0px_0px_#10B981]'
+                  : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
               }`}
             >
               <img
@@ -577,7 +599,7 @@ export const ConsolePage: React.FC = () => {
                   activeBrand === 'xbox' ? 'brightness-0 invert' : ''
                 }`}
               />
-              <span>Xbox ({xboxProducts.length})</span>
+              <span>XBOX ({xboxProducts.length})</span>
             </button>
           </div>
 
@@ -585,10 +607,10 @@ export const ConsolePage: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsArchModalOpen(true)}
-              className="px-4 py-2 bg-neutral-800/80 hover:bg-neutral-800 border border-neutral-700 text-white font-semibold text-xs rounded-xl flex items-center gap-2 transition-all shrink-0 justify-center cursor-pointer"
+              className="px-4 py-2 bg-neutral-950 hover:bg-neutral-900 border-2 border-neutral-700 hover:border-[#FF1E2D] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-none flex items-center gap-2 transition-all shrink-0 justify-center cursor-pointer shadow-[3px_3px_0px_0px_#FF1E2D] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
             >
-              <BookOpen className="w-4 h-4 text-red-400" />
-              <span>Architecture Guide</span>
+              <BookOpen className="w-4 h-4 text-[#FF1E2D]" />
+              <span>// ARCHITECTURE GUIDE</span>
             </button>
           </div>
         </div>
@@ -599,21 +621,21 @@ export const ConsolePage: React.FC = () => {
         {activeBrand === 'nintendo' && (
           <div className="space-y-8 pointer-events-auto">
             {/* Nintendo Banner */}
-            <div className="relative bg-gradient-to-br from-red-950/40 via-neutral-900/90 to-neutral-950 p-8 rounded-3xl border border-red-900/40 shadow-2xl overflow-hidden">
+            <div className="relative bg-[#12080A] p-6 sm:p-8 rounded-none border-2 sm:border-[3px] border-red-700 shadow-[8px_8px_0px_0px_#FF1E2D] overflow-hidden">
               <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="space-y-3 max-w-2xl">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-xs font-bold uppercase tracking-wider border border-red-500/30">
-                    <span>Exclusive Brand Vault</span>
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-none bg-red-950/80 text-red-400 text-xs font-mono font-bold uppercase tracking-wider border-2 border-red-500 shadow-[2px_2px_0px_0px_#FF1E2D]">
+                    <span>// EXCLUSIVE BRAND VAULT: NINTENDO</span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase font-sans">
                     Nintendo Hardware Vault
                   </h1>
-                  <p className="text-sm text-neutral-300 leading-relaxed">
+                  <p className="text-sm text-neutral-300 leading-relaxed font-sans">
                     Explore genuine Nintendo systems including Switch OLED, Switch 2, Nintendo 3DS/2DS XL, Nintendo DS Lite, and Game Boy Advance.
                   </p>
                 </div>
 
-                <div className="shrink-0 w-full sm:w-64 md:w-72 aspect-video rounded-2xl overflow-hidden border border-red-800/50 bg-[#120F17]/90 shadow-[0_0_30px_rgba(255,30,45,0.25)] flex items-center justify-center p-6 relative group">
+                <div className="shrink-0 w-full sm:w-64 md:w-72 aspect-video rounded-none overflow-hidden border-2 border-red-700 bg-neutral-950 shadow-[4px_4px_0px_0px_#FF1E2D] flex items-center justify-center p-6 relative group">
                   <img
                     src={nintendoIcon}
                     alt="Nintendo Logo"
@@ -624,36 +646,44 @@ export const ConsolePage: React.FC = () => {
             </div>
 
             {/* Nintendo Generation Filter */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-neutral-800">
-              <span className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider pr-2">Generation:</span>
+            <div className="flex items-center gap-2 overflow-x-auto pb-3 border-b-2 border-neutral-800 font-mono">
+              <span className="text-xs font-mono font-bold text-[#FF1E2D] uppercase tracking-wider pr-2">// GEN:</span>
               <button
                 onClick={() => setGenFilter('all')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'all' ? 'bg-red-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'all'
+                    ? 'bg-[#FF1E2D] text-white border-white shadow-[3px_3px_0px_0px_#FF1E2D]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 All Nintendo ({nintendoProducts.length})
               </button>
               <button
                 onClick={() => setGenFilter('switch')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'switch' ? 'bg-red-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'switch'
+                    ? 'bg-[#FF1E2D] text-white border-white shadow-[3px_3px_0px_0px_#FF1E2D]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 Switch & OLED Models
               </button>
               <button
                 onClick={() => setGenFilter('ds-3ds')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'ds-3ds' ? 'bg-red-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'ds-3ds'
+                    ? 'bg-[#FF1E2D] text-white border-white shadow-[3px_3px_0px_0px_#FF1E2D]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 Dual-Screen (DS & 3DS / 2DS)
               </button>
               <button
                 onClick={() => setGenFilter('gba')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'gba' ? 'bg-red-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'gba'
+                    ? 'bg-[#FF1E2D] text-white border-white shadow-[3px_3px_0px_0px_#FF1E2D]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 Game Boy Advance & Micro
@@ -688,21 +718,21 @@ export const ConsolePage: React.FC = () => {
         {activeBrand === 'sony' && (
           <div className="space-y-8 pointer-events-auto">
             {/* PlayStation Banner */}
-            <div className="relative bg-gradient-to-br from-blue-950/40 via-neutral-900/90 to-neutral-950 p-8 rounded-3xl border border-blue-900/40 shadow-2xl overflow-hidden">
+            <div className="relative bg-[#080D18] p-6 sm:p-8 rounded-none border-2 sm:border-[3px] border-blue-600 shadow-[8px_8px_0px_0px_#2563EB] overflow-hidden">
               <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="space-y-3 max-w-2xl">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider border border-blue-500/30">
-                    <span>Exclusive Brand Vault</span>
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-none bg-blue-950/80 text-blue-400 text-xs font-mono font-bold uppercase tracking-wider border-2 border-blue-500 shadow-[2px_2px_0px_0px_#2563EB]">
+                    <span>// EXCLUSIVE BRAND VAULT: PLAYSTATION</span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase font-sans">
                     PlayStation Hardware Hub
                   </h1>
-                  <p className="text-sm text-neutral-300 leading-relaxed">
+                  <p className="text-sm text-neutral-300 leading-relaxed font-sans">
                     Explore PlayStation 5 Pro (2TB), PS5 Slim Disc & Digital, PS4 Pro 4K, PS4 Slim Special Editions, and PS3 Classics.
                   </p>
                 </div>
 
-                <div className="shrink-0 w-full sm:w-64 md:w-72 aspect-video rounded-2xl overflow-hidden border border-blue-800/50 bg-[#120F17]/90 shadow-[0_0_30px_rgba(59,130,246,0.25)] flex items-center justify-center p-6 relative group">
+                <div className="shrink-0 w-full sm:w-64 md:w-72 aspect-video rounded-none overflow-hidden border-2 border-blue-600 bg-neutral-950 shadow-[4px_4px_0px_0px_#2563EB] flex items-center justify-center p-6 relative group">
                   <img
                     src={playstationIcon}
                     alt="PlayStation Logo"
@@ -713,36 +743,44 @@ export const ConsolePage: React.FC = () => {
             </div>
 
             {/* PlayStation Generation Filter */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-neutral-800">
-              <span className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider pr-2">Generation:</span>
+            <div className="flex items-center gap-2 overflow-x-auto pb-3 border-b-2 border-neutral-800 font-mono">
+              <span className="text-xs font-mono font-bold text-[#FF1E2D] uppercase tracking-wider pr-2">// GEN:</span>
               <button
                 onClick={() => setGenFilter('all')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'all' ? 'bg-blue-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'all'
+                    ? 'bg-blue-600 text-white border-white shadow-[3px_3px_0px_0px_#2563EB]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 All PlayStation ({sonyProducts.length})
               </button>
               <button
                 onClick={() => setGenFilter('ps5')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'ps5' ? 'bg-blue-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'ps5'
+                    ? 'bg-blue-600 text-white border-white shadow-[3px_3px_0px_0px_#2563EB]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 PS5 Generation (Base / Slim / Pro)
               </button>
               <button
                 onClick={() => setGenFilter('ps4')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'ps4' ? 'bg-blue-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'ps4'
+                    ? 'bg-blue-600 text-white border-white shadow-[3px_3px_0px_0px_#2563EB]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 PS4 Generation (Slim & Pro 4K)
               </button>
               <button
                 onClick={() => setGenFilter('ps3')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'ps3' ? 'bg-blue-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'ps3'
+                    ? 'bg-blue-600 text-white border-white shadow-[3px_3px_0px_0px_#2563EB]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 PS3 Generation (Fat / Slim / Super Slim)
@@ -777,21 +815,21 @@ export const ConsolePage: React.FC = () => {
         {activeBrand === 'xbox' && (
           <div className="space-y-8 pointer-events-auto">
             {/* Xbox Banner */}
-            <div className="relative bg-gradient-to-br from-emerald-950/40 via-neutral-900/90 to-neutral-950 p-8 rounded-3xl border border-emerald-900/40 shadow-2xl overflow-hidden">
+            <div className="relative bg-[#07130E] p-6 sm:p-8 rounded-none border-2 sm:border-[3px] border-emerald-600 shadow-[8px_8px_0px_0px_#059669] overflow-hidden">
               <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="space-y-3 max-w-2xl">
-                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-500/30">
-                    <span>Exclusive Brand Vault</span>
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-none bg-emerald-950/80 text-emerald-400 text-xs font-mono font-bold uppercase tracking-wider border-2 border-emerald-500 shadow-[2px_2px_0px_0px_#059669]">
+                    <span>// EXCLUSIVE BRAND VAULT: MICROSOFT XBOX</span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase font-sans">
                     Microsoft Xbox Ecosystem
                   </h1>
-                  <p className="text-sm text-neutral-300 leading-relaxed">
+                  <p className="text-sm text-neutral-300 leading-relaxed font-sans">
                     Explore Xbox Series X 1TB, Xbox Series S Carbon Black, Xbox One X Native 4K, Xbox One S, and Xbox 360 Slim systems.
                   </p>
                 </div>
 
-                <div className="shrink-0 w-full sm:w-64 md:w-72 aspect-video rounded-2xl overflow-hidden border border-emerald-800/50 bg-[#120F17]/90 shadow-[0_0_30px_rgba(16,185,129,0.25)] flex items-center justify-center p-6 relative group">
+                <div className="shrink-0 w-full sm:w-64 md:w-72 aspect-video rounded-none overflow-hidden border-2 border-emerald-600 bg-neutral-950 shadow-[4px_4px_0px_0px_#059669] flex items-center justify-center p-6 relative group">
                   <img
                     src={xboxIcon}
                     alt="Xbox Logo"
@@ -802,36 +840,44 @@ export const ConsolePage: React.FC = () => {
             </div>
 
             {/* Xbox Generation Filter */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-neutral-800">
-              <span className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider pr-2">Generation:</span>
+            <div className="flex items-center gap-2 overflow-x-auto pb-3 border-b-2 border-neutral-800 font-mono">
+              <span className="text-xs font-mono font-bold text-[#FF1E2D] uppercase tracking-wider pr-2">// GEN:</span>
               <button
                 onClick={() => setGenFilter('all')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'all' ? 'bg-emerald-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'all'
+                    ? 'bg-emerald-600 text-white border-white shadow-[3px_3px_0px_0px_#059669]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 All Xbox ({xboxProducts.length})
               </button>
               <button
                 onClick={() => setGenFilter('series')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'series' ? 'bg-emerald-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'series'
+                    ? 'bg-emerald-600 text-white border-white shadow-[3px_3px_0px_0px_#059669]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 Xbox Series X | S
               </button>
               <button
                 onClick={() => setGenFilter('one')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === 'one' ? 'bg-emerald-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === 'one'
+                    ? 'bg-emerald-600 text-white border-white shadow-[3px_3px_0px_0px_#059669]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 Xbox One Series (One, One S, One X)
               </button>
               <button
                 onClick={() => setGenFilter('360')}
-                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${
-                  genFilter === '360' ? 'bg-emerald-600 text-white' : 'text-neutral-400 hover:text-white bg-neutral-900'
+                className={`px-3.5 py-1.5 text-xs font-mono font-bold uppercase tracking-wider rounded-none border-2 transition-all cursor-pointer ${
+                  genFilter === '360'
+                    ? 'bg-emerald-600 text-white border-white shadow-[3px_3px_0px_0px_#059669]'
+                    : 'text-neutral-400 hover:text-white bg-neutral-950 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]'
                 }`}
               >
                 Xbox 360 Era (Arcade, Slim, E)
@@ -866,26 +912,29 @@ export const ConsolePage: React.FC = () => {
         {activeBrand === 'all' && (
           <div className="space-y-16 pointer-events-auto">
             {/* Top Overview Banner */}
-            <div className="relative bg-gradient-to-br from-neutral-900/90 via-neutral-900/50 to-neutral-950 p-8 rounded-3xl border border-neutral-800 shadow-2xl overflow-hidden">
+            <div className="relative bg-[#0E0C13] p-6 sm:p-8 rounded-none border-2 sm:border-[3px] border-neutral-800 shadow-[8px_8px_0px_0px_#FF1E2D] overflow-hidden">
               <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="space-y-3 max-w-2xl">
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-                    Gaming Consoles & Retro Hardware
+                  <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-none bg-red-950/80 text-[#FF1E2D] text-xs font-mono font-bold uppercase tracking-wider border-2 border-[#FF1E2D] shadow-[2px_2px_0px_0px_#000000]">
+                    <span>// MULTI-PLATFORM CATALOGUE</span>
+                  </div>
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase font-sans">
+                    Gaming Consoles & Hardware
                   </h1>
-                  <p className="text-sm text-neutral-300 leading-relaxed">
+                  <p className="text-sm text-neutral-300 leading-relaxed font-sans">
                     Browse our separated brand collections below: Nintendo portable & hybrid systems, Sony PlayStation home powerhouses, and Microsoft Xbox consoles.
                   </p>
                 </div>
               </div>
 
-              {/* Brand Animated Showcase Cards featuring nintendo.gif, Playstation.gif, Xbox.gif */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 mt-6 border-t border-neutral-800/80">
+              {/* Brand Animated Showcase Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 mt-6 border-t-2 border-neutral-800">
                 {/* Nintendo Card */}
                 <a
                   href="#section-nintendo"
-                  className="relative overflow-hidden rounded-2xl border border-neutral-800 hover:border-red-500/60 bg-neutral-950/80 p-5 transition-all duration-300 group hover:shadow-[0_10px_30px_-10px_rgba(255,30,45,0.3)] flex flex-col justify-between"
+                  className="relative overflow-hidden rounded-none border-2 border-neutral-800 hover:border-red-500 bg-[#0E0C13] p-5 transition-all duration-200 group shadow-[6px_6px_0px_0px_#000000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[8px_8px_0px_0px_#FF1E2D] flex flex-col justify-between"
                 >
-                  <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black mb-4 border border-neutral-800/80">
+                  <div className="relative aspect-video w-full rounded-none overflow-hidden bg-black mb-4 border-2 border-neutral-800">
                     <img
                       src={nintendoGif}
                       alt="Nintendo"
@@ -896,18 +945,18 @@ export const ConsolePage: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2.5">
                       <img src={nintendoIcon} alt="Nintendo" className="h-4 w-auto object-contain" />
-                      <span className="text-sm font-bold text-white group-hover:text-red-400 transition-colors">Nintendo Vault</span>
+                      <span className="text-sm font-bold text-white group-hover:text-red-400 transition-colors uppercase font-mono">Nintendo Vault</span>
                     </div>
-                    <span className="text-xs font-sans text-neutral-400">{nintendoProducts.length} models</span>
+                    <span className="text-xs font-mono text-neutral-400">[{nintendoProducts.length} models]</span>
                   </div>
                 </a>
 
                 {/* PlayStation Card */}
                 <a
                   href="#section-playstation"
-                  className="relative overflow-hidden rounded-2xl border border-neutral-800 hover:border-blue-500/60 bg-neutral-950/80 p-5 transition-all duration-300 group hover:shadow-[0_10px_30px_-10px_rgba(59,130,246,0.3)] flex flex-col justify-between"
+                  className="relative overflow-hidden rounded-none border-2 border-neutral-800 hover:border-blue-500 bg-[#0E0C13] p-5 transition-all duration-200 group shadow-[6px_6px_0px_0px_#000000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[8px_8px_0px_0px_#2563EB] flex flex-col justify-between"
                 >
-                  <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black mb-4 border border-neutral-800/80">
+                  <div className="relative aspect-video w-full rounded-none overflow-hidden bg-black mb-4 border-2 border-neutral-800">
                     <img
                       src={playstationGif}
                       alt="PlayStation"
@@ -918,18 +967,18 @@ export const ConsolePage: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2.5">
                       <img src={playstationIcon} alt="PlayStation" className="w-4 h-4 object-contain" />
-                      <span className="text-sm font-bold text-white group-hover:text-blue-400 transition-colors">PlayStation Hub</span>
+                      <span className="text-sm font-bold text-white group-hover:text-blue-400 transition-colors uppercase font-mono">PlayStation Hub</span>
                     </div>
-                    <span className="text-xs font-sans text-neutral-400">{sonyProducts.length} models</span>
+                    <span className="text-xs font-mono text-neutral-400">[{sonyProducts.length} models]</span>
                   </div>
                 </a>
 
                 {/* Xbox Card */}
                 <a
                   href="#section-xbox"
-                  className="relative overflow-hidden rounded-2xl border border-neutral-800 hover:border-emerald-500/60 bg-neutral-950/80 p-5 transition-all duration-300 group hover:shadow-[0_10px_30px_-10px_rgba(16,185,129,0.3)] flex flex-col justify-between"
+                  className="relative overflow-hidden rounded-none border-2 border-neutral-800 hover:border-emerald-500 bg-[#0E0C13] p-5 transition-all duration-200 group shadow-[6px_6px_0px_0px_#000000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[8px_8px_0px_0px_#059669] flex flex-col justify-between"
                 >
-                  <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black mb-4 border border-neutral-800/80">
+                  <div className="relative aspect-video w-full rounded-none overflow-hidden bg-black mb-4 border-2 border-neutral-800">
                     <img
                       src={xboxGif}
                       alt="Xbox"
@@ -940,9 +989,9 @@ export const ConsolePage: React.FC = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2.5">
                       <img src={xboxIcon} alt="Xbox" className="w-4 h-4 object-contain" />
-                      <span className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">Xbox Ecosystem</span>
+                      <span className="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors uppercase font-mono">Xbox Ecosystem</span>
                     </div>
-                    <span className="text-xs font-sans text-neutral-400">{xboxProducts.length} models</span>
+                    <span className="text-xs font-mono text-neutral-400">[{xboxProducts.length} models]</span>
                   </div>
                 </a>
               </div>
@@ -950,23 +999,23 @@ export const ConsolePage: React.FC = () => {
 
             {/* SECTION 1: STRICTLY NINTENDO CONSOLES */}
             <div id="section-nintendo" className="space-y-6 pt-4 scroll-mt-24">
-              <div className="flex items-center justify-between border-b border-red-500/20 pb-4">
+              <div className="flex items-center justify-between border-b-2 border-red-500/30 pb-4">
                 <div className="flex items-center space-x-3">
-                  <span className="w-3 h-7 bg-red-600 rounded-full" />
+                  <span className="w-2.5 h-7 bg-red-600 rounded-none border border-black shadow-[2px_2px_0px_0px_#000000]" />
                   <div>
-                    <h2 className="text-2xl font-black text-white flex items-center gap-2.5">
+                    <h2 className="text-2xl font-black text-white flex items-center gap-2.5 uppercase font-sans">
                       <img src={nintendoIcon} alt="Nintendo" className="h-5 w-auto object-contain" />
                       <span>Nintendo Vault</span>
                     </h2>
-                    <p className="text-xs text-neutral-400">Strictly Nintendo Switch, 3DS, DS & Game Boy systems ({filteredNintendo.length} consoles)</p>
+                    <p className="text-xs text-neutral-400 font-mono">// STRICTLY NINTENDO SWITCH, 3DS, DS & GBA ({filteredNintendo.length} SYSTEMS)</p>
                   </div>
                 </div>
 
                 <button
                   onClick={() => handleBrandChange('nintendo')}
-                  className="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1.5 bg-red-500/10 hover:bg-red-500/20 px-3.5 py-1.5 rounded-xl border border-red-500/20 transition-all cursor-pointer"
+                  className="text-xs font-mono font-bold uppercase tracking-wider text-red-400 hover:text-white flex items-center gap-1.5 bg-red-950/80 hover:bg-red-900 px-3.5 py-1.5 rounded-none border-2 border-red-500/50 shadow-[3px_3px_0px_0px_#FF1E2D] transition-all cursor-pointer active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
                 >
-                  <span>Open Nintendo Section</span>
+                  <span>Open Section</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -993,23 +1042,23 @@ export const ConsolePage: React.FC = () => {
 
             {/* SECTION 2: STRICTLY SONY PLAYSTATION CONSOLES */}
             <div id="section-playstation" className="space-y-6 pt-6 scroll-mt-24">
-              <div className="flex items-center justify-between border-b border-blue-500/20 pb-4">
+              <div className="flex items-center justify-between border-b-2 border-blue-500/30 pb-4">
                 <div className="flex items-center space-x-3">
-                  <span className="w-3 h-7 bg-blue-600 rounded-full" />
+                  <span className="w-2.5 h-7 bg-blue-600 rounded-none border border-black shadow-[2px_2px_0px_0px_#000000]" />
                   <div>
-                    <h2 className="text-2xl font-black text-white flex items-center gap-2.5">
+                    <h2 className="text-2xl font-black text-white flex items-center gap-2.5 uppercase font-sans">
                       <img src={playstationIcon} alt="PlayStation" className="w-5 h-5 object-contain" />
                       <span>Sony PlayStation Hub</span>
                     </h2>
-                    <p className="text-xs text-neutral-400">Strictly PS5, PS4 & PS3 console systems and bundles ({filteredSony.length} consoles)</p>
+                    <p className="text-xs text-neutral-400 font-mono">// STRICTLY PS5, PS4 & PS3 CONSOLE SYSTEMS ({filteredSony.length} SYSTEMS)</p>
                   </div>
                 </div>
 
                 <button
                   onClick={() => handleBrandChange('sony')}
-                  className="text-xs font-bold text-blue-400 hover:text-blue-300 flex items-center gap-1.5 bg-blue-500/10 hover:bg-blue-500/20 px-3.5 py-1.5 rounded-xl border border-blue-500/20 transition-all cursor-pointer"
+                  className="text-xs font-mono font-bold uppercase tracking-wider text-blue-400 hover:text-white flex items-center gap-1.5 bg-blue-950/80 hover:bg-blue-900 px-3.5 py-1.5 rounded-none border-2 border-blue-500/50 shadow-[3px_3px_0px_0px_#2563EB] transition-all cursor-pointer active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
                 >
-                  <span>Open PlayStation Section</span>
+                  <span>Open Section</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -1036,23 +1085,23 @@ export const ConsolePage: React.FC = () => {
 
             {/* SECTION 3: STRICTLY MICROSOFT XBOX CONSOLES */}
             <div id="section-xbox" className="space-y-6 pt-6 scroll-mt-24">
-              <div className="flex items-center justify-between border-b border-emerald-500/20 pb-4">
+              <div className="flex items-center justify-between border-b-2 border-emerald-500/30 pb-4">
                 <div className="flex items-center space-x-3">
-                  <span className="w-3 h-7 bg-emerald-600 rounded-full" />
+                  <span className="w-2.5 h-7 bg-emerald-600 rounded-none border border-black shadow-[2px_2px_0px_0px_#000000]" />
                   <div>
-                    <h2 className="text-2xl font-black text-white flex items-center gap-2.5">
+                    <h2 className="text-2xl font-black text-white flex items-center gap-2.5 uppercase font-sans">
                       <img src={xboxIcon} alt="Xbox" className="w-5 h-5 object-contain" />
                       <span>Microsoft Xbox Ecosystem</span>
                     </h2>
-                    <p className="text-xs text-neutral-400">Strictly Xbox Series X|S, Xbox One & Xbox 360 systems ({filteredXbox.length} consoles)</p>
+                    <p className="text-xs text-neutral-400 font-mono">// STRICTLY XBOX SERIES X|S, ONE & 360 ({filteredXbox.length} SYSTEMS)</p>
                   </div>
                 </div>
 
                 <button
                   onClick={() => handleBrandChange('xbox')}
-                  className="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 px-3.5 py-1.5 rounded-xl border border-emerald-500/20 transition-all cursor-pointer"
+                  className="text-xs font-mono font-bold uppercase tracking-wider text-emerald-400 hover:text-white flex items-center gap-1.5 bg-emerald-950/80 hover:bg-emerald-900 px-3.5 py-1.5 rounded-none border-2 border-emerald-500/50 shadow-[3px_3px_0px_0px_#059669] transition-all cursor-pointer active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
                 >
-                  <span>Open Xbox Section</span>
+                  <span>Open Section</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -1090,45 +1139,47 @@ export const ConsolePage: React.FC = () => {
       {/* Architecture Evolution Modal */}
       <AnimatePresence>
         {isArchModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-4xl max-h-[85vh] bg-[#0E0E12] border border-neutral-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col text-neutral-100"
+              className="relative w-full max-w-4xl max-h-[85vh] bg-[#0E0C13] border-2 sm:border-[3px] border-neutral-700 rounded-none shadow-[10px_10px_0px_0px_#FF1E2D] overflow-hidden flex flex-col text-neutral-100"
             >
-              <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-800 bg-neutral-900/60">
+              <div className="flex items-center justify-between px-6 py-4 border-b-2 border-neutral-800 bg-neutral-950">
                 <div className="flex items-center space-x-2">
-                  <BookOpen className="w-5 h-5 text-red-500" />
-                  <h2 className="text-lg font-bold text-white">Console Hardware Architecture Evolution</h2>
+                  <BookOpen className="w-5 h-5 text-[#FF1E2D]" />
+                  <h2 className="text-base sm:text-lg font-black text-white uppercase font-sans tracking-wide">
+                    Console Silicon Architecture Evolution
+                  </h2>
                 </div>
                 <button
                   onClick={() => setIsArchModalOpen(false)}
-                  className="p-2 text-neutral-400 hover:text-white bg-neutral-800/50 rounded-lg"
+                  className="p-1.5 text-neutral-400 hover:text-white bg-neutral-900 border-2 border-neutral-700 hover:border-[#FF1E2D] rounded-none transition-all cursor-pointer shadow-[2px_2px_0px_0px_#000000]"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               <div className="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
-                <p className="text-xs text-neutral-400 leading-relaxed">
-                  Extracted directly from the official CartVerse Console Silicon Database, detailing the architectural breakthroughs across Nintendo, PlayStation, and Xbox generations.
+                <p className="text-xs font-mono text-neutral-400 leading-relaxed uppercase tracking-wider">
+                  // EXTRACTED DIRECTLY FROM THE OFFICIAL CARTVERSE SILICON ARCHIVE // CHIP TELEMETRY
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {ARCHITECTURE_EVOLUTION_GUIDES.map((item, idx) => (
                     <div
                       key={idx}
-                      className="bg-neutral-900/60 p-4 rounded-xl border border-neutral-800 space-y-2"
+                      className="bg-neutral-950 p-4 rounded-none border-2 border-neutral-800 shadow-[4px_4px_0px_0px_#000000] hover:border-red-500/80 hover:shadow-[4px_4px_0px_0px_#FF1E2D] transition-all space-y-2 group"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-red-400">{item.era}</span>
-                        <span className="text-[10px] uppercase font-sans px-2 py-0.5 rounded bg-neutral-800 text-neutral-400">
+                        <span className="text-xs font-mono font-bold text-[#FF1E2D] uppercase">{item.era}</span>
+                        <span className="text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded-none border border-neutral-700 bg-neutral-900 text-neutral-300">
                           {item.brand}
                         </span>
                       </div>
-                      <h4 className="text-sm font-semibold text-white">{item.silicon}</h4>
-                      <p className="text-xs text-neutral-300 leading-relaxed">{item.impact}</p>
+                      <h4 className="text-sm font-black text-white uppercase font-sans group-hover:text-red-400 transition-colors">{item.silicon}</h4>
+                      <p className="text-xs text-neutral-400 leading-relaxed font-sans">{item.impact}</p>
                     </div>
                   ))}
                 </div>
