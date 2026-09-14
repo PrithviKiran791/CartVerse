@@ -140,16 +140,27 @@ export const ServersLandingPage: React.FC = () => {
       {/* 1. Technical Brutalist Hero Section */}
       <section className="relative z-10 pt-12 sm:pt-16 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <FadeContent blur={true} duration={800} easing="ease-out" initialOpacity={0}>
-          <div className="bg-gradient-to-r from-neutral-900 via-neutral-950 to-red-950/40 border border-neutral-800 rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl">
+          <div className="bg-[#0E0C13] border-2 sm:border-[3px] border-neutral-800 rounded-none p-8 sm:p-12 relative overflow-hidden shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#FF1E2D]">
+            {/* Viewport Corner Crosshairs */}
+            <span className="absolute top-2 left-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+            <span className="absolute top-2 right-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+            <span className="absolute bottom-2 left-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+            <span className="absolute bottom-2 right-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+
             <div className="absolute inset-0 w-full h-full bg-neutral-950/70 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
             <Boxes />
             <div className="absolute right-0 top-0 w-96 h-96 bg-[#FF1E2D]/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
               <div className="max-w-3xl flex-1">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-[#FF1E2D]/15 border-2 border-[#FF1E2D] text-[#FF1E2D] text-xs font-mono font-bold uppercase tracking-wider mb-4 shadow-[3px_3px_0px_0px_#FF1E2D]">
+                  <Server className="w-3.5 h-3.5" />
+                  <span>// SYS.ENTERPRISE_FABRIC [INDEX_ACTIVE]</span>
+                </div>
+
                 <Typography
                   type="h1"
-                  className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-none"
+                  className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-none uppercase font-sans"
                 >
                   Enterprise Servers &amp; Supercomputing Fabric
                 </Typography>
@@ -162,32 +173,36 @@ export const ServersLandingPage: React.FC = () => {
                 <div className="mt-8 flex flex-wrap items-center gap-4">
                   <Link
                     to="/servers/builder"
-                    className="px-6 py-3.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-red-950/60 transition-all flex items-center gap-2 active:scale-95 cursor-pointer"
+                    className="px-6 py-3.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-none border-2 border-neutral-950 shadow-[4px_4px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center gap-2 cursor-pointer"
                   >
                     <img src={processorIcon} alt="Configurator" className="w-4 h-4 object-contain brightness-0 invert" />
-                    <span>Launch Server Configurator &rarr;</span>
+                    <span>Launch Configurator &rarr;</span>
                   </Link>
 
                   <Link
                     to="/servers/pre-configured"
-                    className="px-6 py-3.5 bg-neutral-900 hover:bg-neutral-800 text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-700 transition-all flex items-center gap-2 cursor-pointer"
+                    className="px-6 py-3.5 bg-neutral-900 hover:bg-neutral-800 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-none border-2 border-neutral-700 shadow-[4px_4px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center gap-2 cursor-pointer"
                   >
                     <img src={serverIcon} alt="Turnkey" className="w-4 h-4 object-contain brightness-0 invert" />
-                    <span>Turnkey Server Nodes</span>
+                    <span>Turnkey Nodes</span>
                   </Link>
 
                   <Link
                     to="/servers/catalog"
-                    className="px-6 py-3.5 bg-neutral-950 hover:bg-neutral-900 text-neutral-300 hover:text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-800 transition-all flex items-center gap-2 cursor-pointer"
+                    className="px-6 py-3.5 bg-neutral-950 hover:bg-neutral-900 text-neutral-300 hover:text-white font-mono font-bold text-xs uppercase tracking-wider rounded-none border-2 border-neutral-800 shadow-[3px_3px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] transition-all flex items-center gap-2 cursor-pointer"
                   >
-                    <span>Browse Server Catalog</span>
+                    <span>Browse Catalog</span>
                   </Link>
                 </div>
               </div>
 
               {/* High-Tech Animated Server GIF Showcase */}
               <div className="w-full lg:w-[420px] xl:w-[460px] shrink-0">
-                <div className="relative aspect-video rounded-2xl overflow-hidden border border-neutral-800 hover:border-[#FF1E2D]/60 bg-black shadow-[0_0_35px_rgba(255,30,45,0.2)] group transition-all duration-300">
+                <div className="relative aspect-video rounded-none overflow-hidden border-2 border-neutral-700 hover:border-[#FF1E2D] bg-black shadow-[6px_6px_0px_0px_#FF1E2D] group transition-all duration-300">
+                  <div className="absolute top-1 left-2 right-2 flex items-center justify-between text-[8px] font-mono text-neutral-400 border-b border-neutral-900 pb-0.5 z-10">
+                    <span>RACK_01 // DATACENTER</span>
+                    <span className="text-[#FF1E2D] font-bold">OPERATIONAL</span>
+                  </div>
                   <img
                     src={serverGif}
                     alt="Enterprise Datacenter Server Infrastructure"
@@ -204,7 +219,7 @@ export const ServersLandingPage: React.FC = () => {
       {/* 2. Enterprise Brand Trust Loop */}
       <section className="relative z-10 py-6 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <FadeContent blur={true} duration={850} delay={100} easing="ease-out" initialOpacity={0}>
-          <div className="bg-neutral-900/60 border border-neutral-800/80 rounded-2xl py-5 px-5 sm:px-7 backdrop-blur-md relative overflow-hidden shadow-lg">
+          <div className="bg-[#0E0C13] border-2 border-neutral-800 rounded-none py-5 px-5 sm:px-7 relative overflow-hidden shadow-[5px_5px_0px_0px_#000000]">
             <LogoLoop
               logos={enterpriseBrandLogos}
               speed={50}
@@ -235,9 +250,9 @@ export const ServersLandingPage: React.FC = () => {
           ].map((item, idx) => (
             <div
               key={idx}
-              className="bg-neutral-900/80 border border-neutral-800 hover:border-red-500/40 rounded-2xl p-3.5 sm:p-4 flex items-center gap-3.5 backdrop-blur-sm transition-colors shadow-md"
+              className="bg-[#0E0C13] border-2 border-neutral-800 hover:border-[#FF1E2D] rounded-none p-3.5 sm:p-4 flex items-center gap-3.5 transition-all shadow-[4px_4px_0px_0px_#000000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_#FF1E2D] cursor-pointer"
             >
-              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-neutral-950 border border-neutral-800 flex items-center justify-center p-2.5 shrink-0">
+              <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-none bg-neutral-950 border-2 border-neutral-800 flex items-center justify-center p-2.5 shrink-0 shadow-[2px_2px_0px_0px_#000000]">
                 <img
                   src={item.icon}
                   alt={item.name}
@@ -245,8 +260,11 @@ export const ServersLandingPage: React.FC = () => {
                 />
               </div>
               <div className="min-w-0">
-                <div className="text-xs sm:text-[13px] font-bold text-white truncate font-sans">{item.name}</div>
-                <div className="text-[10px] sm:text-[11px] text-neutral-400 font-sans truncate mt-0.5">{item.sub}</div>
+                <div className="text-xs sm:text-[13px] font-bold text-white truncate font-sans uppercase">{item.name}</div>
+                <div className="text-[10px] sm:text-[11px] text-neutral-400 font-mono truncate mt-0.5">{item.sub}</div>
+                <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-[#FF1E2D] bg-neutral-950 border border-neutral-800 px-1.5 py-0.2 mt-1 inline-block">
+                  {item.badge}
+                </span>
               </div>
             </div>
           ))}
@@ -256,10 +274,13 @@ export const ServersLandingPage: React.FC = () => {
       {/* 3. Targeted Workload Use-Case Tiles */}
       <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <Typography type="h2" className="text-2xl sm:text-4xl font-black text-white tracking-tight mt-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-neutral-950 border-2 border-neutral-800 text-[#FF1E2D] text-xs font-mono font-bold uppercase tracking-wider mb-2 shadow-[2px_2px_0px_0px_#000000]">
+            // SYSTEM.WORKLOAD_PROFILES [SPEC_V4.2]
+          </div>
+          <Typography type="h2" className="text-2xl sm:text-4xl font-black text-white tracking-tight uppercase font-sans mt-2">
             Engineered for Mission-Critical Infrastructure
           </Typography>
-          <p className="text-xs sm:text-sm text-neutral-400 font-sans mt-2 leading-relaxed">
+          <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2 leading-relaxed">
             Select a tailored computing profile to filter verified server hardware components and pre-configured nodes.
           </p>
         </div>
@@ -270,37 +291,41 @@ export const ServersLandingPage: React.FC = () => {
               <div
                 key={uc.id}
                 onClick={() => navigate(`/servers/catalog?productClass=server&useCase=${uc.id}`)}
-                className={`bg-neutral-900/80 border ${uc.border} hover:border-red-500/60 rounded-3xl p-7 sm:p-8 min-h-[350px] sm:min-h-[365px] backdrop-blur-md shadow-xl transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:-translate-y-1`}
+                className="bg-[#0E0C13] border-2 border-neutral-800 hover:border-[#FF1E2D] rounded-none p-6 sm:p-7 min-h-[350px] shadow-[6px_6px_0px_0px_#000000] dark:shadow-[6px_6px_0px_0px_#FF1E2D] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all cursor-pointer flex flex-col justify-between group relative"
               >
+                {/* Corner Crosshairs */}
+                <span className="absolute top-1.5 left-1.5 font-mono text-[10px] text-neutral-600 group-hover:text-[#FF1E2D] select-none">+</span>
+                <span className="absolute top-1.5 right-1.5 font-mono text-[10px] text-neutral-600 group-hover:text-[#FF1E2D] select-none">+</span>
+
                 <div>
                   <div className="flex items-center justify-between mb-5">
-                    <div className={`w-16 h-16 rounded-2xl bg-neutral-900 border ${uc.bgGlow || 'border-neutral-800'} flex items-center justify-center p-3.5 shadow-inner group-hover:border-red-500/50 group-hover:scale-105 transition-all duration-300`}>
+                    <div className="w-14 h-14 rounded-none bg-neutral-950 border-2 border-neutral-800 flex items-center justify-center p-3 shadow-[3px_3px_0px_0px_#000000] group-hover:border-[#FF1E2D] transition-colors">
                       <img
                         src={uc.iconImage}
                         alt={uc.title}
-                        className={`w-9 h-9 object-contain rounded-lg group-hover:scale-110 transition-transform duration-300 ${uc.imgClass || 'brightness-0 invert'}`}
+                        className={`w-8 h-8 object-contain group-hover:scale-110 transition-transform duration-300 ${uc.imgClass || 'brightness-0 invert'}`}
                       />
                     </div>
-                    <span className="text-[10px] font-sans font-bold bg-neutral-950 text-neutral-300 px-2.5 py-1 rounded-md border border-neutral-800">
+                    <span className="text-[10px] font-mono font-bold bg-neutral-950 text-neutral-300 px-2.5 py-1 rounded-none border-2 border-neutral-800 uppercase tracking-wider shadow-[2px_2px_0px_0px_#000000]">
                       {uc.badge}
                     </span>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-[#FF1E2D] transition-colors">
+                  <h3 className="text-lg sm:text-xl font-black font-sans uppercase text-white tracking-tight group-hover:text-[#FF1E2D] transition-colors">
                     {uc.title}
                   </h3>
 
-                  <span className="text-xs sm:text-sm font-sans text-neutral-400 block mt-1.5">
-                    {uc.tagline}
+                  <span className="text-xs font-mono text-neutral-400 block mt-1.5 uppercase">
+                    // {uc.tagline}
                   </span>
 
-                  <p className="text-xs sm:text-[13px] text-neutral-400 font-sans mt-3.5 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-neutral-400 font-mono mt-3.5 leading-relaxed">
                     {uc.desc}
                   </p>
                 </div>
 
-                <div className="mt-7 pt-4 border-t border-neutral-800/80 flex items-center justify-between text-xs sm:text-sm font-sans font-bold text-[#FF1E2D]">
-                  <span>Explore Workload Components</span>
+                <div className="mt-6 pt-4 border-t-2 border-neutral-800 flex items-center justify-between text-xs font-mono font-bold text-[#FF1E2D] uppercase tracking-wider group-hover:text-white transition-colors">
+                  <span>Explore Workload Components &rarr;</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
@@ -311,44 +336,53 @@ export const ServersLandingPage: React.FC = () => {
 
       {/* 4. Top Supercomputing Installations Spotlight */}
       <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-neutral-800">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b-2 border-neutral-800">
           <div>
-            <div className="flex items-center gap-2 text-xs font-sans font-bold uppercase tracking-widest text-[#FF1E2D] mb-1">
+            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-[#FF1E2D] mb-1">
               <Activity className="w-4 h-4 text-[#FF1E2D]" />
-              TOP500 Global Benchmark
+              // TOP500 GLOBAL BENCHMARK [HPC_MATRIX]
             </div>
-            <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+            <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight uppercase font-sans">
               World-Class Supercomputing Architecture
             </Typography>
-            <p className="text-xs text-neutral-400 font-sans mt-1">
+            <p className="text-xs text-neutral-400 font-mono mt-1">
               Inspect technical topologies, interconnect fabrics, and peak compute ratings of leading HPC supercomputing systems.
             </p>
           </div>
 
           <Link
             to="/servers/pre-configured"
-            className="text-xs font-sans font-bold text-[#FF1E2D] hover:text-red-300 flex items-center gap-1 shrink-0"
+            className="px-4 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-[#FF1E2D] hover:text-white font-mono font-bold text-xs uppercase tracking-wider rounded-none border-2 border-neutral-700 hover:border-[#FF1E2D] shadow-[3px_3px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center gap-2 shrink-0"
           >
-            <span>View All Supercomputer Profiles</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>View All Supercomputer Profiles &rarr;</span>
           </Link>
         </div>
 
         {/* Supercomputing Fabric Spotlight Banner featuring Supercomputer.gif */}
-        <div className="mb-8 relative rounded-3xl overflow-hidden border border-neutral-800 bg-gradient-to-r from-neutral-900 via-[#120F17] to-neutral-950 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+        <div className="mb-8 relative rounded-none border-2 sm:border-[3px] border-neutral-800 bg-[#0E0C13] p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#FF1E2D]">
+          {/* Viewport Corner Crosshairs */}
+          <span className="absolute top-2 left-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+          <span className="absolute top-2 right-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+          <span className="absolute bottom-2 left-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+          <span className="absolute bottom-2 right-2 font-mono text-xs text-[#FF1E2D] font-bold select-none z-30">+</span>
+
           <div className="space-y-3 max-w-2xl z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#FF1E2D]/15 border border-[#FF1E2D]/40 text-[#FF1E2D] text-xs font-sans font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-[#FF1E2D]/15 border-2 border-[#FF1E2D] text-[#FF1E2D] text-xs font-mono font-bold uppercase tracking-wider shadow-[3px_3px_0px_0px_#FF1E2D]">
               <Sparkles className="w-3.5 h-3.5" />
               <span>FRONTIER EXASCALE CLUSTER MATRIX</span>
             </div>
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight uppercase font-sans">
               Exascale High Performance Computing Fabric
             </h3>
-            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-mono">
               Massively parallel symmetric nodes interconnected by low-latency Slingshot-11 and InfiniBand NDR fabrics, delivering hundreds of petaflops of mixed-precision tensor computing.
             </p>
           </div>
-          <div className="shrink-0 w-full md:w-72 lg:w-80 aspect-video rounded-2xl overflow-hidden border border-neutral-700/80 shadow-[0_0_30px_rgba(255,30,45,0.2)] relative group">
+          <div className="shrink-0 w-full md:w-80 lg:w-96 aspect-video rounded-none overflow-hidden border-2 border-neutral-700 bg-black shadow-[6px_6px_0px_0px_#FF1E2D] relative group">
+            <div className="absolute top-1 left-2 right-2 flex items-center justify-between text-[8px] font-mono text-neutral-400 border-b border-neutral-800 pb-0.5 z-10">
+              <span>HPC_MATRIX // TOPOLOGY</span>
+              <span className="text-[#FF1E2D] font-bold">ACTIVE</span>
+            </div>
             <img
               src={supercomputerGif}
               alt="HPC Supercomputer Cluster Matrix"
@@ -366,10 +400,10 @@ export const ServersLandingPage: React.FC = () => {
             return (
               <div
                 key={sc.id}
-                className="bg-neutral-900/90 border border-neutral-800 hover:border-neutral-700 rounded-3xl p-6 sm:p-7 backdrop-blur-md shadow-xl flex flex-col justify-between transition-all group hover:-translate-y-1"
+                className="bg-[#0E0C13] border-2 border-neutral-800 hover:border-[#FF1E2D] rounded-none p-5 sm:p-6 shadow-[5px_5px_0px_0px_#000000] dark:shadow-[5px_5px_0px_0px_#FF1E2D] flex flex-col justify-between transition-all group hover:translate-x-[-2px] hover:translate-y-[-2px]"
               >
                 <div>
-                  <div className="w-full h-44 sm:h-48 bg-neutral-950 rounded-2xl p-3 border border-neutral-800/80 mb-4 flex items-center justify-center overflow-hidden">
+                  <div className="w-full h-44 bg-neutral-950 rounded-none p-3 border-2 border-neutral-800 mb-4 flex items-center justify-center overflow-hidden shadow-[2px_2px_0px_0px_#000000]">
                     <img
                       src={img}
                       alt={sc.name}
@@ -377,19 +411,19 @@ export const ServersLandingPage: React.FC = () => {
                     />
                   </div>
 
-                  <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#FF1E2D] bg-red-950/60 px-2.5 py-1 rounded-md border border-red-800/50">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF1E2D] bg-red-950 border border-red-800/80 px-2 py-0.5 rounded-none inline-block">
                     {specs?.peakCompute}
                   </span>
 
-                  <h3 className="text-base sm:text-lg font-bold text-white tracking-tight mt-2.5 group-hover:text-[#FF1E2D] transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold font-mono text-white tracking-tight mt-2.5 group-hover:text-[#FF1E2D] transition-colors">
                     {sc.name}
                   </h3>
 
-                  <p className="text-xs font-sans text-neutral-400 mt-1 line-clamp-1">
+                  <p className="text-xs font-mono text-neutral-400 mt-1 line-clamp-1">
                     {specs?.operatingInstitutionCountry}
                   </p>
 
-                  <div className="mt-4 pt-3.5 border-t border-neutral-800/80 space-y-1.5 text-xs font-sans">
+                  <div className="mt-4 pt-3.5 border-t-2 border-neutral-800 space-y-1.5 text-xs font-mono">
                     <div className="flex justify-between text-neutral-400">
                       <span>Interconnect:</span>
                       <span className="text-white font-bold">{specs?.interconnectFabric}</span>
@@ -403,7 +437,7 @@ export const ServersLandingPage: React.FC = () => {
 
                 <Link
                   to={`/servers/${sc.id}`}
-                  className="mt-5 w-full py-2.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-xs sm:text-[13px] font-sans font-bold text-center border border-neutral-700 transition-colors block"
+                  className="mt-5 w-full py-2.5 bg-neutral-900 hover:bg-[#FF1E2D] hover:text-white text-neutral-200 rounded-none text-xs font-mono font-bold uppercase tracking-wider text-center border-2 border-neutral-700 hover:border-[#FF1E2D] shadow-[3px_3px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all block"
                 >
                   Technical Spec Sheet &rarr;
                 </Link>
@@ -415,19 +449,25 @@ export const ServersLandingPage: React.FC = () => {
 
       {/* 5. Turnkey Server Models Spotlight */}
       <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto mb-16">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-neutral-800">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b-2 border-neutral-800">
           <div>
-            <p className="text-xs text-neutral-400 font-sans mt-1">
+            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-[#FF1E2D] mb-1">
+              <Server className="w-4 h-4 text-[#FF1E2D]" />
+              // OEM FACTORY PRODUCTION NODES
+            </div>
+            <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight uppercase font-sans">
+              Turnkey Server Models
+            </Typography>
+            <p className="text-xs text-neutral-400 font-mono mt-1">
               Immediate order availability with pan-India insured freight and 3-year OEM on-site warranty.
             </p>
           </div>
 
           <Link
             to="/servers/pre-configured"
-            className="text-xs font-sans font-bold text-[#FF1E2D] hover:text-red-300 flex items-center gap-1 shrink-0"
+            className="px-4 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-[#FF1E2D] hover:text-white font-mono font-bold text-xs uppercase tracking-wider rounded-none border-2 border-neutral-700 hover:border-[#FF1E2D] shadow-[3px_3px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center gap-2 shrink-0"
           >
-            <span>View All 16 Server Models</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <span>View All 16 Server Models &rarr;</span>
           </Link>
         </div>
 
@@ -439,10 +479,10 @@ export const ServersLandingPage: React.FC = () => {
             return (
               <div
                 key={srv.id}
-                className="bg-neutral-900/90 border border-neutral-800 hover:border-neutral-700 rounded-3xl p-7 sm:p-8 backdrop-blur-md shadow-xl flex flex-col justify-between transition-all group hover:-translate-y-1"
+                className="bg-[#0E0C13] border-2 border-neutral-800 hover:border-[#FF1E2D] rounded-none p-6 sm:p-7 shadow-[6px_6px_0px_0px_#000000] dark:shadow-[6px_6px_0px_0px_#FF1E2D] flex flex-col justify-between transition-all group hover:translate-x-[-2px] hover:translate-y-[-2px]"
               >
                 <div>
-                  <div className="w-full h-48 sm:h-52 bg-neutral-950 rounded-2xl p-3.5 border border-neutral-800/80 mb-5 flex items-center justify-center overflow-hidden">
+                  <div className="w-full h-48 sm:h-52 bg-neutral-950 rounded-none p-3.5 border-2 border-neutral-800 mb-5 flex items-center justify-center overflow-hidden shadow-[3px_3px_0px_0px_#000000]">
                     <img
                       src={img}
                       alt={srv.name}
@@ -451,20 +491,20 @@ export const ServersLandingPage: React.FC = () => {
                   </div>
 
                   <div className="mb-2">
-                    <span className="text-[10px] font-sans font-bold text-neutral-400 uppercase">
-                      {srv.brand} // {s?.formFactor}
+                    <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase">
+                      // {srv.brand} // {s?.formFactor}
                     </span>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-[#FF1E2D] transition-colors">
+                  <h3 className="text-lg sm:text-xl font-bold font-sans uppercase text-white tracking-tight group-hover:text-[#FF1E2D] transition-colors">
                     {srv.name}
                   </h3>
 
-                  <p className="text-xs sm:text-[13px] text-neutral-400 font-sans mt-2 line-clamp-2 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-neutral-400 font-mono mt-2 line-clamp-2 leading-relaxed">
                     {srv.description}
                   </p>
 
-                  <div className="mt-5 pt-4 border-t border-neutral-800/80 space-y-2 font-sans text-xs sm:text-[13px]">
+                  <div className="mt-5 pt-4 border-t-2 border-neutral-800 space-y-2 font-mono text-xs sm:text-[13px]">
                     <div className="flex justify-between text-neutral-400">
                       <span>Sockets:</span>
                       <span className="text-white font-bold">{s?.processorSockets}</span>
@@ -476,19 +516,19 @@ export const ServersLandingPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="mt-6 pt-5 border-t border-neutral-800/80 flex items-center justify-between gap-3">
+                <div className="mt-6 pt-5 border-t-2 border-neutral-800 flex items-center justify-between gap-3">
                   <div>
-                    <span className="text-[10px] font-sans text-neutral-500 uppercase block">
-                      Approx Street Price
+                    <span className="text-[10px] font-mono text-neutral-500 uppercase block">
+                      // APPROX STREET PRICE
                     </span>
-                    <span className="text-lg sm:text-xl font-black font-sans text-white">
+                    <span className="text-lg sm:text-xl font-black font-mono text-white">
                       {formatCurrency(srv.price)}
                     </span>
                   </div>
 
                   <Link
                     to={`/servers/${srv.id}`}
-                    className="px-5 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white rounded-xl text-xs sm:text-sm font-sans font-bold transition-all shadow-md shadow-red-950/40"
+                    className="px-5 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white rounded-none border-2 border-neutral-950 dark:border-white text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FFFFFF] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
                   >
                     Details &amp; Order
                   </Link>

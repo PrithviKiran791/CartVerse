@@ -193,23 +193,23 @@ export const PreConfiguredServersPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative z-10">
         {/* Page Header */}
         <FadeContent blur={true} duration={800} easing="ease-out" initialOpacity={0}>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 mb-8 border-b border-neutral-800">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 mb-8 border-b-2 border-neutral-800">
             <div>
-              <div className="flex items-center gap-2 text-xs font-sans font-bold uppercase tracking-widest text-[#FF1E2D] mb-1">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-[#FF1E2D] mb-1">
                 <Server className="w-4 h-4" />
-                Infrastructure Profiles
+                // INFRASTRUCTURE PROFILES [INDEX]
               </div>
-              <Typography type="h1" className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+              <Typography type="h1" className="text-3xl sm:text-4xl font-black text-white tracking-tight uppercase font-sans">
                 Pre-Configured Enterprise Nodes &amp; Supercomputers
               </Typography>
-              <p className="text-xs sm:text-sm text-neutral-400 font-sans mt-2 max-w-2xl leading-relaxed">
+              <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2 max-w-2xl leading-relaxed">
                 Turnkey rack configurations and supercomputing topologies tested for thermal headroom, memory bandwidth, and 24/7 mission-critical uptime. Load directly into the Server Studio for customization or order turnkey.
               </p>
             </div>
 
             <Link
               to="/servers/builder"
-              className="px-5 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-red-950/60 transition-all flex items-center gap-2 shrink-0 self-start sm:self-center"
+              className="px-5 py-3 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-none border-2 border-neutral-950 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FFFFFF] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center gap-2 shrink-0 self-start sm:self-center"
             >
               <Cpu className="w-4 h-4" />
               <span>Custom Configurator &rarr;</span>
@@ -218,7 +218,7 @@ export const PreConfiguredServersPage: React.FC = () => {
         </FadeContent>
 
         {/* Filter Navigation Tabs */}
-        <div className="flex flex-wrap items-center gap-2 mb-8">
+        <div className="flex flex-wrap items-center gap-2.5 mb-8">
           {[
             { id: 'all', label: 'All Infrastructure' },
             { id: 'curated-nodes', label: 'Curated HPC Profiles' },
@@ -228,11 +228,11 @@ export const PreConfiguredServersPage: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveFilter(tab.id as FilterCategory)}
-              className={`px-4 py-2 rounded-xl text-xs font-sans font-bold uppercase tracking-wider transition-all border ${
+              className={`px-4 py-2 rounded-none text-xs font-mono font-bold uppercase tracking-wider transition-all border-2 ${
                 activeFilter === tab.id
-                  ? 'bg-red-950 border-[#FF1E2D] text-red-300 shadow-md shadow-red-950/50'
-                  : 'bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700'
-              }`}
+                  ? 'bg-neutral-950 border-[#FF1E2D] text-[#FF1E2D] shadow-[3px_3px_0px_0px_#FF1E2D]'
+                  : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700 shadow-[2px_2px_0px_0px_#000000]'
+              } active:translate-x-[1px] active:translate-y-[1px] active:shadow-none cursor-pointer`}
             >
               {tab.label}
             </button>
@@ -242,10 +242,10 @@ export const PreConfiguredServersPage: React.FC = () => {
         {/* 1. CURATED HPC PROFILES */}
         {(activeFilter === 'all' || activeFilter === 'curated-nodes') && (
           <div className="mb-14">
-            <div className="flex items-center gap-2 mb-6 pb-2 border-b border-neutral-800">
+            <div className="flex items-center gap-2 mb-6 pb-2 border-b-2 border-neutral-800">
               <Sparkles className="w-4 h-4 text-[#FF1E2D]" />
-              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-sans">
-                Curated High-Performance Computing Profiles
+              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-mono">
+                // CURATED HIGH-PERFORMANCE COMPUTING PROFILES
               </h2>
             </div>
 
@@ -319,10 +319,10 @@ export const PreConfiguredServersPage: React.FC = () => {
         {/* 2. 16 TURNKEY OEM SERVER MODELS */}
         {(activeFilter === 'all' || activeFilter === 'turnkey-servers') && (
           <div className="mb-14">
-            <div className="flex items-center gap-2 mb-6 pb-2 border-b border-neutral-800">
-              <Server className="w-4 h-4 text-emerald-400" />
-              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-sans">
-                Dell PowerEdge, HPE ProLiant &amp; Supermicro Turnkey Systems (16 Models)
+            <div className="flex items-center gap-2 mb-6 pb-2 border-b-2 border-neutral-800">
+              <Server className="w-4 h-4 text-[#FF1E2D]" />
+              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-mono">
+                // OEM FACTORY PRODUCTION NODES (16 MODELS)
               </h2>
             </div>
 
@@ -418,10 +418,10 @@ export const PreConfiguredServersPage: React.FC = () => {
         {/* 3. EXASCALE SUPERCOMPUTERS */}
         {(activeFilter === 'all' || activeFilter === 'supercomputers') && (
           <div className="mb-14">
-            <div className="flex items-center gap-2 mb-6 pb-2 border-b border-neutral-800">
-              <Zap className="w-4 h-4 text-amber-500" />
+            <div className="flex items-center gap-2 mb-6 pb-2 border-b-2 border-neutral-800">
+              <Zap className="w-4 h-4 text-[#FF1E2D]" />
               <h2 className="text-lg font-bold text-white uppercase tracking-wider font-mono">
-                Leading Top500 Supercomputing Topologies (8 Global Systems)
+                // LEADING TOP500 SUPERCOMPUTING TOPOLOGIES (8 GLOBAL SYSTEMS)
               </h2>
             </div>
 
