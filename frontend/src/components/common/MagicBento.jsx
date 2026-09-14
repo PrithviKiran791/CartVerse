@@ -525,32 +525,37 @@ export const MagicBento = ({
           <div className="magic-bento-card__image-overlay" />
         </div>
       ) : card.image ? (
-        <div className="magic-bento-card__image-container">
+        <div className={`magic-bento-card__image-container ${card.imageContainerClassName || ''}`}>
           <img
             src={card.image}
-            alt={card.title}
-            className="magic-bento-card__image"
-            loading="lazy"
+            alt={card.alt !== undefined ? card.alt : (card.title || '')}
+            aria-hidden={card.ariaHidden ? 'true' : undefined}
+            className={`magic-bento-card__image ${card.imageClassName || ''}`}
+            loading={card.eager ? 'eager' : 'lazy'}
           />
-          <div className="magic-bento-card__image-overlay" />
+          {!card.hideOverlay && <div className="magic-bento-card__image-overlay" />}
         </div>
       ) : null}
-      <div className="magic-bento-card__header">
-        <div className="magic-bento-card__label">{card.label}</div>
-        {card.badge && (
-          <span className="magic-bento-card__badge">{card.badge}</span>
-        )}
-      </div>
-      <div className="magic-bento-card__content">
-        <h2 className="magic-bento-card__title">{card.title}</h2>
-        <p className="magic-bento-card__description">{card.description}</p>
-        {isInteractive && (
-          <div className="magic-bento-card__action">
-            <span>{card.ctaText || 'EXPLORE CATEGORY'}</span>
-            <span className="magic-bento-card__arrow">→</span>
-          </div>
-        )}
-      </div>
+      {(card.label || card.badge) && (
+        <div className="magic-bento-card__header">
+          {card.label && <div className="magic-bento-card__label">{card.label}</div>}
+          {card.badge && (
+            <span className="magic-bento-card__badge">{card.badge}</span>
+          )}
+        </div>
+      )}
+      {(card.title || card.description || isInteractive) && (
+        <div className="magic-bento-card__content">
+          {card.title && <h2 className="magic-bento-card__title">{card.title}</h2>}
+          {card.description && <p className="magic-bento-card__description">{card.description}</p>}
+          {isInteractive && (
+            <div className="magic-bento-card__action">
+              <span>{card.ctaText || 'EXPLORE CATEGORY'}</span>
+              <span className="magic-bento-card__arrow">→</span>
+            </div>
+          )}
+        </div>
+      )}
     </>
   );
 

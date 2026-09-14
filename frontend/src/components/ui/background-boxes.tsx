@@ -20,12 +20,12 @@ export const BoxesCore = ({
   const rows = React.useMemo(() => new Array(numRows).fill(1), [numRows]);
   const cols = React.useMemo(() => new Array(numCols).fill(1), [numCols]);
   const defaultColors = [
-    '#E31B23',
+    '#FF1E2D',
     '#FF4D4D',
     '#990000',
     '#FF6B6B',
     '#7F1D1D',
-    '#DC2626',
+    '#FF1E2D',
     '#B91C1C',
     '#F59E0B',
   ];
@@ -104,9 +104,9 @@ export function BackgroundBoxesDemo({
   subtitle,
   badge,
   colors = [
-    '#E31B23',
+    '#FF1E2D',
     '#FF2A35',
-    '#DC2626',
+    '#FF1E2D',
     '#990000',
     '#7F1D1D',
     '#B91C1C',

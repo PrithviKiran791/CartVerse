@@ -68,7 +68,7 @@ export const CometCard: React.FC<CometCardProps> = ({ children, className = '' }
         <div
           className="pointer-events-none absolute -inset-px rounded-2xl opacity-100 transition-opacity duration-300 z-10 overflow-hidden"
           style={{
-            background: `radial-gradient(450px circle at ${mousePos.x}px ${mousePos.y}px, rgba(227, 27, 35, 0.35), transparent 45%)`,
+            background: `radial-gradient(450px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 30, 45, 0.35), transparent 45%)`,
           }}
         />
       )}
@@ -76,7 +76,7 @@ export const CometCard: React.FC<CometCardProps> = ({ children, className = '' }
       {/* Dynamic Comet Border Light Ring */}
       {isHovered && (
         <div
-          className="pointer-events-none absolute -inset-px rounded-2xl z-20 border border-red-500/60 shadow-[0_0_25px_rgba(227,27,35,0.4)]"
+          className="pointer-events-none absolute -inset-px rounded-2xl z-20 border border-red-500/60 shadow-[0_0_25px_rgba(255, 30, 45,0.4)]"
           style={{
             background: `radial-gradient(350px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255, 255, 255, 0.25), transparent 40%)`,
           }}

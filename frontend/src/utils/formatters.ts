@@ -171,16 +171,16 @@ export const printBuildSpec = (build: PCBuildState, totalCost: number, estimated
         <style>
           body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0c0c0e; color: #eee; padding: 40px; margin: 0; }
           .container { max-width: 800px; margin: 0 auto; background: #141418; padding: 32px; border-radius: 12px; border: 1px solid #282830; }
-          .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #E31B23; padding-bottom: 20px; margin-bottom: 24px; }
+          .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #FF1E2D; padding-bottom: 20px; margin-bottom: 24px; }
           .logo { font-size: 28px; font-weight: 900; letter-spacing: -1px; }
-          .logo span { color: #E31B23; }
+          .logo span { color: #FF1E2D; }
           .meta { font-size: 13px; color: #888; text-align: right; }
           table { width: 100%; border-collapse: collapse; margin: 24px 0; }
           th { text-align: left; padding: 12px; color: #aaa; font-size: 12px; border-bottom: 2px solid #333; }
           .total-box { margin-top: 30px; background: #1a1a22; padding: 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
           .total-label { font-size: 14px; text-transform: uppercase; color: #aaa; }
-          .total-val { font-size: 28px; font-weight: 800; color: #E31B23; }
-          .btn-print { margin-top: 24px; padding: 12px 24px; background: #E31B23; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+          .total-val { font-size: 28px; font-weight: 800; color: #FF1E2D; }
+          .btn-print { margin-top: 24px; padding: 12px 24px; background: #FF1E2D; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
           @media print { .btn-print { display: none; } body { background: #fff; color: #111; } .container { border: none; background: #fff; } }
         </style>
       </head>

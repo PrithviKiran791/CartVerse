@@ -76,14 +76,14 @@ export const BuildSummaryBar: React.FC = () => {
           <div className="flex flex-wrap items-center justify-between md:justify-start gap-4 sm:gap-6 w-full md:w-auto">
             {/* Total Price */}
             <div>
-              <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block">
+              <span className="text-[10px] uppercase font-sans tracking-wider text-[#FF1E2D] font-bold block">
                 Total Custom Build Cost
               </span>
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl sm:text-3xl font-black font-mono text-white">
+                <span className="text-2xl sm:text-3xl font-black font-sans text-white">
                   {formatCurrency(totalPrice)}
                 </span>
-                <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/60">
+                <span className="text-[10px] font-sans text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/60">
                   Incl. 18% GST
                 </span>
               </div>
@@ -91,10 +91,10 @@ export const BuildSummaryBar: React.FC = () => {
 
             {/* Estimated TDP Wattage */}
             <div className="border-l border-neutral-800 pl-4 sm:pl-6 hidden sm:block">
-              <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block">
+              <span className="text-[10px] uppercase font-sans tracking-wider text-[#FF1E2D] font-bold block">
                 Estimated System TDP
               </span>
-              <div className="flex items-center gap-1.5 text-base font-bold font-mono text-amber-400">
+              <div className="flex items-center gap-1.5 text-base font-bold font-sans text-amber-400">
                 <Zap className="w-4 h-4" />
                 <span>{formatWattage(estimatedWattage)}</span>
               </div>
@@ -102,10 +102,10 @@ export const BuildSummaryBar: React.FC = () => {
 
             {/* Slots status */}
             <div className="border-l border-neutral-800 pl-4 sm:pl-6 hidden lg:block">
-              <span className="text-[10px] uppercase font-mono tracking-wider text-neutral-400 block">
+              <span className="text-[10px] uppercase font-sans tracking-wider text-[#FF1E2D] font-bold block">
                 Components Assigned
               </span>
-              <span className="text-xs font-mono font-bold text-neutral-300">
+              <span className="text-xs font-sans font-bold text-white">
                 {filledSlots} Selected Components
               </span>
             </div>
@@ -117,7 +117,7 @@ export const BuildSummaryBar: React.FC = () => {
             {filledSlots > 0 && (
               <button
                 onClick={resetBuild}
-                className="p-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-red-400 transition-colors border border-neutral-800 cursor-pointer"
+                className="p-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-[#FF1E2D] transition-colors border border-neutral-800 cursor-pointer"
                 title="Reset Build"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -130,7 +130,7 @@ export const BuildSummaryBar: React.FC = () => {
                 onClick={() => setIsShareModalOpen(true)}
                 className="px-3 sm:px-4 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 hover:text-white text-xs font-bold transition-all border border-neutral-800 flex items-center gap-1.5 cursor-pointer"
               >
-                <Share2 className="w-4 h-4 text-red-400" />
+                <Share2 className="w-4 h-4 text-[#FF1E2D]" />
                 <span>Share / Export</span>
               </button>
             </MagneticButton>
@@ -144,7 +144,7 @@ export const BuildSummaryBar: React.FC = () => {
                   className={`px-5 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center gap-2 cursor-pointer ${
                     filledSlots === 0 || !report.isCompatible
                       ? 'bg-neutral-800 text-neutral-500 border border-neutral-700 cursor-not-allowed'
-                      : 'bg-red-600 hover:bg-red-500 text-white border border-red-500'
+                      : 'bg-[#FF1E2D] hover:bg-[#FF3B48] text-white border border-[#FF1E2D]'
                   }`}
                 >
                   <ShoppingCart className="w-4 h-4" />

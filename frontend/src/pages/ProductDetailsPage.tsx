@@ -135,8 +135,8 @@ export const ProductDetailsPage: React.FC = () => {
           speed={0.5}
           squareSize={40}
           direction="diagonal"
-          borderColor="rgba(227, 27, 35, 0.18)"
-          hoverFillColor="#E31B23"
+          borderColor="rgba(255, 30, 45, 0.18)"
+          hoverFillColor="#FF1E2D"
           shape="square"
           hoverTrailAmount={3}
         />
@@ -215,7 +215,7 @@ export const ProductDetailsPage: React.FC = () => {
                   onClick={() => setSelectedImageIndex(idx)}
                   className={`w-14 h-14 rounded-lg border p-1 bg-neutral-950 overflow-hidden cursor-pointer transition-all ${
                     selectedImageIndex === idx
-                      ? 'border-red-500 shadow-[0_0_12px_rgba(227,27,35,0.4)]'
+                      ? 'border-[#FF1E2D] shadow-[0_0_12px_rgba(255, 30, 45,0.4)]'
                       : 'border-neutral-800 opacity-60 hover:opacity-100 hover:border-neutral-700'
                   }`}
                 >
@@ -228,44 +228,48 @@ export const ProductDetailsPage: React.FC = () => {
           {/* Right: Product Details & Actions */}
           <div className="space-y-6">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-neutral-400 mb-1">
-                <span className="text-red-400 font-bold uppercase">{product.brand}</span>
+              <div className="flex items-center gap-2 text-xs font-sans text-neutral-400 mb-1">
+                <span className="text-[#FF1E2D] font-bold uppercase">{product.brand}</span>
                 <span>•</span>
-                <span className="uppercase">{product.category}</span>
+                <span className="uppercase text-[#FF1E2D] font-bold">{product.category}</span>
                 <span>•</span>
-                <span className="font-mono text-neutral-500">SKU: {product.sku}</span>
+                <span className="font-sans text-[#FF1E2D] font-bold">SKU: {product.sku}</span>
               </div>
 
               <Typography type="h1" className="text-2xl sm:text-3xl font-black text-white mb-2">
                 {product.name}
               </Typography>
 
-              {product.avgRating || product.rating ? (
-                <div className="flex items-center gap-1.5 text-amber-400 text-sm mb-4">
-                  <Star className="w-4 h-4 fill-amber-400" />
-                  <span className="font-bold text-white">{(product.avgRating || product.rating).toFixed(1)}</span>
-                  <span className="text-xs font-mono text-neutral-400">
-                    ({product.reviewCount || product.reviewsCount || 0} reviews)
-                  </span>
-                </div>
-              ) : (
-                <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-400 mb-4">
-                  <Star className="w-4 h-4 text-neutral-600" />
-                  <span>No reviews yet</span>
-                </div>
+              {product.category !== 'simulator' && (
+                (product.avgRating || product.rating) ? (
+                  <div className="flex items-center gap-1.5 text-amber-400 text-sm mb-4">
+                    <Star className="w-4 h-4 fill-amber-400" />
+                    <span className="font-bold text-white">{(product.avgRating || product.rating).toFixed(1)}</span>
+                    <span className="text-xs font-sans text-neutral-400">
+                      ({product.reviewCount || product.reviewsCount || 0} reviews)
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1.5 text-xs font-sans text-neutral-400 mb-4">
+                    <Star className="w-4 h-4 text-neutral-600" />
+                    <span>No reviews yet</span>
+                  </div>
+                )
               )}
 
+
               <div className="flex items-baseline gap-3">
-                <span className="text-3xl font-black font-mono text-white">
+                <span className="text-3xl font-black font-sans text-white">
                   {formatCurrency(product.price)}
                 </span>
-                {product.originalPrice && (
-                  <span className="text-sm text-neutral-500 line-through font-mono">
+                {product.category !== 'simulator' && product.originalPrice && product.originalPrice > product.price && (
+                  <span className="text-sm text-neutral-500 line-through font-sans">
                     {formatCurrency(product.originalPrice)}
                   </span>
                 )}
+
               </div>
-              <span className="text-[11px] font-mono text-neutral-400 block mt-1">
+              <span className="text-[11px] font-sans text-[#FF1E2D] font-bold block mt-1">
                 Inclusive of 18% GST · Free Insured Express Delivery
               </span>
             </div>
@@ -278,7 +282,7 @@ export const ProductDetailsPage: React.FC = () => {
               >
                 <Minus className="w-3.5 h-3.5" />
               </button>
-              <span className="px-3 text-xs font-mono font-bold text-white">{quantity}</span>
+              <span className="px-3 text-xs font-sans font-bold text-white">{quantity}</span>
               <button
                 onClick={() => setQuantity(quantity + 1)}
                 className="p-1.5 text-neutral-400 hover:text-white"
@@ -298,13 +302,13 @@ export const ProductDetailsPage: React.FC = () => {
                 className={`p-4 rounded-2xl border flex items-start gap-3 ${
                   compatibility.isCompatible
                     ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
-                    : 'bg-red-950/30 border-red-500/50 text-red-300'
+                    : 'bg-[#FF1E2D]/10 border-[#FF1E2D]/40 text-[#FF1E2D]'
                 }`}
               >
                 {compatibility.isCompatible ? (
                   <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                 ) : (
-                  <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                  <AlertTriangle className="w-5 h-5 text-[#FF1E2D] shrink-0 mt-0.5" />
                 )}
                 <div className="text-xs">
                   <div className="font-bold mb-0.5">
@@ -338,7 +342,7 @@ export const ProductDetailsPage: React.FC = () => {
                   <NoiseBackground containerClassName="rounded-xl shadow-lg w-full">
                     <button
                       onClick={() => navigate('/servers/builder')}
-                      className="w-full py-3.5 px-6 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
+                      className="w-full py-3.5 px-6 rounded-xl bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
                       <Server className="w-4 h-4" />
                       <span>Configure in Server Studio</span>
@@ -350,7 +354,7 @@ export const ProductDetailsPage: React.FC = () => {
                   <NoiseBackground containerClassName="rounded-xl shadow-lg w-full">
                     <button
                       onClick={handleAddToBuilder}
-                      className="w-full py-3.5 px-6 rounded-xl bg-red-600 hover:bg-red-500 text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
+                      className="w-full py-3.5 px-6 rounded-xl bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
                       <Cpu className="w-4 h-4" />
                       <span>Assign to Custom Rig</span>
@@ -363,15 +367,15 @@ export const ProductDetailsPage: React.FC = () => {
             {/* Value props */}
             <div className="grid grid-cols-3 gap-3 pt-4 border-t border-neutral-800 text-[11px] text-neutral-400">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-red-500 shrink-0" />
+                <ShieldCheck className="w-4 h-4 text-[#FF1E2D] shrink-0" />
                 <span>Direct Brand RMA</span>
               </div>
               <div className="flex items-center gap-2">
-                <Truck className="w-4 h-4 text-red-500 shrink-0" />
+                <Truck className="w-4 h-4 text-[#FF1E2D] shrink-0" />
                 <span>Insured Transit</span>
               </div>
               <div className="flex items-center gap-2">
-                <RotateCcw className="w-4 h-4 text-red-500 shrink-0" />
+                <RotateCcw className="w-4 h-4 text-[#FF1E2D] shrink-0" />
                 <span>7-Day Replacement</span>
               </div>
             </div>
@@ -384,9 +388,12 @@ export const ProductDetailsPage: React.FC = () => {
         </FadeContent>
 
         {/* Customer Reviews & Ratings */}
-        <FadeContent blur={true} duration={850} delay={75} easing="ease-out" initialOpacity={0}>
-          <ProductReviewsSection productId={product.id} productName={product.name} />
-        </FadeContent>
+        {product.category !== 'simulator' && (
+          <FadeContent blur={true} duration={850} delay={75} easing="ease-out" initialOpacity={0}>
+            <ProductReviewsSection productId={product.id} productName={product.name} />
+          </FadeContent>
+        )}
+
 
         {/* Community Discussion / Q&A */}
         <FadeContent blur={true} duration={850} delay={100} easing="ease-out" initialOpacity={0}>

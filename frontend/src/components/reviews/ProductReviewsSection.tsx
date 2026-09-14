@@ -380,11 +380,11 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
         <div>
           <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
             <span>Customer Reviews & Ratings</span>
-            <span className="text-xs font-mono bg-neutral-800 text-neutral-300 px-2.5 py-1 rounded-full font-normal">
+            <span className="text-xs font-sans bg-neutral-800 text-neutral-300 px-2.5 py-1 rounded-full font-normal">
               {summary.reviewCount} {summary.reviewCount === 1 ? 'Review' : 'Reviews'}
             </span>
           </h3>
-          <p className="text-xs text-neutral-400 font-mono mt-1">
+          <p className="text-xs text-neutral-400 font-sans mt-1">
             Real, verified customer ratings & benchmark experiences for {productName}
           </p>
         </div>
@@ -394,7 +394,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
             <button
               type="button"
               onClick={handleOpenEdit}
-              className="px-5 py-2.5 bg-neutral-800 hover:bg-neutral-750 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-700 hover:border-red-500/60 shadow-lg flex items-center gap-2 transition-all cursor-pointer"
+              className="px-5 py-2.5 bg-neutral-800 hover:bg-neutral-750 text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-700 hover:border-red-500/60 shadow-lg flex items-center gap-2 transition-all cursor-pointer"
             >
               <Edit3 className="w-4 h-4 text-red-500" />
               <span>Edit Your Review</span>
@@ -403,7 +403,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
             <button
               type="button"
               onClick={handleOpenNew}
-              className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg flex items-center gap-2 transition-all cursor-pointer"
+              className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg flex items-center gap-2 transition-all cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Write a Review</span>
@@ -419,14 +419,14 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
           className="bg-neutral-950 border border-red-500/30 rounded-2xl p-6 space-y-5 animate-in fade-in duration-200"
         >
           <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
-            <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 font-mono">
+            <h4 className="text-sm font-black text-white uppercase tracking-wider flex items-center gap-2 font-sans">
               <Star className="w-4 h-4 text-red-500 fill-red-500" />
               <span>{currentUserReview ? 'Edit Your Product Review' : 'Share Your Experience'}</span>
             </h4>
             <button
               type="button"
               onClick={() => setIsFormOpen(false)}
-              className="text-xs text-neutral-400 hover:text-white font-mono"
+              className="text-xs text-neutral-400 hover:text-white font-sans"
             >
               Cancel
             </button>
@@ -434,7 +434,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
 
           {/* Interactive Star Picker */}
           <div>
-            <label className="block text-xs font-mono uppercase text-neutral-400 mb-2">
+            <label className="block text-xs font-sans uppercase text-neutral-400 mb-2">
               Overall Hardware Rating *
             </label>
             <div className="flex items-center gap-2">
@@ -458,7 +458,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                   </button>
                 ))}
               </div>
-              <span className="text-xs font-mono text-neutral-300 font-bold ml-2">
+              <span className="text-xs font-sans text-neutral-300 font-bold ml-2">
                 {getRatingLabel(hoverRating || formRating)}
               </span>
             </div>
@@ -466,7 +466,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
 
           {/* Headline / Title */}
           <div>
-            <label className="block text-xs font-mono uppercase text-neutral-400 mb-1.5">
+            <label className="block text-xs font-sans uppercase text-neutral-400 mb-1.5">
               Review Title (Optional)
             </label>
             <input
@@ -475,13 +475,13 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
               onChange={(e) => setFormTitle(e.target.value)}
               placeholder="e.g. Blazing fast thermals, runs cyberpunk at 120 FPS!"
               maxLength={120}
-              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-neutral-500 font-mono outline-none focus:border-red-500"
+              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-neutral-500 font-sans outline-none focus:border-red-500"
             />
           </div>
 
           {/* Review Body */}
           <div>
-            <label className="block text-xs font-mono uppercase text-neutral-400 mb-1.5">
+            <label className="block text-xs font-sans uppercase text-neutral-400 mb-1.5">
               Detailed Feedback & Build Experience * (Min 5 Characters)
             </label>
             <textarea
@@ -492,9 +492,9 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
               required
               minLength={5}
               maxLength={2000}
-              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-xs text-white placeholder-neutral-500 font-mono outline-none focus:border-red-500 leading-relaxed"
+              className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-xs text-white placeholder-neutral-500 font-sans outline-none focus:border-red-500 leading-relaxed"
             />
-            <div className="flex justify-between items-center text-[10px] font-mono text-neutral-500 mt-1">
+            <div className="flex justify-between items-center text-[10px] font-sans text-neutral-500 mt-1">
               <span>Minimum 5 characters required</span>
               <span>{formBody.length} / 2000</span>
             </div>
@@ -502,7 +502,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
 
           {/* Image Attachments */}
           <div>
-            <label className="block text-xs font-mono uppercase text-neutral-400 mb-1.5">
+            <label className="block text-xs font-sans uppercase text-neutral-400 mb-1.5">
               Build / Benchmark Images (Optional URL, Max 3)
             </label>
             <div className="flex gap-2">
@@ -511,13 +511,13 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                 value={formImageUrl}
                 onChange={(e) => setFormImageUrl(e.target.value)}
                 placeholder="https://images.cloudinary.com/... or image link"
-                className="flex-1 bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-neutral-500 font-mono outline-none focus:border-red-500"
+                className="flex-1 bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2 text-xs text-white placeholder-neutral-500 font-sans outline-none focus:border-red-500"
               />
               <button
                 type="button"
                 onClick={handleAddImage}
                 disabled={!formImageUrl.trim() || formImages.length >= 3}
-                className="px-4 py-2 bg-neutral-800 hover:bg-neutral-750 disabled:opacity-40 text-neutral-200 text-xs font-mono rounded-xl border border-neutral-700 cursor-pointer"
+                className="px-4 py-2 bg-neutral-800 hover:bg-neutral-750 disabled:opacity-40 text-neutral-200 text-xs font-sans rounded-xl border border-neutral-700 cursor-pointer"
               >
                 Add Image
               </button>
@@ -546,7 +546,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
               <button
                 type="button"
                 onClick={handleDeleteReview}
-                className="text-xs font-mono text-red-400 hover:text-red-300 flex items-center gap-1.5 cursor-pointer"
+                className="text-xs font-sans text-red-400 hover:text-red-300 flex items-center gap-1.5 cursor-pointer"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Delete Review</span>
@@ -556,14 +556,14 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
               <button
                 type="button"
                 onClick={() => setIsFormOpen(false)}
-                className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-xs font-mono text-neutral-400 rounded-xl cursor-pointer"
+                className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-xs font-sans text-neutral-400 rounded-xl cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-2.5 bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg flex items-center gap-2 cursor-pointer"
+                className="px-6 py-2.5 bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg flex items-center gap-2 cursor-pointer"
               >
                 {isSubmitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                 <span>{currentUserReview ? 'Update Review' : 'Publish Review'}</span>
@@ -578,7 +578,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 bg-neutral-950/70 border border-neutral-800 p-6 rounded-2xl">
           {/* Left: Score Badge */}
           <div className="md:col-span-4 flex flex-col items-center justify-center text-center p-4 border-b md:border-b-0 md:border-r border-neutral-800">
-            <span className="text-5xl sm:text-6xl font-black text-white font-mono tracking-tight">
+            <span className="text-5xl sm:text-6xl font-black text-white font-sans tracking-tight">
               {summary.avgRating.toFixed(1)}
             </span>
             <div className="flex items-center gap-1 my-2">
@@ -595,10 +595,10 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                 />
               ))}
             </div>
-            <span className="text-xs font-mono text-neutral-400">
+            <span className="text-xs font-sans text-neutral-400">
               Based on {summary.reviewCount} verified {summary.reviewCount === 1 ? 'rating' : 'ratings'}
             </span>
-            <span className="text-[11px] font-mono text-emerald-400 font-bold mt-1">
+            <span className="text-[11px] font-sans text-emerald-400 font-bold mt-1">
               {summary.percentageRecommended}% of customers recommend this hardware
             </span>
           </div>
@@ -609,7 +609,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
               const count = summary.breakdown[star as 1 | 2 | 3 | 4 | 5] || 0;
               const percent = summary.reviewCount > 0 ? Math.round((count / summary.reviewCount) * 100) : 0;
               return (
-                <div key={star} className="flex items-center gap-3 text-xs font-mono">
+                <div key={star} className="flex items-center gap-3 text-xs font-sans">
                   <div className="flex items-center gap-1 w-12 shrink-0">
                     <span className="text-white font-bold">{star}</span>
                     <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
@@ -631,14 +631,14 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
 
       {/* Sorting & Filter Controls */}
       {summary.reviewCount > 0 && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-mono">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs font-sans">
           <div className="text-neutral-400">
             Showing <span className="text-white font-bold">{reviews.length}</span> of{' '}
             <span className="text-white font-bold">{summary.reviewCount}</span> verified reviews
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-neutral-500 uppercase tracking-wider text-[11px]">Sort By:</span>
+            <span className="text-[#FF1E2D] font-bold uppercase tracking-wider text-[11px]">Sort By:</span>
             <div className="inline-flex rounded-xl bg-neutral-950 border border-neutral-800 p-1">
               <button
                 type="button"
@@ -685,7 +685,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
       {isLoading ? (
         <div className="py-16 text-center space-y-3">
           <Loader2 className="w-8 h-8 text-red-500 animate-spin mx-auto" />
-          <p className="text-xs font-mono text-neutral-400">Loading verified community reviews...</p>
+          <p className="text-xs font-sans text-neutral-400">Loading verified community reviews...</p>
         </div>
       ) : reviews.length === 0 ? (
         /* Empty State: No real reviews yet — genuine empty state with clear CTA */
@@ -694,17 +694,17 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
             <MessageSquareOff className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="text-lg font-black text-white uppercase tracking-wider font-mono">
+            <h4 className="text-lg font-black text-white uppercase tracking-wider font-sans">
               No reviews yet
             </h4>
-            <p className="text-xs text-neutral-400 font-mono mt-1 max-w-md mx-auto">
+            <p className="text-xs text-neutral-400 font-sans mt-1 max-w-md mx-auto">
               Be the first to review this component. Share your benchmarks, thermals, and build experience with the CartVerse community.
             </p>
           </div>
           <button
             type="button"
             onClick={handleOpenNew}
-            className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg inline-flex items-center gap-2 cursor-pointer transition-all"
+            className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg inline-flex items-center gap-2 cursor-pointer transition-all"
           >
             <Plus className="w-4 h-4" />
             <span>Write the First Review</span>
@@ -726,25 +726,25 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-neutral-850 pb-3">
                   <div className="flex items-center gap-3">
                     {/* User Avatar Initial */}
-                    <div className="w-8 h-8 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center font-mono text-xs font-bold text-white uppercase">
+                    <div className="w-8 h-8 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center font-sans text-xs font-bold text-white uppercase">
                       {rev.userName.slice(0, 2) || 'CV'}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-black text-white font-mono">{rev.userName}</span>
+                        <span className="text-xs font-black text-white font-sans">{rev.userName}</span>
                         {rev.verifiedPurchase && (
-                          <span className="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-950/50 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">
+                          <span className="inline-flex items-center gap-1 text-[10px] font-sans text-emerald-400 bg-emerald-950/50 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">
                             <ShieldCheck className="w-3 h-3" />
                             Verified Purchase
                           </span>
                         )}
                         {isOwnReview && (
-                          <span className="text-[10px] font-mono bg-red-950 text-red-300 border border-red-500/30 px-2 py-0.5 rounded-full font-bold">
+                          <span className="text-[10px] font-sans bg-red-950 text-red-300 border border-red-500/30 px-2 py-0.5 rounded-full font-bold">
                             Your Review
                           </span>
                         )}
                       </div>
-                      <div className="flex items-center gap-2 text-[10px] font-mono text-neutral-500 mt-0.5">
+                      <div className="flex items-center gap-2 text-[10px] font-sans text-neutral-500 mt-0.5">
                         <span>{new Date(rev.createdAt).toLocaleDateString('en-IN', { dateStyle: 'medium' })}</span>
                         {rev.editedAt && <span>· Edited</span>}
                       </div>
@@ -761,14 +761,14 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                         }`}
                       />
                     ))}
-                    <span className="text-xs font-mono font-bold text-white ml-1.5">{rev.rating}.0</span>
+                    <span className="text-xs font-sans font-bold text-white ml-1.5">{rev.rating}.0</span>
                   </div>
                 </div>
 
                 {/* Review Title & Body */}
                 <div className="space-y-1.5">
                   {rev.title && (
-                    <h5 className="text-sm font-black text-white font-mono tracking-tight">{rev.title}</h5>
+                    <h5 className="text-sm font-black text-white font-sans tracking-tight">{rev.title}</h5>
                   )}
                   <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans whitespace-pre-line">
                     {rev.body || rev.comment}
@@ -793,7 +793,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                 )}
 
                 {/* Actions Bar: Helpful Vote & Report */}
-                <div className="flex items-center justify-between pt-2 border-t border-neutral-850 text-xs font-mono">
+                <div className="flex items-center justify-between pt-2 border-t border-neutral-850 text-xs font-sans">
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
@@ -842,7 +842,7 @@ export const ProductReviewsSection: React.FC<ProductReviewsSectionProps> = ({
                 type="button"
                 onClick={() => loadReviews(pagination.page + 1, true)}
                 disabled={isLoadingMore}
-                className="px-6 py-2.5 bg-neutral-900 hover:bg-neutral-850 border border-neutral-800 text-neutral-200 font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer inline-flex items-center gap-2"
+                className="px-6 py-2.5 bg-neutral-900 hover:bg-neutral-850 border border-neutral-800 text-neutral-200 font-sans font-bold text-xs uppercase tracking-wider rounded-xl transition-all cursor-pointer inline-flex items-center gap-2"
               >
                 {isLoadingMore && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
                 <span>Load More Reviews</span>

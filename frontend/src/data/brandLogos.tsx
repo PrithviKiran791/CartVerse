@@ -46,7 +46,7 @@ export const brandLogos: CatalogBrandItem[] = [
           <text x="5" y="28" fontFamily="system-ui, -apple-system, sans-serif" fontWeight="900" fontSize="28" letterSpacing="-1px">
             intel
           </text>
-          <circle cx="48" cy="10" r="3.5" fill="#e31b23" />
+          <circle cx="48" cy="10" r="3.5" fill="#FF1E2D" />
         </svg>
       </div>
     ),
@@ -208,8 +208,8 @@ export const enterpriseBrandLogos: CatalogBrandItem[] = [
     catalogHref: '/servers/catalog?brand=AMD',
     node: (
       <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900/60 rounded-lg border border-neutral-800">
-        <span className="text-sm font-black tracking-wider text-white font-mono">AMD</span>
-        <span className="text-xs font-bold text-red-500 font-mono bg-red-950 px-1 rounded">EPYC</span>
+        <span className="text-sm font-black tracking-wider text-white font-sans">AMD</span>
+        <span className="text-xs font-bold text-red-500 font-sans bg-red-950 px-1 rounded">EPYC</span>
       </div>
     ),
   },
@@ -221,8 +221,8 @@ export const enterpriseBrandLogos: CatalogBrandItem[] = [
     catalogHref: '/servers/catalog?brand=Intel',
     node: (
       <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900/60 rounded-lg border border-neutral-800">
-        <span className="text-sm font-black tracking-wider text-cyan-400 font-mono">intel</span>
-        <span className="text-xs font-bold text-white font-mono uppercase">XEON</span>
+        <span className="text-sm font-black tracking-wider text-cyan-400 font-sans">intel</span>
+        <span className="text-xs font-bold text-white font-sans uppercase">XEON</span>
       </div>
     ),
   },
@@ -235,7 +235,7 @@ export const enterpriseBrandLogos: CatalogBrandItem[] = [
     node: (
       <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900/60 rounded-lg border border-neutral-800">
         <span className="text-sm font-black tracking-widest text-white font-sans">DELL</span>
-        <span className="text-[10px] text-neutral-400 font-mono">PowerEdge</span>
+        <span className="text-[10px] text-neutral-400 font-sans">PowerEdge</span>
       </div>
     ),
   },
@@ -247,8 +247,8 @@ export const enterpriseBrandLogos: CatalogBrandItem[] = [
     catalogHref: '/servers/catalog?brand=HPE',
     node: (
       <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900/60 rounded-lg border border-neutral-800">
-        <span className="text-sm font-black tracking-wider text-emerald-400 font-mono">HPE</span>
-        <span className="text-[10px] text-neutral-300 font-mono">ProLiant</span>
+        <span className="text-sm font-black tracking-wider text-emerald-400 font-sans">HPE</span>
+        <span className="text-[10px] text-neutral-300 font-sans">ProLiant</span>
       </div>
     ),
   },
@@ -260,7 +260,7 @@ export const enterpriseBrandLogos: CatalogBrandItem[] = [
     catalogHref: '/servers/catalog?brand=Supermicro',
     node: (
       <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900/60 rounded-lg border border-neutral-800">
-        <span className="text-sm font-bold tracking-tight text-white font-mono">SUPERMICRO</span>
+        <span className="text-sm font-bold tracking-tight text-white font-sans">SUPERMICRO</span>
       </div>
     ),
   },
@@ -272,8 +272,8 @@ export const enterpriseBrandLogos: CatalogBrandItem[] = [
     catalogHref: '/servers/catalog?brand=NVIDIA',
     node: (
       <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900/60 rounded-lg border border-neutral-800">
-        <span className="text-sm font-black tracking-wider text-[#76B900] font-mono">NVIDIA</span>
-        <span className="text-[10px] text-neutral-400 font-mono">Hopper/Ada</span>
+        <span className="text-sm font-black tracking-wider text-[#76B900] font-sans">NVIDIA</span>
+        <span className="text-[10px] text-neutral-400 font-sans">Hopper/Ada</span>
       </div>
     ),
   },
@@ -285,7 +285,7 @@ export const enterpriseBrandLogos: CatalogBrandItem[] = [
     catalogHref: '/servers/catalog?brand=Broadcom',
     node: (
       <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900/60 rounded-lg border border-neutral-800">
-        <span className="text-xs font-bold tracking-wider text-red-400 font-mono uppercase">BROADCOM</span>
+        <span className="text-xs font-bold tracking-wider text-red-400 font-sans uppercase">BROADCOM</span>
       </div>
     ),
   },
@@ -297,8 +297,8 @@ export const enterpriseBrandLogos: CatalogBrandItem[] = [
     catalogHref: '/servers/catalog?brand=Seagate',
     node: (
       <div className="flex items-center gap-1.5 px-3 py-1 bg-neutral-900/60 rounded-lg border border-neutral-800">
-        <span className="text-sm font-bold text-white font-mono">SEAGATE</span>
-        <span className="text-[10px] text-emerald-400 font-mono">EXOS</span>
+        <span className="text-sm font-bold text-white font-sans">SEAGATE</span>
+        <span className="text-[10px] text-emerald-400 font-sans">EXOS</span>
       </div>
     ),
   },

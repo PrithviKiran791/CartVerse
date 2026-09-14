@@ -108,17 +108,17 @@ export const IntelSpecsModal: React.FC<IntelSpecsModalProps> = ({ product, isOpe
               {/* Title & Badges */}
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2 mb-2">
-                  <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-mono text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
+                  <span className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-sans text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
                     <Sparkles className="w-3 h-3" />
                     Intel Official Specification
                   </span>
-                  <span className="bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-mono text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                  <span className="bg-cyan-950/80 border border-cyan-500/40 text-cyan-300 font-sans text-[11px] font-bold px-2.5 py-0.5 rounded-full">
                     {intel.generation}
                   </span>
-                  <span className="bg-neutral-800 text-neutral-300 font-mono text-[11px] px-2 py-0.5 rounded-full">
+                  <span className="bg-neutral-800 text-neutral-300 font-sans text-[11px] px-2 py-0.5 rounded-full">
                     Tier: {intel.tier}
                   </span>
-                  <span className="bg-neutral-800 text-cyan-400 font-mono text-[11px] px-2 py-0.5 rounded-full">
+                  <span className="bg-neutral-800 text-cyan-400 font-sans text-[11px] px-2 py-0.5 rounded-full">
                     Suffix: {intel.suffix}
                   </span>
                 </div>
@@ -126,7 +126,7 @@ export const IntelSpecsModal: React.FC<IntelSpecsModalProps> = ({ product, isOpe
                 <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
                   {intel.exactModel}
                 </h2>
-                <div className="flex items-center gap-3 text-xs font-mono text-cyan-400 mt-1">
+                <div className="flex items-center gap-3 text-xs font-sans text-cyan-400 mt-1">
                   <span>Architecture Codename:</span>
                   <span className="font-bold text-white bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800/50">
                     {intel.codename}
@@ -140,38 +140,38 @@ export const IntelSpecsModal: React.FC<IntelSpecsModalProps> = ({ product, isOpe
           <div className="p-6 sm:p-8 space-y-6 max-h-[60vh] overflow-y-auto">
             {/* 1. Core Architecture Matrix */}
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider mb-3">
+              <div className="flex items-center gap-2 text-xs font-sans text-cyan-400 font-bold uppercase tracking-wider mb-3">
                 <Cpu className="w-4 h-4 text-cyan-400" />
                 <span>Microarchitecture & Core Matrix</span>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div className="bg-neutral-900/90 border border-cyan-500/20 rounded-2xl p-4 text-center">
-                  <div className="text-[10px] font-mono text-neutral-400 uppercase mb-1">Total Cores</div>
-                  <div className="text-2xl sm:text-3xl font-black text-cyan-400 font-mono">
+                  <div className="text-[10px] font-sans text-[#FF1E2D] font-bold uppercase mb-1">Total Cores</div>
+                  <div className="text-2xl sm:text-3xl font-black text-cyan-400 font-sans">
                     {intel.totalCores}
                   </div>
                   <div className="text-[10px] text-neutral-500 mt-1">Physical Compute Units</div>
                 </div>
 
                 <div className="bg-neutral-900/90 border border-blue-500/20 rounded-2xl p-4 text-center">
-                  <div className="text-[10px] font-mono text-neutral-400 uppercase mb-1">P-Cores</div>
-                  <div className="text-2xl sm:text-3xl font-black text-blue-400 font-mono">
+                  <div className="text-[10px] font-sans text-[#FF1E2D] font-bold uppercase mb-1">P-Cores</div>
+                  <div className="text-2xl sm:text-3xl font-black text-blue-400 font-sans">
                     {intel.pCores}
                   </div>
                   <div className="text-[10px] text-neutral-500 mt-1">Performance Cores</div>
                 </div>
 
                 <div className="bg-neutral-900/90 border border-indigo-500/20 rounded-2xl p-4 text-center">
-                  <div className="text-[10px] font-mono text-neutral-400 uppercase mb-1">E / LPE Cores</div>
-                  <div className="text-2xl sm:text-3xl font-black text-indigo-400 font-mono">
+                  <div className="text-[10px] font-sans text-[#FF1E2D] font-bold uppercase mb-1">E / LPE Cores</div>
+                  <div className="text-2xl sm:text-3xl font-black text-indigo-400 font-sans">
                     {intel.eCores}
                   </div>
                   <div className="text-[10px] text-neutral-500 mt-1">Efficient / Low-Power</div>
                 </div>
 
                 <div className="bg-neutral-900/90 border border-cyan-500/20 rounded-2xl p-4 text-center">
-                  <div className="text-[10px] font-mono text-neutral-400 uppercase mb-1">Total Threads</div>
-                  <div className="text-2xl sm:text-3xl font-black text-emerald-400 font-mono">
+                  <div className="text-[10px] font-sans text-[#FF1E2D] font-bold uppercase mb-1">Total Threads</div>
+                  <div className="text-2xl sm:text-3xl font-black text-emerald-400 font-sans">
                     {intel.threads}
                   </div>
                   <div className="text-[10px] text-neutral-500 mt-1">Parallel Workflows</div>
@@ -181,27 +181,27 @@ export const IntelSpecsModal: React.FC<IntelSpecsModalProps> = ({ product, isOpe
 
             {/* 2. Frequency & Cache Profile */}
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider mb-3">
+              <div className="flex items-center gap-2 text-xs font-sans text-cyan-400 font-bold uppercase tracking-wider mb-3">
                 <Gauge className="w-4 h-4 text-cyan-400" />
                 <span>Clock Frequencies & Smart Cache</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div className="bg-neutral-900/70 border border-neutral-800 rounded-2xl p-4">
-                  <div className="text-[10px] font-mono text-neutral-500 uppercase">Base Clock (P-Core)</div>
-                  <div className="text-lg font-bold text-white font-mono mt-1">{intel.baseClock}</div>
+                  <div className="text-[10px] font-sans text-[#FF1E2D] font-bold uppercase">Base Clock (P-Core)</div>
+                  <div className="text-lg font-bold text-white font-sans mt-1">{intel.baseClock}</div>
                   <div className="text-[11px] text-neutral-400 mt-0.5">Sustained base operation</div>
                 </div>
 
                 <div className="bg-neutral-900/70 border border-cyan-500/30 rounded-2xl p-4 relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-16 h-16 bg-cyan-500/10 rounded-full blur-xl" />
-                  <div className="text-[10px] font-mono text-cyan-400 uppercase font-bold">Max Turbo Frequency</div>
-                  <div className="text-xl font-black text-cyan-300 font-mono mt-1">{intel.turboClock}</div>
+                  <div className="text-[10px] font-sans text-cyan-400 uppercase font-bold">Max Turbo Frequency</div>
+                  <div className="text-xl font-black text-cyan-300 font-sans mt-1">{intel.turboClock}</div>
                   <div className="text-[11px] text-neutral-400 mt-0.5">Intel Turbo Boost Max</div>
                 </div>
 
                 <div className="bg-neutral-900/70 border border-neutral-800 rounded-2xl p-4">
-                  <div className="text-[10px] font-mono text-neutral-500 uppercase">L3 Cache Pool</div>
-                  <div className="text-lg font-bold text-amber-300 font-mono mt-1">{intel.l3Cache}</div>
+                  <div className="text-[10px] font-sans text-[#FF1E2D] font-bold uppercase">L3 Cache Pool</div>
+                  <div className="text-lg font-bold text-amber-300 font-sans mt-1">{intel.l3Cache}</div>
                   <div className="text-[11px] text-neutral-400 mt-0.5">Shared Intel Smart Cache</div>
                 </div>
               </div>
@@ -209,7 +209,7 @@ export const IntelSpecsModal: React.FC<IntelSpecsModalProps> = ({ product, isOpe
 
             {/* 3. Power, Thermals & Platform */}
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider mb-3">
+              <div className="flex items-center gap-2 text-xs font-sans text-cyan-400 font-bold uppercase tracking-wider mb-3">
                 <Flame className="w-4 h-4 text-cyan-400" />
                 <span>Power Envelope, Graphics & Memory</span>
               </div>
@@ -218,36 +218,36 @@ export const IntelSpecsModal: React.FC<IntelSpecsModalProps> = ({ product, isOpe
                 <div className="bg-neutral-900/60 border border-neutral-800 rounded-2xl p-4 space-y-3">
                   <div className="flex items-center justify-between pb-2 border-b border-neutral-800">
                     <span className="text-xs text-neutral-400">Processor Base Power (TDP)</span>
-                    <span className="font-mono font-bold text-yellow-400 text-sm">{intel.baseTdp}</span>
+                    <span className="font-sans font-bold text-yellow-400 text-sm">{intel.baseTdp}</span>
                   </div>
                   <div className="flex items-center justify-between pb-2 border-b border-neutral-800">
                     <span className="text-xs text-neutral-400">Max Turbo Power (PL2)</span>
-                    <span className="font-mono font-bold text-orange-400 text-sm">{intel.maxTurboPowerPl2}</span>
+                    <span className="font-sans font-bold text-orange-400 text-sm">{intel.maxTurboPowerPl2}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-neutral-400">Motherboard Socket</span>
-                    <span className="font-mono font-bold text-cyan-400 text-sm">{product.specs.socket || 'LGA1700'}</span>
+                    <span className="font-sans font-bold text-cyan-400 text-sm">{product.specs.socket || 'LGA1700'}</span>
                   </div>
                 </div>
 
                 {/* Memory & GPU details */}
                 <div className="bg-neutral-900/60 border border-neutral-800 rounded-2xl p-4 space-y-3">
                   <div>
-                    <span className="text-[10px] font-mono text-neutral-500 uppercase block mb-1">
+                    <span className="text-[10px] font-sans text-[#FF1E2D] font-bold uppercase block mb-1">
                       Integrated Graphics (iGPU)
                     </span>
                     <div className="flex items-center gap-2">
                       <Monitor className="w-4 h-4 text-cyan-400 shrink-0" />
-                      <span className="font-mono text-xs font-bold text-neutral-200">{intel.igpu}</span>
+                      <span className="font-sans text-xs font-bold text-neutral-200">{intel.igpu}</span>
                     </div>
                   </div>
                   <div className="pt-2 border-t border-neutral-800">
-                    <span className="text-[10px] font-mono text-neutral-500 uppercase block mb-1">
+                    <span className="text-[10px] font-sans text-[#FF1E2D] font-bold uppercase block mb-1">
                       Supported Memory Channels & Types
                     </span>
                     <div className="flex items-center gap-2">
                       <MemoryStick className="w-4 h-4 text-purple-400 shrink-0" />
-                      <span className="font-mono text-xs font-bold text-neutral-200">{intel.memorySupport}</span>
+                      <span className="font-sans text-xs font-bold text-neutral-200">{intel.memorySupport}</span>
                     </div>
                   </div>
                 </div>
@@ -256,7 +256,7 @@ export const IntelSpecsModal: React.FC<IntelSpecsModalProps> = ({ product, isOpe
 
             {/* 4. Architectural Context & Key Notes */}
             <div className="bg-cyan-950/20 border border-cyan-500/30 rounded-2xl p-5 relative">
-              <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider mb-2">
+              <div className="flex items-center gap-2 text-xs font-sans text-cyan-400 font-bold uppercase tracking-wider mb-2">
                 <Info className="w-4 h-4" />
                 <span>Architectural Role & Platform Engineering Notes</span>
               </div>
@@ -269,11 +269,11 @@ export const IntelSpecsModal: React.FC<IntelSpecsModalProps> = ({ product, isOpe
           {/* Modal Footer */}
           <div className="p-6 bg-neutral-900 border-t border-neutral-800 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             <div className="flex items-baseline gap-3">
-              <span className="text-2xl font-black font-mono text-white">
+              <span className="text-2xl font-black font-sans text-white">
                 {formatCurrency(product.price)}
               </span>
               {product.originalPrice && (
-                <span className="text-xs text-neutral-500 line-through font-mono">
+                <span className="text-xs text-neutral-500 line-through font-sans">
                   {formatCurrency(product.originalPrice)}
                 </span>
               )}

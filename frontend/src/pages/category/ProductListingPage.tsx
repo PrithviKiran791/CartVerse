@@ -369,6 +369,86 @@ export const ProductListingPage: React.FC = () => {
       };
     }
 
+    // Driving & Sim Racing Hardware
+    if (path.includes('/simulators/wheel-bases')) {
+      return {
+        title: 'WHEEL BASES & BUNDLES',
+        subtitle: 'Direct Drive servomotors and dual-belt force feedback systems from 2.1 Nm to 25 Nm.',
+        category: 'simulator',
+        subType: 'wheel_base',
+        breadcrumbs: [
+          { label: 'SIMULATORS', href: '/simulators' },
+          { label: 'WHEEL BASES & BUNDLES' },
+        ],
+        backTo: { label: 'ALL SIMULATORS', href: '/simulators' },
+      };
+    }
+    if (path.includes('/simulators/steering-wheels')) {
+      return {
+        title: 'STEERING WHEELS & RIMS',
+        subtitle: 'GT, Formula, and round alcantara & perforated leather rims with magnetic dual-clutch paddles.',
+        category: 'simulator',
+        subType: 'steering_wheel',
+        breadcrumbs: [
+          { label: 'SIMULATORS', href: '/simulators' },
+          { label: 'STEERING WHEELS & RIMS' },
+        ],
+        backTo: { label: 'ALL SIMULATORS', href: '/simulators' },
+      };
+    }
+    if (path.includes('/simulators/pedals')) {
+      return {
+        title: 'LOAD CELL & HYDRAULIC PEDALS',
+        subtitle: '100kg-200kg load cell transducers, active force feedback motors, and CNC aluminum pedal sets.',
+        category: 'simulator',
+        subType: 'pedals',
+        breadcrumbs: [
+          { label: 'SIMULATORS', href: '/simulators' },
+          { label: 'LOAD CELL & HYDRAULIC PEDALS' },
+        ],
+        backTo: { label: 'ALL SIMULATORS', href: '/simulators' },
+      };
+    }
+    if (path.includes('/simulators/shifters-handbrakes')) {
+      return {
+        title: 'SHIFTERS, HANDBRAKES & HAPTICS',
+        subtitle: 'Tactile dual-mode H-pattern/sequential shifters, analog hydraulic handbrakes, and haptic feedback.',
+        category: 'simulator',
+        subType: 'shifter_handbrake',
+        breadcrumbs: [
+          { label: 'SIMULATORS', href: '/simulators' },
+          { label: 'SHIFTERS & HANDBRAKES' },
+        ],
+        backTo: { label: 'ALL SIMULATORS', href: '/simulators' },
+      };
+    }
+    if (path.includes('/simulators/cockpits-rigs')) {
+      return {
+        title: 'CHASSIS RIGS & WHEEL STANDS',
+        subtitle: 'Heavy-duty 8040 & 16040 extruded aluminum cockpits and zero-flex foldable wheel stands.',
+        category: 'simulator',
+        subType: 'cockpit_rig',
+        breadcrumbs: [
+          { label: 'SIMULATORS', href: '/simulators' },
+          { label: 'CHASSIS & RIGS' },
+        ],
+        backTo: { label: 'ALL SIMULATORS', href: '/simulators' },
+      };
+    }
+    if (path === '/simulators' || path === '/simulators/' || path === '/simulators/catalog' || path.startsWith('/simulators/all')) {
+      return {
+        title: 'DRIVING SIMULATORS & RACING GEAR',
+        subtitle: 'Browse all verified direct drive wheel bases, steering wheels, pedals, shifters, and cockpits.',
+        category: 'simulator',
+        breadcrumbs: [
+          { label: 'SIMULATORS' },
+        ],
+        backTo: { label: 'CATALOG', href: '/products' },
+      };
+    }
+
+
+
     // Default
     return {
       title: 'HARDWARE PRODUCTS',
@@ -389,7 +469,9 @@ export const ProductListingPage: React.FC = () => {
   const urlCapacities = searchParams.getAll('capacity');
   const urlResolutions = searchParams.getAll('resolution');
   const urlPanels = searchParams.getAll('panel');
+  const urlBrands = searchParams.getAll('brand');
   const inStockOnly = searchParams.get('inStock') === 'true';
+
 
   // Primary filtering query against mockProducts
   const filteredProducts = useMemo(() => {
@@ -420,9 +502,24 @@ export const ProductListingPage: React.FC = () => {
         }
       }
 
-      // SubType filtering (for thermal, cables, displays)
+      // Generic Brand Filter (URL-based)
+      if (urlBrands.length > 0) {
+        const brandMatch = urlBrands.some(
+          (b) => p.brand.toLowerCase().includes(b.toLowerCase()) || p.name.toLowerCase().includes(b.toLowerCase())
+        );
+        if (!brandMatch) return false;
+      }
+
+      // SubType filtering (for thermal, cables, displays, simulators)
+
       if (routeMeta.subType) {
+        if (routeMeta.category === 'simulator') {
+          if (p.simulatorSpecs?.type !== routeMeta.subType) {
+            return false;
+          }
+        }
         const nameLower = p.name.toLowerCase();
+
         const slugLower = p.imageSlug.toLowerCase();
         if (routeMeta.subType === 'air' && (nameLower.includes('liquid') || nameLower.includes('aio') || nameLower.includes('kraken') || nameLower.includes('icue'))) {
           return false;
@@ -584,9 +681,11 @@ export const ProductListingPage: React.FC = () => {
     urlCapacities,
     urlResolutions,
     urlPanels,
+    urlBrands,
     inStockOnly,
     sortBy,
   ]);
+
 
   const visibleProducts = filteredProducts.slice(0, visibleCount);
 
@@ -619,54 +718,88 @@ export const ProductListingPage: React.FC = () => {
           <div className="border-b border-neutral-800 pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-mono uppercase tracking-widest text-red-500 font-bold bg-red-950/80 px-2.5 py-0.5 rounded border border-red-800/40">
+                <span className="text-xs font-sans uppercase tracking-widest text-[#FF1E2D] font-bold bg-red-950/80 px-2.5 py-0.5 rounded border border-red-800/40">
                   OFFICIAL HARDWARE CATALOG
                 </span>
-                <span className="text-xs font-mono font-bold text-neutral-300">
+                <span className="text-xs font-sans font-bold text-neutral-300">
                   {filteredProducts.length} PRODUCTS
                 </span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase font-sans">
                 {routeMeta.title}
               </h1>
-              <p className="mt-1 text-xs sm:text-sm text-neutral-400 font-mono">
+              <p className="mt-1 text-xs sm:text-sm text-neutral-400 font-sans">
                 {routeMeta.subtitle}
               </p>
             </div>
 
             {/* Quick Search & Mobile Filter Triggers */}
             <div className="flex items-center gap-3">
-              <div className="relative flex-1 sm:w-64">
-                <Search className="w-4 h-4 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search CPUs, GPUs, RAM..."
-                  className="w-full pl-9 pr-4 py-2 rounded-md bg-neutral-900 border border-neutral-800 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-red-500"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
+              {routeMeta.category !== 'simulator' && (
+                <div className="relative flex-1 sm:w-64">
+                  <Search className="w-4 h-4 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search CPUs, GPUs, RAM..."
+                    className="w-full pl-9 pr-4 py-2 rounded-md bg-neutral-900 border border-neutral-800 text-xs font-sans text-white placeholder-neutral-500 focus:outline-none focus:border-red-500"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+              )}
 
               <button
                 onClick={() => setIsMobileFiltersOpen(true)}
-                className="md:hidden flex items-center gap-2 px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-md text-xs font-mono text-white cursor-pointer"
+                className="md:hidden flex items-center gap-2 px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-md text-xs font-sans text-white cursor-pointer"
               >
-                <Filter className="w-4 h-4 text-red-500" />
+                <Filter className="w-4 h-4 text-[#FF1E2D]" />
                 <span>FILTERS</span>
               </button>
             </div>
           </div>
         </FadeContent>
 
+        {/* Simulators Sub-Category Quick Filter Pills */}
+        {routeMeta.category === 'simulator' && (
+          <FadeContent blur={true} duration={850} delay={50} easing="ease-out" initialOpacity={0}>
+            <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-neutral-800/80 pb-4">
+              {[
+                { label: 'All Sim Gear', path: '/simulators' },
+                { label: 'Wheel Bases & Bundles', path: '/simulators/wheel-bases' },
+                { label: 'Steering Wheels & Rims', path: '/simulators/steering-wheels' },
+                { label: 'Pedals & Active Sets', path: '/simulators/pedals' },
+                { label: 'Shifters & Handbrakes', path: '/simulators/shifters-handbrakes' },
+                { label: 'Cockpits & Rigs', path: '/simulators/cockpits-rigs' },
+              ].map((pill) => {
+                const isActive = location.pathname === pill.path;
+                return (
+                  <Link
+                    key={pill.path}
+                    to={pill.path}
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-sans font-medium transition-all ${
+                      isActive
+                        ? 'bg-[#FF1E2D] text-white font-bold shadow-[0_0_12px_rgba(255,30,45,0.4)]'
+                        : 'bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700'
+                    }`}
+                  >
+                    {pill.label}
+                  </Link>
+                );
+              })}
+            </div>
+          </FadeContent>
+        )}
+
         {/* 2-Column Responsive Layout (Filters on Left, Products on Right) */}
+
         <FadeContent blur={true} duration={900} delay={100} easing="ease-out" initialOpacity={0}>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-start">
             {/* Reusable ProductFilters Sidebar */}
@@ -679,7 +812,7 @@ export const ProductListingPage: React.FC = () => {
             >
               {isMobileFiltersOpen && (
                 <div className="flex items-center justify-between pb-4 border-b border-neutral-800 md:hidden mb-5">
-                  <span className="text-sm font-mono font-bold uppercase text-white">
+                  <span className="text-sm font-sans font-bold uppercase text-white">
                     FILTER HARDWARE
                   </span>
                   <button
@@ -702,7 +835,7 @@ export const ProductListingPage: React.FC = () => {
                 <div className="pt-6 md:hidden">
                   <button
                     onClick={() => setIsMobileFiltersOpen(false)}
-                    className="w-full py-3 bg-red-600 text-white font-mono font-bold text-xs uppercase rounded-lg"
+                    className="w-full py-3 bg-[#FF1E2D] text-white font-sans font-bold text-xs uppercase rounded-lg"
                   >
                     SHOW {filteredProducts.length} RESULTS
                   </button>
@@ -714,25 +847,26 @@ export const ProductListingPage: React.FC = () => {
             <main className="md:col-span-3 space-y-6">
               {/* Sort Controls Bar */}
               <div className="flex items-center justify-between bg-neutral-900/60 border border-neutral-800/80 rounded-lg px-4 py-2.5">
-                <span className="text-xs font-mono text-neutral-400">
+                <span className="text-xs font-sans text-neutral-400">
                   SHOWING <strong className="text-white">{visibleProducts.length}</strong> OF <strong className="text-white">{filteredProducts.length}</strong>
                 </span>
 
                 <div className="flex items-center gap-2">
-                  <ArrowUpDown className="w-3.5 h-3.5 text-red-500" />
-                  <span className="text-xs font-mono uppercase text-neutral-400">SORT:</span>
+                  <ArrowUpDown className="w-3.5 h-3.5 text-[#FF1E2D]" />
+                  <span className="text-xs font-sans uppercase text-[#FF1E2D] font-bold">SORT:</span>
                   <select
                     value={sortBy}
                     onChange={handleSortChange}
-                    className="bg-neutral-950 border border-neutral-800 rounded px-2.5 py-1 text-xs font-mono text-white focus:outline-none focus:border-red-500 cursor-pointer"
+                    className="bg-neutral-950 border border-neutral-800 rounded px-2.5 py-1 text-xs font-sans text-white focus:outline-none focus:border-red-500 cursor-pointer"
                   >
                     <option value="recommended">Recommended</option>
                     <option value="price-asc">Price — Low to High</option>
                     <option value="price-desc">Price — High to Low</option>
-                    <option value="rating">Rating</option>
+                    {routeMeta.category !== 'simulator' && <option value="rating">Rating</option>}
                     <option value="newest">Newest</option>
-                    <option value="popularity">Popularity</option>
+                    {routeMeta.category !== 'simulator' && <option value="popularity">Popularity</option>}
                   </select>
+
                 </div>
               </div>
 
@@ -746,25 +880,25 @@ export const ProductListingPage: React.FC = () => {
               ) : filteredProducts.length === 0 ? (
                 /* Empty Results State */
                 <div className="border border-neutral-800 bg-[#120F17] rounded-xl p-12 text-center space-y-4">
-                  <div className="w-14 h-14 rounded-full bg-red-950/60 border border-red-800/40 text-red-500 flex items-center justify-center mx-auto">
+                  <div className="w-14 h-14 rounded-full bg-red-950/60 border border-red-800/40 text-[#FF1E2D] flex items-center justify-center mx-auto">
                     <Flame className="w-7 h-7" />
                   </div>
                   <h3 className="text-2xl font-black text-white uppercase tracking-tight">
                     NO HARDWARE FOUND
                   </h3>
-                  <p className="text-xs sm:text-sm text-neutral-400 font-mono max-w-md mx-auto">
+                  <p className="text-xs sm:text-sm text-neutral-400 font-sans max-w-md mx-auto">
                     Try adjusting your filters or search terms to find available products.
                   </p>
                   <div className="pt-3 flex justify-center gap-3">
                     <button
                       onClick={handleClearFilters}
-                      className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs font-mono font-bold uppercase rounded transition-colors cursor-pointer"
+                      className="px-5 py-2.5 bg-[#FF1E2D] hover:bg-red-700 text-white text-xs font-sans font-bold uppercase rounded transition-colors cursor-pointer"
                     >
                       CLEAR FILTERS
                     </button>
                     <Link
                       to="/products"
-                      className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 text-xs font-mono font-bold uppercase rounded transition-colors"
+                      className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 text-xs font-sans font-bold uppercase rounded transition-colors"
                     >
                       EXPLORE HARDWARE HUB
                     </Link>
@@ -775,8 +909,16 @@ export const ProductListingPage: React.FC = () => {
                 <div className="space-y-8">
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                     {visibleProducts.map((p) => (
-                      <ProductCard key={p.id} product={p} />
+                      <ProductCard
+                        key={p.id}
+                        product={p}
+                        hideRating={routeMeta.category === 'simulator'}
+                        hideOffer={routeMeta.category === 'simulator'}
+                        hideStock={routeMeta.category === 'simulator'}
+                      />
+
                     ))}
+
                   </div>
 
                   {/* Pagination / Load More */}
@@ -784,7 +926,7 @@ export const ProductListingPage: React.FC = () => {
                     <div className="pt-6 text-center">
                       <button
                         onClick={() => setVisibleCount((prev) => prev + 18)}
-                        className="px-8 py-3 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-red-500/80 text-xs font-mono font-bold uppercase tracking-widest text-white rounded-lg transition-colors cursor-pointer"
+                        className="px-8 py-3 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-red-500/80 text-xs font-sans font-bold uppercase tracking-widest text-white rounded-lg transition-colors cursor-pointer"
                       >
                         LOAD MORE HARDWARE (+18)
                       </button>

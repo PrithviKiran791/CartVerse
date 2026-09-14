@@ -92,8 +92,8 @@ export const DisplaysPage: React.FC = () => {
           speed={0.3}
           squareSize={40}
           direction="diagonal"
-          borderColor="rgba(227, 27, 35, 0.15)"
-          hoverFillColor="#E31B23"
+          borderColor="rgba(255, 30, 45, 0.15)"
+          hoverFillColor="#FF1E2D"
           shape="square"
           hoverTrailAmount={2}
         />
@@ -107,14 +107,14 @@ export const DisplaysPage: React.FC = () => {
 
         <FadeContent blur={true} duration={800} easing="ease-out" initialOpacity={0}>
           <div className="border-b border-neutral-800 pb-8 mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-indigo-950/60 border border-indigo-800/40 text-indigo-400 text-xs font-mono font-bold uppercase tracking-widest mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-indigo-950/60 border border-indigo-800/40 text-indigo-400 text-xs font-sans font-bold uppercase tracking-widest mb-3">
               <Tv className="w-3.5 h-3.5" />
               <span>OPTICAL PERFORMANCE & PANEL ARCHITECTURE</span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white uppercase font-sans">
               DISPLAYS & MONITORS
             </h1>
-            <p className="mt-2 text-sm sm:text-base text-neutral-400 max-w-2xl font-mono uppercase tracking-wider">
+            <p className="mt-2 text-sm sm:text-base text-neutral-400 max-w-2xl font-sans uppercase tracking-wider">
               DISCOVER GAMING MONITORS BY RESOLUTION, PANEL SILICON & REFRESH RATE.
             </p>
           </div>
@@ -139,7 +139,7 @@ export const DisplaysPage: React.FC = () => {
 
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-indigo-400 bg-indigo-950/80 px-2.5 py-0.5 rounded border border-indigo-800/40">
+                    <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-indigo-400 bg-indigo-950/80 px-2.5 py-0.5 rounded border border-indigo-800/40">
                       {cat.badge}
                     </span>
                   </div>
@@ -147,7 +147,7 @@ export const DisplaysPage: React.FC = () => {
                   <h3 className="text-2xl font-black text-white tracking-tight uppercase group-hover:text-indigo-400 transition-colors">
                     {cat.title}
                   </h3>
-                  <div className="text-xs font-bold text-neutral-300 mb-2 font-mono">
+                  <div className="text-xs font-bold text-neutral-300 mb-2 font-sans">
                     {cat.subtitle}
                   </div>
 
@@ -155,7 +155,7 @@ export const DisplaysPage: React.FC = () => {
                     {cat.desc}
                   </p>
 
-                  <div className="flex flex-wrap gap-1.5 text-[10px] font-mono text-neutral-400 mb-6">
+                  <div className="flex flex-wrap gap-1.5 text-[10px] font-sans text-neutral-400 mb-6">
                     {cat.tags.map((t, idx) => (
                       <span key={idx} className="bg-neutral-900 px-2 py-0.5 rounded border border-neutral-800">
                         {t}
@@ -165,7 +165,7 @@ export const DisplaysPage: React.FC = () => {
                 </div>
 
                 <div className="relative z-10 pt-4 border-t border-neutral-800/80 flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400 group-hover:text-indigo-300 flex items-center gap-2">
+                  <span className="text-xs font-sans font-bold uppercase tracking-widest text-indigo-400 group-hover:text-indigo-300 flex items-center gap-2">
                     EXPLORE {cat.title}
                     <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
                   </span>

@@ -52,7 +52,7 @@ export const WattageGauge: React.FC<WattageGaugeProps> = ({
           </div>
         </div>
 
-        <span className={`text-[10px] font-mono px-2.5 py-1 rounded-full border ${badgeStyle}`}>
+        <span className={`text-[10px] font-sans px-2.5 py-1 rounded-full border ${badgeStyle}`}>
           {badgeText}
         </span>
       </div>
@@ -60,17 +60,17 @@ export const WattageGauge: React.FC<WattageGaugeProps> = ({
       {/* Main Wattage Readout */}
       <div className="grid grid-cols-2 gap-3 my-4 bg-neutral-950/60 p-3 rounded-xl border border-neutral-850">
         <div>
-          <span className="text-[10px] uppercase font-mono text-neutral-500 block">Estimated Draw</span>
-          <span className="text-xl font-black font-mono text-white tracking-tight">
+          <span className="text-[10px] uppercase font-sans text-neutral-500 block">Estimated Draw</span>
+          <span className="text-xl font-black font-sans text-white tracking-tight">
             {formatWattage(estimatedWattage)}
           </span>
         </div>
 
         <div className="border-l border-neutral-850 pl-3">
-          <span className="text-[10px] uppercase font-mono text-neutral-500 block">
+          <span className="text-[10px] uppercase font-sans text-neutral-500 block">
             {selectedPsuWattage ? 'Selected PSU Rating' : 'Recommended PSU'}
           </span>
-          <span className={`text-xl font-black font-mono tracking-tight ${selectedPsuWattage ? 'text-amber-400' : 'text-neutral-300'}`}>
+          <span className={`text-xl font-black font-sans tracking-tight ${selectedPsuWattage ? 'text-amber-400' : 'text-neutral-300'}`}>
             {formatWattage(selectedPsuWattage || recommendedPsuWattage)}
           </span>
         </div>
@@ -84,7 +84,7 @@ export const WattageGauge: React.FC<WattageGaugeProps> = ({
             style={{ width: `${Math.max(4, loadPercentage)}%` }}
           />
         </div>
-        <div className="flex justify-between text-[10px] font-mono text-neutral-500">
+        <div className="flex justify-between text-[10px] font-sans text-neutral-500">
           <span>0W</span>
           <span>{Math.round(maxScaleWattage / 2)}W</span>
           <span>{maxScaleWattage}W (Capacity)</span>

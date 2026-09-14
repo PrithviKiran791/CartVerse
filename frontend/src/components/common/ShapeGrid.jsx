@@ -4,9 +4,9 @@ import './ShapeGrid.css';
 const ShapeGrid = ({
   direction = 'diagonal',
   speed = 0.5,
-  borderColor = 'rgba(227, 27, 35, 0.18)',
+  borderColor = 'rgba(255, 30, 45, 0.18)',
   squareSize = 40,
-  hoverFillColor = '#E31B23',
+  hoverFillColor = '#FF1E2D',
   shape = 'square',
   hoverTrailAmount = 3,
   className = ''

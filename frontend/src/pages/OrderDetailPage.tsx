@@ -168,7 +168,7 @@ export const OrderDetailPage: React.FC = () => {
           contact: order.shippingAddress?.phone,
         },
         theme: {
-          color: '#E31B23',
+          color: '#FF1E2D',
         },
         handler: async (response: any) => {
           try {
@@ -232,7 +232,7 @@ export const OrderDetailPage: React.FC = () => {
       case 'processing':
         return 'bg-amber-950/60 border-amber-500/40 text-amber-400';
       case 'cancelled':
-        return 'bg-red-950/60 border-red-500/40 text-red-400';
+        return 'bg-red-950/60 border-[#FF1E2D]/40 text-[#FF1E2D]';
       default:
         return 'bg-neutral-800 border-neutral-700 text-neutral-300';
     }
@@ -246,7 +246,7 @@ export const OrderDetailPage: React.FC = () => {
       case 'partially_refunded':
         return 'bg-purple-950/60 border-purple-500/40 text-purple-400';
       case 'failed':
-        return 'bg-red-950/60 border-red-500/40 text-red-400';
+        return 'bg-red-950/60 border-[#FF1E2D]/40 text-[#FF1E2D]';
       default:
         return 'bg-amber-950/60 border-amber-500/40 text-amber-400';
     }
@@ -259,7 +259,7 @@ export const OrderDetailPage: React.FC = () => {
       case 'refunded':
         return 'bg-purple-950/60 border-purple-500/40 text-purple-400';
       case 'failed':
-        return 'bg-red-950/60 border-red-500/40 text-red-400';
+        return 'bg-red-950/60 border-[#FF1E2D]/40 text-[#FF1E2D]';
       default:
         return 'bg-neutral-800 border-neutral-700 text-neutral-400';
     }
@@ -268,8 +268,8 @@ export const OrderDetailPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-4">
-        <div className="w-10 h-10 rounded-full border-2 border-red-500 border-t-transparent animate-spin" />
-        <p className="text-xs font-mono text-neutral-400">Loading order details and transaction ledger...</p>
+        <div className="w-10 h-10 rounded-full border-2 border-[#FF1E2D] border-t-transparent animate-spin" />
+        <p className="text-xs font-sans text-neutral-400">Loading order details and transaction ledger...</p>
       </div>
     );
   }
@@ -277,7 +277,7 @@ export const OrderDetailPage: React.FC = () => {
   if (error || !order) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-red-950/40 border border-red-500/30 flex items-center justify-center text-red-500 mb-4">
+        <div className="w-16 h-16 rounded-2xl bg-red-950/40 border border-[#FF1E2D]/30 flex items-center justify-center text-[#FF1E2D] mb-4">
           <AlertCircle className="w-8 h-8" />
         </div>
         <h2 className="text-xl font-black text-white">Order Not Found</h2>
@@ -286,7 +286,7 @@ export const OrderDetailPage: React.FC = () => {
         </p>
         <Link
           to="/orders"
-          className="mt-6 px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-xl flex items-center gap-2 transition-all"
+          className="mt-6 px-5 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-bold text-xs rounded-xl flex items-center gap-2 transition-all"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to Order History</span>
@@ -308,7 +308,7 @@ export const OrderDetailPage: React.FC = () => {
         {/* Top Breadcrumb & Actions Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800 pb-6">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-xs font-mono text-neutral-400">
+          <div className="flex items-center gap-2 text-xs font-sans text-neutral-400">
             <Link to="/orders" className="hover:text-white transition-colors flex items-center gap-1">
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Orders</span>
@@ -318,17 +318,17 @@ export const OrderDetailPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3 pt-1">
-            <h1 className="text-2xl sm:text-3xl font-black text-white font-mono">
+            <h1 className="text-2xl sm:text-3xl font-black text-white font-sans">
               Order #{order._id.substring(0, 10)}...
             </h1>
-            <span className={`text-[10px] font-mono font-bold uppercase px-2.5 py-0.5 rounded border ${getOrderStatusBadge(order.status)}`}>
+            <span className={`text-[10px] font-sans font-bold uppercase px-2.5 py-0.5 rounded border ${getOrderStatusBadge(order.status)}`}>
               {order.status || 'PLACED'}
             </span>
-            <span className={`text-[10px] font-mono font-bold uppercase px-2.5 py-0.5 rounded border ${getPaymentStatusBadge(order.paymentStatus)}`}>
+            <span className={`text-[10px] font-sans font-bold uppercase px-2.5 py-0.5 rounded border ${getPaymentStatusBadge(order.paymentStatus)}`}>
               {order.paymentStatus?.toUpperCase() || (order.isPaid ? 'PAID' : 'PENDING')}
             </span>
           </div>
-          <p className="text-xs text-neutral-400 font-mono">
+          <p className="text-xs text-neutral-400 font-sans">
             Placed on {new Date(order.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
           </p>
         </div>
@@ -339,7 +339,7 @@ export const OrderDetailPage: React.FC = () => {
               type="button"
               disabled={isRetrying}
               onClick={handleRetryPayment}
-              className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-red-950/50"
+              className="px-4 py-2 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-[#FF1E2D]/30"
             >
               <RotateCcw className={`w-3.5 h-3.5 ${isRetrying ? 'animate-spin' : ''}`} />
               <span>{isRetrying ? 'Retrying...' : 'Retry Payment'}</span>
@@ -351,7 +351,7 @@ export const OrderDetailPage: React.FC = () => {
             onClick={handleReorder}
             className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-bold rounded-xl flex items-center gap-1.5 transition-all cursor-pointer border border-neutral-700"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-red-400" />
+            <RotateCcw className="w-3.5 h-3.5 text-[#FF1E2D]" />
             <span>Reorder Items</span>
           </button>
         </div>
@@ -359,12 +359,12 @@ export const OrderDetailPage: React.FC = () => {
 
       {/* Fulfillment Status Timeline */}
       <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
-        <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
-          <Truck className="w-4 h-4 text-red-400" />
+        <h3 className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-400 flex items-center gap-2">
+          <Truck className="w-4 h-4 text-[#FF1E2D]" />
           <span>Fulfillment Lifecycle Timeline</span>
         </h3>
 
-        <div className="grid grid-cols-4 gap-2 pt-2 text-center text-[10px] font-mono">
+        <div className="grid grid-cols-4 gap-2 pt-2 text-center text-[10px] font-sans">
           <div className="space-y-1">
             <div className="h-2 rounded-full bg-emerald-500" />
             <span className="text-emerald-400 font-bold block">Order Placed</span>
@@ -431,10 +431,10 @@ export const OrderDetailPage: React.FC = () => {
         <div className="md:col-span-2 bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <Package className="w-4 h-4 text-red-400" />
+              <Package className="w-4 h-4 text-[#FF1E2D]" />
               <span>Line Items ({order.orderItems?.length || 0})</span>
             </h3>
-            <span className="text-xs font-mono text-neutral-400">Insured Delivery</span>
+            <span className="text-xs font-sans text-neutral-400">Insured Delivery</span>
           </div>
 
           <div className="space-y-3 divide-y divide-neutral-800/60">
@@ -452,14 +452,14 @@ export const OrderDetailPage: React.FC = () => {
                       </div>
                       <div className="min-w-0">
                         <h4 className="text-xs font-bold text-white truncate">{item.name}</h4>
-                        <span className="text-[10px] font-mono text-neutral-400">
+                        <span className="text-[10px] font-sans text-neutral-400">
                           Qty: {item.qty} × {formatCurrency(item.price)}
                         </span>
                       </div>
                     </div>
 
                     <div className="text-right shrink-0 flex items-center gap-2">
-                      <span className="text-xs font-mono font-bold text-white">
+                      <span className="text-xs font-sans font-bold text-white">
                         {formatCurrency(item.price * item.qty)}
                       </span>
                       {isBundle && (
@@ -475,8 +475,8 @@ export const OrderDetailPage: React.FC = () => {
                   </div>
 
                   {isBundle && isExpanded && (
-                    <div className="ml-15 p-2.5 rounded-xl bg-neutral-950/60 border border-neutral-800 text-[11px] font-mono text-neutral-400 space-y-1">
-                      <div className="text-red-400 font-bold">Custom PC Rig Component Specification</div>
+                    <div className="ml-15 p-2.5 rounded-xl bg-neutral-950/60 border border-neutral-800 text-[11px] font-sans text-neutral-400 space-y-1">
+                      <div className="text-[#FF1E2D] font-bold">Custom PC Rig Component Specification</div>
                       <div>Components pre-tested and validated against compatibility matrix before shipment.</div>
                     </div>
                   )}
@@ -486,7 +486,7 @@ export const OrderDetailPage: React.FC = () => {
           </div>
 
           {/* Pricing derived from server storage */}
-          <div className="border-t border-neutral-800 pt-4 space-y-1.5 text-xs font-mono text-neutral-400">
+          <div className="border-t border-neutral-800 pt-4 space-y-1.5 text-xs font-sans text-neutral-400">
             <div className="flex justify-between">
               <span>Hardware Subtotal:</span>
               <span className="text-white">{formatCurrency(order.itemsPrice)}</span>
@@ -503,7 +503,7 @@ export const OrderDetailPage: React.FC = () => {
             </div>
             <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-neutral-800">
               <span>Order Total:</span>
-              <span className="text-red-400">{formatCurrency(order.totalPrice)}</span>
+              <span className="text-[#FF1E2D]">{formatCurrency(order.totalPrice)}</span>
             </div>
           </div>
         </div>
@@ -512,16 +512,16 @@ export const OrderDetailPage: React.FC = () => {
         <div className="space-y-6">
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 space-y-3">
             <h4 className="text-xs font-bold text-white flex items-center gap-1.5 uppercase tracking-wider">
-              <MapPin className="w-3.5 h-3.5 text-red-400" />
+              <MapPin className="w-3.5 h-3.5 text-[#FF1E2D]" />
               <span>Destination Address</span>
             </h4>
             <div className="text-xs text-neutral-300 space-y-1">
               <p className="font-bold text-white">{order.shippingAddress?.name}</p>
               <p className="text-neutral-400">{order.shippingAddress?.address}</p>
-              <p className="text-neutral-400 font-mono">
+              <p className="text-neutral-400 font-sans">
                 {order.shippingAddress?.city}, {order.shippingAddress?.state} - {order.shippingAddress?.pincode}
               </p>
-              <p className="text-neutral-400 font-mono text-[11px] pt-1">
+              <p className="text-neutral-400 font-sans text-[11px] pt-1">
                 Phone: {order.shippingAddress?.phone}
               </p>
             </div>
@@ -529,10 +529,10 @@ export const OrderDetailPage: React.FC = () => {
 
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 space-y-3">
             <h4 className="text-xs font-bold text-white flex items-center gap-1.5 uppercase tracking-wider">
-              <Receipt className="w-3.5 h-3.5 text-red-400" />
+              <Receipt className="w-3.5 h-3.5 text-[#FF1E2D]" />
               <span>Payment Overview</span>
             </h4>
-            <div className="text-xs text-neutral-400 space-y-1.5 font-mono">
+            <div className="text-xs text-neutral-400 space-y-1.5 font-sans">
               <div className="flex justify-between">
                 <span>Method:</span>
                 <span className="text-white uppercase">{order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Razorpay'}</span>
@@ -557,25 +557,25 @@ export const OrderDetailPage: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-neutral-800 pb-4">
           <div className="space-y-0.5">
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <CreditCard className="w-4 h-4 text-red-400" />
+              <CreditCard className="w-4 h-4 text-[#FF1E2D]" />
               <span>Payment Gateway Transaction Log</span>
             </h3>
             <p className="text-xs text-neutral-400">
               Audit trail of every financial attempt, capture, and refund tied to this order.
             </p>
           </div>
-          <span className="text-xs font-mono text-neutral-400 bg-neutral-950 px-3 py-1 rounded-xl border border-neutral-800 self-start sm:self-auto">
+          <span className="text-xs font-sans text-neutral-400 bg-neutral-950 px-3 py-1 rounded-xl border border-neutral-800 self-start sm:self-auto">
             {transactions.length} record(s)
           </span>
         </div>
 
         {transactions.length === 0 ? (
-          <div className="p-8 text-center text-xs text-neutral-500 font-mono">
+          <div className="p-8 text-center text-xs text-neutral-500 font-sans">
             No gateway transactions recorded for this order yet.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs font-mono">
+            <table className="w-full text-left text-xs font-sans">
               <thead>
                 <tr className="border-b border-neutral-800/80 text-neutral-400 text-[10px] uppercase tracking-wider">
                   <th className="pb-3 font-semibold">Attempt Date</th>
@@ -617,7 +617,7 @@ export const OrderDetailPage: React.FC = () => {
                     </td>
                     <td className="py-3 text-[11px] text-neutral-400 max-w-[200px] truncate" title={tx.failureReason}>
                       {tx.failureReason ? (
-                        <span className="text-red-400 font-sans">{tx.failureReason}</span>
+                        <span className="text-[#FF1E2D] font-sans">{tx.failureReason}</span>
                       ) : tx.status === 'captured' ? (
                         <span className="text-emerald-400">Captured & Settled</span>
                       ) : (

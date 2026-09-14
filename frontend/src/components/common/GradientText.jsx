@@ -5,7 +5,7 @@ import './GradientText.css';
 export default function GradientText({
   children,
   className = '',
-  colors = ['#E31B23', '#FFFFFF', '#FF6B6B', '#E31B23'],
+  colors = ['#FF1E2D', '#FFFFFF', '#FF6B6B', '#FF1E2D'],
   animationSpeed = 8,
   showBorder = false,
   direction = 'horizontal',

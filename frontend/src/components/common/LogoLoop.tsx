@@ -350,7 +350,7 @@ export const LogoLoop = memo(
             onError={() => handleImageError(itemIdentifier)}
           />
         ) : (
-          <span className="text-xs font-mono font-bold tracking-wider text-neutral-300">
+          <span className="text-xs font-sans font-bold tracking-wider text-neutral-300">
             {item.name || item.title}
           </span>
         );

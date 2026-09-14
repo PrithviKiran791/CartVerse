@@ -88,7 +88,7 @@ export const TransactionsPage: React.FC = () => {
         {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800 pb-6">
         <div>
-          <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-red-400">
+          <div className="text-[10px] font-sans font-bold uppercase tracking-widest text-red-400">
             Financial Ledger
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white mt-0.5">
@@ -122,7 +122,7 @@ export const TransactionsPage: React.FC = () => {
       {loading ? (
         <div className="p-16 text-center space-y-3">
           <div className="w-8 h-8 rounded-full border-2 border-red-500 border-t-transparent animate-spin mx-auto" />
-          <p className="text-xs text-neutral-400 font-mono">Loading transaction telemetry...</p>
+          <p className="text-xs text-neutral-400 font-sans">Loading transaction telemetry...</p>
         </div>
       ) : transactions.length === 0 ? (
         <div className="bg-neutral-900 border border-neutral-800 rounded-3xl p-12 text-center space-y-4">
@@ -143,7 +143,7 @@ export const TransactionsPage: React.FC = () => {
         <div className="space-y-4">
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl overflow-hidden shadow-xl">
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs font-mono">
+              <table className="w-full text-left text-xs font-sans">
                 <thead>
                   <tr className="border-b border-neutral-800 bg-neutral-950/70 text-neutral-400 text-[10px] uppercase tracking-wider">
                     <th className="p-4 font-semibold">Date & Time</th>
@@ -218,7 +218,7 @@ export const TransactionsPage: React.FC = () => {
               >
                 Previous
               </button>
-              <span className="text-xs font-mono text-neutral-400 px-3">
+              <span className="text-xs font-sans text-neutral-400 px-3">
                 Page {page} of {totalPages} ({totalCount} total events)
               </span>
               <button

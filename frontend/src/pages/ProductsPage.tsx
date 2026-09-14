@@ -6,7 +6,13 @@ import { mockProducts } from '../data/mockProducts';
 import { getComponentImage } from '../utils/assetRegistry';
 import { formatCurrency } from '../utils/formatters';
 import MagicBento from '../components/common/MagicBento';
-import warrantyBoxSvg from '../assets/warranty-shipping-box.svg';
+import { SpinLogo } from '../components/catalog/SpinLogo';
+import nvidiaGpuGif from '../assets/icons/Artificial Intelligence Ai GIF by NVIDIA GeForce.gif';
+import coolerMasterGif from '../assets/icons/Computer Cooling GIF by Cooler Master.gif';
+import memoryGif from '../assets/icons/Memory.gif';
+import cablesGif from '../assets/icons/Cables and Peripherals.gif';
+import monitorGif from '../assets/icons/monitor-display-clean.gif';
+import rogLogoGif from '../assets/animations/rog-clean-metallic.gif';
 import { Sparkles, X, Filter, ArrowRight } from 'lucide-react';
 import { Boxes } from '../components/ui/background-boxes';
 import FadeContent from '../components/common/FadeContent';
@@ -22,11 +28,7 @@ const catalogBentoCards = [
     description: 'Unlocked Intel Core, AMD Ryzen & NVIDIA RTX GPUs',
     label: 'Processors & GPUs',
     href: '/processors-gpus',
-    badge: 'AMD · INTEL · NVIDIA',
-    composedImages: {
-      gpu: getComponentImage('GPU/Nvidia/rtx_4080_super.jpg', 'gpu'),
-      cpu: getComponentImage('CPU_Image/AMD/AMD_Ryzen_7_9850x3d.jpeg', 'cpu'),
-    },
+    image: nvidiaGpuGif,
     ctaText: 'EXPLORE CATEGORY',
   },
   {
@@ -35,8 +37,7 @@ const catalogBentoCards = [
     description: 'Precision AIO radiators, custom coolants & high-CFM fans',
     label: 'Thermal Systems',
     href: '/thermal-systems',
-    badge: 'AIO & AIR SYSTEMS',
-    image: getComponentImage('liquid cooler/NZXT Kraken Elite 360 RGB (V2).jpg', 'cooler'),
+    image: coolerMasterGif,
     ctaText: 'EXPLORE CATEGORY',
   },
   {
@@ -45,8 +46,7 @@ const catalogBentoCards = [
     description: 'DDR4 & DDR5 performance modules for gaming and workstation builds.',
     label: 'Memory',
     href: '/memory',
-    badge: 'DDR4 · DDR5',
-    image: getComponentImage('Memory/Ram/adata/Adata-XPG-Lancer-RGB-ROG-Certified-32GB-16GBx2-DDR5-6600MHz-Desktop-Ram-2.jpg', 'ram'),
+    image: memoryGif,
     ctaText: 'EXPLORE CATEGORY',
   },
   {
@@ -55,8 +55,7 @@ const catalogBentoCards = [
     description: 'Sleeved PSU extensions, chassis IO splitters & Type-C',
     label: 'Cables & Headers',
     href: '/cables-headers',
-    badge: 'ATX 3.0 & 40GBPS',
-    image: getComponentImage('Cables/PSU Cables/Custom Sleeved Cable Extension Kit.jpg', 'cables'),
+    image: cablesGif,
     ctaText: 'EXPLORE CATEGORY',
   },
   {
@@ -65,19 +64,18 @@ const catalogBentoCards = [
     description: 'Ultrawide, 4K UHD & 360Hz esports monitors',
     label: 'Displays',
     href: '/displays',
-    badge: '0.03MS · 4K OLED',
-    image: getComponentImage('Monitors/Samsung Odyssey OLED G8 (G80SD).jpeg', 'monitor'),
+    image: monitorGif,
     ctaText: 'EXPLORE CATEGORY',
   },
   {
     color: '#120F17',
-    title: 'Direct Brand RMA',
-    description: '100% authentic inventory with pan-India insured shipping',
-    label: 'Warranty & Delivery',
-    href: '/warranty-delivery',
-    badge: 'TRUSTED SERVICE HUB',
-    image: warrantyBoxSvg,
-    ctaText: 'VIEW POLICIES',
+    image: rogLogoGif,
+    alt: '',
+    ariaHidden: true,
+    eager: true,
+    hideOverlay: true,
+    imageContainerClassName: 'magic-bento-card__image-container--warranty',
+    imageClassName: 'magic-bento-card__image--rog',
   }
 ];
 
@@ -149,8 +147,8 @@ export const ProductsPage: React.FC = () => {
     : "Explore 500+ Hardware Products & Rig Components";
 
   const headerSubtitle = isPrebuiltPage
-    ? "Explore signature pre-built desktop systems, fully assembled, cable-managed, stress-tested, and covered with 100% Indian warranty."
-    : "3D scroll parallax gallery showcasing Processors, GPUs, Gaming Monitors, Headphones, Mice, Mousepads, and Custom PC Cabinets.";
+    ? "Explore signature pre-built desktop systems, fully assembled, cable-managed, and stress-tested."
+    : undefined;
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-[#0A0A0C] flex flex-col space-y-6 pb-16">
@@ -178,19 +176,22 @@ export const ProductsPage: React.FC = () => {
             <Boxes />
             <div className="absolute -right-10 -bottom-10 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 max-w-2xl">
-              <div className="flex items-center gap-2 text-xs font-mono text-red-400 uppercase tracking-wider mb-2">
-                <Sparkles className="w-4 h-4 text-red-500" />
-                <span>Direct Indian Channel Hardware</span>
+            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+              <div className="max-w-2xl">
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase leading-[0.95]">
+                  PC HARDWARE &<br />
+                  COMPONENTS<br />
+                  CATALOG
+                </h1>
+                <p className="mt-4 text-xs sm:text-sm text-neutral-400 leading-relaxed max-w-xl">
+                  Browse our comprehensive inventory of processors, GPUs, motherboards, high-speed RAM, NVMe SSDs, and peripherals with real-time stock and compatibility validation.
+                </p>
               </div>
-              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight uppercase leading-[0.95]">
-                PC HARDWARE &<br />
-                COMPONENTS<br />
-                CATALOG
-              </h1>
-              <p className="mt-4 text-xs sm:text-sm text-neutral-400 leading-relaxed max-w-xl">
-                Browse our comprehensive inventory of processors, GPUs, motherboards, high-speed RAM, NVMe SSDs, and peripherals with real-time stock and compatibility validation.
-              </p>
+
+              {/* Interactive Spinning Fan Logo */}
+              <div className="pointer-events-auto shrink-0 flex items-center justify-center lg:justify-end self-center lg:self-auto py-2">
+                <SpinLogo size={240} className="sm:scale-105" />
+              </div>
             </div>
           </div>
         </FadeContent>
@@ -198,16 +199,6 @@ export const ProductsPage: React.FC = () => {
         {/* Brand/Manufacturer Marquee & Quick-Filter Strip */}
         <FadeContent blur={true} duration={850} delay={100} easing="ease-out" initialOpacity={0}>
           <div className="mb-10 bg-neutral-900/60 border border-neutral-800/80 rounded-2xl py-4 px-4 sm:px-6 backdrop-blur-md relative overflow-hidden shadow-lg">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 px-1">
-              <div className="flex items-center gap-2 text-[11px] font-mono tracking-wider text-neutral-400 uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                <span className="text-white font-semibold">HARDWARE ECOSYSTEM // DIRECT BRAND INVENTORY</span>
-              </div>
-              <span className="text-[10px] font-mono text-neutral-400">
-                CLICK ANY BRAND FOR RAPID SPEC FILTER
-              </span>
-            </div>
-
             <LogoLoop
               logos={brandLogos}
               speed={55}
@@ -236,14 +227,14 @@ export const ProductsPage: React.FC = () => {
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono uppercase text-red-400 tracking-wider">
+                    <span className="text-xs font-sans uppercase text-red-400 tracking-wider">
                       Active Brand Filter:
                     </span>
-                    <span className="text-sm font-black text-white uppercase font-mono">
+                    <span className="text-sm font-black text-white uppercase font-sans">
                       {activeBrand}
                     </span>
                   </div>
-                  <span className="text-xs text-neutral-400 font-mono">
+                  <span className="text-xs text-neutral-400 font-sans">
                     {brandFilteredProducts.length} verified authentic components found in catalog
                   </span>
                 </div>
@@ -252,7 +243,7 @@ export const ProductsPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleClearBrand}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-700 text-xs font-mono text-neutral-200 hover:text-white hover:border-red-500/60 transition-colors cursor-pointer self-start sm:self-auto"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-900 border border-neutral-700 text-xs font-sans text-neutral-200 hover:text-white hover:border-red-500/60 transition-colors cursor-pointer self-start sm:self-auto"
               >
                 <X className="w-3.5 h-3.5 text-red-500" />
                 <span>Clear Brand Filter</span>
@@ -282,83 +273,14 @@ export const ProductsPage: React.FC = () => {
                 clickEffect={true}
                 spotlightRadius={400}
                 particleCount={12}
-                glowColor="227, 27, 35"
+                glowColor="255, 30, 45"
                 disableAnimations={false}
               />
             </div>
           </FadeContent>
         )}
 
-        {/* Hardware Telemetry Terminal Matrix (Catalog Below Part) */}
-        <FadeContent blur={true} duration={900} delay={200} easing="ease-out" initialOpacity={0}>
-          <div className="relative w-full h-[320px] sm:h-[380px] mt-16 rounded-3xl border border-neutral-800/90 overflow-hidden bg-neutral-950 shadow-2xl">
-            <div className="absolute inset-0 z-0">
-              <FaultyTerminal
-                scale={1.5}
-                gridMul={[2, 1]}
-                digitSize={1.2}
-                timeScale={0.4}
-                scanlineIntensity={0.45}
-                glitchAmount={1.05}
-                flickerAmount={0.8}
-                noiseAmp={1.0}
-                chromaticAberration={0.25}
-                curvature={0.08}
-                tint="#E31B23"
-                secondaryTint="#F59E0B"
-                greyTint="#6B7280"
-                multiColorMix={true}
-                mouseReact={true}
-                mouseStrength={0.5}
-                brightness={0.85}
-              />
-            </div>
 
-            {/* Gradient Vignette Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60 pointer-events-none z-10" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80 pointer-events-none z-10" />
-
-            {/* Content overlay */}
-            <div className="relative z-20 h-full p-6 sm:p-10 flex flex-col justify-between pointer-events-none">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
-                  <span className="text-xs font-mono font-bold tracking-widest text-red-500 uppercase bg-red-950/80 px-2.5 py-1 rounded border border-red-800/60">
-                    CATALOG TELEMETRY STREAM // LIVE COMPONENT BUS
-                  </span>
-                </div>
-                <span className="text-[11px] font-mono text-neutral-400 bg-neutral-900/80 px-3 py-1 rounded-full border border-neutral-800">
-                  MULTI-COLOR MATRIX // RED • YELLOW • GREY • BLACK
-                </span>
-              </div>
-
-              <div className="max-w-xl">
-                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight font-sans">
-                  Comprehensive Hardware Catalog Engine
-                </h3>
-                <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-1.5 leading-relaxed">
-                  Real-time stock tracking, verified component architectural specifications, and direct tier-1 OEM warranty protection across all hardware tiers.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-neutral-800/80 text-xs font-mono pointer-events-auto">
-                <div className="flex items-center gap-4 text-neutral-400">
-                  <span className="text-red-400 font-bold">● RED // ARCHITECTURE</span>
-                  <span className="text-amber-400 font-bold">● YELLOW // GLITCH/BUS</span>
-                  <span className="text-neutral-400 font-bold">● GREY // TELEMETRY</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-red-500/60 text-white font-mono font-bold text-xs rounded-xl transition-all cursor-pointer shadow-lg"
-                >
-                  <span>Back to Top Catalog</span>
-                  <ArrowRight className="w-3.5 h-3.5 -rotate-90" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </FadeContent>
       </div>
     </div>
   );

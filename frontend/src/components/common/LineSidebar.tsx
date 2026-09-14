@@ -73,7 +73,7 @@ export const LineSidebar: React.FC<LineSidebarProps> = ({
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`relative flex flex-col font-mono select-none ${className}`}
+      className={`relative flex flex-col font-sans select-none ${className}`}
       style={{ gap: `${itemGap}px` }}
     >
       {items.map((item, idx) => {
@@ -138,7 +138,7 @@ export const LineSidebar: React.FC<LineSidebarProps> = ({
             {/* Optional Index Counter (01, 02...) */}
             {showIndex && (
               <span
-                className="text-xs font-bold font-mono transition-colors"
+                className="text-xs font-bold font-sans transition-colors"
                 style={{ color: isActive ? accentColor : markerColor }}
               >
                 {String(idx + 1).padStart(2, '0')}

@@ -84,7 +84,7 @@ export const CartPage: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/builder"
-              className="px-6 py-3 bg-red-600 hover:bg-red-500 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-red-950/60"
+              className="px-6 py-3 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xl shadow-red-950/60"
             >
               Launch PC Builder
             </Link>
@@ -110,7 +110,7 @@ export const CartPage: React.FC = () => {
         <ContainerScroll
         titleComponent={
           <div>
-            <span className="text-xs font-mono uppercase tracking-widest text-red-500 font-bold bg-red-950/80 px-3 py-1 rounded-full border border-red-700/50">
+            <span className="text-xs font-sans uppercase tracking-widest text-white font-bold bg-[#FF1E2D] px-3 py-1 rounded-full border border-[#FF1E2D]">
               CartVerse Insured Checkout
             </span>
             <Typography type="h1" className="text-3xl sm:text-5xl font-black text-white tracking-tight mt-2">
@@ -133,12 +133,12 @@ export const CartPage: React.FC = () => {
                   {/* Bundle Header */}
                   <div className="p-5 bg-gradient-to-r from-red-950/40 via-neutral-900 to-neutral-900 border-b border-red-900/30 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500">
+                      <div className="w-10 h-10 rounded-xl bg-[#FF1E2D]/20 border border-[#FF1E2D]/40 flex items-center justify-center text-[#FF1E2D]">
                         <Cpu className="w-5 h-5" />
                       </div>
                       <div>
                         <h3 className="text-base font-bold text-white">{bundle.title}</h3>
-                        <div className="text-xs font-mono text-neutral-400 flex items-center gap-2 mt-0.5">
+                        <div className="text-xs font-sans text-neutral-400 flex items-center gap-2 mt-0.5">
                           <span>{bundle.items.length} Custom Parts</span>
                           <span>•</span>
                           <span className="text-amber-400 font-bold">{formatWattage(bundle.totalWattage)} TDP</span>
@@ -147,12 +147,12 @@ export const CartPage: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-4">
-                      <span className="text-lg font-black font-mono text-white">
+                      <span className="text-lg font-black font-sans text-white">
                         {formatCurrency(bundle.totalPrice)}
                       </span>
                       <button
                         onClick={() => removeBundle(bundle.id)}
-                        className="p-2 rounded-xl bg-neutral-800 hover:bg-red-950/60 text-neutral-400 hover:text-red-400 transition-colors"
+                        className="p-2 rounded-xl bg-neutral-800 hover:bg-red-950/60 text-neutral-400 hover:text-[#FF1E2D] transition-colors"
                         title="Remove entire build"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -180,10 +180,10 @@ export const CartPage: React.FC = () => {
                               <img src={bImg} alt="" className="w-10 h-10 object-contain rounded bg-neutral-950 p-1" />
                               <div>
                                 <div className="text-xs font-bold text-white">{bItem.product.name}</div>
-                                <div className="text-[10px] font-mono text-neutral-400 uppercase">{bItem.product.category}</div>
+                                <div className="text-[10px] font-sans text-neutral-400 uppercase">{bItem.product.category}</div>
                               </div>
                             </div>
-                            <span className="text-xs font-mono font-bold text-neutral-200">
+                            <span className="text-xs font-sans font-bold text-neutral-200">
                               {formatCurrency(bItem.product.price)}
                             </span>
                           </div>
@@ -208,9 +208,9 @@ export const CartPage: React.FC = () => {
                       <img src={img} alt={item.product.name} className="max-h-full max-w-full object-contain" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <span className="text-[10px] font-mono uppercase text-red-400 font-bold block">{item.product.brand}</span>
+                      <span className="text-[10px] font-sans uppercase text-[#FF1E2D] font-bold block">{item.product.brand}</span>
                       <h4 className="text-sm font-bold text-white truncate">{item.product.name}</h4>
-                      <span className="text-xs font-mono text-neutral-400 mt-1 block">
+                      <span className="text-xs font-sans text-neutral-400 mt-1 block">
                         {formatCurrency(item.product.price)} each
                       </span>
                     </div>
@@ -224,7 +224,7 @@ export const CartPage: React.FC = () => {
                       >
                         <Minus className="w-3.5 h-3.5" />
                       </button>
-                      <span className="px-3 text-xs font-mono font-bold text-white">{item.quantity}</span>
+                      <span className="px-3 text-xs font-sans font-bold text-white">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
                         className="p-1.5 text-neutral-400 hover:text-white"
@@ -234,14 +234,14 @@ export const CartPage: React.FC = () => {
                     </div>
 
                     <div className="text-right">
-                      <span className="text-base font-black font-mono text-white block">
+                      <span className="text-base font-black font-sans text-white block">
                         {formatCurrency(item.product.price * item.quantity)}
                       </span>
                     </div>
 
                     <button
                       onClick={() => removeItem(item.product.id)}
-                      className="p-2 text-neutral-500 hover:text-red-400 transition-colors"
+                      className="p-2 text-neutral-500 hover:text-[#FF1E2D] transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -264,7 +264,7 @@ export const CartPage: React.FC = () => {
                 placeholder="Promo Code (CARTVERSE10)"
                 value={couponInput}
                 onChange={(e) => setCouponInput(e.target.value)}
-                className="flex-1 bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white font-mono uppercase outline-none focus:border-red-500"
+                className="flex-1 bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white font-sans uppercase outline-none focus:border-[#FF1E2D]"
               />
               <button
                 type="submit"
@@ -275,7 +275,7 @@ export const CartPage: React.FC = () => {
             </form>
 
             {couponCode && (
-              <div className="flex items-center justify-between text-xs font-mono bg-emerald-950/60 border border-emerald-800/60 text-emerald-300 p-2.5 rounded-xl">
+              <div className="flex items-center justify-between text-xs font-sans bg-emerald-950/60 border border-emerald-800/60 text-emerald-300 p-2.5 rounded-xl">
                 <span>{couponCode}: -{formatCurrency(discountAmount)}</span>
                 <button onClick={removeCoupon} className="text-emerald-400 hover:text-white">Remove</button>
               </div>
@@ -285,19 +285,19 @@ export const CartPage: React.FC = () => {
             <div className="space-y-2.5 text-xs text-neutral-400">
               <div className="flex justify-between">
                 <span>Hardware Subtotal</span>
-                <span className="font-mono text-white">{formatCurrency(subtotal)}</span>
+                <span className="font-sans text-white">{formatCurrency(subtotal)}</span>
               </div>
               <div className="flex justify-between text-[11px] text-neutral-500">
                 <span>18% GST (Tax Inclusive)</span>
-                <span className="font-mono">{formatCurrency(gstAmount)}</span>
+                <span className="font-sans">{formatCurrency(gstAmount)}</span>
               </div>
               <div className="flex justify-between text-emerald-400">
                 <span>Shipping & Insurance</span>
-                <span className="font-mono font-bold">FREE</span>
+                <span className="font-sans font-bold">FREE</span>
               </div>
               <div className="flex justify-between text-base font-black text-white pt-4 border-t border-neutral-800">
                 <span>Total Investment</span>
-                <span className="font-mono text-red-400 text-lg">{formatCurrency(grandTotal)}</span>
+                <span className="font-sans text-[#FF1E2D] text-lg font-black">{formatCurrency(grandTotal)}</span>
               </div>
             </div>
 
@@ -305,7 +305,7 @@ export const CartPage: React.FC = () => {
               <NoiseBackground containerClassName="rounded-xl shadow-xl w-full">
                 <button
                   onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full py-4 bg-red-600 hover:bg-red-500 text-white font-black rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-4 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-black rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <ShieldCheck className="w-4 h-4" />
                   <span>Proceed to Checkout</span>

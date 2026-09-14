@@ -4,58 +4,15 @@ import { Cpu, ShieldCheck, Sparkles, HelpCircle, Layers, Flame } from 'lucide-re
 import { usePCBuilderStore } from '../../store/usePCBuilderStore';
 import { BuilderSlotKey } from '../../types/hardware';
 import { ComponentSlotCard } from './ComponentSlotCard';
-import { CompatibilityBar } from './CompatibilityBar';
-import { WattageGauge } from './WattageGauge';
 import { ComponentPickerModal } from './ComponentPickerModal';
-import { BuildSummaryBar } from './BuildSummaryBar';
 import { formatCurrency } from '../../utils/formatters';
 import { NoiseBackground } from '../ui/noise-background';
 import Typography from '../ui/Typography';
 import ShapeGrid from '../common/ShapeGrid';
 import { Boxes } from '../ui/background-boxes';
-import MagicBento from '../common/MagicBento';
 import FadeContent from '../common/FadeContent';
 import { ContainerScroll } from '../ui/container-scroll-animation';
-import { getHardwareIcon, isMonochromeHardwareIcon } from '../../utils/hardwareIcons';
-
-const builderBentoCards = [
-  {
-    color: '#120F17',
-    title: 'Socket Alignment',
-    description: 'Pin-level matching for Intel LGA1700/LGA1851 & AMD AM5',
-    label: 'Compatibility Engine'
-  },
-  {
-    color: '#120F17',
-    title: 'Wattage Budgeting',
-    description: 'Live 80+ headroom calculation and transient spike safety',
-    label: 'Power Delivery'
-  },
-  {
-    color: '#120F17',
-    title: 'Thermal Clearances',
-    description: 'Chassis radiator support and AIO pump header validation',
-    label: 'Cooling Clearance'
-  },
-  {
-    color: '#120F17',
-    title: 'Memory Topologies',
-    description: 'DDR4 vs DDR5 dual-channel EXPO & XMP profile verification',
-    label: 'RAM Optimization'
-  },
-  {
-    color: '#120F17',
-    title: 'GPU Dimension Checks',
-    description: 'Chassis length and bracket slot clearance verification',
-    label: 'Form Factor'
-  },
-  {
-    color: '#120F17',
-    title: 'Direct Brand RMA',
-    description: '100% genuine parts with brand replacement guarantee',
-    label: 'Peace of Mind'
-  }
-];
+import { getHardwareIcon } from '../../utils/hardwareIcons';
 
 interface SlotDefinition {
   key: BuilderSlotKey;
@@ -135,8 +92,8 @@ export const PCBuilderStudio: React.FC = () => {
           speed={0.5}
           squareSize={40}
           direction="diagonal"
-          borderColor="rgba(227, 27, 35, 0.18)"
-          hoverFillColor="#E31B23"
+          borderColor="rgba(255, 30, 45, 0.18)"
+          hoverFillColor="#FF1E2D"
           shape="square"
           hoverTrailAmount={3}
         />
@@ -152,8 +109,8 @@ export const PCBuilderStudio: React.FC = () => {
             <div className="absolute right-0 top-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono text-red-400 uppercase tracking-widest mb-2 font-bold">
-                  <Cpu className="w-4 h-4 text-red-500" />
+                <div className="flex items-center gap-2 text-xs font-sans text-[#FF1E2D] uppercase tracking-widest mb-2 font-bold">
+                  <Cpu className="w-4 h-4 text-[#FF1E2D]" />
                   CartVerse Interactive Hardware Studio
                 </div>
                 <Typography type="h1" className="text-3xl sm:text-5xl font-black text-white tracking-tight">
@@ -183,29 +140,10 @@ export const PCBuilderStudio: React.FC = () => {
           </div>
         </FadeContent>
 
-        {/* Real-time Status Grid */}
-        <FadeContent blur={true} duration={850} delay={100} easing="ease-out" initialOpacity={0}>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-            <div className="lg:col-span-2">
-              <CompatibilityBar report={report} filledSlotsCount={filledSlots} />
-            </div>
-            <div>
-              <WattageGauge
-                estimatedWattage={estimatedWattage}
-                recommendedPsuWattage={report.recommendedPsuWattage}
-                selectedPsuWattage={build.psu?.specs.wattage}
-              />
-            </div>
-          </div>
-        </FadeContent>
-
         {/* Interactive Rig Architecture Workspace with Aceternity ContainerScroll */}
         <ContainerScroll
           titleComponent={
             <div className="text-center mb-6">
-              <span className="text-xs font-mono uppercase tracking-widest text-red-400 font-bold bg-red-950/80 px-3 py-1 rounded-full border border-red-700/50">
-                Interactive Rig Architecture
-              </span>
               <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-2">
                 Configure Core Hardware & Peripherals
               </Typography>
@@ -226,7 +164,7 @@ export const PCBuilderStudio: React.FC = () => {
                     Core System Architecture
                   </Typography>
                 </div>
-                <span className="text-[11px] font-mono text-neutral-400">Essential PC Slots</span>
+                <span className="text-[11px] font-sans text-[#FF1E2D] font-bold uppercase tracking-wider">Essential PC Slots</span>
               </div>
 
               <div className="space-y-3">
@@ -254,7 +192,7 @@ export const PCBuilderStudio: React.FC = () => {
                     Cooling, Displays & Peripherals
                   </Typography>
                 </div>
-                <span className="text-[11px] font-mono text-neutral-400">Optional Battle Station Gear</span>
+                <span className="text-[11px] font-sans text-[#FF1E2D] font-bold uppercase tracking-wider">Optional Battle Station Gear</span>
               </div>
 
               <div className="space-y-3">
@@ -276,44 +214,10 @@ export const PCBuilderStudio: React.FC = () => {
         </ContainerScroll>
 
 
-        {/* Interactive Rig Architecture Intelligence: Magic Bento Showcase */}
-        <FadeContent blur={true} duration={900} delay={100} easing="ease-out" initialOpacity={0}>
-          <div className="mt-14 mb-10 flex flex-col items-center">
-            <div className="text-center mb-8">
-              <span className="text-xs font-mono uppercase tracking-widest text-purple-400 font-bold bg-purple-950/80 px-3.5 py-1 rounded-full border border-purple-700/50">
-                Architecture Intelligence
-              </span>
-              <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-2">
-                Automated Build Validation
-              </Typography>
-              <Typography type="body-sm" color="muted" className="mt-1 max-w-xl mx-auto">
-                Our hardware engine continuously checks 20+ electrical, thermal, and mechanical compatibility parameters as you assemble your custom rig.
-              </Typography>
-            </div>
-
-            <MagicBento
-              cards={builderBentoCards}
-              textAutoHide={true}
-              enableStars={true}
-              enableSpotlight={true}
-              enableBorderGlow={true}
-              enableTilt={false}
-              enableMagnetism={false}
-              clickEffect={true}
-              spotlightRadius={400}
-              particleCount={12}
-              glowColor="132, 0, 255"
-              disableAnimations={false}
-            />
-          </div>
-        </FadeContent>
       </div>
 
       {/* Component Selection Modal */}
       <ComponentPickerModal slotKey={activeSlotPicker} onClose={closeSlotPicker} />
-
-      {/* Sticky Bottom Summary Bar */}
-      <BuildSummaryBar />
     </div>
   );
 };

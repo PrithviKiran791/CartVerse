@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import serverGif from '../assets/icons/Server.gif';
+import supercomputerGif from '../assets/icons/Supercomputer.gif';
 import {
   Server,
   Cpu,
@@ -44,7 +46,7 @@ const useCases = [
     desc: 'Equipped for frontier model training, transformer fine-tuning, and ultra-low latency tensor inference with 8x NVIDIA H100/H200/B200 SXM5 accelerators.',
     badge: 'UP TO 8X SXM5 // 400G INFINIBAND',
     iconImage: aiIcon,
-    accent: 'text-red-500',
+    accent: 'text-[#FF1E2D]',
     border: 'border-red-500/30',
     imgClass: 'brightness-0 invert drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]',
     bgGlow: 'bg-red-950/40 border-red-800/60',
@@ -97,18 +99,6 @@ const useCases = [
     imgClass: 'brightness-0 invert drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]',
     bgGlow: 'bg-amber-950/40 border-amber-800/60',
   },
-  {
-    id: 'monitoring',
-    title: 'Edge Compute & Remote Mission Control',
-    tagline: 'Hardware Telemetry, IPMI 2.0 & Operations Centers',
-    desc: 'Low-latency edge nodes and remote management stations equipped with dedicated out-of-band iDRAC/iLO controllers, Redfish APIs, and high-fidelity displays.',
-    badge: 'IPMI TELEMETRY // EDGE DEPLOY',
-    iconImage: monitorIcon,
-    accent: 'text-blue-400',
-    border: 'border-blue-500/30',
-    imgClass: 'brightness-0 invert drop-shadow-[0_0_8px_rgba(96,165,250,0.5)]',
-    bgGlow: 'bg-blue-950/40 border-blue-800/60',
-  },
 ];
 
 export const ServersLandingPage: React.FC = () => {
@@ -134,7 +124,7 @@ export const ServersLandingPage: React.FC = () => {
           chromaticAberration={0.25}
           dither={0.12}
           curvature={0.08}
-          tint="#E31B23"
+          tint="#FF1E2D"
           secondaryTint="#F59E0B"
           greyTint="#6B7280"
           multiColorMix={true}
@@ -153,79 +143,58 @@ export const ServersLandingPage: React.FC = () => {
           <div className="bg-gradient-to-r from-neutral-900 via-neutral-950 to-red-950/40 border border-neutral-800 rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-2xl">
             <div className="absolute inset-0 w-full h-full bg-neutral-950/70 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
             <Boxes />
-            <div className="absolute right-0 top-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute right-0 top-0 w-96 h-96 bg-[#FF1E2D]/10 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 max-w-4xl">
-              <div className="flex flex-wrap items-center gap-2 text-xs font-mono font-bold tracking-widest text-red-500 uppercase mb-4">
-                <span className="flex items-center gap-1.5 bg-red-950/80 px-2.5 py-1 rounded border border-red-800/60">
-                  <img src={serverIcon} alt="Server" className="w-3.5 h-3.5 object-contain brightness-0 invert" />
-                  CartVerse Enterprise Infrastructure
-                </span>
-                <span className="text-neutral-500">•</span>
-                <span className="text-neutral-400">99.999% SLA Uptime</span>
-                <span className="text-neutral-500">•</span>
-                <span className="text-neutral-400">Pan-India Data Center Deployment</span>
-              </div>
-
-              <Typography
-                type="h1"
-                className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-none"
-              >
-                Enterprise Servers &amp; Supercomputing Fabric
-              </Typography>
-
-              <p className="mt-4 text-sm sm:text-base text-neutral-300 font-mono leading-relaxed max-w-3xl">
-                High-density rack compute, multi-socket AMD EPYC &amp; Intel Xeon Scalable architectures, ECC RDIMM memory subsystems, and multi-GPU exascale accelerators. Built for deterministic throughput, zero-downtime N+1 redundancy, and minimal TCO.
-              </p>
-
-              {/* CTAs Row */}
-              <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link
-                  to="/servers/builder"
-                  className="px-6 py-3.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-red-950/60 transition-all flex items-center gap-2 active:scale-95"
+            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+              <div className="max-w-3xl flex-1">
+                <Typography
+                  type="h1"
+                  className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-none"
                 >
-                  <img src={processorIcon} alt="Configurator" className="w-4 h-4 object-contain brightness-0 invert" />
-                  <span>Launch Server Configurator &rarr;</span>
-                </Link>
+                  Enterprise Servers &amp; Supercomputing Fabric
+                </Typography>
 
-                <Link
-                  to="/servers/pre-configured"
-                  className="px-6 py-3.5 bg-neutral-900 hover:bg-neutral-800 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-700 transition-all flex items-center gap-2"
-                >
-                  <img src={serverIcon} alt="Turnkey" className="w-4 h-4 object-contain brightness-0 invert" />
-                  <span>Turnkey Server Nodes</span>
-                </Link>
+                <p className="mt-4 text-sm sm:text-base text-neutral-300 font-sans leading-relaxed max-w-2xl">
+                  High-density rack compute, multi-socket AMD EPYC &amp; Intel Xeon Scalable architectures, ECC RDIMM memory subsystems, and multi-GPU exascale accelerators. Built for deterministic throughput, zero-downtime N+1 redundancy, and minimal TCO.
+                </p>
 
-                <Link
-                  to="/servers/catalog"
-                  className="px-6 py-3.5 bg-neutral-950 hover:bg-neutral-900 text-neutral-300 hover:text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-800 transition-all flex items-center gap-2"
-                >
-                  <span>Browse Server Catalog</span>
-                </Link>
-              </div>
-            </div>
+                {/* CTAs Row */}
+                <div className="mt-8 flex flex-wrap items-center gap-4">
+                  <Link
+                    to="/servers/builder"
+                    className="px-6 py-3.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl shadow-xl shadow-red-950/60 transition-all flex items-center gap-2 active:scale-95 cursor-pointer"
+                  >
+                    <img src={processorIcon} alt="Configurator" className="w-4 h-4 object-contain brightness-0 invert" />
+                    <span>Launch Server Configurator &rarr;</span>
+                  </Link>
 
-            {/* Spec Highlights Grid */}
-            <div className="mt-10 pt-8 border-t border-neutral-800/80 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-5 font-mono text-left relative z-10">
-              <div className="bg-neutral-950/70 p-4 sm:p-5 rounded-2xl border border-neutral-800/90 shadow-lg">
-                <span className="text-[11px] text-neutral-400 uppercase font-semibold block mb-1">Max Cores / Node</span>
-                <span className="text-2xl sm:text-3xl font-black text-white tracking-tight">256 Cores</span>
-                <span className="text-xs text-neutral-500 block mt-1">Dual EPYC 9005 Socket</span>
+                  <Link
+                    to="/servers/pre-configured"
+                    className="px-6 py-3.5 bg-neutral-900 hover:bg-neutral-800 text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-700 transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    <img src={serverIcon} alt="Turnkey" className="w-4 h-4 object-contain brightness-0 invert" />
+                    <span>Turnkey Server Nodes</span>
+                  </Link>
+
+                  <Link
+                    to="/servers/catalog"
+                    className="px-6 py-3.5 bg-neutral-950 hover:bg-neutral-900 text-neutral-300 hover:text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl border border-neutral-800 transition-all flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>Browse Server Catalog</span>
+                  </Link>
+                </div>
               </div>
-              <div className="bg-neutral-950/70 p-4 sm:p-5 rounded-2xl border border-neutral-800/90 shadow-lg">
-                <span className="text-[11px] text-neutral-400 uppercase font-semibold block mb-1">Peak AI Throughput</span>
-                <span className="text-2xl sm:text-3xl font-black text-red-400 tracking-tight">8x H100 SXM5</span>
-                <span className="text-xs text-neutral-500 block mt-1">3.2 Tbps NVLink Fabric</span>
-              </div>
-              <div className="bg-neutral-950/70 p-4 sm:p-5 rounded-2xl border border-neutral-800/90 shadow-lg">
-                <span className="text-[11px] text-neutral-400 uppercase font-semibold block mb-1">Memory Ceiling</span>
-                <span className="text-2xl sm:text-3xl font-black text-white tracking-tight">8 TB DDR5</span>
-                <span className="text-xs text-neutral-500 block mt-1">32-Channel ECC RDIMM</span>
-              </div>
-              <div className="bg-neutral-950/70 p-4 sm:p-5 rounded-2xl border border-neutral-800/90 shadow-lg">
-                <span className="text-[11px] text-neutral-400 uppercase font-semibold block mb-1">Power Architecture</span>
-                <span className="text-2xl sm:text-3xl font-black text-emerald-400 tracking-tight">N+1 / N+N</span>
-                <span className="text-xs text-neutral-500 block mt-1">Titanium Hot-Swap PSUs</span>
+
+              {/* High-Tech Animated Server GIF Showcase */}
+              <div className="w-full lg:w-[420px] xl:w-[460px] shrink-0">
+                <div className="relative aspect-video rounded-2xl overflow-hidden border border-neutral-800 hover:border-[#FF1E2D]/60 bg-black shadow-[0_0_35px_rgba(255,30,45,0.2)] group transition-all duration-300">
+                  <img
+                    src={serverGif}
+                    alt="Enterprise Datacenter Server Infrastructure"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#080808]/40 via-transparent to-transparent pointer-events-none" />
+                </div>
               </div>
             </div>
           </div>
@@ -236,16 +205,6 @@ export const ServersLandingPage: React.FC = () => {
       <section className="relative z-10 py-6 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <FadeContent blur={true} duration={850} delay={100} easing="ease-out" initialOpacity={0}>
           <div className="bg-neutral-900/60 border border-neutral-800/80 rounded-2xl py-5 px-5 sm:px-7 backdrop-blur-md relative overflow-hidden shadow-lg">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3.5 px-1">
-              <div className="flex items-center gap-2 text-[11px] font-mono tracking-wider text-neutral-400 uppercase">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                <span className="text-white font-semibold">ENTERPRISE HARDWARE ALLIANCE // TIER-1 OEM INVENTORY</span>
-              </div>
-              <span className="text-[10px] font-mono text-neutral-500">
-                FACTORY TESTED • OFFICIAL OEM WARRANTY
-              </span>
-            </div>
-
             <LogoLoop
               logos={enterpriseBrandLogos}
               speed={50}
@@ -286,8 +245,8 @@ export const ServersLandingPage: React.FC = () => {
                 />
               </div>
               <div className="min-w-0">
-                <div className="text-xs sm:text-[13px] font-bold text-white truncate font-mono">{item.name}</div>
-                <div className="text-[10px] sm:text-[11px] text-neutral-400 font-mono truncate mt-0.5">{item.sub}</div>
+                <div className="text-xs sm:text-[13px] font-bold text-white truncate font-sans">{item.name}</div>
+                <div className="text-[10px] sm:text-[11px] text-neutral-400 font-sans truncate mt-0.5">{item.sub}</div>
               </div>
             </div>
           ))}
@@ -297,13 +256,10 @@ export const ServersLandingPage: React.FC = () => {
       {/* 3. Targeted Workload Use-Case Tiles */}
       <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-red-500 bg-red-950/60 px-3.5 py-1 rounded-full border border-red-800/50">
-            Workload Profiles
-          </span>
           <Typography type="h2" className="text-2xl sm:text-4xl font-black text-white tracking-tight mt-3">
             Engineered for Mission-Critical Infrastructure
           </Typography>
-          <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2 leading-relaxed">
+          <p className="text-xs sm:text-sm text-neutral-400 font-sans mt-2 leading-relaxed">
             Select a tailored computing profile to filter verified server hardware components and pre-configured nodes.
           </p>
         </div>
@@ -313,7 +269,7 @@ export const ServersLandingPage: React.FC = () => {
             return (
               <div
                 key={uc.id}
-                onClick={() => navigate(`/servers/catalog?useCase=${uc.id}`)}
+                onClick={() => navigate(`/servers/catalog?productClass=server&useCase=${uc.id}`)}
                 className={`bg-neutral-900/80 border ${uc.border} hover:border-red-500/60 rounded-3xl p-7 sm:p-8 min-h-[350px] sm:min-h-[365px] backdrop-blur-md shadow-xl transition-all duration-200 cursor-pointer flex flex-col justify-between group hover:-translate-y-1`}
               >
                 <div>
@@ -325,25 +281,25 @@ export const ServersLandingPage: React.FC = () => {
                         className={`w-9 h-9 object-contain rounded-lg group-hover:scale-110 transition-transform duration-300 ${uc.imgClass || 'brightness-0 invert'}`}
                       />
                     </div>
-                    <span className="text-[10px] font-mono font-bold bg-neutral-950 text-neutral-300 px-2.5 py-1 rounded-md border border-neutral-800">
+                    <span className="text-[10px] font-sans font-bold bg-neutral-950 text-neutral-300 px-2.5 py-1 rounded-md border border-neutral-800">
                       {uc.badge}
                     </span>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-red-400 transition-colors">
+                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-[#FF1E2D] transition-colors">
                     {uc.title}
                   </h3>
 
-                  <span className="text-xs sm:text-sm font-mono text-neutral-400 block mt-1.5">
+                  <span className="text-xs sm:text-sm font-sans text-neutral-400 block mt-1.5">
                     {uc.tagline}
                   </span>
 
-                  <p className="text-xs sm:text-[13px] text-neutral-400 font-mono mt-3.5 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-neutral-400 font-sans mt-3.5 leading-relaxed">
                     {uc.desc}
                   </p>
                 </div>
 
-                <div className="mt-7 pt-4 border-t border-neutral-800/80 flex items-center justify-between text-xs sm:text-sm font-mono font-bold text-red-500">
+                <div className="mt-7 pt-4 border-t border-neutral-800/80 flex items-center justify-between text-xs sm:text-sm font-sans font-bold text-[#FF1E2D]">
                   <span>Explore Workload Components</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -357,25 +313,49 @@ export const ServersLandingPage: React.FC = () => {
       <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-neutral-800">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-red-500 mb-1">
-              <Activity className="w-4 h-4 text-red-500" />
+            <div className="flex items-center gap-2 text-xs font-sans font-bold uppercase tracking-widest text-[#FF1E2D] mb-1">
+              <Activity className="w-4 h-4 text-[#FF1E2D]" />
               TOP500 Global Benchmark
             </div>
             <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight">
               World-Class Supercomputing Architecture
             </Typography>
-            <p className="text-xs text-neutral-400 font-mono mt-1">
+            <p className="text-xs text-neutral-400 font-sans mt-1">
               Inspect technical topologies, interconnect fabrics, and peak compute ratings of leading HPC supercomputing systems.
             </p>
           </div>
 
           <Link
             to="/servers/pre-configured"
-            className="text-xs font-mono font-bold text-red-400 hover:text-red-300 flex items-center gap-1 shrink-0"
+            className="text-xs font-sans font-bold text-[#FF1E2D] hover:text-red-300 flex items-center gap-1 shrink-0"
           >
             <span>View All Supercomputer Profiles</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
+        </div>
+
+        {/* Supercomputing Fabric Spotlight Banner featuring Supercomputer.gif */}
+        <div className="mb-8 relative rounded-3xl overflow-hidden border border-neutral-800 bg-gradient-to-r from-neutral-900 via-[#120F17] to-neutral-950 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+          <div className="space-y-3 max-w-2xl z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-[#FF1E2D]/15 border border-[#FF1E2D]/40 text-[#FF1E2D] text-xs font-sans font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>FRONTIER EXASCALE CLUSTER MATRIX</span>
+            </div>
+            <h3 className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight uppercase font-sans">
+              Exascale High Performance Computing Fabric
+            </h3>
+            <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-sans">
+              Massively parallel symmetric nodes interconnected by low-latency Slingshot-11 and InfiniBand NDR fabrics, delivering hundreds of petaflops of mixed-precision tensor computing.
+            </p>
+          </div>
+          <div className="shrink-0 w-full md:w-72 lg:w-80 aspect-video rounded-2xl overflow-hidden border border-neutral-700/80 shadow-[0_0_30px_rgba(255,30,45,0.2)] relative group">
+            <img
+              src={supercomputerGif}
+              alt="HPC Supercomputer Cluster Matrix"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -397,19 +377,19 @@ export const ServersLandingPage: React.FC = () => {
                     />
                   </div>
 
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-400 bg-red-950/60 px-2.5 py-1 rounded-md border border-red-800/50">
+                  <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#FF1E2D] bg-red-950/60 px-2.5 py-1 rounded-md border border-red-800/50">
                     {specs?.peakCompute}
                   </span>
 
-                  <h3 className="text-base sm:text-lg font-bold text-white tracking-tight mt-2.5 group-hover:text-red-400 transition-colors">
+                  <h3 className="text-base sm:text-lg font-bold text-white tracking-tight mt-2.5 group-hover:text-[#FF1E2D] transition-colors">
                     {sc.name}
                   </h3>
 
-                  <p className="text-xs font-mono text-neutral-400 mt-1 line-clamp-1">
+                  <p className="text-xs font-sans text-neutral-400 mt-1 line-clamp-1">
                     {specs?.operatingInstitutionCountry}
                   </p>
 
-                  <div className="mt-4 pt-3.5 border-t border-neutral-800/80 space-y-1.5 text-xs font-mono">
+                  <div className="mt-4 pt-3.5 border-t border-neutral-800/80 space-y-1.5 text-xs font-sans">
                     <div className="flex justify-between text-neutral-400">
                       <span>Interconnect:</span>
                       <span className="text-white font-bold">{specs?.interconnectFabric}</span>
@@ -423,7 +403,7 @@ export const ServersLandingPage: React.FC = () => {
 
                 <Link
                   to={`/servers/${sc.id}`}
-                  className="mt-5 w-full py-2.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-xs sm:text-[13px] font-mono font-bold text-center border border-neutral-700 transition-colors block"
+                  className="mt-5 w-full py-2.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-xs sm:text-[13px] font-sans font-bold text-center border border-neutral-700 transition-colors block"
                 >
                   Technical Spec Sheet &rarr;
                 </Link>
@@ -437,21 +417,14 @@ export const ServersLandingPage: React.FC = () => {
       <section className="relative z-10 py-12 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto mb-16">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-neutral-800">
           <div>
-            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-red-500 mb-1">
-              <Server className="w-4 h-4 text-red-500" />
-              Turnkey Enterprise Nodes
-            </div>
-            <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-              Pre-Configured Dell &amp; HPE Rack Nodes
-            </Typography>
-            <p className="text-xs text-neutral-400 font-mono mt-1">
+            <p className="text-xs text-neutral-400 font-sans mt-1">
               Immediate order availability with pan-India insured freight and 3-year OEM on-site warranty.
             </p>
           </div>
 
           <Link
             to="/servers/pre-configured"
-            className="text-xs font-mono font-bold text-red-400 hover:text-red-300 flex items-center gap-1 shrink-0"
+            className="text-xs font-sans font-bold text-[#FF1E2D] hover:text-red-300 flex items-center gap-1 shrink-0"
           >
             <span>View All 16 Server Models</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -477,24 +450,21 @@ export const ServersLandingPage: React.FC = () => {
                     />
                   </div>
 
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase">
+                  <div className="mb-2">
+                    <span className="text-[10px] font-sans font-bold text-neutral-400 uppercase">
                       {srv.brand} // {s?.formFactor}
-                    </span>
-                    <span className="text-[10px] font-mono font-bold bg-emerald-950 text-emerald-300 px-2.5 py-0.5 rounded border border-emerald-800/50">
-                      {s?.managementEngine}
                     </span>
                   </div>
 
-                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-red-400 transition-colors">
+                  <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight group-hover:text-[#FF1E2D] transition-colors">
                     {srv.name}
                   </h3>
 
-                  <p className="text-xs sm:text-[13px] text-neutral-400 font-mono mt-2 line-clamp-2 leading-relaxed">
+                  <p className="text-xs sm:text-[13px] text-neutral-400 font-sans mt-2 line-clamp-2 leading-relaxed">
                     {srv.description}
                   </p>
 
-                  <div className="mt-5 pt-4 border-t border-neutral-800/80 space-y-2 font-mono text-xs sm:text-[13px]">
+                  <div className="mt-5 pt-4 border-t border-neutral-800/80 space-y-2 font-sans text-xs sm:text-[13px]">
                     <div className="flex justify-between text-neutral-400">
                       <span>Sockets:</span>
                       <span className="text-white font-bold">{s?.processorSockets}</span>
@@ -508,17 +478,17 @@ export const ServersLandingPage: React.FC = () => {
 
                 <div className="mt-6 pt-5 border-t border-neutral-800/80 flex items-center justify-between gap-3">
                   <div>
-                    <span className="text-[10px] font-mono text-neutral-500 uppercase block">
+                    <span className="text-[10px] font-sans text-neutral-500 uppercase block">
                       Approx Street Price
                     </span>
-                    <span className="text-lg sm:text-xl font-black font-mono text-white">
+                    <span className="text-lg sm:text-xl font-black font-sans text-white">
                       {formatCurrency(srv.price)}
                     </span>
                   </div>
 
                   <Link
                     to={`/servers/${srv.id}`}
-                    className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs sm:text-sm font-mono font-bold transition-all shadow-md shadow-red-950/40"
+                    className="px-5 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white rounded-xl text-xs sm:text-sm font-sans font-bold transition-all shadow-md shadow-red-950/40"
                   >
                     Details &amp; Order
                   </Link>

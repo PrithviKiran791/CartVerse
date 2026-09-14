@@ -153,8 +153,8 @@ export const ServerBuilderStudio: React.FC = () => {
           speed={0.4}
           squareSize={48}
           direction="diagonal"
-          borderColor="rgba(227, 27, 35, 0.15)"
-          hoverFillColor="#E31B23"
+          borderColor="rgba(255, 30, 45, 0.15)"
+          hoverFillColor="#FF1E2D"
           shape="square"
           hoverTrailAmount={2}
         />
@@ -170,7 +170,7 @@ export const ServerBuilderStudio: React.FC = () => {
 
             <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div>
-                <div className="flex items-center gap-2 text-xs font-mono text-red-500 uppercase tracking-widest mb-2 font-bold">
+                <div className="flex items-center gap-2 text-xs font-sans text-red-500 uppercase tracking-widest mb-2 font-bold">
                   <Server className="w-4 h-4 text-red-500" />
                   Enterprise Infrastructure Studio
                 </div>
@@ -186,14 +186,14 @@ export const ServerBuilderStudio: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-2 shrink-0">
                 <button
                   onClick={() => handleLoadTemplate('ai')}
-                  className="px-4 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-neutral-200 hover:text-white rounded-xl text-xs font-mono font-bold border border-neutral-700/80 shadow transition-all flex items-center gap-1.5"
+                  className="px-4 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-neutral-200 hover:text-white rounded-xl text-xs font-sans font-bold border border-neutral-700/80 shadow transition-all flex items-center gap-1.5"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-red-500" />
                   <span>Load AI Training Node (4U)</span>
                 </button>
                 <button
                   onClick={() => handleLoadTemplate('database')}
-                  className="px-4 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-neutral-200 hover:text-white rounded-xl text-xs font-mono font-bold border border-neutral-700/80 shadow transition-all flex items-center gap-1.5"
+                  className="px-4 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-neutral-200 hover:text-white rounded-xl text-xs font-sans font-bold border border-neutral-700/80 shadow transition-all flex items-center gap-1.5"
                 >
                   <HardDrive className="w-3.5 h-3.5 text-cyan-400" />
                   <span>Load Database Cluster (2U)</span>
@@ -229,11 +229,11 @@ export const ServerBuilderStudio: React.FC = () => {
             <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
               <div className="flex items-center gap-2">
                 <Cpu className="w-4 h-4 text-red-500" />
-                <Typography type="h3" className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+                <Typography type="h3" className="text-sm font-bold text-white uppercase tracking-wider font-sans">
                   Core Compute, Motherboard & Rack Envelope
                 </Typography>
               </div>
-              <span className="text-[11px] font-mono text-neutral-400">Essential Server Foundation</span>
+              <span className="text-[11px] font-sans text-neutral-400">Essential Server Foundation</span>
             </div>
 
             <div className="space-y-3">
@@ -257,11 +257,11 @@ export const ServerBuilderStudio: React.FC = () => {
             <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
               <div className="flex items-center gap-2">
                 <Network className="w-4 h-4 text-cyan-400" />
-                <Typography type="h3" className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+                <Typography type="h3" className="text-sm font-bold text-white uppercase tracking-wider font-sans">
                   Accelerators, Enterprise NVMe Storage & Fabric Networking
                 </Typography>
               </div>
-              <span className="text-[11px] font-mono text-neutral-400">Throughput & Expansion</span>
+              <span className="text-[11px] font-sans text-neutral-400">Throughput & Expansion</span>
             </div>
 
             <div className="space-y-3">
@@ -284,16 +284,16 @@ export const ServerBuilderStudio: React.FC = () => {
         {/* Turnkey Server Systems CTA Banner */}
         <div className="p-6 rounded-2xl bg-neutral-900/60 border border-neutral-800 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
           <div>
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider font-mono">
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider font-sans">
               Looking for Turnkey Rack Systems or Exascale Supercomputers?
             </h4>
-            <p className="text-xs text-neutral-400 font-mono mt-1">
+            <p className="text-xs text-neutral-400 font-sans mt-1">
               Explore 16 pre-integrated Dell PowerEdge, HPE ProLiant, and Supermicro turnkey servers, or inspect world-class supercomputing topologies.
             </p>
           </div>
           <Link
             to="/servers/pre-configured"
-            className="px-5 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-xs font-mono font-bold shrink-0 border border-neutral-700 transition-all flex items-center gap-1.5"
+            className="px-5 py-2.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-xs font-sans font-bold shrink-0 border border-neutral-700 transition-all flex items-center gap-1.5"
           >
             <span>View Pre-Configured Nodes</span>
             <ArrowRight className="w-3.5 h-3.5" />

@@ -246,7 +246,7 @@ export const CoolingSelector: React.FC = () => {
                         : 'bg-blue-600 hover:bg-blue-500 text-white'
                     }`}
                   >
-                    {isSelected ? '✓ Selected in Rig' : 'Select Cooler'}
+                    {isSelected ? 'Selected in Rig' : 'Select Cooler'}
                   </button>
                 ) : (
                   <button

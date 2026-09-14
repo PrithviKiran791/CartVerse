@@ -118,7 +118,7 @@ export const ShareBuildModal: React.FC<ShareBuildModalProps> = ({
                   type="text"
                   readOnly
                   value={shareUrl}
-                  className="flex-1 bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-2.5 text-xs text-neutral-300 font-mono select-all outline-none"
+                  className="flex-1 bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-2.5 text-xs text-neutral-300 font-sans select-all outline-none"
                 />
                 <button
                   onClick={handleCopyLink}
@@ -159,7 +159,7 @@ export const ShareBuildModal: React.FC<ShareBuildModalProps> = ({
                 </div>
               </div>
 
-              <pre className="bg-neutral-950 border border-neutral-800 p-4 rounded-xl text-[11px] font-mono text-neutral-300 overflow-x-auto whitespace-pre leading-relaxed select-all">
+              <pre className="bg-neutral-950 border border-neutral-800 p-4 rounded-xl text-[11px] font-sans text-neutral-300 overflow-x-auto whitespace-pre leading-relaxed select-all">
                 {textSpec}
               </pre>
             </div>

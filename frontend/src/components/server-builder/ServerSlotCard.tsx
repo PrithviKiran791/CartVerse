@@ -111,11 +111,11 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 mb-1">
               <HardwareIcon name={slotKey === 'cpu2' ? 'cpu' : slotKey} className="w-3.5 h-3.5 object-contain shrink-0" />
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-500 bg-red-950/40 px-2 py-0.5 rounded border border-red-900/50">
+              <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-red-500 bg-red-950/40 px-2 py-0.5 rounded border border-red-900/50">
                 {label}
               </span>
               {selectedProduct?.brand && (
-                <span className="text-[10px] font-mono text-neutral-400">
+                <span className="text-[10px] font-sans text-neutral-400">
                   {selectedProduct.brand}
                 </span>
               )}
@@ -128,7 +128,7 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
                 </h4>
 
                 {/* Key Spec Badges */}
-                <div className="flex flex-wrap items-center gap-2 mt-1.5 font-mono text-[10px] text-neutral-300">
+                <div className="flex flex-wrap items-center gap-2 mt-1.5 font-sans text-[10px] text-neutral-300">
                   {selectedProduct?.specs.socket && (
                     <span className="bg-neutral-800 px-2 py-0.5 rounded text-neutral-300 border border-neutral-700">
                       Socket {selectedProduct.specs.socket}
@@ -166,7 +166,7 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
                 <p className="text-sm font-semibold text-neutral-400">
                   Select {categoryName}
                 </p>
-                <p className="text-xs text-neutral-600 mt-0.5 font-mono">
+                <p className="text-xs text-neutral-600 mt-0.5 font-sans">
                   Pin socket, ECC RDIMM, and rack unit verified automatically
                 </p>
               </div>
@@ -177,7 +177,7 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
         {/* Right: Actions & Price */}
         <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto shrink-0 gap-2">
           {isConfigured && (
-            <div className="text-right font-mono">
+            <div className="text-right font-sans">
               <span className="text-base sm:text-lg font-black text-white">
                 {formatCurrency(selectedProduct!.price)}
               </span>
@@ -189,7 +189,7 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
               <>
                 <button
                   onClick={onSelect}
-                  className="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white rounded-lg text-xs font-mono transition-colors"
+                  className="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white rounded-lg text-xs font-sans transition-colors"
                 >
                   Change
                 </button>
@@ -204,7 +204,7 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
             ) : (
               <button
                 onClick={onSelect}
-                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-mono font-bold text-xs rounded-xl shadow-lg shadow-red-950/50 transition-all flex items-center gap-1.5 active:scale-95"
+                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-sans font-bold text-xs rounded-xl shadow-lg shadow-red-950/50 transition-all flex items-center gap-1.5 active:scale-95"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add {categoryName}</span>
@@ -216,7 +216,7 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
 
       {/* Conflict / Rejection Warning Bar */}
       {conflictIssue && (
-        <div className="bg-red-950/80 border-t border-red-700/60 px-4 py-2.5 flex items-start gap-2 text-xs font-mono text-red-200">
+        <div className="bg-red-950/80 border-t border-red-700/60 px-4 py-2.5 flex items-start gap-2 text-xs font-sans text-red-200">
           <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
           <div className="flex-1">
             <span className="font-bold uppercase tracking-wider block text-red-300 mb-0.5">

@@ -55,15 +55,15 @@ const defaultStyleMap: Record<TypographyType, string> = {
   lead: 'text-lg sm:text-xl text-neutral-700 dark:text-neutral-300 font-normal leading-relaxed',
   body: 'text-base text-neutral-600 dark:text-neutral-300 leading-relaxed',
   'body-sm': 'text-sm text-neutral-500 dark:text-neutral-400 leading-normal',
-  code: 'font-mono text-xs bg-neutral-100 dark:bg-neutral-900 text-red-600 dark:text-red-400 border border-neutral-300 dark:border-neutral-800 px-2 py-1 rounded inline-block',
-  label: 'text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400',
+  code: 'font-sans text-xs bg-neutral-100 dark:bg-neutral-900 text-[#FF1E2D] border border-neutral-300 dark:border-neutral-800 px-2 py-1 rounded inline-block',
+  label: 'text-xs font-bold uppercase tracking-wider text-[#FF1E2D]',
 };
 
 const colorMap: Record<TypographyColor, string> = {
   default: '',
   muted: 'text-neutral-500 dark:text-neutral-400',
-  primary: 'text-red-600 dark:text-red-500',
-  danger: 'text-red-600 dark:text-red-500',
+  primary: 'text-[#FF1E2D]',
+  danger: 'text-[#FF1E2D]',
   success: 'text-emerald-600 dark:text-emerald-400',
   warning: 'text-amber-600 dark:text-amber-400',
   white: 'text-white',

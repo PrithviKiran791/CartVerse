@@ -50,6 +50,7 @@ const DriftWall = ({
   const trackRefs = useRef([]);
   const rafRef = useRef(null);
 
+  // ── Animation state (all refs for high-frequency updates) ─────────────────
   const offsetsRef = useRef([]);
   const velocitiesRef = useRef([]);
   const hoveredColRef = useRef(-1);
@@ -58,30 +59,37 @@ const DriftWall = ({
   const pointerDampedRef = useRef({ x: 0, y: 0 });
   const lastTsRef = useRef(null);
 
+  // ── Drag state ────────────────────────────────────────────────────────────
+  const dragRef = useRef({
+    isDragging: false,
+    startX: 0,
+    startY: 0,
+    currentX: 0,
+    currentY: 0,
+    moved: false,
+    threshold: 5, // px — below this is a click, above is a drag
+  });
+
+  // ── React state (only for things that affect rendering) ──────────────────
   const [containerHeight, setContainerHeight] = useState(600);
-  const activeIdRef = useRef(null);
   const [reduced, setReduced] = useState(false);
   const [isInView, setIsInView] = useState(true);
-
-  // Responsive column count based on window viewport
   const [responsiveCols, setResponsiveCols] = useState(columns);
 
+  // ── Responsive columns ────────────────────────────────────────────────────
   useEffect(() => {
     const handleResize = () => {
       const w = window.innerWidth;
-      if (w < 640) {
-        setResponsiveCols(Math.min(columns, 3));
-      } else if (w < 1024) {
-        setResponsiveCols(Math.min(columns, 4));
-      } else {
-        setResponsiveCols(columns);
-      }
+      if (w < 640) setResponsiveCols(Math.min(columns, 3));
+      else if (w < 1024) setResponsiveCols(Math.min(columns, 4));
+      else setResponsiveCols(columns);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, [columns]);
 
+  // ── Prefers reduced motion ────────────────────────────────────────────────
   useEffect(() => {
     setReduced(prefersReducedMotion());
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -90,19 +98,18 @@ const DriftWall = ({
     return () => mq.removeEventListener('change', onChange);
   }, []);
 
-  // IntersectionObserver to pause rAF loop when out of viewport
+  // ── Intersection observer (pause when offscreen) ──────────────────────────
   useEffect(() => {
     if (!containerRef.current) return;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
+      ([entry]) => setIsInView(entry.isIntersecting),
       { threshold: 0.05 }
     );
     observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
 
+  // ── Items & columns ───────────────────────────────────────────────────────
   const safeItems = items && items.length > 0 ? items : DEFAULT_ITEMS;
 
   const columnItems = useMemo(() => {
@@ -120,6 +127,7 @@ const DriftWall = ({
     });
   }, [columnItems, tileHeight, gap, containerHeight]);
 
+  // ── Container height observer ─────────────────────────────────────────────
   useLayoutEffect(() => {
     if (!containerRef.current) return;
     const ro = new ResizeObserver(([entry]) => {
@@ -129,6 +137,7 @@ const DriftWall = ({
     return () => ro.disconnect();
   }, []);
 
+  // ── Base velocities ───────────────────────────────────────────────────────
   const baseVelocities = useMemo(() => {
     const dirSign = direction === 'up' ? 1 : -1;
     return columnItems.map((_, c) => {
@@ -137,11 +146,13 @@ const DriftWall = ({
     });
   }, [columnItems, speed, direction, variance]);
 
+  // ── Initialize offsets & velocities ───────────────────────────────────────
   useEffect(() => {
     offsetsRef.current = columnMeta.map((meta, c) => meta.copyHeight * ((c * 0.37) % 1));
     velocitiesRef.current = columnItems.map(() => 0);
   }, [columnMeta, columnItems]);
 
+  // ── Apply plane transform (parallax tilt) ─────────────────────────────────
   const applyPlaneTransform = useCallback(
     (px, py) => {
       const plane = planeRef.current;
@@ -154,6 +165,7 @@ const DriftWall = ({
     [tilt, turn, roll, depth]
   );
 
+  // ── Main animation loop (requestAnimationFrame) ───────────────────────────
   useEffect(() => {
     if (!isInView) {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -167,6 +179,7 @@ const DriftWall = ({
       const dt = Math.min(0.05, Math.max(0, ts - lastTsRef.current) / 1000);
       lastTsRef.current = ts;
 
+      // Parallax tilt damping
       const maxTilt = parallax * 8;
       const targetX = pointerRef.current.x * maxTilt;
       const targetY = -pointerRef.current.y * maxTilt;
@@ -175,11 +188,12 @@ const DriftWall = ({
       pointerDampedRef.current.y += (targetY - pointerDampedRef.current.y) * damp;
       applyPlaneTransform(pointerDampedRef.current.x, pointerDampedRef.current.y);
 
+      // Column scrolling
       if (!reduced) {
         for (let c = 0; c < trackRefs.current.length; c++) {
           const meta = columnMeta[c];
           if (!meta) continue;
-          const paused = wallHoveredRef.current && pauseOnHover;
+          const paused = (wallHoveredRef.current && pauseOnHover) || dragRef.current.isDragging;
           const factor = paused || hoveredColRef.current === c ? 0 : 1;
           const target = baseVelocities[c] * factor;
 
@@ -211,38 +225,79 @@ const DriftWall = ({
     };
   }, [isInView, baseVelocities, columnMeta, pauseOnHover, parallax, reduced, applyPlaneTransform]);
 
-  const activate = useCallback((id, index) => {
-    activeIdRef.current = id;
-    hoveredColRef.current = index;
+  // ── Hover activation ──────────────────────────────────────────────────────
+  const activate = useCallback((colIndex) => {
+    hoveredColRef.current = colIndex;
   }, []);
 
   const release = useCallback(() => {
-    activeIdRef.current = null;
     hoveredColRef.current = -1;
   }, []);
 
+  // ── Pointer move (parallax + no setState) ─────────────────────────────────
   const handlePointerMove = useCallback(
     (e) => {
       const rect = containerRef.current?.getBoundingClientRect();
       if (!rect) return;
+
+      // Parallax update
       if (parallax > 0 && !reduced) {
         pointerRef.current = {
           x: (e.clientX - rect.left) / rect.width - 0.5,
           y: (e.clientY - rect.top) / rect.height - 0.5,
         };
       }
+
+      // Drag tracking
+      if (dragRef.current.isDragging) {
+        dragRef.current.currentX = e.clientX;
+        dragRef.current.currentY = e.clientY;
+        const dx = dragRef.current.currentX - dragRef.current.startX;
+        const dy = dragRef.current.currentY - dragRef.current.startY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist > dragRef.current.threshold) {
+          dragRef.current.moved = true;
+        }
+      }
     },
     [parallax, reduced]
   );
 
+  // ── Pointer down (start drag) ─────────────────────────────────────────────
+  const handlePointerDown = useCallback((e) => {
+    dragRef.current.isDragging = true;
+    dragRef.current.startX = e.clientX;
+    dragRef.current.startY = e.clientY;
+    dragRef.current.currentX = e.clientX;
+    dragRef.current.currentY = e.clientY;
+    dragRef.current.moved = false;
+  }, []);
+
+  // ── Pointer up (end drag) ─────────────────────────────────────────────────
+  const handlePointerUp = useCallback(() => {
+    dragRef.current.isDragging = false;
+  }, []);
+
+  // ── Pointer leave ─────────────────────────────────────────────────────────
   const handlePointerLeaveWall = useCallback(() => {
     wallHoveredRef.current = false;
     pointerRef.current = { x: 0, y: 0 };
+    dragRef.current.isDragging = false;
+    dragRef.current.moved = false;
     release();
   }, [release]);
 
+  // ── Tile click (with drag discrimination) ─────────────────────────────────
   const handleTileClick = useCallback(
-    (item) => {
+    (item, e) => {
+      // If a drag just occurred, suppress navigation
+      if (dragRef.current.moved) {
+        e.preventDefault();
+        e.stopPropagation();
+        dragRef.current.moved = false;
+        return;
+      }
+
       if (!item.href) return;
       if (item.href.startsWith('http://') || item.href.startsWith('https://')) {
         window.open(item.href, '_blank', 'noopener,noreferrer');
@@ -253,6 +308,7 @@ const DriftWall = ({
     [navigate]
   );
 
+  // ── CSS vars ──────────────────────────────────────────────────────────────
   const cssVars = useMemo(
     () => ({
       '--dw-tile-w': `${tileWidth}px`,
@@ -270,94 +326,76 @@ const DriftWall = ({
     [tileWidth, tileHeight, gap, radius, perspective, lift, dim, grayscale, overlayColor, fade, style]
   );
 
-  const renderTile = (item, id, colIndex) => {
-    const formattedPrice = item.price
-      ? typeof item.price === 'number'
-        ? `₹${item.price.toLocaleString('en-IN')}`
-        : item.price.startsWith('₹')
-        ? item.price
-        : `₹${item.price}`
-      : null;
+  // ── Render tile ───────────────────────────────────────────────────────────
+  const renderTile = useCallback(
+    (item, id, colIndex) => {
+      const formattedPrice = item.price
+        ? typeof item.price === 'number'
+          ? `₹${item.price.toLocaleString('en-IN')}`
+          : item.price.startsWith('₹')
+          ? item.price
+          : `₹${item.price}`
+        : null;
 
-    const inner = (
-      <span className="drift-wall__inner group">
-        <div className="drift-wall__img-wrap">
-          <img
-            src={item.image}
-            alt={item.title ?? ''}
-            loading="lazy"
-            decoding="async"
-            draggable={false}
-          />
-        </div>
-        <span className="drift-wall__overlay" aria-hidden="true" />
-
-        {/* Product Information Overlay */}
-        {(item.title || item.price || item.category) && (
-          <div className="drift-wall__card-info">
-            <div className="flex items-center justify-between gap-1 mb-0.5">
-              {item.category && (
-                <span className="drift-wall__category-tag">
-                  {item.category.toUpperCase()}
-                </span>
-              )}
-              {item.brand && (
-                <span className="drift-wall__brand-tag">
-                  {item.brand}
-                </span>
-              )}
+      return (
+        <div
+          key={id}
+          className="drift-wall__tile"
+          data-tile-id={id}
+          data-col={colIndex}
+          tabIndex={0}
+          role="button"
+          aria-label={item.title ? `View ${item.title}` : 'View hardware component'}
+          onMouseEnter={() => activate(colIndex)}
+          onMouseLeave={release}
+          onFocus={() => activate(colIndex)}
+          onBlur={release}
+          onClick={(e) => handleTileClick(item, e)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              if (!dragRef.current.moved) handleTileClick(item, e);
+            }
+          }}
+        >
+          <span className="drift-wall__inner group">
+            <div className="drift-wall__img-wrap">
+              <img
+                src={item.image}
+                alt={item.title ?? ''}
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+              />
             </div>
-            {item.title && (
-              <h4 className="drift-wall__title" title={item.title}>
-                {item.title}
-              </h4>
+            <span className="drift-wall__overlay" aria-hidden="true" />
+
+            {/* Product info card */}
+            {(item.title || item.price) && (
+              <div className="drift-wall__card-info">
+                {item.title && (
+                  <h4 className="drift-wall__title" title={item.title}>
+                    {item.title}
+                  </h4>
+                )}
+                <div className="drift-wall__footer">
+                  {formattedPrice && (
+                    <span className="drift-wall__price">{formattedPrice}</span>
+                  )}
+                  <span className="drift-wall__cta">Inspect &rarr;</span>
+                </div>
+              </div>
             )}
-            <div className="drift-wall__footer">
-              {formattedPrice && (
-                <span className="drift-wall__price">
-                  {formattedPrice}
-                </span>
-              )}
-              <span className="drift-wall__cta">
-                Inspect &rarr;
-              </span>
-            </div>
-          </div>
-        )}
-      </span>
-    );
+          </span>
+        </div>
+      );
+    },
+    [activate, release, handleTileClick]
+  );
 
-    const commonProps = {
-      className: 'drift-wall__tile',
-      'data-tile-id': id,
-      'data-col': colIndex,
-      onMouseEnter: () => activate(id, colIndex),
-      onMouseLeave: release,
-      onFocus: () => activate(id, colIndex),
-      onBlur: release,
-      onClick: () => handleTileClick(item),
-    };
-
-    return (
-      <div
-        key={id}
-        tabIndex={0}
-        role="button"
-        aria-label={item.title ? `View ${item.title}` : 'View hardware component'}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handleTileClick(item);
-          }
-        }}
-        {...commonProps}
-      >
-        {inner}
-      </div>
-    );
-  };
-
-  const rootClass = ['drift-wall', reduced ? 'drift-wall--reduced' : '', className].filter(Boolean).join(' ');
+  const rootClass = ['drift-wall', reduced ? 'drift-wall--reduced' : '', className]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <div
@@ -365,12 +403,14 @@ const DriftWall = ({
       className={rootClass}
       style={cssVars}
       onPointerMove={handlePointerMove}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
       onPointerEnter={() => {
         wallHoveredRef.current = true;
       }}
       onPointerLeave={handlePointerLeaveWall}
       role="group"
-      aria-label="Drifting 3D hardware wall gallery"
+      aria-label="3D hardware wall gallery"
     >
       <div ref={planeRef} className="drift-wall__plane">
         {columnItems.map((col, c) => {
@@ -380,7 +420,9 @@ const DriftWall = ({
             <div className="drift-wall__col" key={`col-${c}`}>
               <div className="drift-wall__track" ref={(el) => (trackRefs.current[c] = el)}>
                 {copies.map((_, copyIndex) =>
-                  col.map((item, itemIndex) => renderTile(item, `${c}-${copyIndex}-${itemIndex}`, c))
+                  col.map((item, itemIndex) =>
+                    renderTile(item, `${c}-${copyIndex}-${itemIndex}`, c)
+                  )
                 )}
               </div>
             </div>

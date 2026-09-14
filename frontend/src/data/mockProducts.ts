@@ -1,5 +1,8 @@
 import { Product } from '../types/hardware';
 import { serverProducts } from './serverProducts';
+import { simRacingProducts } from './simRacingProducts';
+
+export { simRacingProducts };
 
 export const mockProducts: Product[] = [
   {
@@ -32639,5 +32642,6 @@ export const mockProducts: Product[] = [
       }
     }
   },
-  ...serverProducts
+  ...serverProducts,
+  ...simRacingProducts
 ];

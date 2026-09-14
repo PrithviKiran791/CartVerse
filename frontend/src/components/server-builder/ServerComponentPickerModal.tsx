@@ -141,10 +141,10 @@ export const ServerComponentPickerModal: React.FC<ServerComponentPickerModalProp
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-red-500 bg-red-950/60 px-2 py-0.5 rounded border border-red-900/50">
+                  <span className="text-[10px] font-sans font-bold uppercase tracking-widest text-red-500 bg-red-950/60 px-2 py-0.5 rounded border border-red-900/50">
                     Infrastructure Component Selection
                   </span>
-                  <span className="text-xs font-mono text-neutral-400">
+                  <span className="text-xs font-sans text-neutral-400">
                     Slot: <strong className="text-white uppercase">{slotKey}</strong>
                   </span>
                 </div>
@@ -166,7 +166,7 @@ export const ServerComponentPickerModal: React.FC<ServerComponentPickerModalProp
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search server SKU, socket (SP5, LGA4677), RDIMM..."
-                className="w-full pl-10 pr-4 py-2 bg-neutral-950 border border-neutral-800 rounded-xl text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-red-500/60 transition-colors"
+                className="w-full pl-10 pr-4 py-2 bg-neutral-950 border border-neutral-800 rounded-xl text-xs font-sans text-white placeholder-neutral-500 focus:outline-none focus:border-red-500/60 transition-colors"
               />
             </div>
 
@@ -174,7 +174,7 @@ export const ServerComponentPickerModal: React.FC<ServerComponentPickerModalProp
             <div className="flex items-center gap-2 shrink-0">
               <button
                 onClick={toggleShowOnlyCompatible}
-                className={`px-3 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-1.5 transition-all border ${
+                className={`px-3 py-2 rounded-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-all border ${
                   showOnlyCompatible
                     ? 'bg-red-950/80 border-red-600 text-red-300'
                     : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-white'
@@ -187,7 +187,7 @@ export const ServerComponentPickerModal: React.FC<ServerComponentPickerModalProp
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="bg-neutral-950 border border-neutral-800 text-neutral-300 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-red-500/60"
+                className="bg-neutral-950 border border-neutral-800 text-neutral-300 rounded-xl px-3 py-2 text-xs font-sans focus:outline-none focus:border-red-500/60"
               >
                 <option value="featured">Featured First</option>
                 <option value="price-asc">Price: Low to High</option>
@@ -205,7 +205,7 @@ export const ServerComponentPickerModal: React.FC<ServerComponentPickerModalProp
                 <h4 className="text-base font-bold text-neutral-300">
                   No matching server components
                 </h4>
-                <p className="text-xs text-neutral-500 mt-1 font-mono">
+                <p className="text-xs text-neutral-500 mt-1 font-sans">
                   {showOnlyCompatible
                     ? 'Try turning off the "Compatible Only" filter to inspect rejected hardware specs.'
                     : 'Try broadening your search query.'}
@@ -240,21 +240,21 @@ export const ServerComponentPickerModal: React.FC<ServerComponentPickerModalProp
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-[10px] font-mono font-bold text-neutral-400">
+                          <span className="text-[10px] font-sans font-bold text-neutral-400">
                             {product.brand}
                           </span>
                           {product.specs.socket && (
-                            <span className="text-[9px] font-mono px-1.5 py-0.2 bg-neutral-800 text-neutral-300 rounded border border-neutral-700">
+                            <span className="text-[9px] font-sans px-1.5 py-0.2 bg-neutral-800 text-neutral-300 rounded border border-neutral-700">
                               {product.specs.socket}
                             </span>
                           )}
                           {product.memoryType && (
-                            <span className="text-[9px] font-mono px-1.5 py-0.2 bg-purple-950 text-purple-300 rounded border border-purple-800/50">
+                            <span className="text-[9px] font-sans px-1.5 py-0.2 bg-purple-950 text-purple-300 rounded border border-purple-800/50">
                               {product.memoryType} ECC
                             </span>
                           )}
                           {product.rackUnits && (
-                            <span className="text-[9px] font-mono px-1.5 py-0.2 bg-neutral-800 text-neutral-200 rounded border border-neutral-700">
+                            <span className="text-[9px] font-sans px-1.5 py-0.2 bg-neutral-800 text-neutral-200 rounded border border-neutral-700">
                               {product.rackUnits}U Rack
                             </span>
                           )}
@@ -264,13 +264,13 @@ export const ServerComponentPickerModal: React.FC<ServerComponentPickerModalProp
                           {product.name}
                         </h4>
 
-                        <p className="text-xs text-neutral-400 font-mono mt-0.5 line-clamp-1">
+                        <p className="text-xs text-neutral-400 font-sans mt-0.5 line-clamp-1">
                           {product.description}
                         </p>
 
                         {/* Incompatibility reason callout */}
                         {!isCompatible && reason && (
-                          <div className="mt-2 text-[11px] font-mono text-red-400 bg-red-950/60 p-2 rounded-lg border border-red-900/60 flex items-start gap-1.5">
+                          <div className="mt-2 text-[11px] font-sans text-red-400 bg-red-950/60 p-2 rounded-lg border border-red-900/60 flex items-start gap-1.5">
                             <AlertCircle className="w-3.5 h-3.5 text-red-400 shrink-0 mt-0.5" />
                             <span>{reason}</span>
                           </div>
@@ -280,14 +280,14 @@ export const ServerComponentPickerModal: React.FC<ServerComponentPickerModalProp
 
                     {/* Right: Price & Selection */}
                     <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto shrink-0 gap-2">
-                      <span className="text-base font-black font-mono text-white">
+                      <span className="text-base font-black font-sans text-white">
                         {formatCurrency(product.price)}
                       </span>
 
                       <button
                         disabled={!isCompatible}
                         onClick={() => handleSelect(product)}
-                        className={`px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
+                        className={`px-4 py-2 rounded-xl text-xs font-sans font-bold transition-all flex items-center gap-1.5 ${
                           isSelected
                             ? 'bg-emerald-600 text-white cursor-default'
                             : isCompatible

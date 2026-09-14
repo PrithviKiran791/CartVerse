@@ -173,7 +173,7 @@ html.dark .pill-logo,
   transform: translateX(-50%);
   width: 12px;
   height: 12px;
-  background: var(--active-dot-bg, #e31b23);
+  background: var(--active-dot-bg, #FF1E2D);
   border-radius: 50px;
   z-index: 4;
 }

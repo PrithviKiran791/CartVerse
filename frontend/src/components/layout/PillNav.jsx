@@ -13,7 +13,7 @@ const PillNav = ({
   baseColor = '#ffffff',
   pillColor = '#f1f5f9',
   hoverCircleColor = '#000000',
-  activeDotColor = '#e31b23',
+  activeDotColor = '#FF1E2D',
   hoveredPillTextColor = '#ffffff',
   pillTextColor = '#0f172a',
   onMobileMenuClick,

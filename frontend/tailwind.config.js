@@ -7,10 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
+        'cartverse': {
+          'red': '#FF1E2D',
+          'red-hover': '#FF3B48',
+        },
         'rigforge': {
           'black': '#0A0A0A',
           'white': '#F5F5F5',
-          'red': '#E31B23',
+          'red': '#FF1E2D',
           'grey': {
             100: '#D0D0D0',
             200: '#A0A0A0',
@@ -21,18 +25,8 @@ export default {
         },
       },
       fontFamily: {
-        'sans': ['var(--app-font-family)', 'Inter', 'system-ui', 'sans-serif'],
-        'heading': ['var(--app-font-heading)', 'Space Grotesk', 'Inter', 'sans-serif'],
-        'mono': ['var(--app-font-mono)', 'JetBrains Mono', 'Courier New', 'monospace'],
-        'space-grotesk': ['Space Grotesk', 'sans-serif'],
-        'geist': ['Geist', 'sans-serif'],
-        'plex-sans': ['IBM Plex Sans', 'sans-serif'],
-        'plex-mono': ['IBM Plex Mono', 'monospace'],
-        'space-mono': ['Space Mono', 'monospace'],
-        'unbounded': ['Unbounded', 'sans-serif'],
-      },
-      borderRadius: {
-        'brutalist': '2px',
+        'sans': ['"Inter Tight"', 'Inter', 'system-ui', 'sans-serif'],
+        'display': ['Merriweather', 'Georgia', 'serif'],
       },
     },
   },

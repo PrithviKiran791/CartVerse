@@ -72,12 +72,12 @@ export const ServerCompatibilityBar: React.FC<ServerCompatibilityBarProps> = ({
                   ? 'Certified Enterprise Hardware Topology'
                   : 'Enterprise Configurator Ready'}
               </h3>
-              <span className="text-[10px] font-mono font-bold bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded border border-neutral-700">
+              <span className="text-[10px] font-sans font-bold bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded border border-neutral-700">
                 {filledSlotsCount} / 12 SLOTS
               </span>
             </div>
 
-            <p className="text-xs text-neutral-400 mt-0.5 font-mono">
+            <p className="text-xs text-neutral-400 mt-0.5 font-sans">
               {errorCount > 0
                 ? `${errorCount} fatal incompatibility issue${errorCount > 1 ? 's' : ''} must be resolved prior to checkout.`
                 : warningCount > 0
@@ -91,7 +91,7 @@ export const ServerCompatibilityBar: React.FC<ServerCompatibilityBarProps> = ({
         {hasIssues && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg text-xs font-mono transition-colors shrink-0"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white rounded-lg text-xs font-sans transition-colors shrink-0"
           >
             <span>{isExpanded ? 'Hide Details' : `View ${issues.length} Notes`}</span>
             {isExpanded ? (
@@ -109,7 +109,7 @@ export const ServerCompatibilityBar: React.FC<ServerCompatibilityBarProps> = ({
           {issues.map((issue, idx) => (
             <div
               key={idx}
-              className={`p-3 rounded-xl border text-xs font-mono flex items-start gap-3 ${
+              className={`p-3 rounded-xl border text-xs font-sans flex items-start gap-3 ${
                 issue.type === 'error'
                   ? 'bg-red-950/60 border-red-800/70 text-red-200'
                   : 'bg-amber-950/60 border-amber-800/70 text-amber-200'

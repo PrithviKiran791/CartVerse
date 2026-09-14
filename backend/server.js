@@ -1,4 +1,12 @@
-import 'dotenv/config';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 import express from 'express';
 import cookieParser from 'cookie-parser';
@@ -15,6 +23,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import configRoutes from './routes/configRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
 
 const requiredEnvVariables = [
   'POSTGRES_HOST',
@@ -62,7 +71,7 @@ app.use(cookieParser());
 
 app.use(hpp());
 
-app.use('/api', apiLimiter);+
+app.use('/api', apiLimiter);
 app.get('/api', (req, res) => {
   res.json({
     message: 'CartVerse API is running',
@@ -73,6 +82,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/config', configRoutes);
+app.use('/api/chat', chatRoutes);
 
 
 app.use(notFound);

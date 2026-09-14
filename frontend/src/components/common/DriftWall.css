@@ -68,11 +68,15 @@
   pointer-events: auto;
   box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.6);
   transition:
-    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.2s ease;
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Enable will-change only on hover */
+.drift-wall__tile:hover .drift-wall__inner {
+  will-change: transform, opacity, box-shadow;
 }
 
 html:not(.dark) .drift-wall__inner {
@@ -103,12 +107,17 @@ html:not(.dark) .drift-wall__img-wrap {
   max-height: 100%;
   width: auto;
   height: auto;
+  aspect-ratio: 4 / 3;
   object-fit: contain;
   display: block;
   filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.5));
-  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1);
   user-select: none;
   -webkit-user-drag: none;
+}
+
+.drift-wall__tile:hover .drift-wall__img-wrap img {
+  will-change: transform;
 }
 
 html:not(.dark) .drift-wall__img-wrap img {
@@ -125,7 +134,7 @@ html:not(.dark) .drift-wall__img-wrap img {
   background: var(--dw-overlay);
   opacity: 0.15;
   pointer-events: none;
-  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.32s cubic-bezier(0.22, 1, 0.36, 1);
   border-radius: var(--dw-radius);
 }
 
@@ -136,42 +145,41 @@ html:not(.dark) .drift-wall__img-wrap img {
   left: 0;
   right: 0;
   padding: 8px 10px 10px 10px;
-  background: linear-gradient(180deg, transparent 0%, rgba(12, 11, 18, 0.75) 30%, rgba(12, 11, 18, 0.95) 100%);
-  backdrop-filter: blur(8px);
+  background: linear-gradient(180deg, transparent 0%, rgba(12, 11, 18, 0.85) 30%, rgba(12, 11, 18, 0.98) 100%);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
   gap: 2px;
   pointer-events: auto;
-  transition: all 0.3s ease;
   z-index: 5;
   border-bottom-left-radius: var(--dw-radius);
   border-bottom-right-radius: var(--dw-radius);
+  /* Remove backdrop-filter — expensive on many cards simultaneously */
 }
 
 html:not(.dark) .drift-wall__card-info {
-  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.82) 30%, rgba(255, 255, 255, 0.97) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.88) 30%, rgba(255, 255, 255, 0.98) 100%);
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .drift-wall__category-tag {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter Tight', Inter, sans-serif;
   font-size: 8px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   padding: 1.5px 5px;
   border-radius: 3px;
-  background: rgba(227, 27, 35, 0.16);
+  background: rgba(255, 30, 45, 0.16);
   color: #ef4444;
-  border: 1px solid rgba(227, 27, 35, 0.3);
+  border: 1px solid rgba(255, 30, 45, 0.3);
   text-transform: uppercase;
 }
 
 .drift-wall__brand-tag {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter Tight', Inter, sans-serif;
   font-size: 8.5px;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
   color: #a1a1aa;
   text-transform: uppercase;
   max-width: 110px;
@@ -185,7 +193,7 @@ html:not(.dark) .drift-wall__brand-tag {
 }
 
 .drift-wall__title {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter Tight', Inter, sans-serif;
   font-size: 11px;
   font-weight: 700;
   color: #f4f4f5;
@@ -208,21 +216,21 @@ html:not(.dark) .drift-wall__title {
 }
 
 .drift-wall__price {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Inter Tight', Inter, sans-serif;
   font-size: 11px;
   font-weight: 800;
-  color: #e31b23;
+  color: #FF1E2D;
   letter-spacing: -0.02em;
 }
 
 .drift-wall__cta {
-  font-family: 'Rajdhani', sans-serif;
+  font-family: 'Inter Tight', Inter, sans-serif;
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #ffffff;
-  background: #dc2626;
+  background: #FF1E2D;
   padding: 2px 7px;
   border-radius: 4px;
   opacity: 0.85;
@@ -235,15 +243,15 @@ html:not(.dark) .drift-wall__title {
 .drift-wall__tile:focus-visible .drift-wall__inner {
   opacity: 1;
   transform: translateZ(var(--dw-lift)) scale(1.06);
-  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px 6px rgba(227, 27, 35, 0.45);
-  border-color: rgba(227, 27, 35, 0.85);
+  box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px 6px rgba(255, 30, 45, 0.45);
+  border-color: rgba(255, 30, 45, 0.85);
 }
 
 html:not(.dark) .drift-wall__tile:hover .drift-wall__inner,
 html:not(.dark) .drift-wall__tile.is-active .drift-wall__inner,
 html:not(.dark) .drift-wall__tile:focus-visible .drift-wall__inner {
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2), 0 0 25px 4px rgba(227, 27, 35, 0.35);
-  border-color: rgba(227, 27, 35, 0.8);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.2), 0 0 25px 4px rgba(255, 30, 45, 0.35);
+  border-color: rgba(255, 30, 45, 0.8);
 }
 
 .drift-wall__tile:hover .drift-wall__img-wrap img,
@@ -266,7 +274,7 @@ html:not(.dark) .drift-wall__tile:focus-visible .drift-wall__inner {
 .drift-wall__tile:focus-visible .drift-wall__inner {
   box-shadow:
     0 24px 60px -18px rgba(0, 0, 0, 0.7),
-    0 0 0 2px rgba(227, 27, 35, 0.9);
+    0 0 0 2px rgba(255, 30, 45, 0.9);
 }
 
 @media (prefers-reduced-motion: reduce) {

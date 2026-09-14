@@ -146,7 +146,7 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
                 />
               </div>
               <div>
-                <div className="text-[11px] font-mono text-red-400 uppercase tracking-wider font-bold">
+                <div className="text-[11px] font-sans text-red-400 uppercase tracking-wider font-bold">
                   CartVerse Configurator
                 </div>
                 <h2 className="text-xl font-black text-white capitalize mt-0.5">
@@ -184,7 +184,7 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
               >
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 <span>Compatible Only</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-neutral-900 border border-neutral-700">
+                <span className="text-[10px] font-sans px-1.5 py-0.2 rounded bg-neutral-900 border border-neutral-700">
                   {showOnlyCompatible ? 'ON' : 'OFF'}
                 </span>
               </button>
@@ -242,7 +242,7 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
 
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-mono font-bold text-red-400 uppercase">
+                          <span className="text-[10px] font-sans font-bold text-red-400 uppercase">
                             {product.brand}
                           </span>
                           {product.bestSeller && (
@@ -259,39 +259,39 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
                         {/* Specs Pills */}
                         <div className="flex flex-wrap items-center gap-1.5 mt-1">
                           {product.specs.socket && (
-                            <span className="text-[10px] font-mono bg-neutral-800 text-cyan-300 px-2 py-0.5 rounded">
+                            <span className="text-[10px] font-sans bg-neutral-800 text-cyan-300 px-2 py-0.5 rounded">
                               {product.specs.socket}
                             </span>
                           )}
                           {product.specs.ramType && (
-                            <span className="text-[10px] font-mono bg-neutral-800 text-purple-300 px-2 py-0.5 rounded">
+                            <span className="text-[10px] font-sans bg-neutral-800 text-purple-300 px-2 py-0.5 rounded">
                               {product.specs.ramType}
                             </span>
                           )}
                           {product.specs.vram && (
-                            <span className="text-[10px] font-mono bg-neutral-800 text-emerald-300 px-2 py-0.5 rounded">
+                            <span className="text-[10px] font-sans bg-neutral-800 text-emerald-300 px-2 py-0.5 rounded">
                               {product.specs.vram}
                             </span>
                           )}
                           {product.specs.capacity && (
-                            <span className="text-[10px] font-mono bg-neutral-800 text-amber-300 px-2 py-0.5 rounded">
+                            <span className="text-[10px] font-sans bg-neutral-800 text-amber-300 px-2 py-0.5 rounded">
                               {product.specs.capacity}
                             </span>
                           )}
                           {product.specs.wattage && (
-                            <span className="text-[10px] font-mono bg-neutral-800 text-yellow-300 px-2 py-0.5 rounded">
+                            <span className="text-[10px] font-sans bg-neutral-800 text-yellow-300 px-2 py-0.5 rounded">
                               {formatWattage(product.specs.wattage)}
                             </span>
                           )}
                           {product.specs.tdp && (
-                            <span className="text-[10px] font-mono bg-neutral-800 text-neutral-400 px-2 py-0.5 rounded">
+                            <span className="text-[10px] font-sans bg-neutral-800 text-neutral-400 px-2 py-0.5 rounded">
                               {formatWattage(product.specs.tdp)} TDP
                             </span>
                           )}
                         </div>
 
                         {!isCompatible && reason && (
-                          <div className="text-[11px] text-red-400 font-mono mt-1 flex items-center gap-1">
+                          <div className="text-[11px] text-red-400 font-sans mt-1 flex items-center gap-1">
                             <AlertCircle className="w-3 h-3 shrink-0" />
                             <span>Conflict: {reason}</span>
                           </div>
@@ -302,10 +302,10 @@ export const ComponentPickerModal: React.FC<ComponentPickerModalProps> = ({ slot
                     {/* Price and Choose Button */}
                     <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto border-t sm:border-t-0 pt-2 sm:pt-0 border-neutral-800">
                       <div className="text-left sm:text-right">
-                        <span className="text-base font-black font-mono text-white">
+                        <span className="text-base font-black font-sans text-white">
                           {formatCurrency(product.price)}
                         </span>
-                        <span className="text-[10px] text-neutral-500 block font-mono">
+                        <span className="text-[10px] text-neutral-500 block font-sans">
                           Stock: {product.stock}
                         </span>
                       </div>

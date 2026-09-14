@@ -3,9 +3,11 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --app-font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --app-font-heading: 'Space Grotesk', 'Inter', sans-serif;
-  --app-font-mono: 'JetBrains Mono', 'Courier New', monospace;
+  --cartverse-red: #FF1E2D;
+  --cartverse-red-hover: #FF3B48;
+  --font-primary: "Inter Tight", Inter, system-ui, sans-serif;
+  --font-display: Merriweather, Georgia, serif;
+
   --bg-page: #f8fafc;
   --text-page: #0f172a;
   --border-page: #e2e8f0;
@@ -14,9 +16,13 @@
 }
 
 @theme {
-  --font-sans: var(--app-font-family);
-  --font-heading: var(--app-font-heading);
-  --font-mono: var(--app-font-mono);
+  --font-sans: var(--font-primary);
+  --font-display: var(--font-display);
+  --color-cartverse-red: #FF1E2D;
+  --color-cartverse-red-hover: #FF3B48;
+  --color-red-500: #FF1E2D;
+  --color-red-600: #FF1E2D;
+  --color-red-700: #E01927;
 }
 
 html.dark,
@@ -28,45 +34,24 @@ html.dark,
   --input-bg: #181818;
 }
 
-/* Font Engine Utility Classes */
-.font-space-grotesk {
-  font-family: 'Space Grotesk', sans-serif;
+/* ============================================================
+   GLOBAL TYPOGRAPHY RESET — Inter Tight for everything
+   ============================================================ */
+html,
+body,
+#root {
+  font-family: var(--font-primary);
 }
 
-.font-geist {
-  font-family: 'Geist', sans-serif;
-}
-
-.font-plex-sans {
-  font-family: 'IBM Plex Sans', sans-serif;
-}
-
-.font-plex-mono {
-  font-family: 'IBM Plex Mono', monospace;
-}
-
-.font-space-mono {
-  font-family: 'Space Mono', monospace;
-}
-
-.font-unbounded {
-  font-family: 'Unbounded', sans-serif;
-}
-
-.font-jetbrains {
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.font-rajdhani {
-  font-family: 'Rajdhani', 'Inter', sans-serif;
-}
-
-.font-orbitron {
-  font-family: 'Orbitron', 'Inter', sans-serif;
-}
-
-.font-heading {
-  font-family: var(--app-font-heading, var(--app-font-family));
+body,
+button,
+input,
+textarea,
+select,
+option,
+label,
+a {
+  font-family: var(--font-primary);
 }
 
 * {
@@ -76,7 +61,6 @@ html.dark,
 body {
   background-color: var(--bg-page);
   color: var(--text-page);
-  font-family: var(--app-font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -85,37 +69,45 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--app-font-heading, var(--app-font-family));
+  font-family: var(--font-primary);
   font-weight: 700;
   letter-spacing: -0.025em;
 }
 
-code, kbd, samp, pre, .font-mono {
-  font-family: var(--app-font-mono, 'JetBrains Mono', monospace);
+/* Merriweather utility — use only for editorial/hero headings */
+.font-display {
+  font-family: var(--font-display);
 }
 
-/* Brutalist Button */
+/* Remove any terminal appearance from code/pre — use sans instead */
+code, kbd, samp, pre {
+  font-family: var(--font-primary);
+}
+
+/* ============================================================
+   BUTTON
+   ============================================================ */
 .btn {
   padding: 0.75rem 1.5rem;
   border-width: 1px;
   border-color: var(--border-page);
   border-radius: 2px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  letter-spacing: 0.02em;
   font-size: 0.875rem;
   transition: all 150ms;
   cursor: pointer;
 }
 
 .btn-primary {
-  background-color: #E31B23;
+  background-color: var(--cartverse-red);
   color: #F5F5F5;
-  border-color: #E31B23;
+  border-color: var(--cartverse-red);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #c7161d;
+  background-color: var(--cartverse-red-hover);
 }
 
 .btn-secondary {
@@ -147,7 +139,9 @@ code, kbd, samp, pre, .font-mono {
   border-color: #181818;
 }
 
-/* Brutalist Input */
+/* ============================================================
+   INPUT
+   ============================================================ */
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -155,6 +149,7 @@ code, kbd, samp, pre, .font-mono {
   border-width: 1px;
   border-color: var(--border-page);
   border-radius: 2px;
+  font-family: var(--font-primary);
   color: var(--text-page);
   transition: border-color 150ms, background-color 150ms;
 }
@@ -169,14 +164,16 @@ code, kbd, samp, pre, .font-mono {
 
 .input:focus {
   outline: none;
-  border-color: #E31B23;
+  border-color: var(--cartverse-red);
 }
 
 .input-error {
-  border-color: #E31B23;
+  border-color: var(--cartverse-red);
 }
 
-/* Brutalist Card */
+/* ============================================================
+   CARD
+   ============================================================ */
 .card {
   border-width: 1px;
   border-color: var(--border-page);
@@ -186,39 +183,44 @@ code, kbd, samp, pre, .font-mono {
   transition: background-color 150ms, border-color 150ms;
 }
 
-/* Technical Label */
+/* ============================================================
+   LABEL / METADATA — Inter Tight, no monospace
+   ============================================================ */
 .label {
+  font-family: var(--font-primary);
   font-size: 0.75rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #64748b;
+  letter-spacing: 0.04em;
+  color: var(--cartverse-red);
   font-weight: 700;
   margin-bottom: 0.5rem;
   display: block;
 }
 
 .dark .label {
-  color: #A0A0A0;
+  color: var(--cartverse-red);
 }
 
-/* Monospace Metadata */
 .metadata {
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-family: var(--font-primary);
   font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #64748b;
+  letter-spacing: 0.02em;
+  color: var(--cartverse-red);
+  font-weight: 600;
 }
 
 .dark .metadata {
-  color: #A0A0A0;
+  color: var(--cartverse-red);
 }
 
-/* Section Header */
+/* ============================================================
+   SECTION HEADER
+   ============================================================ */
 .section-header {
+  font-family: var(--font-primary);
   font-size: 0.875rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.04em;
   font-weight: 700;
   color: var(--text-page);
   margin-bottom: 1rem;
@@ -297,7 +299,7 @@ code, kbd, samp, pre, .font-mono {
   background: #262626;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #E31B23;
+  background: #FF1E2D;
 }
 
 /* Aceternity UI Input Shadow */
@@ -305,7 +307,7 @@ code, kbd, samp, pre, .font-mono {
   box-shadow: 0px 2px 3px -1px rgba(0, 0, 0, 0.1), 0px 1px 0px 0px rgba(25, 28, 33, 0.02), 0px 0px 0px 1px rgba(25, 28, 33, 0.08);
 }
 
-/* Light Mode Global Adaptive Overrides for Hardware Catalog and Sections */
+/* Light Mode Global Adaptive Overrides */
 html:not(.dark) .bg-\[\#0A0A0C\] {
   background-color: #f8fafc;
 }
@@ -335,4 +337,25 @@ html:not(.dark) .border-\[\#392e4e\] {
   border-color: #cbd5e1;
 }
 
+/* ============================================================
+   ASSISTANT-UI NATIVE INTEGRATION & TYPOGRAPHY
+   ============================================================ */
+.aui-root,
+[data-assistant-ui] {
+  font-family: var(--font-primary) !important;
+}
 
+/* Ensure no monospace anywhere in assistant-ui conversation */
+.aui-root code,
+.aui-root pre,
+.aui-root kbd,
+.aui-root samp,
+[data-assistant-ui] code,
+[data-assistant-ui] pre {
+  font-family: var(--font-primary) !important;
+}
+
+/* Assistant UI Thread scroll styling */
+[data-assistant-ui-thread] {
+  font-family: var(--font-primary) !important;
+}

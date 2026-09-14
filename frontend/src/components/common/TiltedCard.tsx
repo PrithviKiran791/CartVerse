@@ -119,7 +119,7 @@ export const TiltedCard: React.FC<TiltedCardProps> = ({
         {/* Caption Text fallback */}
         {!displayOverlayContent && captionText && (
           <div
-            className="absolute bottom-0 left-0 right-0 p-3 bg-neutral-950/80 backdrop-blur-md text-xs font-mono text-white font-bold"
+            className="absolute bottom-0 left-0 right-0 p-3 bg-neutral-950/80 backdrop-blur-md text-xs font-sans text-white font-bold"
             style={{ transform: 'translateZ(20px)' }}
           >
             {captionText}
@@ -133,7 +133,7 @@ export const TiltedCard: React.FC<TiltedCardProps> = ({
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8 }}
-          className="absolute pointer-events-none z-30 bg-neutral-950 text-white font-mono text-xs px-3 py-1.5 rounded-lg border border-neutral-700 shadow-xl whitespace-nowrap"
+          className="absolute pointer-events-none z-30 bg-neutral-950 text-white font-sans text-xs px-3 py-1.5 rounded-lg border border-neutral-700 shadow-xl whitespace-nowrap"
           style={{
             left: tooltipPos.x + 12,
             top: tooltipPos.y + 12,

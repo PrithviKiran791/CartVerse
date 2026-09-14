@@ -29,14 +29,14 @@ export const ServerBuildSummaryBar: React.FC = () => {
         <div className="flex flex-wrap items-center gap-4 sm:gap-6 w-full md:w-auto justify-between md:justify-start">
           {/* Total Price */}
           <div>
-            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block">
+            <span className="text-[10px] font-sans text-neutral-400 uppercase tracking-wider block">
               Total Hardware Estimate
             </span>
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-black font-mono text-white tracking-tight">
+              <span className="text-xl sm:text-2xl font-black font-sans text-white tracking-tight">
                 {formatCurrency(totalPrice)}
               </span>
-              <span className="text-[11px] font-mono text-neutral-400">INR</span>
+              <span className="text-[11px] font-sans text-neutral-400">INR</span>
             </div>
           </div>
 
@@ -44,12 +44,12 @@ export const ServerBuildSummaryBar: React.FC = () => {
 
           {/* Wattage Draw */}
           <div>
-            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block">
+            <span className="text-[10px] font-sans text-neutral-400 uppercase tracking-wider block">
               Compute Power Load
             </span>
             <div className="flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5 text-amber-500" />
-              <span className="text-sm sm:text-base font-bold font-mono text-white">
+              <span className="text-sm sm:text-base font-bold font-sans text-white">
                 {formatWattage(estimatedWattage)}
               </span>
             </div>
@@ -59,13 +59,13 @@ export const ServerBuildSummaryBar: React.FC = () => {
 
           {/* Rack Envelope */}
           <div>
-            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block">
+            <span className="text-[10px] font-sans text-neutral-400 uppercase tracking-wider block">
               Chassis Rack Units
             </span>
             <div className="flex items-center gap-1.5">
               <Server className="w-3.5 h-3.5 text-red-500" />
               <span
-                className={`text-sm sm:text-base font-bold font-mono ${
+                className={`text-sm sm:text-base font-bold font-sans ${
                   rackClearance.isExceeded ? 'text-red-400 font-black' : 'text-white'
                 }`}
               >
@@ -80,12 +80,12 @@ export const ServerBuildSummaryBar: React.FC = () => {
 
           {/* Redundancy */}
           <div>
-            <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block">
+            <span className="text-[10px] font-sans text-neutral-400 uppercase tracking-wider block">
               Power Delivery
             </span>
             <div className="flex items-center gap-1.5">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-sm font-bold font-mono text-emerald-400">
+              <span className="text-sm font-bold font-sans text-emerald-400">
                 {psuMetrics.redundancyMode.toUpperCase()}
               </span>
             </div>
@@ -97,7 +97,7 @@ export const ServerBuildSummaryBar: React.FC = () => {
           {filledSlots > 0 && (
             <button
               onClick={resetBuild}
-              className="px-3.5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded-xl text-xs font-mono border border-neutral-800 transition-colors flex items-center gap-1.5"
+              className="px-3.5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-white rounded-xl text-xs font-sans border border-neutral-800 transition-colors flex items-center gap-1.5"
               title="Reset Configurator"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -108,7 +108,7 @@ export const ServerBuildSummaryBar: React.FC = () => {
           <button
             onClick={() => addToCartAsBundle()}
             disabled={!report.isCompatible || filledSlots === 0}
-            className={`flex-1 md:flex-initial px-6 py-2.5 rounded-xl font-mono font-bold text-xs uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 ${
+            className={`flex-1 md:flex-initial px-6 py-2.5 rounded-xl font-sans font-bold text-xs uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-2 ${
               report.isCompatible && filledSlots > 0
                 ? 'bg-gradient-to-r from-red-600 via-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white shadow-lg shadow-red-950/60 active:scale-95'
                 : 'bg-neutral-800 text-neutral-500 cursor-not-allowed border border-neutral-700'

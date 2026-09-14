@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { ProgressBar, Label } from '@heroui/react';
 import fanLogo from '../../assets/icons/Spin_logo.png';
 import './LoadingScreen.css';
 
@@ -76,7 +77,7 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
       <div className="flex flex-col items-center justify-center text-center space-y-5 max-w-sm w-full">
         {/* CartVerse Spinning Fan Turbine Logo with Radial Glow */}
         <div className="relative flex items-center justify-center">
-          <div className="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-[#E31B23]/20 blur-3xl pointer-events-none animate-pulse" />
+          <div className="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-[#FF1E2D]/20 blur-3xl pointer-events-none animate-pulse" />
           <img
             src={imgSrc}
             onError={() => setImgSrc('/Spin_logo.png')}
@@ -88,35 +89,37 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({
         {/* Brand Wordmark */}
         <div className="space-y-1">
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#F5F5F5] uppercase font-sans">
-            CART<span className="text-[#E31B23]">VERSE</span>
+            CART<span className="text-[#FF1E2D]">VERSE</span>
           </h1>
-          <p className="text-[10px] sm:text-xs font-mono text-neutral-400 tracking-[0.28em] uppercase font-semibold">
+          <p className="text-[10px] sm:text-xs font-sans text-neutral-400 tracking-[0.28em] uppercase font-semibold">
             BUILD. SHOP. PLAY.
           </p>
         </div>
 
-        {/* Minimal Status Label & Technical Telemetry */}
-        <div className="flex flex-col items-center gap-3 pt-1 w-full">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#E31B23] animate-ping" />
-            <span className="cartverse-status-text text-xs font-mono text-[#D0D0D0] font-semibold tracking-widest uppercase">
-              {message}
-            </span>
-          </div>
-
-          {/* Brutalist Glowing Progress Track */}
-          <div className="w-48 sm:w-56 h-[3px] bg-neutral-800/90 rounded-full overflow-hidden relative border border-neutral-700/40">
-            <div
-              className="h-full bg-gradient-to-r from-red-600 to-[#E31B23] rounded-full shadow-[0_0_10px_rgba(227,27,35,0.75)] transition-all duration-75 ease-out"
-              style={{
-                width: duration && duration > 0 ? `${Math.min(100, Math.max(3, progress))}%` : '100%',
-                animation: !duration || duration <= 0 ? 'cartverse-progress-indeterminate 1.4s ease-in-out infinite' : undefined,
-              }}
-            />
-          </div>
+        {/* HeroUI Red Progress Bar with Telemetry */}
+        <div className="w-full max-w-[280px] sm:max-w-xs pt-1">
+          <ProgressBar
+            aria-label="Loading CartVerse"
+            className="w-full space-y-2.5"
+            value={progress}
+            minValue={0}
+            maxValue={100}
+            color="danger"
+          >
+            <div className="flex items-center justify-between gap-2 w-full">
+              <Label className="cartverse-status-text text-xs font-sans text-[#D0D0D0] font-semibold tracking-widest uppercase flex items-center gap-2 truncate">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF1E2D] animate-ping shrink-0" />
+                <span className="truncate">{message}</span>
+              </Label>
+              <ProgressBar.Output className="text-xs font-mono font-bold text-red-500 tracking-wider shrink-0" />
+            </div>
+            <ProgressBar.Track className="h-2 w-full bg-neutral-900/90 rounded-full overflow-hidden border border-neutral-800/80 relative shadow-inner">
+              <ProgressBar.Fill className="h-full bg-gradient-to-r from-red-600 via-[#FF1E2D] to-red-500 rounded-full shadow-[0_0_14px_rgba(255, 30, 45,0.9)] transition-all duration-75 ease-out" />
+            </ProgressBar.Track>
+          </ProgressBar>
 
           {/* Telemetry Footer */}
-          <div className="flex items-center justify-between w-48 sm:w-56 text-[9px] font-mono text-neutral-500 tracking-wider">
+          <div className="flex items-center justify-between w-full mt-2 text-[9px] font-sans text-neutral-500 tracking-wider">
             <span>KERNEL // ROUTE</span>
             <span>{duration && duration > 0 ? `${progress}%` : 'SYNC'}</span>
           </div>

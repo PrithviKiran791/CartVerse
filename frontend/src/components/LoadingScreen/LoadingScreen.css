@@ -9,7 +9,7 @@
   animation: cartverse-fan-spin 1.2s linear infinite;
   user-select: none;
   pointer-events: none;
-  filter: drop-shadow(0 0 18px rgba(227, 27, 35, 0.45));
+  filter: drop-shadow(0 0 18px rgba(255, 30, 45, 0.45));
 }
 
 @media (max-width: 640px) {

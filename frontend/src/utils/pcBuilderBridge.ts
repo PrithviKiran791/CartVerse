@@ -92,7 +92,7 @@ export function addProductToPCBuild(product: Product): { success: boolean; messa
   store.dispatch(setComponent({ slot: reduxSlot, product }));
 
   if (warning) {
-    toast.warning(`Added to ${slot.toUpperCase()}: ${product.name}. ⚠️ ${warning}`);
+    toast.warning(`Added to ${slot.toUpperCase()}: ${product.name}. Warning: ${warning}`);
   } else {
     toast.success(`Added ${product.name} to PC Builder (${slot.toUpperCase()} slot).`);
   }

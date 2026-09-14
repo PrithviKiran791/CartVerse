@@ -23,7 +23,7 @@ export const serverProducts: Product[] = [
     eccSupport: true,
     psuRedundancy: 'single',
     ipmiSupport: true,
-    useCaseTags: ['storage', 'database', 'virtualization'],
+    useCaseTags: ['storage', 'database', 'virtualization', 'monitoring'],
     featured: true,
     bestSeller: true,
     description: 'Ultra-compact micro-tower server engineered for home labs, edge computing gateways, and small office NAS deployments with optional HPE iLO 5 management.',
@@ -74,7 +74,7 @@ export const serverProducts: Product[] = [
     eccSupport: true,
     psuRedundancy: 'single',
     ipmiSupport: true,
-    useCaseTags: ['database', 'storage'],
+    useCaseTags: ['database', 'storage', 'monitoring'],
     description: 'Entry standalone mini-tower server powered by Intel Xeon E-2400 series processors, addressing foundational business workloads, file sharing, and local ERP.',
     serverSpecs: {
       model: 'Dell PowerEdge T150',
@@ -123,7 +123,7 @@ export const serverProducts: Product[] = [
     rackUnits: 4,
     psuRedundancy: 'N+1',
     ipmiSupport: true,
-    useCaseTags: ['database', 'virtualization', 'storage'],
+    useCaseTags: ['database', 'virtualization', 'storage', 'monitoring', 'rendering'],
     description: 'Robust 4.5U rackable tower server supporting up to 8x hot-plug drives and PERC hardware RAID controllers for growing SMB databases and branch office virtualization.',
     serverSpecs: {
       model: 'Dell PowerEdge T360',
@@ -173,7 +173,7 @@ export const serverProducts: Product[] = [
     rackUnits: 4,
     psuRedundancy: 'N+1',
     ipmiSupport: true,
-    useCaseTags: ['virtualization', 'rendering', 'database'],
+    useCaseTags: ['virtualization', 'rendering', 'database', 'monitoring'],
     description: 'Enterprise 4.5U tower server featuring 4th/5th Gen Intel Xeon Scalable processors, 1TB DDR5 Registered ECC memory, and high-speed PCIe Gen5 expansion.',
     serverSpecs: {
       model: 'HPE ProLiant ML110 Gen11',
@@ -223,7 +223,7 @@ export const serverProducts: Product[] = [
     rackUnits: 5,
     psuRedundancy: 'N+1',
     ipmiSupport: true,
-    useCaseTags: ['ai-training', 'database', 'virtualization'],
+    useCaseTags: ['ai-training', 'database', 'virtualization', 'rendering'],
     description: 'Dual-socket 5U powerhouse tower server engineered for demanding on-premise AI inference, high-density ERP virtualization, and massive storage arrays.',
     serverSpecs: {
       model: 'Dell PowerEdge T560',
@@ -273,7 +273,7 @@ export const serverProducts: Product[] = [
     rackUnits: 1,
     psuRedundancy: 'N+1',
     ipmiSupport: true,
-    useCaseTags: ['virtualization', 'storage'],
+    useCaseTags: ['virtualization', 'storage', 'monitoring'],
     description: 'Compact short-depth 1U rackmount server designed for space-constrained telecom racks, edge data centers, web hosting, and dedicated branch workloads.',
     serverSpecs: {
       model: 'Dell PowerEdge R360',
@@ -323,7 +323,7 @@ export const serverProducts: Product[] = [
     rackUnits: 1,
     psuRedundancy: 'N+1',
     ipmiSupport: true,
-    useCaseTags: ['virtualization', 'storage', 'database'],
+    useCaseTags: ['virtualization', 'storage', 'database', 'monitoring'],
     description: 'High-efficiency 1U single-socket server supporting up to 32-core Intel Xeon Scalable processors, 2TB DDR5 RDIMM memory, and front NVMe drive bays.',
     serverSpecs: {
       model: 'HPE ProLiant DL320 Gen11',
@@ -1163,7 +1163,7 @@ export const serverProducts: Product[] = [
     socketCount: 1,
     memoryType: 'RDIMM',
     eccSupport: true,
-    useCaseTags: ['ai-training', 'hpc', 'virtualization'],
+    useCaseTags: ['ai-training', 'hpc', 'virtualization', 'rendering'],
     featured: true,
     description: 'Flagship Genoa server processor featuring 96 Zen 4 cores, 192 threads, 384MB L3 cache, and 12-channel DDR5-4800 memory support on the SP5 socket.',
     specs: {
@@ -1346,7 +1346,7 @@ export const serverProducts: Product[] = [
     eccSupport: true,
     rackUnits: 1,
     ipmiSupport: true,
-    useCaseTags: ['virtualization', 'storage'],
+    useCaseTags: ['virtualization', 'storage', 'monitoring'],
     description: 'Single-socket AMD EPYC 9004 server board featuring 12x DDR5 RDIMM slots, PCIe 5.0 x16 slots, dual 10GBase-T, and IPMI 2.0 BMC in an ATX form factor.',
     specs: {
       socket: 'SP5',
@@ -1377,7 +1377,7 @@ export const serverProducts: Product[] = [
     eccSupport: true,
     rackUnits: 2,
     ipmiSupport: true,
-    useCaseTags: ['ai-training', 'database', 'virtualization'],
+    useCaseTags: ['ai-training', 'database', 'virtualization', 'monitoring'],
     description: 'Dual-socket Intel 4th/5th Gen Xeon Scalable motherboard with 16x DDR5 RDIMM slots, 4x PCIe 5.0 x16 slots, dual NVMe M.2 ports, and ASPEED AST2600 BMC.',
     specs: {
       socket: 'LGA4677',
@@ -1407,7 +1407,7 @@ export const serverProducts: Product[] = [
     productClass: 'server',
     memoryType: 'RDIMM',
     eccSupport: true,
-    useCaseTags: ['ai-training', 'virtualization', 'database'],
+    useCaseTags: ['ai-training', 'virtualization', 'database', 'rendering'],
     featured: true,
     description: 'Enterprise 64GB DDR5-5600 Registered ECC RDIMM module with on-die ECC and sideband ECC for mission-critical zero-bit-flip uptime.',
     specs: {
@@ -1489,7 +1489,7 @@ export const serverProducts: Product[] = [
     productClass: 'server',
     rackUnits: 1,
     psuRedundancy: 'N+1',
-    useCaseTags: ['virtualization', 'storage'],
+    useCaseTags: ['virtualization', 'storage', 'monitoring'],
     description: '1U short-depth rackmount chassis with 4x 3.5" or 8x 2.5" hot-swap SAS/SATA drive bays, redundant 650W Platinum power, and low-profile expansion slot support. Note: Maximum GPU height is single-slot low-profile (max length 220mm; full-height double-width compute cards are rejected).',
     specs: {
       formFactor: 'ATX',
@@ -1576,7 +1576,7 @@ export const serverProducts: Product[] = [
     stock: 22,
     productClass: 'server',
     psuRedundancy: 'N+1',
-    useCaseTags: ['virtualization', 'database', 'hpc'],
+    useCaseTags: ['virtualization', 'database', 'hpc', 'monitoring'],
     featured: true,
     description: 'Dual-module 1+1 redundant hot-swap server power supply delivering 1200W continuous output with 80+ Titanium 96% peak efficiency and PMBus 1.2 monitoring.',
     specs: {
@@ -1654,7 +1654,7 @@ export const serverProducts: Product[] = [
     imageSlug: 'Memory/storage/ssd/samsung/samsung_990_pro.jpg',
     stock: 45,
     productClass: 'server',
-    useCaseTags: ['database', 'virtualization', 'ai-training'],
+    useCaseTags: ['database', 'virtualization', 'ai-training', 'rendering'],
     featured: true,
     description: 'Enterprise U.2 2.5" NVMe PCIe 4.0 x4 SSD offering 6,900 MB/s sequential read, 1,000,000 IOPS random read, power-loss protection (PLP), and 1.3 DWPD endurance.',
     specs: {

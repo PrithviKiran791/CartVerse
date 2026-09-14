@@ -26,14 +26,12 @@ export function getEndpointMessage(pathname: string, search: string = ''): strin
   if (pathname.startsWith('/gaming-consoles')) return 'CONFIGURING GAMING CONSOLE SYSTEMS';
   if (pathname.startsWith('/cables-headers')) return 'VERIFYING INTERFACE PROTOCOLS';
   if (pathname.startsWith('/displays')) return 'CALIBRATING ULTRA-HD PANEL RESOLUTIONS';
-  if (pathname.startsWith('/warranty-delivery')) return 'RETRIEVING SLA & WARRANTY POLICIES';
 
   // Shopping, Cart & Transactions
   if (pathname.startsWith('/cart')) return 'SYNCING SECURE CART SYSTEM';
   if (pathname.startsWith('/checkout')) return 'SECURING CHECKOUT GATEWAY';
   if (pathname.startsWith('/order-confirmation')) return 'CONFIRMING ORDER MANIFEST';
   if (pathname.startsWith('/orders')) return 'RETRIEVING ORDER TELEMETRY';
-  if (pathname.startsWith('/track-order')) return 'CONNECTING LOGISTICS TRACKING';
   if (pathname.startsWith('/transactions') || pathname.startsWith('/account/transactions')) return 'AUDITING FINANCIAL TRANSACTION LEDGER';
 
   // Security & Authentication

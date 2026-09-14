@@ -121,8 +121,8 @@
   left: 10%;
   right: 10%;
   height: 2px;
-  background-color: #e31b23;
-  box-shadow: 0 0 10px rgba(227, 27, 35, 0.8);
+  background-color: #FF1E2D;
+  box-shadow: 0 0 10px rgba(255, 30, 45, 0.8);
   border-radius: 9999px;
 }
 
@@ -155,12 +155,12 @@
 }
 
 .logoloop__item.is-active .logoloop__link {
-  background: rgba(227, 27, 35, 0.08);
-  border-color: rgba(227, 27, 35, 0.35);
+  background: rgba(255, 30, 45, 0.08);
+  border-color: rgba(255, 30, 45, 0.35);
 }
 
 .logoloop__link:focus-visible {
-  outline: 2px solid #e31b23;
+  outline: 2px solid #FF1E2D;
   outline-offset: 2px;
 }
 

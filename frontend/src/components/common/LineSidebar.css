@@ -1,5 +1,5 @@
 .line-sidebar {
-  --accent-color: #e31b23;
+  --accent-color: #FF1E2D;
   --text-color: #a1a1aa;
   --marker-color: #52525b;
   --marker-length: 35px;
@@ -57,7 +57,7 @@
 }
 
 .line-sidebar__index {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: 'Inter Tight', Inter, sans-serif;
   margin-right: 0.5rem;
   font-size: 0.8em;
   opacity: calc(0.5 + var(--effect, 0) * 0.5);

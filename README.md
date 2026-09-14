@@ -28,6 +28,7 @@ A modern, high-performance gaming PC configuration and e-commerce platform engin
   - [4. Dynamic Font Engine](#4-dynamic-font-engine)
   - [5. Interactive 3D Visual Showcases](#5-interactive-3d-visual-showcases)
   - [6. Slide-Over Cart & Checkout](#6-slide-over-cart--checkout)
+  - [7. AI Shopping & PC Build Assistant (assistant-ui)](#7-ai-shopping--pc-build-assistant-assistant-ui)
 - [Design Philosophy & Color System](#-design-philosophy--color-system)
 - [Architecture & Directory Structure](#-architecture--directory-structure)
 - [Compatibility & Calculation Engine](#-compatibility--calculation-engine)
@@ -86,6 +87,15 @@ A modern, high-performance gaming PC configuration and e-commerce platform engin
 - **Interactive Slide-Over Drawer**: Add individual components or complete assembled rigs directly to cart with one click.
 - **Checkout Modal**: Streamlined multi-step checkout with delivery address capture, payment method selection, and instant order placement with celebratory confetti animations.
 
+### 7. AI Shopping & PC Build Assistant (assistant-ui)
+- **Built Natively with assistant-ui & Vercel AI SDK**: Seamless conversational shopping companion embedded into the CartVerse design system.
+- **Hardware Intelligence & Recommendations**: Answers component queries, explains complex specifications in plain language, and suggests balanced rigs within specific budgets (INR ₹).
+- **Interactive In-Chat Product & Build Cards**: Renders live CartVerse product cards with ratings, specs, and instant "Add to Cart", plus complete PC build cards with wattage estimates and "Load in Builder" actions.
+- **Direct Side-by-Side Comparison**: Structured specification comparison tables for CPUs, GPUs, RAM, and other components.
+- **Context-Aware Recommendations**: Automatically customizes suggestion chips based on whether the user is browsing the catalog, viewing a specific product, tweaking a custom PC in the builder studio, or reviewing their cart.
+- **Compatibility & Power Checks**: Leverages CartVerse hardware metadata to check socket matchups, DDR generations, and PSU wattage headroom.
+- **Strict Brand Typography**: Inherits global **Inter Tight** typography and CartVerse styling tokens, with zero monospace or terminal chatbot appearance.
+
 ---
 
 ## 🎨 Design Philosophy & Color System
@@ -126,6 +136,7 @@ CartVerse/
     │   │   │   └── ...            # Peripherals, cases, PSUs, displays
     │   │   └── icons/             # Custom branding & web icons
     │   ├── components/
+    │   │   ├── assistant/         # AI Assistant components (Trigger, Modal, Thread, Cards, Tools)
     │   │   ├── cart/              # CartDrawer, CheckoutModal
     │   │   ├── catalog/           # ProductCard, FilterSidebar, CategorySection
     │   │   ├── common/            # DepthCarousel, DriftWall, TextType, FontSelector
@@ -136,6 +147,8 @@ CartVerse/
     │   │   └── ui/                # MagneticButton, NoiseBackground, 3D cards
     │   ├── data/
     │   │   └── mockProducts.ts    # 500+ Verified hardware items with full specs
+    │   ├── hooks/
+    │   │   └── useAssistantContext.ts # Live route, cart & builder context gathering
     │   ├── pages/
     │   │   ├── HomePage.tsx       # Landing page with hero & 3D showcases
     │   │   ├── PCBuilderPage.tsx  # Interactive builder studio page
@@ -143,6 +156,7 @@ CartVerse/
     │   │   ├── ProductDetailsPage.tsx # Individual component breakdown
     │   │   └── CartPage.tsx       # Full cart review & checkout route
     │   ├── store/
+    │   │   ├── useAssistantStore.ts # AI assistant drawer & queued prompt state
     │   │   ├── useCartStore.ts    # Zustand cart state management
     │   │   ├── usePCBuilderStore.ts # Rig configuration & selection state
     │   │   └── useUIStore.ts      # Modals, drawers, and quick search state
@@ -228,8 +242,10 @@ npm run preview
 - **Build Tool**: [Vite 8](https://vitejs.dev/)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **AI Copilot**: [assistant-ui](https://assistant-ui.com/) & [Vercel AI SDK](https://sdk.vercel.ai/)
 - **State Management**: [Zustand](https://github.com/pmndrs/zustand)
 - **Routing**: [React Router v7](https://reactrouter.com/)
+- **Backend API**: [Express 5](https://expressjs.com/) with [PostgreSQL](https://www.postgresql.org/) & [Sequelize](https://sequelize.org/)
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Animations & Effects**: CSS3 GPU keyframes, [Framer Motion](https://www.framer.com/motion/), [Canvas Confetti](https://www.npmjs.com/package/canvas-confetti)
 

@@ -63,11 +63,11 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
         <h3 className="text-xl font-black text-white tracking-tight flex items-center gap-2">
           <MessageSquare className="w-5 h-5 text-red-500" />
           <span>Product Q&A & Community Discussion</span>
-          <span className="text-xs font-mono bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded-full font-normal">
+          <span className="text-xs font-sans bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded-full font-normal">
             {comments.length} Threads
           </span>
         </h3>
-        <p className="text-xs text-neutral-400 font-mono mt-1">
+        <p className="text-xs text-neutral-400 font-sans mt-1">
           Ask compatibility questions, share setup tips, or get community advice.
         </p>
       </div>
@@ -80,7 +80,7 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             placeholder="Your Name (e.g. Rahul Verma)"
-            className="bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2 text-xs text-white outline-none focus:border-red-500 font-mono"
+            className="bg-neutral-900 border border-neutral-800 rounded-xl px-3.5 py-2 text-xs text-white outline-none focus:border-red-500 font-sans"
           />
         </div>
         <textarea
@@ -88,7 +88,7 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}
           placeholder="Ask a compatibility question or leave a note about this component..."
-          className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-3 text-xs text-white outline-none focus:border-red-500 font-mono"
+          className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-3 text-xs text-white outline-none focus:border-red-500 font-sans"
         />
         <div className="flex justify-end">
           <button
@@ -105,7 +105,7 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
       <div className="space-y-4">
         {comments.length === 0 ? (
           <div className="text-center py-8 bg-neutral-950/40 rounded-2xl border border-neutral-850 p-6">
-            <p className="text-xs font-mono text-neutral-400">
+            <p className="text-xs font-sans text-neutral-400">
               No questions or community discussions yet. Be the first to ask!
             </p>
           </div>
@@ -114,12 +114,12 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
           <div key={cmt.id} className="bg-neutral-950/70 border border-neutral-850 p-5 rounded-2xl space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-full bg-neutral-800 text-neutral-200 font-mono font-bold text-xs flex items-center justify-center border border-neutral-700">
+                <div className="w-7 h-7 rounded-full bg-neutral-800 text-neutral-200 font-sans font-bold text-xs flex items-center justify-center border border-neutral-700">
                   {cmt.userAvatar || 'CV'}
                 </div>
                 <div>
                   <span className="text-xs font-bold text-white block">{cmt.userName}</span>
-                  <span className="text-[10px] font-mono text-neutral-500">
+                  <span className="text-[10px] font-sans text-neutral-500">
                     {new Date(cmt.createdAt).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
                   </span>
                 </div>
@@ -128,7 +128,7 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
               {/* Like Comment Button */}
               <button
                 onClick={() => likeComment(productId, cmt.id)}
-                className="flex items-center gap-1 text-xs font-mono text-neutral-400 hover:text-red-400 transition-colors cursor-pointer"
+                className="flex items-center gap-1 text-xs font-sans text-neutral-400 hover:text-red-400 transition-colors cursor-pointer"
               >
                 <Heart className="w-4 h-4 text-red-500" />
                 <span>{cmt.likeCount}</span>
@@ -142,7 +142,7 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
             <div className="pl-9">
               <button
                 onClick={() => setActiveReplyId(activeReplyId === cmt.id ? null : cmt.id)}
-                className="text-[11px] font-mono text-red-400 hover:underline flex items-center gap-1 cursor-pointer"
+                className="text-[11px] font-sans text-red-400 hover:underline flex items-center gap-1 cursor-pointer"
               >
                 <CornerDownRight className="w-3 h-3" />
                 <span>Reply to Thread</span>
@@ -157,25 +157,25 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
                   value={replyUserName}
                   onChange={(e) => setReplyUserName(e.target.value)}
                   placeholder="Your Name"
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-white outline-none font-mono"
+                  className="w-full bg-neutral-950 border border-neutral-800 rounded-lg px-3 py-1.5 text-xs text-white outline-none font-sans"
                 />
                 <textarea
                   rows={2}
                   value={replyText}
                   onChange={(e) => setReplyText(e.target.value)}
                   placeholder="Write your reply..."
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-lg p-2 text-xs text-white outline-none font-mono"
+                  className="w-full bg-neutral-950 border border-neutral-800 rounded-lg p-2 text-xs text-white outline-none font-sans"
                 />
                 <div className="flex justify-end gap-2">
                   <button
                     onClick={() => setActiveReplyId(null)}
-                    className="px-3 py-1 text-xs font-mono text-neutral-400 hover:text-white"
+                    className="px-3 py-1 text-xs font-sans text-neutral-400 hover:text-white"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={() => handlePostReply(cmt.id)}
-                    className="px-4 py-1 bg-red-600 hover:bg-red-500 text-white font-mono font-bold text-xs rounded-lg"
+                    className="px-4 py-1 bg-red-600 hover:bg-red-500 text-white font-sans font-bold text-xs rounded-lg"
                   >
                     Send Reply
                   </button>
@@ -189,10 +189,10 @@ export const ProductCommentsSection: React.FC<ProductCommentsSectionProps> = ({ 
                 {cmt.replies.map((reply) => (
                   <div key={reply.id} className="bg-neutral-900/60 p-3 rounded-xl border border-neutral-850">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-bold text-red-400 font-mono">{reply.userName}</span>
+                      <span className="text-xs font-bold text-red-400 font-sans">{reply.userName}</span>
                       <button
                         onClick={() => likeComment(productId, reply.id)}
-                        className="flex items-center gap-1 text-[11px] font-mono text-neutral-400 hover:text-red-400"
+                        className="flex items-center gap-1 text-[11px] font-sans text-neutral-400 hover:text-red-400"
                       >
                         <Heart className="w-3 h-3 text-red-500" />
                         <span>{reply.likeCount}</span>

@@ -226,7 +226,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
           contact: formData.phone,
         },
         theme: {
-          color: '#E31B23',
+          color: '#FF1E2D',
         },
         handler: async (response: any) => {
           try {
@@ -347,19 +347,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
           {/* Form */}
           <form onSubmit={handlePlaceOrder} className="p-6 overflow-y-auto space-y-6">
-            {!user && (
-              <div className="p-3.5 rounded-2xl bg-gradient-to-r from-red-600/15 via-red-500/10 to-transparent border border-red-500/30 text-xs flex items-start gap-3 shadow-inner">
-                <div className="p-1 rounded-lg bg-red-600/20 text-red-500 shrink-0 mt-0.5">
-                  <Zap className="w-3.5 h-3.5" />
-                </div>
-                <div>
-                  <p className="font-bold text-white font-rajdhani uppercase tracking-wider">Guest Checkout Active</p>
-                  <p className="text-[11px] text-neutral-300 font-sans mt-0.5">
-                    No account or password required! Complete your order directly. An instant digital receipt and live tracking reference will be sent to your email.
-                  </p>
-                </div>
-              </div>
-            )}
+
 
             {/* Shipping Details */}
             <div>
@@ -430,7 +418,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     required
                     value={formData.pincode}
                     onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white font-mono outline-none focus:border-red-500"
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white font-sans outline-none focus:border-red-500"
                   />
                 </div>
               </div>
@@ -440,7 +428,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             <div>
               <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <CreditCard className="w-4 h-4 text-red-500" />
-                Payment Gateway (Razorpay Secured)
+                Payment
               </h4>
               <div className="grid grid-cols-2 gap-2.5">
                 <button
@@ -498,7 +486,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             </div>
 
             {/* Price Summary */}
-            <div className="bg-neutral-950 border border-neutral-800 p-4 rounded-xl space-y-1.5 text-xs font-mono text-neutral-400">
+            <div className="bg-neutral-950 border border-neutral-800 p-4 rounded-xl space-y-1.5 text-xs font-sans text-neutral-400">
               <div className="flex justify-between">
                 <span>Items Subtotal:</span>
                 <span className="text-white">{formatCurrency(getSubtotal())}</span>

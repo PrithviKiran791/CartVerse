@@ -11,7 +11,7 @@ export const NoiseBackground: React.FC<NoiseBackgroundProps> = ({
   children,
   containerClassName = '',
   gradientColors = [
-    'rgb(227, 27, 35)',
+    'rgb(255, 30, 45)',
     'rgb(180, 20, 20)',
     'rgb(255, 75, 75)',
   ],

@@ -10,6 +10,8 @@ import { useAuthStore } from './store/useAuthStore';
 import { RequireAuth } from './components/auth/RequireAuth';
 import { ScrollContainerProvider } from './context/ScrollContainerContext';
 import { ScrollToTop } from './components/common/ScrollToTop';
+import { AssistantProvider } from './components/assistant/AssistantProvider';
+import { CartVerseAssistant } from './components/assistant/cartverse-assistant';
 
 import { Provider } from 'react-redux';
 import { store } from './store/redux/store';
@@ -28,7 +30,6 @@ const OrderConfirmationPage = lazy(() => import('./pages/OrderConfirmationPage')
 const OrdersPage = lazy(() => import('./pages/OrdersPage'));
 const OrderDetailPage = lazy(() => import('./pages/OrderDetailPage'));
 const TransactionsPage = lazy(() => import('./pages/TransactionsPage'));
-const TrackOrderPage = lazy(() => import('./pages/TrackOrderPage'));
 
 // Hierarchical Category Hub & Product Listing Pages
 const ProcessorsGpusPage = lazy(() => import('./pages/category/ProcessorsGpusPage'));
@@ -36,7 +37,6 @@ const ThermalSystemsPage = lazy(() => import('./pages/category/ThermalSystemsPag
 const GamingConsolesPage = lazy(() => import('./pages/category/GamingConsolesPage'));
 const CablesHeadersPage = lazy(() => import('./pages/category/CablesHeadersPage'));
 const DisplaysPage = lazy(() => import('./pages/category/DisplaysPage'));
-const WarrantyDeliveryPage = lazy(() => import('./pages/category/WarrantyDeliveryPage'));
 const ProductListingPage = lazy(() => import('./pages/category/ProductListingPage'));
 const ProductCatalog = lazy(() => import('./components/catalog/ProductCatalog'));
 
@@ -44,6 +44,7 @@ const ProductCatalog = lazy(() => import('./components/catalog/ProductCatalog'))
 const ServersLandingPage = lazy(() => import('./pages/ServersLandingPage'));
 const ServerBuilderPage = lazy(() => import('./pages/ServerBuilderPage'));
 const PreConfiguredServersPage = lazy(() => import('./pages/PreConfiguredServersPage'));
+
 
 export function App() {
   const { hydrateFromStorage } = useAuthStore();
@@ -60,6 +61,7 @@ export function App() {
         <FontProvider>
           <Router>
           <ScrollContainerProvider scrollContainerRef={scrollContainerRef}>
+            <AssistantProvider>
             <ScrollToTop />
 
             {/* Global Minimal Loading Screen Triggered On Route Endpoint Navigation */}
@@ -71,6 +73,9 @@ export function App() {
 
             {/* Global Cart Slide-Over Drawer */}
             <CartDrawer />
+
+            {/* Global CartVerse AI Shopping & PC Build Assistant */}
+            <CartVerseAssistant />
 
             {/* Global Toast Notification System */}
             <ToastContainer />
@@ -128,13 +133,15 @@ export function App() {
                     <Route path="/displays" element={<DisplaysPage />} />
                     <Route path="/displays/:filterType" element={<ProductListingPage />} />
 
-                    <Route path="/warranty-delivery" element={<WarrantyDeliveryPage />} />
+                    {/* Driving Simulators Product Listing Routes */}
+                    <Route path="/simulators" element={<ProductListingPage />} />
+                    <Route path="/simulators/:subcategoryId" element={<ProductListingPage />} />
+
 
                     {/* Public Shopping, Cart & Guest Checkout Routes */}
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/checkout" element={<CartPage />} />
                     <Route path="/order-confirmation/:orderId" element={<OrderConfirmationPage />} />
-                    <Route path="/track-order" element={<TrackOrderPage />} />
 
                     {/* Protected Customer Dashboard Routes */}
                     <Route
@@ -180,6 +187,7 @@ export function App() {
               <Footer />
             </ScrollShadow>
           </div>
+          </AssistantProvider>
         </ScrollContainerProvider>
       </Router>
     </FontProvider>

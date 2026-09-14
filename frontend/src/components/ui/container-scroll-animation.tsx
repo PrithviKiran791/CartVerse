@@ -98,7 +98,7 @@ export const Card = ({
         rotateX: rotate,
         scale,
         boxShadow:
-          '0 25px 60px -15px rgba(0,0,0,0.8), 0 0 40px 2px rgba(227,27,35,0.12)',
+          '0 25px 60px -15px rgba(0,0,0,0.8), 0 0 40px 2px rgba(255, 30, 45,0.12)',
       }}
       className={cn(
         "max-w-6xl mx-auto w-full border border-neutral-800/90 bg-neutral-900/60 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl transition-shadow",
@@ -118,7 +118,7 @@ export function HeroScrollDemo() {
           <>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-neutral-200">
               Unleash the power of <br />
-              <span className="text-4xl sm:text-6xl md:text-[5.5rem] font-black font-rajdhani uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-400 to-cyan-400 mt-2 leading-none block">
+              <span className="text-4xl sm:text-6xl md:text-[5.5rem] font-black font-sans uppercase tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-400 to-cyan-400 mt-2 leading-none block">
                 Scroll Animations
               </span>
             </h1>

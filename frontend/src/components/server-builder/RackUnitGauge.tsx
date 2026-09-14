@@ -20,12 +20,12 @@ export const RackUnitGauge: React.FC<RackUnitGaugeProps> = ({ clearance }) => {
         <div className="flex items-center justify-between pb-3 border-b border-neutral-800/80 mb-4">
           <div className="flex items-center gap-2">
             <Server className="w-4 h-4 text-red-500" />
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+            <span className="text-xs font-sans font-bold uppercase tracking-wider text-white">
               Rack Unit Clearance
             </span>
           </div>
           <span
-            className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${
+            className={`text-[10px] font-sans font-bold px-2 py-0.5 rounded-full border ${
               isExceeded
                 ? 'bg-red-950/80 text-red-400 border-red-700/60'
                 : chassisRackUnits > 0
@@ -44,7 +44,7 @@ export const RackUnitGauge: React.FC<RackUnitGaugeProps> = ({ clearance }) => {
         {/* Visual Rack SVG Diagram */}
         <div className="my-3 flex items-center justify-center">
           <div className="w-full max-w-[280px] bg-neutral-950 border border-neutral-800 rounded-xl p-3 shadow-inner">
-            <div className="flex items-center justify-between text-[9px] font-mono text-neutral-500 pb-1.5 border-b border-neutral-800/60 mb-2">
+            <div className="flex items-center justify-between text-[9px] font-sans text-neutral-500 pb-1.5 border-b border-neutral-800/60 mb-2">
               <span>RACK BAY [EIA-310]</span>
               <span>19-INCH SPEC</span>
             </div>
@@ -59,7 +59,7 @@ export const RackUnitGauge: React.FC<RackUnitGaugeProps> = ({ clearance }) => {
                 return (
                   <div
                     key={uNumber}
-                    className={`h-7 rounded flex items-center justify-between px-3 font-mono text-xs transition-all duration-300 border ${
+                    className={`h-7 rounded flex items-center justify-between px-3 font-sans text-xs transition-all duration-300 border ${
                       isOverflow
                         ? 'bg-red-950/90 border-red-600 text-red-300 shadow-md shadow-red-950'
                         : isOccupied
@@ -87,7 +87,7 @@ export const RackUnitGauge: React.FC<RackUnitGaugeProps> = ({ clearance }) => {
             </div>
 
             {/* Bottom Rail Mount */}
-            <div className="mt-2 pt-1 border-t border-neutral-800/60 flex justify-between text-[8px] font-mono text-neutral-500">
+            <div className="mt-2 pt-1 border-t border-neutral-800/60 flex justify-between text-[8px] font-sans text-neutral-500">
               <span>HEAVY-DUTY SLIDING RAIL</span>
               <span>1U = 1.75 IN (44.45 MM)</span>
             </div>
@@ -96,7 +96,7 @@ export const RackUnitGauge: React.FC<RackUnitGaugeProps> = ({ clearance }) => {
       </div>
 
       {/* Footer Metrics */}
-      <div className="mt-4 pt-3 border-t border-neutral-800/80 grid grid-cols-2 gap-2 text-center font-mono">
+      <div className="mt-4 pt-3 border-t border-neutral-800/80 grid grid-cols-2 gap-2 text-center font-sans">
         <div className="bg-neutral-950/70 p-2 rounded-xl border border-neutral-800/60">
           <span className="text-[10px] text-neutral-400 block mb-0.5">Chassis Rating</span>
           <span className="text-sm font-bold text-white">
@@ -118,7 +118,7 @@ export const RackUnitGauge: React.FC<RackUnitGaugeProps> = ({ clearance }) => {
       {/* GPU Length clearance callout if tight or exceeded */}
       {gpuClearanceMm.current > 0 && (
         <div
-          className={`mt-2 p-2 rounded-xl border text-[11px] font-mono flex items-center gap-2 ${
+          className={`mt-2 p-2 rounded-xl border text-[11px] font-sans flex items-center gap-2 ${
             gpuClearanceMm.isExceeded
               ? 'bg-red-950/60 border-red-700/50 text-red-300'
               : 'bg-neutral-950/60 border-neutral-800 text-neutral-400'

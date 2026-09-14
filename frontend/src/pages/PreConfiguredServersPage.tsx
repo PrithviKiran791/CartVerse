@@ -183,8 +183,8 @@ export const PreConfiguredServersPage: React.FC = () => {
           speed={0.3}
           squareSize={48}
           direction="diagonal"
-          borderColor="rgba(227, 27, 35, 0.12)"
-          hoverFillColor="#E31B23"
+          borderColor="rgba(255, 30, 45, 0.12)"
+          hoverFillColor="#FF1E2D"
           shape="square"
           hoverTrailAmount={2}
         />
@@ -195,21 +195,21 @@ export const PreConfiguredServersPage: React.FC = () => {
         <FadeContent blur={true} duration={800} easing="ease-out" initialOpacity={0}>
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-6 mb-8 border-b border-neutral-800">
             <div>
-              <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-red-500 mb-1">
+              <div className="flex items-center gap-2 text-xs font-sans font-bold uppercase tracking-widest text-[#FF1E2D] mb-1">
                 <Server className="w-4 h-4" />
                 Infrastructure Profiles
               </div>
               <Typography type="h1" className="text-3xl sm:text-4xl font-black text-white tracking-tight">
                 Pre-Configured Enterprise Nodes &amp; Supercomputers
               </Typography>
-              <p className="text-xs sm:text-sm text-neutral-400 font-mono mt-2 max-w-2xl leading-relaxed">
+              <p className="text-xs sm:text-sm text-neutral-400 font-sans mt-2 max-w-2xl leading-relaxed">
                 Turnkey rack configurations and supercomputing topologies tested for thermal headroom, memory bandwidth, and 24/7 mission-critical uptime. Load directly into the Server Studio for customization or order turnkey.
               </p>
             </div>
 
             <Link
               to="/servers/builder"
-              className="px-5 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-red-950/60 transition-all flex items-center gap-2 shrink-0 self-start sm:self-center"
+              className="px-5 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-sans font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-red-950/60 transition-all flex items-center gap-2 shrink-0 self-start sm:self-center"
             >
               <Cpu className="w-4 h-4" />
               <span>Custom Configurator &rarr;</span>
@@ -228,9 +228,9 @@ export const PreConfiguredServersPage: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveFilter(tab.id as FilterCategory)}
-              className={`px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all border ${
+              className={`px-4 py-2 rounded-xl text-xs font-sans font-bold uppercase tracking-wider transition-all border ${
                 activeFilter === tab.id
-                  ? 'bg-red-950 border-red-600 text-red-300 shadow-md shadow-red-950/50'
+                  ? 'bg-red-950 border-[#FF1E2D] text-red-300 shadow-md shadow-red-950/50'
                   : 'bg-neutral-900/80 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700'
               }`}
             >
@@ -243,8 +243,8 @@ export const PreConfiguredServersPage: React.FC = () => {
         {(activeFilter === 'all' || activeFilter === 'curated-nodes') && (
           <div className="mb-14">
             <div className="flex items-center gap-2 mb-6 pb-2 border-b border-neutral-800">
-              <Sparkles className="w-4 h-4 text-red-500" />
-              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-mono">
+              <Sparkles className="w-4 h-4 text-[#FF1E2D]" />
+              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-sans">
                 Curated High-Performance Computing Profiles
               </h2>
             </div>
@@ -267,11 +267,11 @@ export const PreConfiguredServersPage: React.FC = () => {
                             />
                           </div>
                         )}
-                        <span className="text-[10px] font-mono font-bold bg-red-950 text-red-400 px-2.5 py-1 rounded border border-red-800/60">
+                        <span className="text-[10px] font-sans font-bold bg-red-950 text-[#FF1E2D] px-2.5 py-1 rounded border border-red-800/60">
                           {profile.badge}
                         </span>
                       </div>
-                      <span className="text-xs font-mono font-bold text-neutral-400">
+                      <span className="text-xs font-sans font-bold text-neutral-400">
                         {profile.rackUnits}U Rackmount
                       </span>
                     </div>
@@ -280,14 +280,14 @@ export const PreConfiguredServersPage: React.FC = () => {
                       {profile.title}
                     </h3>
 
-                    <p className="text-xs text-neutral-400 font-mono mt-2 leading-relaxed">
+                    <p className="text-xs text-neutral-400 font-sans mt-2 leading-relaxed">
                       {profile.description}
                     </p>
 
-                    <div className="mt-5 pt-4 border-t border-neutral-800/80 space-y-2 font-mono text-xs">
+                    <div className="mt-5 pt-4 border-t border-neutral-800/80 space-y-2 font-sans text-xs">
                       {profile.specs.map((sp, idx) => (
                         <div key={idx} className="flex justify-between items-start gap-2">
-                          <span className="text-neutral-500 shrink-0">{sp.label}:</span>
+                          <span className="text-[#FF1E2D] font-bold shrink-0">{sp.label}:</span>
                           <span className="text-neutral-200 text-right font-medium">{sp.value}</span>
                         </div>
                       ))}
@@ -296,15 +296,15 @@ export const PreConfiguredServersPage: React.FC = () => {
 
                   <div className="mt-6 pt-5 border-t border-neutral-800/80">
                     <div className="flex items-baseline justify-between mb-4">
-                      <span className="text-[10px] font-mono text-neutral-500 uppercase">Estimated Build</span>
-                      <span className="text-xl font-black font-mono text-white">
+                      <span className="text-[10px] font-sans text-neutral-500 uppercase">Estimated Build</span>
+                      <span className="text-xl font-black font-sans text-white">
                         {formatCurrency(profile.price)}
                       </span>
                     </div>
 
                     <button
                       onClick={profile.setupBuild}
-                      className="w-full py-3 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-mono font-bold transition-all shadow-lg shadow-red-950/50 flex items-center justify-center gap-2 active:scale-95"
+                      className="w-full py-3 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white rounded-xl text-xs font-sans font-bold transition-all shadow-lg shadow-red-950/50 flex items-center justify-center gap-2 active:scale-95"
                     >
                       <Cpu className="w-4 h-4" />
                       <span>Customize in Server Studio</span>
@@ -321,7 +321,7 @@ export const PreConfiguredServersPage: React.FC = () => {
           <div className="mb-14">
             <div className="flex items-center gap-2 mb-6 pb-2 border-b border-neutral-800">
               <Server className="w-4 h-4 text-emerald-400" />
-              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-mono">
+              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-sans">
                 Dell PowerEdge, HPE ProLiant &amp; Supermicro Turnkey Systems (16 Models)
               </h2>
             </div>
@@ -346,10 +346,10 @@ export const PreConfiguredServersPage: React.FC = () => {
                       </div>
 
                       <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase">
+                        <span className="text-[10px] font-sans font-bold text-neutral-400 uppercase">
                           {srv.brand} • {s?.formFactor}
                         </span>
-                        <span className="text-[10px] font-mono font-bold bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded border border-neutral-700">
+                        <span className="text-[10px] font-sans font-bold bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded border border-neutral-700">
                           {s?.managementEngine}
                         </span>
                       </div>
@@ -358,11 +358,11 @@ export const PreConfiguredServersPage: React.FC = () => {
                         {srv.name}
                       </h3>
 
-                      <p className="text-xs text-neutral-400 font-mono mt-1 line-clamp-2">
+                      <p className="text-xs text-neutral-400 font-sans mt-1 line-clamp-2">
                         {srv.description}
                       </p>
 
-                      <div className="mt-4 pt-3 border-t border-neutral-800/80 space-y-1.5 font-mono text-xs">
+                      <div className="mt-4 pt-3 border-t border-neutral-800/80 space-y-1.5 font-sans text-xs">
                         <div className="flex justify-between text-neutral-400">
                           <span>Sockets:</span>
                           <span className="text-white font-bold">{s?.processorSockets}</span>
@@ -384,10 +384,10 @@ export const PreConfiguredServersPage: React.FC = () => {
 
                     <div className="mt-5 pt-4 border-t border-neutral-800/80 flex items-center justify-between gap-2">
                       <div>
-                        <span className="text-[9px] font-mono text-neutral-500 uppercase block">
+                        <span className="text-[9px] font-sans text-neutral-500 uppercase block">
                           Market Estimate
                         </span>
-                        <span className="text-base font-black font-mono text-white">
+                        <span className="text-base font-black font-sans text-white">
                           {formatCurrency(srv.price)}
                         </span>
                       </div>
@@ -395,13 +395,13 @@ export const PreConfiguredServersPage: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <Link
                           to={`/servers/${srv.id}`}
-                          className="px-3 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white rounded-xl text-xs font-mono font-bold transition-colors"
+                          className="px-3 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white rounded-xl text-xs font-sans font-bold transition-colors"
                         >
                           Specs
                         </Link>
                         <button
                           onClick={() => handleAddToCart(srv)}
-                          className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-mono font-bold transition-all shadow-md shadow-red-950/40 flex items-center gap-1.5 active:scale-95"
+                          className="px-4 py-2 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white rounded-xl text-xs font-sans font-bold transition-all shadow-md shadow-red-950/40 flex items-center gap-1.5 active:scale-95"
                         >
                           <ShoppingCart className="w-3.5 h-3.5" />
                           <span>Order</span>
@@ -420,7 +420,7 @@ export const PreConfiguredServersPage: React.FC = () => {
           <div className="mb-14">
             <div className="flex items-center gap-2 mb-6 pb-2 border-b border-neutral-800">
               <Zap className="w-4 h-4 text-amber-500" />
-              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-mono">
+              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-sans">
                 Leading Top500 Supercomputing Topologies (8 Global Systems)
               </h2>
             </div>
@@ -444,7 +444,7 @@ export const PreConfiguredServersPage: React.FC = () => {
                         />
                       </div>
 
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-400 bg-red-950/60 px-2 py-0.5 rounded border border-red-800/50">
+                      <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#FF1E2D] bg-red-950/60 px-2 py-0.5 rounded border border-red-800/50">
                         {s?.peakCompute}
                       </span>
 
@@ -452,11 +452,11 @@ export const PreConfiguredServersPage: React.FC = () => {
                         {sc.name}
                       </h3>
 
-                      <p className="text-[11px] font-mono text-neutral-400 mt-1 line-clamp-1">
+                      <p className="text-[11px] font-sans text-neutral-400 mt-1 line-clamp-1">
                         {s?.operatingInstitutionCountry}
                       </p>
 
-                      <div className="mt-3 pt-3 border-t border-neutral-800/80 space-y-1.5 font-mono text-xs">
+                      <div className="mt-3 pt-3 border-t border-neutral-800/80 space-y-1.5 font-sans text-xs">
                         <div className="flex justify-between text-neutral-400">
                           <span>Topology:</span>
                           <span className="text-white font-bold truncate max-w-[140px]">{s?.coreHardwareTopology}</span>
@@ -479,7 +479,7 @@ export const PreConfiguredServersPage: React.FC = () => {
                     <div className="mt-5 pt-4 border-t border-neutral-800/80 flex items-center justify-between gap-2">
                       <Link
                         to={`/servers/${sc.id}`}
-                        className="w-full py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-xs font-mono font-bold text-center border border-neutral-700 transition-colors block"
+                        className="w-full py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-xs font-sans font-bold text-center border border-neutral-700 transition-colors block"
                       >
                         Inspect Topology &rarr;
                       </Link>

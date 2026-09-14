@@ -93,12 +93,12 @@ export const CartDrawer: React.FC = () => {
                 {/* Header */}
                 <div className="p-5 border-b border-neutral-800 flex items-center justify-between bg-neutral-950/70">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-red-600/20 border border-red-500/40 flex items-center justify-center text-red-500">
+                    <div className="w-8 h-8 rounded-lg bg-[#FF1E2D]/20 border border-[#FF1E2D]/40 flex items-center justify-center text-[#FF1E2D]">
                       <ShoppingCart className="w-4 h-4" />
                     </div>
                     <div>
                       <h2 className="text-base font-bold text-white">Your Cart ({totalItems})</h2>
-                      <span className="text-[10px] font-mono text-neutral-400">CartVerse Insured Checkout</span>
+                      <span className="text-[10px] font-sans text-[#FF1E2D] font-bold">CartVerse Insured Checkout</span>
                     </div>
                   </div>
 
@@ -122,7 +122,7 @@ export const CartDrawer: React.FC = () => {
                         <Link
                           to="/builder"
                           onClick={closeCart}
-                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-red-950/40"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-red-950/40"
                         >
                           <Cpu className="w-4 h-4" />
                           <span>Launch PC Builder</span>
@@ -142,10 +142,10 @@ export const CartDrawer: React.FC = () => {
                             {/* Bundle Title Header */}
                             <div className="p-4 bg-gradient-to-r from-red-950/40 to-neutral-900 border-b border-red-900/30 flex items-center justify-between">
                               <div className="flex items-center gap-2.5">
-                                <Cpu className="w-4 h-4 text-red-500" />
+                                <Cpu className="w-4 h-4 text-[#FF1E2D]" />
                                 <div>
                                   <h4 className="text-xs font-bold text-white">{bundle.title}</h4>
-                                  <div className="text-[10px] font-mono text-neutral-400 flex items-center gap-2">
+                                  <div className="text-[10px] font-sans text-neutral-400 flex items-center gap-2">
                                     <span>{bundle.items.length} Parts</span>
                                     <span>·</span>
                                     <span className="text-amber-400">{formatWattage(bundle.totalWattage)} TDP</span>
@@ -154,12 +154,12 @@ export const CartDrawer: React.FC = () => {
                               </div>
 
                               <div className="flex items-center gap-2">
-                                <span className="text-xs font-mono font-bold text-white">
+                                <span className="text-xs font-sans font-bold text-white">
                                   {formatCurrency(bundle.totalPrice)}
                                 </span>
                                 <button
                                   onClick={() => removeBundle(bundle.id)}
-                                  className="p-1 text-neutral-500 hover:text-red-400 transition-colors"
+                                  className="p-1 text-neutral-500 hover:text-[#FF1E2D] transition-colors"
                                   title="Remove entire build"
                                 >
                                   <Trash2 className="w-3.5 h-3.5" />
@@ -187,10 +187,10 @@ export const CartDrawer: React.FC = () => {
                                         <img src={bImg} alt="" className="w-7 h-7 object-contain rounded bg-neutral-950 p-0.5" />
                                         <div className="truncate">
                                           <div className="text-white font-medium truncate">{bItem.product.name}</div>
-                                          <div className="text-[9px] text-neutral-500 font-mono uppercase">{bItem.product.category}</div>
+                                          <div className="text-[9px] text-neutral-500 font-sans uppercase">{bItem.product.category}</div>
                                         </div>
                                       </div>
-                                      <span className="font-mono text-neutral-300 shrink-0">
+                                      <span className="font-sans text-neutral-300 shrink-0">
                                         {formatCurrency(bItem.product.price)}
                                       </span>
                                     </div>
@@ -217,7 +217,7 @@ export const CartDrawer: React.FC = () => {
 
                               <div className="flex-1 min-w-0">
                                 <h4 className="text-xs font-bold text-white truncate">{item.product.name}</h4>
-                                <div className="text-[10px] font-mono text-neutral-400 mt-0.5">
+                                <div className="text-[10px] font-sans text-neutral-400 mt-0.5">
                                   {formatCurrency(item.product.price)} each
                                 </div>
                               </div>
@@ -225,7 +225,7 @@ export const CartDrawer: React.FC = () => {
 
                             {/* Quantity modifier and price */}
                             <div className="flex flex-col items-end gap-1.5 shrink-0">
-                              <span className="text-xs font-mono font-bold text-white">
+                              <span className="text-xs font-sans font-bold text-white">
                                 {formatCurrency(item.product.price * item.quantity)}
                               </span>
 
@@ -236,7 +236,7 @@ export const CartDrawer: React.FC = () => {
                                 >
                                   <Minus className="w-3 h-3" />
                                 </button>
-                                <span className="px-2 text-xs font-mono font-bold text-neutral-200">
+                                <span className="px-2 text-xs font-sans font-bold text-neutral-200">
                                   {item.quantity}
                                 </span>
                                 <button
@@ -265,7 +265,7 @@ export const CartDrawer: React.FC = () => {
                           placeholder="Coupon (e.g. CARTVERSE10)"
                           value={couponInput}
                           onChange={(e) => setCouponInput(e.target.value)}
-                          className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-neutral-200 placeholder-neutral-500 font-mono uppercase outline-none focus:border-red-500"
+                          className="w-full bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-neutral-200 placeholder-neutral-500 font-sans uppercase outline-none focus:border-[#FF1E2D]"
                         />
                         <Tag className="w-3.5 h-3.5 text-neutral-500 absolute right-3 top-1/2 -translate-y-1/2" />
                       </div>
@@ -278,7 +278,7 @@ export const CartDrawer: React.FC = () => {
                     </form>
 
                     {couponCode && (
-                      <div className="flex items-center justify-between text-xs font-mono bg-emerald-950/60 border border-emerald-800/60 text-emerald-300 p-2 rounded-xl">
+                      <div className="flex items-center justify-between text-xs font-sans bg-emerald-950/60 border border-emerald-800/60 text-emerald-300 p-2 rounded-xl">
                         <span>Coupon ({couponCode}) Applied: -{formatCurrency(discountAmount)}</span>
                         <X className="w-3.5 h-3.5 cursor-pointer hover:text-white" onClick={removeCoupon} />
                       </div>
@@ -288,26 +288,26 @@ export const CartDrawer: React.FC = () => {
                     <div className="space-y-1.5 text-xs text-neutral-400 pt-1">
                       <div className="flex justify-between">
                         <span>Subtotal (Hardware)</span>
-                        <span className="font-mono text-white">{formatCurrency(subtotal)}</span>
+                        <span className="font-sans text-white">{formatCurrency(subtotal)}</span>
                       </div>
                       <div className="flex justify-between text-[11px] text-neutral-500">
                         <span>18% GST (Tax Transparency)</span>
-                        <span className="font-mono">{formatCurrency(gstAmount)}</span>
+                        <span className="font-sans">{formatCurrency(gstAmount)}</span>
                       </div>
                       <div className="flex justify-between text-emerald-400">
                         <span>Express Insured Shipping</span>
-                        <span className="font-mono font-bold">FREE</span>
+                        <span className="font-sans font-bold">FREE</span>
                       </div>
                       <div className="flex justify-between text-sm font-black text-white pt-2 border-t border-neutral-850">
                         <span>Grand Total</span>
-                        <span className="font-mono text-red-400 text-base">{formatCurrency(grandTotal)}</span>
+                        <span className="font-sans text-[#FF1E2D] text-base font-black">{formatCurrency(grandTotal)}</span>
                       </div>
                     </div>
 
                     {/* Checkout CTA */}
                     <button
                       onClick={() => setIsCheckoutOpen(true)}
-                      className="w-full py-3.5 bg-red-600 hover:bg-red-500 text-white font-black rounded-xl text-xs sm:text-sm uppercase tracking-wider transition-all shadow-xl shadow-red-950/50 flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full py-3.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-black rounded-xl text-xs sm:text-sm uppercase tracking-wider transition-all shadow-xl shadow-red-950/50 flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <ShieldCheck className="w-4 h-4" />
                       <span>Proceed to Checkout ({formatCurrency(grandTotal)})</span>

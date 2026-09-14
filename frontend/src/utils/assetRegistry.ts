@@ -47,7 +47,8 @@ const CATEGORY_DIR_MAP: Record<string, string[]> = {
   coolant: ['coolant'],
   console: ['console'],
   server: ['server'],
-  supercomputer: ['supercomputer']
+  supercomputer: ['supercomputer'],
+  simulator: ['simulators']
 };
 
 // Populate indices on startup
@@ -87,7 +88,7 @@ const createCategoryPlaceholderSvg = (category: string, title: string = 'Hardwar
         <stop offset="100%" stop-color="#050507"/>
       </linearGradient>
       <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#E31B23"/>
+        <stop offset="0%" stop-color="#FF1E2D"/>
         <stop offset="100%" stop-color="#FF5757"/>
       </linearGradient>
       <linearGradient id="grid" x1="0%" y1="0%" x2="100%" y2="0%">

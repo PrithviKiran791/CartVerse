@@ -165,7 +165,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
       <Boxes className="opacity-45" />
 
       {/* Subtle Red Ambient Glow against deep black */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-red-600/[0.08] rounded-full blur-[130px] pointer-events-none z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-[#FF1E2D]/[0.08] rounded-full blur-[130px] pointer-events-none z-10" />
 
       {/* Main Container */}
       <div className="w-full max-w-md flex flex-col items-center relative z-20">
@@ -178,16 +178,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
               </div>
             </div>
             <span className="text-2xl font-black tracking-tight text-white font-sans uppercase">
-              Cart<span className="text-red-500">Verse</span>
+              Cart<span className="text-[#FF1E2D]">Verse</span>
             </span>
           </Link>
-          <span className="text-[11px] font-mono text-neutral-400 uppercase tracking-widest">
+          <span className="text-[11px] font-sans text-neutral-400 uppercase tracking-widest">
             {mode === 'login' ? 'Account Sign In' : 'New Account Registration'}
           </span>
         </div>
 
             {/* Tab Buttons (LOGIN / SIGNUP) */}
-            <div className="flex items-center justify-center gap-10 mb-6 font-mono text-xs font-bold tracking-widest uppercase">
+            <div className="flex items-center justify-center gap-10 mb-6 font-sans text-xs font-bold tracking-widest uppercase">
               <button
                 type="button"
                 onClick={() => handleTabSwitch('login')}
@@ -201,7 +201,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
                 {mode === 'login' && (
                   <motion.div
                     layoutId="activeTabUnderline"
-                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-red-600 shadow-[0_0_8px_#E31B23]"
+                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF1E2D] shadow-[0_0_8px_#FF1E2D]"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -220,7 +220,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
                 {mode === 'signup' && (
                   <motion.div
                     layoutId="activeTabUnderline"
-                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-red-600 shadow-[0_0_8px_#E31B23]"
+                    className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF1E2D] shadow-[0_0_8px_#FF1E2D]"
                     transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                   />
                 )}
@@ -242,9 +242,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
                   <motion.div
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 p-2.5 rounded-lg bg-red-950/40 border border-red-800/80 flex items-start gap-2 text-xs text-red-300 font-mono"
+                    className="mt-4 p-2.5 rounded-lg bg-red-950/40 border border-red-800/80 flex items-start gap-2 text-xs text-red-300 font-sans"
                   >
-                    <ShieldAlert className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                    <ShieldAlert className="w-4 h-4 text-[#FF1E2D] shrink-0 mt-0.5" />
                     <span className="flex-1">{displayError}</span>
                   </motion.div>
                 )}
@@ -360,7 +360,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
                     <button
                       type="button"
                       onClick={() => handleTabSwitch('login')}
-                      className="text-red-500 hover:text-red-400 font-semibold cursor-pointer underline underline-offset-2"
+                      className="text-[#FF1E2D] hover:text-[#FF3B48] font-semibold cursor-pointer underline underline-offset-2"
                     >
                       Log in
                     </button>
@@ -378,8 +378,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
 
                 {/* Inline Query Notification Message */}
                 {queryMessage && !displayError && (
-                  <div className="mt-4 p-2.5 rounded-lg bg-neutral-900 border border-neutral-800 flex items-start gap-2 text-xs text-neutral-300 font-mono">
-                    <CheckCircle2 className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                  <div className="mt-4 p-2.5 rounded-lg bg-neutral-900 border border-neutral-800 flex items-start gap-2 text-xs text-neutral-300 font-sans">
+                    <CheckCircle2 className="w-4 h-4 text-[#FF1E2D] shrink-0 mt-0.5" />
                     <span>{queryMessage}</span>
                   </div>
                 )}
@@ -389,9 +389,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
                   <motion.div
                     initial={{ opacity: 0, y: -4 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-4 p-2.5 rounded-lg bg-red-950/40 border border-red-800/80 flex items-start gap-2 text-xs text-red-300 font-mono"
+                    className="mt-4 p-2.5 rounded-lg bg-red-950/40 border border-red-800/80 flex items-start gap-2 text-xs text-red-300 font-sans"
                   >
-                    <ShieldAlert className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                    <ShieldAlert className="w-4 h-4 text-[#FF1E2D] shrink-0 mt-0.5" />
                     <span className="flex-1">{displayError}</span>
                   </motion.div>
                 )}
@@ -462,7 +462,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
                     <button
                       type="button"
                       onClick={() => handleTabSwitch('signup')}
-                      className="text-red-500 hover:text-red-400 font-semibold cursor-pointer underline underline-offset-2"
+                      className="text-[#FF1E2D] hover:text-[#FF3B48] font-semibold cursor-pointer underline underline-offset-2"
                     >
                       Sign up
                     </button>
@@ -475,7 +475,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
             <div className="mt-8 text-center pb-4">
               <Link
                 to="/"
-                className="inline-flex items-center gap-1.5 text-xs font-mono text-neutral-500 hover:text-red-400 transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-sans text-neutral-500 hover:text-[#FF3B48] transition-colors"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Return to CartVerse Hardware Store</span>

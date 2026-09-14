@@ -207,7 +207,7 @@ void main() {
       // Deep obsidian black background floor
       vec3 blackBase = vec3(0.02, 0.02, 0.03);
       vec3 greyTone = uGreyTint;        // Slate Grey #6B7280
-      vec3 redTone = uTint;             // Signature Red #E31B23
+      vec3 redTone = uTint;             // Signature Red #FF1E2D
       vec3 yellowTone = uSecondaryTint; // Vibrant Amber Yellow #F59E0B
 
       // Cell hash based on grid coordinates for distinct color assignments per character block
@@ -282,7 +282,7 @@ export default function FaultyTerminal({
   chromaticAberration = 0.2,
   dither = 0.1,
   curvature = 0.08,
-  tint = '#E31B23',
+  tint = '#FF1E2D',
   secondaryTint = '#F59E0B',
   greyTint = '#6B7280',
   multiColorMix = true,
@@ -325,10 +325,25 @@ export default function FaultyTerminal({
     const ctn = containerRef.current;
     if (!ctn) return;
 
-    const renderer = new Renderer({ dpr });
-    rendererRef.current = renderer;
-    const gl = renderer.gl;
-    gl.clearColor(lightMode ? 1 : 0, lightMode ? 1 : 0, lightMode ? 1 : 0, 1);
+    let renderer;
+    let gl;
+    try {
+      renderer = new Renderer({ dpr });
+      rendererRef.current = renderer;
+      gl = renderer.gl;
+    } catch (e) {
+      console.warn('WebGL FaultyTerminal failed to initialize:', e);
+      return;
+    }
+
+    if (!gl) return;
+
+    try {
+      gl.clearColor(lightMode ? 1 : 0, lightMode ? 1 : 0, lightMode ? 1 : 0, 1);
+    } catch (e) {
+      console.warn('gl.clearColor failed:', e);
+      return;
+    }
 
     const geometry = new Triangle(gl);
 
@@ -435,8 +450,8 @@ export default function FaultyTerminal({
       if (mouseReact) {
         window.removeEventListener('mousemove', handleMouseMove);
       }
-      if (gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);
-      gl.getExtension('WEBGL_lose_context')?.loseContext();
+      if (gl?.canvas && gl.canvas.parentElement === ctn) ctn.removeChild(gl.canvas);
+      gl?.getExtension('WEBGL_lose_context')?.loseContext();
       loadAnimationStartRef.current = 0;
       timeOffsetRef.current = Math.random() * 100;
     };

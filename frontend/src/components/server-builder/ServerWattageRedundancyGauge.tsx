@@ -36,14 +36,14 @@ export const ServerWattageRedundancyGauge: React.FC<ServerWattageRedundancyGauge
         <div className="flex items-center justify-between pb-3 border-b border-neutral-800/80 mb-4">
           <div className="flex items-center gap-2">
             <Zap className="w-4 h-4 text-amber-500" />
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+            <span className="text-xs font-sans font-bold uppercase tracking-wider text-white">
               Electrical Delivery & Redundancy
             </span>
           </div>
 
           <div className="flex items-center gap-1.5">
             <span
-              className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border flex items-center gap-1 ${
+              className={`text-[10px] font-sans font-bold px-2 py-0.5 rounded-full border flex items-center gap-1 ${
                 redundancyMode === 'N+1' || redundancyMode === 'N+N'
                   ? 'bg-emerald-950/80 text-emerald-400 border-emerald-700/60'
                   : 'bg-amber-950/80 text-amber-400 border-amber-700/60'
@@ -58,27 +58,27 @@ export const ServerWattageRedundancyGauge: React.FC<ServerWattageRedundancyGauge
         {/* Big Numbers */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="bg-neutral-950/80 p-3 rounded-xl border border-neutral-800/80">
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-sans text-neutral-400 block mb-1">
               Estimated System Draw
             </span>
             <div className="flex items-baseline gap-1">
-              <span className="text-2xl sm:text-3xl font-black font-mono text-white">
+              <span className="text-2xl sm:text-3xl font-black font-sans text-white">
                 {estimatedWattage}
               </span>
-              <span className="text-xs font-mono text-neutral-400">W</span>
+              <span className="text-xs font-sans text-neutral-400">W</span>
             </div>
-            <span className="text-[9px] font-mono text-neutral-500 block mt-0.5">
+            <span className="text-[9px] font-sans text-neutral-500 block mt-0.5">
               100% Sustained Compute Load
             </span>
           </div>
 
           <div className="bg-neutral-950/80 p-3 rounded-xl border border-neutral-800/80">
-            <span className="text-[10px] font-mono text-neutral-400 block mb-1">
+            <span className="text-[10px] font-sans text-neutral-400 block mb-1">
               Selected PSU Module
             </span>
             <div className="flex items-baseline gap-1">
               <span
-                className={`text-2xl sm:text-3xl font-black font-mono ${
+                className={`text-2xl sm:text-3xl font-black font-sans ${
                   hasPsu
                     ? isDeficit
                       ? 'text-red-500'
@@ -88,9 +88,9 @@ export const ServerWattageRedundancyGauge: React.FC<ServerWattageRedundancyGauge
               >
                 {hasPsu ? selectedPsuWattage : '---'}
               </span>
-              <span className="text-xs font-mono text-neutral-400">W</span>
+              <span className="text-xs font-sans text-neutral-400">W</span>
             </div>
-            <span className="text-[9px] font-mono text-neutral-500 block mt-0.5">
+            <span className="text-[9px] font-sans text-neutral-500 block mt-0.5">
               Recommended: {recommendedPsuWattage}W+
             </span>
           </div>
@@ -98,7 +98,7 @@ export const ServerWattageRedundancyGauge: React.FC<ServerWattageRedundancyGauge
 
         {/* Power Delivery Gauge Bar */}
         <div className="space-y-1.5 mb-4">
-          <div className="flex justify-between text-[11px] font-mono">
+          <div className="flex justify-between text-[11px] font-sans">
             <span className="text-neutral-400">PSU Utilization</span>
             <span
               className={`font-bold ${
@@ -120,7 +120,7 @@ export const ServerWattageRedundancyGauge: React.FC<ServerWattageRedundancyGauge
                   ? 'bg-red-600 shadow-[0_0_8px_rgba(239,68,68,0.6)]'
                   : percentageOfPsu > 85
                   ? 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]'
-                  : 'bg-gradient-to-r from-emerald-500 to-red-600 shadow-[0_0_8px_rgba(227,27,35,0.4)]'
+                  : 'bg-gradient-to-r from-emerald-500 to-red-600 shadow-[0_0_8px_rgba(255, 30, 45,0.4)]'
               }`}
               style={{ width: `${Math.min(100, Math.max(0, percentageOfPsu))}%` }}
             />
@@ -129,16 +129,16 @@ export const ServerWattageRedundancyGauge: React.FC<ServerWattageRedundancyGauge
       </div>
 
       {/* Redundancy Math Breakdown */}
-      <div className="pt-3 border-t border-neutral-800/80 font-mono text-[11px] space-y-1.5">
+      <div className="pt-3 border-t border-neutral-800/80 font-sans text-[11px] space-y-1.5">
         <div className="flex items-center justify-between text-neutral-300">
-          <span className="text-neutral-500">Active Load per Module:</span>
+          <span className="text-[#FF1E2D] font-medium">Active Load per Module:</span>
           <span className="font-bold text-white">
             {perModuleLoadWatts > 0 ? `${perModuleLoadWatts}W` : '0W'}
           </span>
         </div>
 
         <div className="flex items-center justify-between text-neutral-300">
-          <span className="text-neutral-500">Failover Reserve:</span>
+          <span className="text-[#FF1E2D] font-medium">Failover Reserve:</span>
           <span
             className={`font-bold ${
               isRedundantSafe ? 'text-emerald-400' : 'text-amber-400'

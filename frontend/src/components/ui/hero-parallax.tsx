@@ -115,18 +115,17 @@ export const HeroParallax = ({
   );
 };
 
-export const Header = ({ title, subtitle }: { title: string; subtitle: string }) => {
+export const Header = ({ title, subtitle }: { title: string; subtitle?: string }) => {
   return (
     <div className="max-w-7xl relative mx-auto py-12 md:py-24 px-4 w-full left-0 top-0 z-10">
-      <div className="inline-flex items-center gap-2 bg-red-950/70 border border-red-500/40 px-3.5 py-1.5 rounded-full text-xs font-mono text-red-400 font-bold mb-4">
-        <span>CARTVERSE 3D PARALLAX SHOWCASE</span>
-      </div>
       <Typography type="h1" className="text-3xl md:text-7xl font-black text-white leading-tight tracking-tight">
         {title}
       </Typography>
-      <Typography type="lead" color="muted" className="max-w-2xl text-base md:text-xl mt-6 font-medium">
-        {subtitle}
-      </Typography>
+      {subtitle && (
+        <Typography type="lead" color="muted" className="max-w-2xl text-base md:text-xl mt-6 font-medium">
+          {subtitle}
+        </Typography>
+      )}
     </div>
   );
 };
@@ -163,7 +162,7 @@ export const ProductCard = ({
       <div className="absolute inset-0 h-full w-full opacity-0 group-hover/product:opacity-80 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none transition duration-300"></div>
       <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover/product:opacity-100 transition duration-300 flex flex-col gap-1">
         {product.category && (
-          <span className="text-[10px] font-mono font-bold uppercase text-red-400 tracking-wider">
+          <span className="text-[10px] font-sans font-bold uppercase text-red-400 tracking-wider">
             {product.category}
           </span>
         )}
@@ -171,7 +170,7 @@ export const ProductCard = ({
           {product.title}
         </h2>
         {product.price && (
-          <span className="text-xs font-mono font-bold text-white bg-red-600 px-2 py-0.5 rounded w-max">
+          <span className="text-xs font-sans font-bold text-white bg-red-600 px-2 py-0.5 rounded w-max">
             {product.price}
           </span>
         )}

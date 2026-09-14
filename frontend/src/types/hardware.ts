@@ -23,7 +23,8 @@ export type ComponentCategory =
   | 'console'
   | 'prebuilt'
   | 'server'
-  | 'supercomputer';
+  | 'supercomputer'
+  | 'simulator';
 
 export type CPUSocket = 'AM4' | 'AM5' | 'LGA1200' | 'LGA1700' | 'LGA1851' | 'sTR5' | 'SP3' | 'SP5' | 'LGA4677';
 export type RAMType = 'DDR4' | 'DDR5';
@@ -364,6 +365,29 @@ export interface HardwareSpecs {
   driveBays?: number | string;
   serverSpecs?: ServerDetailedSpecs;
   supercomputerSpecs?: SupercomputerDetailedSpecs;
+  simulatorSpecs?: SimulatorDetailedSpecs;
+}
+
+export interface SimulatorDetailedSpecs {
+  type: 'wheel_base' | 'steering_wheel' | 'pedals' | 'shifter_handbrake' | 'cockpit_rig';
+  subCategoryTitle: string; // e.g. "Wheel Base & Bundle", "Steering Wheel Rim", "Pedal Set"
+  driveMechanism?: string; // e.g. "Direct Drive (DD) Servo", "Dual-Motor Helical Gearing", "Dual-Belt Brushless"
+  peakTorqueNm?: number; // e.g. 2.3, 3.9, 5.5, 9.0, 10.0, 12.0, 16.0, 23.0, 25.0, 27.0
+  rotationAngle?: string; // e.g. "900°", "1080°", "Infinite / Configurable"
+  quickReleaseType?: string; // e.g. "D1-Spec Aluminum QR", "Simagic 50mm Ball-lock", "Fanatec QR2"
+  wheelDiameterMm?: number; // e.g. 270, 280, 300, 330
+  wheelStyle?: string; // e.g. "Round", "GT / Formula Butterfly", "Deep Dish Round"
+  gripMaterial?: string; // e.g. "Alcantara", "Microfiber Leather", "Real Leather"
+  paddleModules?: string; // e.g. "Magnetic Carbon Fiber", "Hall Effect Magnetic", "Dual Clutch Module"
+  pedalCount?: number; // 1, 2, 3
+  brakeSensorTechnology?: string; // e.g. "Load Cell (100kg rated)", "True Hydraulic Master Cylinder (185kg)", "Potentiometer"
+  maxBrakePressureKg?: number; // e.g. 65, 75, 90, 100, 185
+  shifterType?: string; // e.g. "6-Speed H-Pattern", "7+1 H-Pattern / Sequential", "Hybrid H & Sequential", "Rally Handbrake"
+  frameType?: string; // e.g. "80x40 Heavy Aluminum Extrusion", "Heavy-Duty Tubular Steel", "Foldable Cockpit"
+  maxTorqueRatingNm?: number; // e.g. 10, 15, 25, 30
+  supportedPlatforms: string[]; // e.g. ["PC"], ["PC", "PlayStation", "Xbox"]
+  approxStreetPriceInr?: string;
+  recommendedRigTier?: 'Entry Enthusiast' | 'Mid-Tier Sweet Spot' | 'Pro Esports & Training Grade';
 }
 
 export interface ServerDetailedSpecs {
@@ -425,6 +449,7 @@ export interface Product {
   useCaseTags?: string[];
   serverSpecs?: ServerDetailedSpecs;
   supercomputerSpecs?: SupercomputerDetailedSpecs;
+  simulatorSpecs?: SimulatorDetailedSpecs;
 }
 
 export type BuilderSlotKey =

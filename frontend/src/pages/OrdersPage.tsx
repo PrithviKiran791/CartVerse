@@ -113,7 +113,7 @@ export const OrdersPage: React.FC = () => {
       case 'processing':
         return 'bg-amber-950/60 border-amber-500/40 text-amber-400';
       case 'cancelled':
-        return 'bg-red-950/60 border-red-500/40 text-red-400';
+        return 'bg-red-950/60 border-[#FF1E2D]/40 text-[#FF1E2D]';
       default:
         return 'bg-neutral-800 border-neutral-700 text-neutral-300';
     }
@@ -127,7 +127,7 @@ export const OrdersPage: React.FC = () => {
       case 'partially_refunded':
         return 'bg-purple-950/60 border-purple-500/40 text-purple-400';
       case 'failed':
-        return 'bg-red-950/60 border-red-500/40 text-red-400';
+        return 'bg-red-950/60 border-[#FF1E2D]/40 text-[#FF1E2D]';
       default:
         return 'bg-amber-950/60 border-amber-500/40 text-amber-400';
     }
@@ -153,7 +153,7 @@ export const OrdersPage: React.FC = () => {
         {/* Page Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800 pb-6">
         <div>
-          <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-red-400">
+          <div className="text-[10px] font-sans font-bold uppercase tracking-widest text-[#FF1E2D]">
             Account Management
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white mt-0.5">
@@ -169,7 +169,7 @@ export const OrdersPage: React.FC = () => {
             to="/account/transactions"
             className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 text-neutral-300 text-xs font-bold rounded-xl flex items-center gap-2 transition-all border border-neutral-800"
           >
-            <CreditCard className="w-3.5 h-3.5 text-red-400" />
+            <CreditCard className="w-3.5 h-3.5 text-[#FF1E2D]" />
             <span>Billing History</span>
           </Link>
 
@@ -177,7 +177,7 @@ export const OrdersPage: React.FC = () => {
             to="/products"
             className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-xs font-bold rounded-xl flex items-center gap-2 transition-all"
           >
-            <ShoppingBag className="w-3.5 h-3.5 text-red-400" />
+            <ShoppingBag className="w-3.5 h-3.5 text-[#FF1E2D]" />
             <span>Browse Catalog</span>
           </Link>
         </div>
@@ -194,7 +194,7 @@ export const OrdersPage: React.FC = () => {
               onClick={() => setActiveStatus(status)}
               className={`px-4 py-1.5 rounded-xl text-xs font-bold capitalize transition-all cursor-pointer shrink-0 ${
                 activeStatus === status
-                  ? 'bg-red-600 text-white shadow-md shadow-red-950/40'
+                  ? 'bg-[#FF1E2D] text-white shadow-md shadow-[#FF1E2D]/30'
                   : 'bg-neutral-900 hover:bg-neutral-800 text-neutral-400 border border-neutral-800'
               }`}
             >
@@ -210,7 +210,7 @@ export const OrdersPage: React.FC = () => {
             placeholder="Search by ID or hardware name..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-neutral-900 border border-neutral-800 rounded-xl pl-9 pr-4 py-1.5 text-xs text-neutral-200 placeholder-neutral-500 outline-none focus:border-red-500 transition-colors"
+            className="w-full bg-neutral-900 border border-neutral-800 rounded-xl pl-9 pr-4 py-1.5 text-xs text-neutral-200 placeholder-neutral-500 outline-none focus:border-[#FF1E2D] transition-colors"
           />
           <Search className="w-3.5 h-3.5 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2" />
         </div>
@@ -219,8 +219,8 @@ export const OrdersPage: React.FC = () => {
       {/* Orders List Content */}
       {loading ? (
         <div className="p-16 text-center space-y-3">
-          <div className="w-8 h-8 rounded-full border-2 border-red-500 border-t-transparent animate-spin mx-auto" />
-          <p className="text-xs text-neutral-400 font-mono">Retrieving order telemetry & history...</p>
+          <div className="w-8 h-8 rounded-full border-2 border-[#FF1E2D] border-t-transparent animate-spin mx-auto" />
+          <p className="text-xs text-neutral-400 font-sans">Retrieving order telemetry & history...</p>
         </div>
       ) : filteredOrders.length === 0 ? (
         <div className="bg-neutral-900 border border-neutral-800 rounded-3xl p-12 text-center space-y-4">
@@ -236,7 +236,7 @@ export const OrdersPage: React.FC = () => {
           <div className="flex items-center justify-center gap-3 pt-2">
             <Link
               to="/builder"
-              className="inline-flex items-center gap-2 px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-red-950/40"
+              className="inline-flex items-center gap-2 px-6 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-bold text-xs rounded-xl transition-all shadow-md shadow-[#FF1E2D]/30"
             >
               <span>Launch PC Builder</span>
               <ChevronRight className="w-4 h-4" />
@@ -257,7 +257,7 @@ export const OrdersPage: React.FC = () => {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-neutral-800/80 pb-4">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-black text-white font-mono flex items-center gap-1.5">
+                      <span className="text-sm font-black text-white font-sans flex items-center gap-1.5">
                         #{shortId}...
                         <button
                           type="button"
@@ -275,7 +275,7 @@ export const OrdersPage: React.FC = () => {
 
                       {/* Visual distinction: Order Status Badge */}
                       <span
-                        className={`text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded border ${getOrderStatusBadge(
+                        className={`text-[10px] font-sans font-bold uppercase px-2 py-0.5 rounded border ${getOrderStatusBadge(
                           order.status
                         )}`}
                       >
@@ -284,7 +284,7 @@ export const OrdersPage: React.FC = () => {
 
                       {/* Visual distinction: Payment Status Badge */}
                       <span
-                        className={`text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded border ${getPaymentStatusBadge(
+                        className={`text-[10px] font-sans font-bold uppercase px-2 py-0.5 rounded border ${getPaymentStatusBadge(
                           order.paymentStatus
                         )}`}
                       >
@@ -292,7 +292,7 @@ export const OrdersPage: React.FC = () => {
                       </span>
                     </div>
 
-                    <p className="text-[11px] font-mono text-neutral-400">
+                    <p className="text-[11px] font-sans text-neutral-400">
                       Placed on{' '}
                       {new Date(order.createdAt).toLocaleDateString('en-IN', {
                         year: 'numeric',
@@ -303,10 +303,10 @@ export const OrdersPage: React.FC = () => {
                   </div>
 
                   <div className="text-left sm:text-right">
-                    <span className="text-lg font-black font-mono text-white block">
+                    <span className="text-lg font-black font-sans text-white block">
                       {formatCurrency(order.totalPrice)}
                     </span>
-                    <span className="text-[10px] font-mono text-neutral-400">
+                    <span className="text-[10px] font-sans text-neutral-400">
                       {order.itemsCount || order.orderItems?.length || 0} items •{' '}
                       {order.paymentMethod?.toUpperCase() || 'RAZORPAY'}
                     </span>
@@ -325,7 +325,7 @@ export const OrdersPage: React.FC = () => {
                       >
                         <img src={imgUrl} alt={item.name} className="max-h-full max-w-full object-contain" />
                         {item.qty > 1 && (
-                          <span className="absolute -top-1.5 -right-1.5 text-[9px] bg-red-600 text-white font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                          <span className="absolute -top-1.5 -right-1.5 text-[9px] bg-[#FF1E2D] text-white font-bold rounded-full w-4 h-4 flex items-center justify-center">
                             {item.qty}
                           </span>
                         )}
@@ -341,14 +341,14 @@ export const OrdersPage: React.FC = () => {
                     onClick={(e) => handleReorder(order, e)}
                     className="text-xs font-semibold text-neutral-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
-                    <RotateCcw className="w-3.5 h-3.5 text-red-400" />
+                    <RotateCcw className="w-3.5 h-3.5 text-[#FF1E2D]" />
                     <span>Reorder Components</span>
                   </button>
 
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-neutral-400 group-hover:text-white flex items-center gap-1 transition-colors">
+                    <span className="text-xs font-bold text-[#FF1E2D] group-hover:text-[#FF3B48] flex items-center gap-1 transition-colors">
                       <span>Inspect Details & Ledger</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-red-400" />
+                      <ChevronRight className="w-3.5 h-3.5 text-[#FF1E2D]" />
                     </span>
                   </div>
                 </div>
@@ -367,7 +367,7 @@ export const OrdersPage: React.FC = () => {
               >
                 Previous
               </button>
-              <span className="text-xs font-mono text-neutral-400 px-3">
+              <span className="text-xs font-sans text-neutral-400 px-3">
                 Page {page} of {totalPages}
               </span>
               <button

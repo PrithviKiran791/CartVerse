@@ -241,7 +241,7 @@ export const OrderConfirmationPage: React.FC = () => {
           contact: order.shippingAddress?.phone,
         },
         theme: {
-          color: '#E31B23',
+          color: '#FF1E2D',
         },
         handler: async (response: any) => {
           try {
@@ -299,8 +299,8 @@ export const OrderConfirmationPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center space-y-4">
-        <div className="w-10 h-10 rounded-full border-2 border-red-500 border-t-transparent animate-spin" />
-        <p className="text-xs font-mono text-neutral-400">Verifying order telemetry & financial ledger...</p>
+        <div className="w-10 h-10 rounded-full border-2 border-[#FF1E2D] border-t-transparent animate-spin" />
+        <p className="text-xs font-sans text-neutral-400">Verifying order telemetry & financial ledger...</p>
       </div>
     );
   }
@@ -308,7 +308,7 @@ export const OrderConfirmationPage: React.FC = () => {
   if (error || !order) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-16 h-16 rounded-2xl bg-red-950/40 border border-red-500/30 flex items-center justify-center text-red-500 mb-4">
+        <div className="w-16 h-16 rounded-2xl bg-red-950/40 border border-[#FF1E2D]/30 flex items-center justify-center text-[#FF1E2D] mb-4">
           <AlertCircle className="w-8 h-8" />
         </div>
         <h2 className="text-xl font-black text-white">Order Unavailable</h2>
@@ -324,7 +324,7 @@ export const OrderConfirmationPage: React.FC = () => {
           </Link>
           <Link
             to="/products"
-            className="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-xl flex items-center gap-2 transition-all"
+            className="px-5 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-bold text-xs rounded-xl flex items-center gap-2 transition-all"
           >
             <ShoppingBag className="w-4 h-4" />
             <span>Return to Catalog</span>
@@ -347,7 +347,7 @@ export const OrderConfirmationPage: React.FC = () => {
         className="text-center space-y-3"
       >
         {isFailed ? (
-          <div className="w-16 h-16 rounded-3xl bg-red-500/10 border border-red-500/30 text-red-400 mx-auto flex items-center justify-center shadow-lg shadow-red-950/40">
+          <div className="w-16 h-16 rounded-3xl bg-red-500/10 border border-[#FF1E2D]/30 text-[#FF1E2D] mx-auto flex items-center justify-center shadow-lg shadow-[#FF1E2D]/30">
             <AlertCircle className="w-9 h-9" />
           </div>
         ) : isPending ? (
@@ -361,8 +361,8 @@ export const OrderConfirmationPage: React.FC = () => {
         )}
 
         <span
-          className={`text-[11px] font-mono font-bold uppercase tracking-widest block ${
-            isFailed ? 'text-red-400' : isPending ? 'text-amber-400' : 'text-emerald-400'
+          className={`text-[11px] font-sans font-bold uppercase tracking-widest block ${
+            isFailed ? 'text-[#FF1E2D]' : isPending ? 'text-amber-400' : 'text-emerald-400'
           }`}
         >
           {isFailed
@@ -380,7 +380,7 @@ export const OrderConfirmationPage: React.FC = () => {
             : 'Thank you for choosing CartVerse!'}
         </h1>
 
-        <p className="text-xs text-neutral-400 font-mono">
+        <p className="text-xs text-neutral-400 font-sans">
           Order ID: <span className="text-white font-bold">#{order._id}</span> • Placed on{' '}
           {new Date(order.createdAt).toLocaleDateString('en-IN', {
             year: 'numeric',
@@ -392,7 +392,7 @@ export const OrderConfirmationPage: React.FC = () => {
         </p>
 
         {isPending && (
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-950/40 border border-amber-500/30 text-amber-400 text-xs font-mono mt-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-950/40 border border-amber-500/30 text-amber-400 text-xs font-sans mt-2">
             <div className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
             <span>Polling payment status from gateway ({pollCount}/6)...</span>
           </div>
@@ -401,10 +401,10 @@ export const OrderConfirmationPage: React.FC = () => {
 
       {/* Failure Alert Banner & Retry CTA */}
       {isFailed && (
-        <div className="bg-red-950/30 border border-red-500/40 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="bg-red-950/30 border border-[#FF1E2D]/40 rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <h4 className="text-sm font-bold text-white flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-red-400" />
+              <AlertCircle className="w-4 h-4 text-[#FF1E2D]" />
               <span>Payment Attempt Did Not Complete</span>
             </h4>
             <p className="text-xs text-neutral-300">
@@ -416,7 +416,7 @@ export const OrderConfirmationPage: React.FC = () => {
             type="button"
             disabled={isRetrying}
             onClick={handleRetryPayment}
-            className="px-6 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0 shadow-md shadow-red-950/50 disabled:opacity-50"
+            className="px-6 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-all cursor-pointer shrink-0 shadow-md shadow-[#FF1E2D]/30 disabled:opacity-50"
           >
             <RotateCcw className={`w-4 h-4 ${isRetrying ? 'animate-spin' : ''}`} />
             <span>{isRetrying ? 'Connecting...' : 'Retry Payment'}</span>
@@ -427,8 +427,8 @@ export const OrderConfirmationPage: React.FC = () => {
       {/* Delivery Tracking Bar */}
       <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-neutral-800 pb-4">
-          <div className="flex items-center gap-2 text-xs font-mono text-neutral-300">
-            <Truck className="w-4 h-4 text-red-400" />
+          <div className="flex items-center gap-2 text-xs font-sans text-neutral-300">
+            <Truck className="w-4 h-4 text-[#FF1E2D]" />
             <span>Estimated Dispatch & Delivery:</span>
             <span className="text-white font-bold">
               {new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('en-IN', {
@@ -440,15 +440,15 @@ export const OrderConfirmationPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-mono uppercase px-2.5 py-1 rounded bg-neutral-950 border border-neutral-800 text-neutral-300 font-bold">
+            <span className="text-[10px] font-sans uppercase px-2.5 py-1 rounded bg-neutral-950 border border-neutral-800 text-neutral-300 font-bold">
               Order: {order.status?.toUpperCase() || 'PLACED'}
             </span>
             <span
-              className={`text-[10px] font-mono uppercase px-2.5 py-1 rounded border font-bold ${
+              className={`text-[10px] font-sans uppercase px-2.5 py-1 rounded border font-bold ${
                 order.paymentStatus === 'paid' || order.isPaid
                   ? 'bg-emerald-950/60 text-emerald-400 border-emerald-500/30'
                   : isFailed
-                  ? 'bg-red-950/60 text-red-400 border-red-500/30'
+                  ? 'bg-red-950/60 text-[#FF1E2D] border-[#FF1E2D]/30'
                   : 'bg-amber-950/60 text-amber-400 border-amber-500/30'
               }`}
             >
@@ -458,7 +458,7 @@ export const OrderConfirmationPage: React.FC = () => {
         </div>
 
         {/* 4-step progress tracker */}
-        <div className="grid grid-cols-4 gap-2 pt-2 text-center text-[10px] font-mono">
+        <div className="grid grid-cols-4 gap-2 pt-2 text-center text-[10px] font-sans">
           <div className="space-y-1">
             <div className="h-1.5 rounded-full bg-emerald-500" />
             <span className="text-emerald-400 font-bold">Placed</span>
@@ -516,10 +516,10 @@ export const OrderConfirmationPage: React.FC = () => {
         <div className="md:col-span-2 bg-neutral-900 border border-neutral-800 rounded-2xl p-6 space-y-4">
           <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
             <h3 className="text-sm font-bold text-white flex items-center gap-2">
-              <Package className="w-4 h-4 text-red-400" />
+              <Package className="w-4 h-4 text-[#FF1E2D]" />
               <span>Purchased Components ({order.orderItems?.length || 0})</span>
             </h3>
-            <span className="text-xs font-mono text-neutral-400">Insured Hardware Transit</span>
+            <span className="text-xs font-sans text-neutral-400">Insured Hardware Transit</span>
           </div>
 
           <div className="space-y-3 divide-y divide-neutral-800/60">
@@ -537,14 +537,14 @@ export const OrderConfirmationPage: React.FC = () => {
                       </div>
                       <div className="min-w-0">
                         <h4 className="text-xs font-bold text-white truncate">{item.name}</h4>
-                        <span className="text-[10px] font-mono text-neutral-400">
+                        <span className="text-[10px] font-sans text-neutral-400">
                           Qty: {item.qty} × {formatCurrency(item.price)}
                         </span>
                       </div>
                     </div>
 
                     <div className="text-right shrink-0 flex items-center gap-2">
-                      <span className="text-xs font-mono font-bold text-white">
+                      <span className="text-xs font-sans font-bold text-white">
                         {formatCurrency(item.price * item.qty)}
                       </span>
                       {isBundle && (
@@ -560,8 +560,8 @@ export const OrderConfirmationPage: React.FC = () => {
                   </div>
 
                   {isBundle && isExpanded && (
-                    <div className="ml-15 p-2.5 rounded-xl bg-neutral-950/60 border border-neutral-800 text-[11px] font-mono text-neutral-400 space-y-1">
-                      <div className="text-red-400 font-bold">Custom Build Spec Breakdown</div>
+                    <div className="ml-15 p-2.5 rounded-xl bg-neutral-950/60 border border-neutral-800 text-[11px] font-sans text-neutral-400 space-y-1">
+                      <div className="text-[#FF1E2D] font-bold">Custom Build Spec Breakdown</div>
                       <div>Individual component warranty and serial registry assigned at dispatch.</div>
                     </div>
                   )}
@@ -571,7 +571,7 @@ export const OrderConfirmationPage: React.FC = () => {
           </div>
 
           {/* Pricing breakdown derived from server values */}
-          <div className="border-t border-neutral-800 pt-4 space-y-1.5 text-xs font-mono text-neutral-400">
+          <div className="border-t border-neutral-800 pt-4 space-y-1.5 text-xs font-sans text-neutral-400">
             <div className="flex justify-between">
               <span>Hardware Subtotal:</span>
               <span className="text-white">{formatCurrency(order.itemsPrice)}</span>
@@ -588,7 +588,7 @@ export const OrderConfirmationPage: React.FC = () => {
             </div>
             <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-neutral-800">
               <span>Total Amount:</span>
-              <span className="text-red-400">{formatCurrency(order.totalPrice)}</span>
+              <span className="text-[#FF1E2D]">{formatCurrency(order.totalPrice)}</span>
             </div>
           </div>
         </div>
@@ -598,16 +598,16 @@ export const OrderConfirmationPage: React.FC = () => {
           {/* Shipping Address Box */}
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 space-y-3">
             <h4 className="text-xs font-bold text-white flex items-center gap-1.5 uppercase tracking-wider">
-              <MapPin className="w-3.5 h-3.5 text-red-400" />
+              <MapPin className="w-3.5 h-3.5 text-[#FF1E2D]" />
               <span>Shipping Address</span>
             </h4>
             <div className="text-xs text-neutral-300 space-y-1">
               <p className="font-bold text-white">{order.shippingAddress?.name}</p>
               <p className="text-neutral-400">{order.shippingAddress?.address}</p>
-              <p className="text-neutral-400 font-mono">
+              <p className="text-neutral-400 font-sans">
                 {order.shippingAddress?.city}, {order.shippingAddress?.state} - {order.shippingAddress?.pincode}
               </p>
-              <p className="text-neutral-400 font-mono text-[11px] pt-1">
+              <p className="text-neutral-400 font-sans text-[11px] pt-1">
                 Phone: {order.shippingAddress?.phone}
               </p>
             </div>
@@ -616,10 +616,10 @@ export const OrderConfirmationPage: React.FC = () => {
           {/* Payment Telemetry Box */}
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 space-y-3">
             <h4 className="text-xs font-bold text-white flex items-center gap-1.5 uppercase tracking-wider">
-              <CreditCard className="w-3.5 h-3.5 text-red-400" />
+              <CreditCard className="w-3.5 h-3.5 text-[#FF1E2D]" />
               <span>Payment Gateway Ledger</span>
             </h4>
-            <div className="text-xs text-neutral-400 space-y-1.5 font-mono">
+            <div className="text-xs text-neutral-400 space-y-1.5 font-sans">
               <div className="flex justify-between">
                 <span>Gateway:</span>
                 <span className="text-white uppercase">{order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Razorpay'}</span>
@@ -631,7 +631,7 @@ export const OrderConfirmationPage: React.FC = () => {
                     order.paymentStatus === 'paid' || order.isPaid
                       ? 'text-emerald-400'
                       : isFailed
-                      ? 'text-red-400'
+                      ? 'text-[#FF1E2D]'
                       : 'text-amber-400'
                   }`}
                 >
@@ -660,48 +660,39 @@ export const OrderConfirmationPage: React.FC = () => {
           {/* Guest Order Telemetry & Notice */}
           {(!user || order.guestEmail) && (
             <div className="bg-gradient-to-b from-neutral-900 to-neutral-950 border border-neutral-800 rounded-2xl p-5 space-y-3 shadow-lg">
-              <div className="flex items-center gap-2 text-xs font-mono uppercase text-amber-400">
+              <div className="flex items-center gap-2 text-xs font-sans uppercase text-amber-400">
                 <ShieldCheck className="w-4 h-4 text-amber-400" />
                 <span className="font-bold">Guest Order Receipt</span>
               </div>
               <p className="text-xs text-neutral-300 font-sans">
                 Order placed as guest. An official tax invoice and shipment tracker have been dispatched to{' '}
-                <span className="text-white font-semibold font-mono">{order.guestEmail || order.shippingAddress?.email}</span>.
+                <span className="text-white font-semibold font-sans">{order.guestEmail || order.shippingAddress?.email}</span>.
               </p>
-              <div className="p-3 bg-neutral-950 rounded-xl border border-neutral-800/80 text-xs font-mono space-y-1">
-                <div className="text-neutral-500 text-[11px]">Instant Tracking Tool:</div>
-                <Link
-                  to={`/track-order?orderId=${order._id}&email=${encodeURIComponent(order.guestEmail || order.shippingAddress?.email || '')}`}
-                  className="text-red-400 hover:text-red-300 underline break-all flex items-center gap-1.5 pt-1"
-                >
-                  <span>Track status on CartVerse &rarr;</span>
-                </Link>
-              </div>
             </div>
           )}
 
           {/* Optional Post-Purchase Soft Account Creation Card */}
           {!user && !accountCreated && (
-            <div className="bg-gradient-to-br from-red-950/20 via-neutral-900 to-neutral-950 border border-red-500/30 rounded-2xl p-5 space-y-3 relative overflow-hidden shadow-xl">
-              <div className="flex items-center gap-2 text-xs font-mono uppercase text-red-400">
-                <Sparkles className="w-4 h-4 text-red-500" />
-                <span className="font-bold font-rajdhani text-sm">Claim & Save Order</span>
+            <div className="bg-gradient-to-br from-red-950/20 via-neutral-900 to-neutral-950 border border-[#FF1E2D]/30 rounded-2xl p-5 space-y-3 relative overflow-hidden shadow-xl">
+              <div className="flex items-center gap-2 text-xs font-sans uppercase text-[#FF1E2D]">
+                <Sparkles className="w-4 h-4 text-[#FF1E2D]" />
+                <span className="font-bold font-sans text-sm">Claim & Save Order</span>
               </div>
               <p className="text-xs text-neutral-300 font-sans">
                 Set a password to create an account in 1 click. This order and all future builds will automatically sync to your dashboard!
               </p>
               <form onSubmit={handleConvertAccount} className="space-y-3 pt-1">
                 <div>
-                  <label className="text-[10px] font-mono uppercase text-neutral-400 block mb-1">Email</label>
+                  <label className="text-[10px] font-sans uppercase text-neutral-400 block mb-1">Email</label>
                   <input
                     type="email"
                     disabled
                     value={order.guestEmail || order.shippingAddress?.email || ''}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-neutral-400 font-mono cursor-not-allowed"
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-neutral-400 font-sans cursor-not-allowed"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-mono uppercase text-neutral-400 block mb-1">Set Password (Min 6 chars)</label>
+                  <label className="text-[10px] font-sans uppercase text-neutral-400 block mb-1">Set Password (Min 6 chars)</label>
                   <input
                     type="password"
                     required
@@ -709,13 +700,13 @@ export const OrderConfirmationPage: React.FC = () => {
                     placeholder="••••••••"
                     value={registerPassword}
                     onChange={(e) => setRegisterPassword(e.target.value)}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white font-mono outline-none focus:border-red-500"
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white font-sans outline-none focus:border-[#FF1E2D]"
                   />
                 </div>
                 <button
                   type="submit"
                   disabled={isRegistering}
-                  className="w-full py-2.5 px-3 rounded-xl bg-red-600 hover:bg-red-500 text-white font-rajdhani font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-red-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-[#FF1E2D]/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   {isRegistering ? (
                     <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
@@ -739,15 +730,6 @@ export const OrderConfirmationPage: React.FC = () => {
 
           {/* Navigation Actions */}
           <div className="space-y-2">
-            <Link
-              to={`/track-order?orderId=${order._id}&email=${encodeURIComponent(order.guestEmail || order.shippingAddress?.email || '')}`}
-              className="w-full py-2.5 px-4 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all border border-neutral-700 cursor-pointer"
-            >
-              <Truck className="w-4 h-4 text-red-500" />
-              <span>Live Shipment Tracking</span>
-              <ChevronRight className="w-4 h-4 ml-auto" />
-            </Link>
-
             {user ? (
               <>
                 <Link
@@ -776,7 +758,7 @@ export const OrderConfirmationPage: React.FC = () => {
 
             <Link
               to="/products"
-              className="w-full py-2.5 px-4 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-red-950/40 cursor-pointer"
+              className="w-full py-2.5 px-4 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-[#FF1E2D]/30 cursor-pointer"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Continue Shopping</span>

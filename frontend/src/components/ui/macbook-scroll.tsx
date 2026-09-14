@@ -313,7 +313,7 @@ export const Lid = ({
                 <div className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] border border-[#DEA123]" />
                 <div className="w-2.5 h-2.5 rounded-full bg-[#27C93F] border border-[#1AAB29]" />
               </div>
-              <div className="mx-auto text-[9px] font-mono text-neutral-400 bg-[#0B0B0F] px-3.5 py-0.5 rounded-full border border-neutral-800 flex items-center gap-1.5 max-w-[65%] truncate">
+              <div className="mx-auto text-[9px] font-sans text-neutral-400 bg-[#0B0B0F] px-3.5 py-0.5 rounded-full border border-neutral-800 flex items-center gap-1.5 max-w-[65%] truncate">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 inline-block animate-pulse" />
                 <span className="truncate text-neutral-300">{url || "cartverse.hardware/studio"}</span>
               </div>

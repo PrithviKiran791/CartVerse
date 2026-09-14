@@ -15,7 +15,7 @@ export const RequireAuth: React.FC<RequireAuthProps> = ({ children }) => {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-3">
         <div className="w-8 h-8 border-2 border-red-600/30 border-t-red-600 rounded-full animate-spin" />
-        <span className="text-xs font-mono text-neutral-400 uppercase tracking-wider">Verifying Session...</span>
+        <span className="text-xs font-sans text-neutral-400 uppercase tracking-wider">Verifying Session...</span>
       </div>
     );
   }

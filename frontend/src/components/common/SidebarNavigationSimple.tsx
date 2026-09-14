@@ -145,12 +145,12 @@ const DefaultFeatureCard = () => (
         <Zap className="w-4 h-4 text-amber-400" />
         <span>Power & Headroom</span>
       </div>
-      <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.5 rounded">
+      <span className="text-[10px] font-sans text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.5 rounded">
         OPTIMAL
       </span>
     </div>
     <div className="space-y-1">
-      <div className="flex justify-between text-[11px] font-mono text-neutral-400">
+      <div className="flex justify-between text-[11px] font-sans text-neutral-400">
         <span>Suggested PSU</span>
         <span className="text-white font-bold">850W Gold</span>
       </div>
@@ -202,10 +202,10 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
       <div className="space-y-6">
         {/* Navigation Section Title */}
         <div className="pb-3 border-b border-neutral-800 flex items-center justify-between">
-          <Typography type="h4" className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400">
+          <Typography type="h4" className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-400">
             Navigation Menu
           </Typography>
-          <span className="text-[10px] font-mono bg-red-950 text-red-400 border border-red-800 px-2 py-0.5 rounded font-bold">
+          <span className="text-[10px] font-sans bg-red-950 text-red-400 border border-red-800 px-2 py-0.5 rounded font-bold">
             UNTITLED UI
           </span>
         </div>
@@ -241,7 +241,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                     </div>
                     <div className="flex items-center gap-1.5">
                       {item.badge && (
-                        <span className="text-[10px] font-mono bg-neutral-800 text-neutral-300 px-1.5 py-0.5 rounded">
+                        <span className="text-[10px] font-sans bg-neutral-800 text-neutral-300 px-1.5 py-0.5 rounded">
                           {item.badge}
                         </span>
                       )}
@@ -279,7 +279,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                       <span>{item.label}</span>
                     </div>
                     {item.badge && (
-                      <span className="text-[10px] font-mono bg-red-950 text-red-400 border border-red-800 px-1.5 py-0.5 rounded font-bold">
+                      <span className="text-[10px] font-sans bg-red-950 text-red-400 border border-red-800 px-1.5 py-0.5 rounded font-bold">
                         {item.badge}
                       </span>
                     )}
@@ -322,7 +322,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                             <span>{sub.label}</span>
                           </div>
                           {sub.badge && (
-                            <span className="text-[9px] font-mono bg-neutral-800 text-amber-400 px-1.5 py-0.5 rounded">
+                            <span className="text-[9px] font-sans bg-neutral-800 text-amber-400 px-1.5 py-0.5 rounded">
                               {sub.badge}
                             </span>
                           )}
@@ -356,7 +356,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                   <span>{fItem.label}</span>
                 </div>
                 {fItem.badge && (
-                  <span className="text-[9px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">
+                  <span className="text-[9px] font-sans bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">
                     {fItem.badge}
                   </span>
                 )}
