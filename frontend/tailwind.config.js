@@ -25,8 +25,11 @@ export default {
         },
       },
       fontFamily: {
-        'sans': ['"Inter Tight"', 'Inter', 'system-ui', 'sans-serif'],
-        'display': ['Merriweather', 'Georgia', 'serif'],
+        'sans': ['"Syne"', 'sans-serif'],
+        'display': ['"Archivo Black"', 'sans-serif'],
+        'syne': ['"Syne"', 'sans-serif'],
+        'archivo': ['"Archivo Black"', 'sans-serif'],
+        'merriweather': ['"Merriweather"', 'Georgia', 'serif'],
       },
     },
   },

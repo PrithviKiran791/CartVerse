@@ -70,54 +70,54 @@ export const BuildSummaryBar: React.FC = () => {
 
   return (
     <>
-      <div className="sticky bottom-0 z-30 w-full bg-neutral-950/95 backdrop-blur-2xl border-t border-neutral-800 shadow-2xl py-4 px-4 sm:px-6 lg:px-8 transition-all">
+      <div className="sticky bottom-0 z-30 w-full bg-neutral-950 border-t-2 border-neutral-900 dark:border-neutral-700 shadow-[0_-4px_0px_0px_#000000] dark:shadow-[0_-4px_0px_0px_#FF1E2D] py-4 px-4 sm:px-6 lg:px-8 transition-all">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           {/* Left: Totals & Wattage metrics */}
           <div className="flex flex-wrap items-center justify-between md:justify-start gap-4 sm:gap-6 w-full md:w-auto">
             {/* Total Price */}
             <div>
-              <span className="text-[10px] uppercase font-sans tracking-wider text-[#FF1E2D] font-bold block">
-                Total Custom Build Cost
+              <span className="text-[9px] uppercase font-mono tracking-wider text-[#FF1E2D] font-bold block">
+                // TOTAL_BUILD_COST
               </span>
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl sm:text-3xl font-black font-sans text-white">
+                <span className="text-2xl sm:text-3xl font-black font-mono text-white">
                   {formatCurrency(totalPrice)}
                 </span>
-                <span className="text-[10px] font-sans text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800/60">
-                  Incl. 18% GST
+                <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950 px-2 py-0.5 rounded-none border border-emerald-700">
+                  INCL. 18% GST
                 </span>
               </div>
             </div>
 
             {/* Estimated TDP Wattage */}
-            <div className="border-l border-neutral-800 pl-4 sm:pl-6 hidden sm:block">
-              <span className="text-[10px] uppercase font-sans tracking-wider text-[#FF1E2D] font-bold block">
-                Estimated System TDP
+            <div className="border-l-2 border-neutral-800 pl-4 sm:pl-6 hidden sm:block">
+              <span className="text-[9px] uppercase font-mono tracking-wider text-[#FF1E2D] font-bold block">
+                // SYSTEM_TDP
               </span>
-              <div className="flex items-center gap-1.5 text-base font-bold font-sans text-amber-400">
+              <div className="flex items-center gap-1.5 text-base font-bold font-mono text-amber-400">
                 <Zap className="w-4 h-4" />
                 <span>{formatWattage(estimatedWattage)}</span>
               </div>
             </div>
 
             {/* Slots status */}
-            <div className="border-l border-neutral-800 pl-4 sm:pl-6 hidden lg:block">
-              <span className="text-[10px] uppercase font-sans tracking-wider text-[#FF1E2D] font-bold block">
-                Components Assigned
+            <div className="border-l-2 border-neutral-800 pl-4 sm:pl-6 hidden lg:block">
+              <span className="text-[9px] uppercase font-mono tracking-wider text-[#FF1E2D] font-bold block">
+                // ASSIGNED_SLOTS
               </span>
-              <span className="text-xs font-sans font-bold text-white">
-                {filledSlots} Selected Components
+              <span className="text-xs font-mono font-bold text-white">
+                {filledSlots} / 13 COMPONENTS
               </span>
             </div>
           </div>
 
           {/* Right: Actions */}
-          <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto justify-end">
+          <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto justify-end font-mono">
             {/* Reset */}
             {filledSlots > 0 && (
               <button
                 onClick={resetBuild}
-                className="p-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-[#FF1E2D] transition-colors border border-neutral-800 cursor-pointer"
+                className="p-2.5 rounded-none bg-neutral-900 hover:bg-neutral-800 text-neutral-400 hover:text-[#FF1E2D] transition-colors border-2 border-neutral-800 hover:border-neutral-600 shadow-[2px_2px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none cursor-pointer"
                 title="Reset Build"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -125,33 +125,27 @@ export const BuildSummaryBar: React.FC = () => {
             )}
 
             {/* Share / Export */}
-            <MagneticButton>
-              <button
-                onClick={() => setIsShareModalOpen(true)}
-                className="px-3 sm:px-4 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-neutral-200 hover:text-white text-xs font-bold transition-all border border-neutral-800 flex items-center gap-1.5 cursor-pointer"
-              >
-                <Share2 className="w-4 h-4 text-[#FF1E2D]" />
-                <span>Share / Export</span>
-              </button>
-            </MagneticButton>
+            <button
+              onClick={() => setIsShareModalOpen(true)}
+              className="px-3 sm:px-4 py-2.5 rounded-none bg-neutral-900 hover:bg-neutral-800 text-neutral-200 hover:text-white text-xs font-mono font-bold uppercase tracking-wider transition-all border-2 border-neutral-800 hover:border-neutral-600 shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none flex items-center gap-1.5 cursor-pointer"
+            >
+              <Share2 className="w-4 h-4 text-[#FF1E2D]" />
+              <span>Share / Export</span>
+            </button>
 
             {/* Add Complete Build to Cart */}
-            <MagneticButton>
-              <NoiseBackground containerClassName="rounded-xl shadow-xl">
-                <button
-                  onClick={handleAddBuildToCart}
-                  disabled={filledSlots === 0 || !report.isCompatible}
-                  className={`px-5 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-black transition-all flex items-center gap-2 cursor-pointer ${
-                    filledSlots === 0 || !report.isCompatible
-                      ? 'bg-neutral-800 text-neutral-500 border border-neutral-700 cursor-not-allowed'
-                      : 'bg-[#FF1E2D] hover:bg-[#FF3B48] text-white border border-[#FF1E2D]'
-                  }`}
-                >
-                  <ShoppingCart className="w-4 h-4" />
-                  <span>Add Complete Build to Cart</span>
-                </button>
-              </NoiseBackground>
-            </MagneticButton>
+            <button
+              onClick={handleAddBuildToCart}
+              disabled={filledSlots === 0 || !report.isCompatible}
+              className={`px-5 sm:px-6 py-2.5 rounded-none text-xs sm:text-sm font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer border-2 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FFFFFF] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none ${
+                filledSlots === 0 || !report.isCompatible
+                  ? 'bg-neutral-800 text-neutral-500 border-neutral-700 cursor-not-allowed shadow-none'
+                  : 'bg-[#FF1E2D] hover:bg-[#FF3B48] text-white border-neutral-900 dark:border-white'
+              }`}
+            >
+              <ShoppingCart className="w-4 h-4" />
+              <span>Add Bundle to Cart</span>
+            </button>
           </div>
         </div>
       </div>

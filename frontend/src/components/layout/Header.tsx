@@ -46,6 +46,7 @@ export const Header: React.FC = () => {
     { label: 'Servers', href: '/servers' },
     { label: 'Simulators', href: '/simulators' },
     { label: 'Consoles', href: '/console' },
+    { label: 'Workspace', href: '/workspace' },
     { label: 'PC Builder', href: '/builder' },
     { label: 'Pre-Builts', href: '/products?category=prebuilt' },
   ];
@@ -62,12 +63,13 @@ export const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 w-full bg-white/95 dark:bg-[#0A0A0C]/95 backdrop-blur-xl border-b border-neutral-200/80 dark:border-neutral-800/80 shadow-sm dark:shadow-2xl transition-colors duration-200">
       {/* Main Navigation Bar Container */}
-      <div className="w-full px-4 sm:px-8 flex items-center justify-between py-2.5 gap-6">
+      <div className="w-full px-3 sm:px-5 lg:px-6 flex items-center justify-between py-2 gap-2 xl:gap-4 overflow-hidden">
         {/* PillNav Component Aligned Flush Left */}
         <div className="shrink-0 flex items-center">
           <PillNav
             logo={webIcon}
             logoAlt="CartVerse Hardware Logo"
+            logoHref="/about"
             items={navItems}
             activeHref={location.pathname}
             className="custom-nav"
@@ -83,15 +85,15 @@ export const Header: React.FC = () => {
         </div>
 
         {/* Aceternity UI Gooey Search Bar, Theme Switcher & Cart Drawer Trigger */}
-        <div className="flex-1 flex items-center justify-end gap-3 max-w-2xl">
+        <div className="shrink-0 flex items-center justify-end gap-1.5 sm:gap-2 lg:gap-2.5">
           {/* GooeyInput Search Bar */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center">
             <GooeyInput
-              placeholder="Search components..."
-              collapsedWidth={135}
-              expandedWidth={280}
-              expandedOffset={48}
-              gooeyBlur={5}
+              placeholder="Search..."
+              collapsedWidth={105}
+              expandedWidth={220}
+              expandedOffset={36}
+              gooeyBlur={4}
               value={searchValue}
               onValueChange={(val) => setSearchValue(val)}
               onSubmit={handleSearchSubmit}

@@ -209,36 +209,36 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
   const priceStep = isServerMode ? 250000 : 2500;
 
   return (
-    <aside className="w-full lg:w-72 bg-neutral-900/80 border border-neutral-800/90 rounded-2xl p-5 space-y-6 shrink-0 backdrop-blur-md self-start sticky top-24">
+    <aside className="w-full lg:w-72 bg-neutral-900 border-2 border-neutral-900 dark:border-neutral-700 rounded-none sm:rounded-md p-5 space-y-6 shrink-0 backdrop-blur-md self-start sticky top-24 shadow-[6px_6px_0px_0px_#000000] dark:shadow-[6px_6px_0px_0px_#FF1E2D]">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-neutral-800">
+      <div className="flex items-center justify-between pb-4 border-b-2 border-neutral-800">
         <div className="flex items-center gap-2">
           <Filter className="w-4 h-4 text-[#FF1E2D]" />
-          <h3 className="text-sm font-bold text-white uppercase tracking-wider font-sans">
-            {isServerMode ? 'Server Filters' : 'Faceted Filters'}
+          <h3 className="text-xs font-bold text-white uppercase tracking-wider font-mono">
+            {isServerMode ? '// SERVER_FILTERS' : '// FACETED_FILTERS'}
           </h3>
         </div>
-        <HoverBorderGradient
+        <button
+          type="button"
           onClick={handleResetFilters}
-          containerClassName="rounded-full shrink-0"
-          className="bg-neutral-950 text-neutral-300 hover:text-white text-[11px] font-sans py-1 px-2.5 flex items-center gap-1 cursor-pointer"
+          className="bg-neutral-950 hover:bg-neutral-800 text-neutral-300 hover:text-white border-2 border-neutral-800 hover:border-[#FF1E2D] text-[10px] font-mono font-bold py-1 px-2.5 rounded-none flex items-center gap-1 cursor-pointer shadow-[2px_2px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
         >
           <RotateCcw className="w-3 h-3 text-[#FF1E2D]" />
-          <span>Reset</span>
-        </HoverBorderGradient>
+          <span>RESET</span>
+        </button>
       </div>
 
       {/* Product Class Discriminator Tab Toggle (Consumer vs Server) */}
       <div>
-        <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2 font-sans">
-          Product Vertical
+        <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2 font-mono">
+          // PRODUCT_VERTICAL
         </label>
-        <div className="grid grid-cols-2 p-1 bg-neutral-950 rounded-xl border border-neutral-800 font-sans text-xs">
+        <div className="grid grid-cols-2 p-1 bg-neutral-950 rounded-none border-2 border-neutral-800 font-mono text-xs">
           <button
             onClick={() => setProductClass('consumer')}
-            className={`py-1.5 rounded-lg font-bold transition-all ${
+            className={`py-1.5 rounded-none font-bold transition-all cursor-pointer ${
               !isServerMode
-                ? 'bg-[#FF1E2D] text-white shadow'
+                ? 'bg-[#FF1E2D] text-white border-2 border-neutral-900 dark:border-white shadow-[2px_2px_0px_0px_#000000]'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
@@ -246,9 +246,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           </button>
           <button
             onClick={() => setProductClass('server')}
-            className={`py-1.5 rounded-lg font-bold transition-all flex items-center justify-center gap-1 ${
+            className={`py-1.5 rounded-none font-bold transition-all flex items-center justify-center gap-1 cursor-pointer ${
               isServerMode
-                ? 'bg-[#FF1E2D] text-white shadow'
+                ? 'bg-[#FF1E2D] text-white border-2 border-neutral-900 dark:border-white shadow-[2px_2px_0px_0px_#000000]'
                 : 'text-neutral-400 hover:text-white'
             }`}
           >
@@ -260,10 +260,10 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
 
       {/* Component Category with LineSidebar Animation */}
       <div>
-        <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-sans">
-          {isServerMode ? 'Infrastructure Category' : 'Component Category'}
+        <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-mono">
+          {isServerMode ? '// INFRASTRUCTURE_CAT' : '// COMPONENT_CAT'}
         </label>
-        <div className="max-h-64 overflow-y-auto pr-1 scrollbar-thin overflow-x-hidden pt-1">
+        <div className="max-h-64 overflow-y-auto pr-1 scrollbar-thin overflow-x-hidden pt-1 border border-neutral-800/80 p-1 bg-neutral-950/40">
           <LineSidebar
             items={currentCategories.map((c) => ({
               label: c.label,
@@ -301,11 +301,11 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
       {/* Price Slider */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider font-sans">
-            Price Budget
+          <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider font-mono">
+            // BUDGET_CAP
           </label>
-          <span className="text-xs font-sans font-bold text-[#FF1E2D]">
-            Up to {formatCurrency(filters.priceRange[1])}
+          <span className="text-xs font-mono font-bold text-[#FF1E2D]">
+            [{formatCurrency(filters.priceRange[1])}]
           </span>
         </div>
         <input
@@ -315,9 +315,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
           step={priceStep}
           value={filters.priceRange[1]}
           onChange={handlePriceChange}
-          className="w-full accent-[#FF1E2D] cursor-pointer h-1.5 bg-neutral-800 rounded-lg appearance-none"
+          className="w-full accent-[#FF1E2D] cursor-pointer h-1.5 bg-neutral-800 rounded-none appearance-none"
         />
-        <div className="flex justify-between text-[10px] font-sans text-neutral-500 mt-1.5">
+        <div className="flex justify-between text-[10px] font-mono text-neutral-500 mt-1.5">
           <span>₹500</span>
           <span>{formatCurrency(Math.round(maxPriceLimit / 2))}</span>
           <span>{formatCurrency(maxPriceLimit)}+</span>
@@ -329,26 +329,26 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
         <>
           {/* Server Socket Match (SP5, SP3, LGA4677) */}
           <div>
-            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-sans">
-              Server Socket Alignment
+            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-mono">
+              // SERVER_SOCKET
             </label>
             <div className="flex flex-wrap gap-1.5">
               {serverSockets.map((sock) => {
                 const active = filters.sockets.includes(sock);
                 return (
-                  <HoverBorderGradient
+                  <button
                     key={sock}
+                    type="button"
                     onClick={() => toggleSocket(sock)}
-                    containerClassName="rounded-xl shrink-0"
                     className={cn(
-                      'text-xs font-sans px-3 py-1.5 cursor-pointer transition-all',
+                      'text-xs font-mono px-3 py-1.5 cursor-pointer transition-all rounded-none border-2',
                       active
-                        ? 'bg-[#FF1E2D] text-white font-bold shadow-md shadow-[#FF1E2D]/20'
-                        : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200'
+                        ? 'bg-[#FF1E2D] border-neutral-900 dark:border-white text-white font-bold shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF]'
+                        : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-neutral-200 hover:border-neutral-700'
                     )}
                   >
                     {sock}
-                  </HoverBorderGradient>
+                  </button>
                 );
               })}
             </div>
@@ -356,8 +356,8 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
 
           {/* Rack Units (1U, 2U, 4U, 5U, 6U) */}
           <div>
-            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-sans">
-              Chassis Form / Rack Units
+            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-mono">
+              // RACK_UNITS
             </label>
             <div className="grid grid-cols-5 gap-1">
               {serverRackUnits.map((ru) => {
@@ -365,10 +365,11 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
                 return (
                   <button
                     key={ru}
+                    type="button"
                     onClick={() => toggleRackUnit(ru)}
-                    className={`py-1.5 rounded-lg text-xs font-sans font-bold transition-all border ${
+                    className={`py-1.5 rounded-none text-xs font-mono font-bold transition-all border-2 ${
                       active
-                        ? 'bg-[#FF1E2D] border-[#FF1E2D] text-white'
+                        ? 'bg-[#FF1E2D] border-neutral-900 dark:border-white text-white shadow-[2px_2px_0px_0px_#000000]'
                         : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-neutral-200'
                     }`}
                   >
@@ -381,8 +382,8 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
 
           {/* Memory Type (RDIMM / LRDIMM) */}
           <div>
-            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-sans">
-              ECC Memory Type
+            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-mono">
+              // ECC_MEMORY_TYPE
             </label>
             <div className="grid grid-cols-2 gap-2">
               {serverMemoryTypes.map((mt) => {
@@ -390,10 +391,11 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
                 return (
                   <button
                     key={mt}
+                    type="button"
                     onClick={() => toggleServerMemoryType(mt)}
-                    className={`py-1.5 rounded-xl text-xs font-sans font-bold transition-all border ${
+                    className={`py-1.5 rounded-none text-xs font-mono font-bold transition-all border-2 ${
                       active
-                        ? 'bg-[#FF1E2D] border-[#FF1E2D] text-white shadow'
+                        ? 'bg-[#FF1E2D] border-neutral-900 dark:border-white text-white shadow-[2px_2px_0px_0px_#000000]'
                         : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-neutral-200'
                     }`}
                   >
@@ -406,8 +408,8 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
 
           {/* Power Redundancy (N+1, N+N, Single) */}
           <div>
-            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-sans">
-              Power Delivery Mode
+            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-mono">
+              // POWER_DELIVERY_MODE
             </label>
             <div className="grid grid-cols-3 gap-1.5">
               {serverRedundancies.map((red) => {
@@ -415,10 +417,11 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
                 return (
                   <button
                     key={red}
+                    type="button"
                     onClick={() => toggleRedundancy(red)}
-                    className={`py-1.5 rounded-lg text-xs font-sans font-bold uppercase transition-all border ${
+                    className={`py-1.5 rounded-none text-xs font-mono font-bold uppercase transition-all border-2 ${
                       active
-                        ? 'bg-[#FF1E2D] border-[#FF1E2D] text-white shadow'
+                        ? 'bg-[#FF1E2D] border-neutral-900 dark:border-white text-white shadow-[2px_2px_0px_0px_#000000]'
                         : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-neutral-200'
                     }`}
                   >
@@ -431,8 +434,8 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
 
           {/* Workload Profile Facets */}
           <div>
-            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-sans">
-              Target Workload
+            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-mono">
+              // TARGET_WORKLOAD
             </label>
             <div className="flex flex-wrap gap-1.5">
               {serverUseCases.map((uc) => {
@@ -440,10 +443,11 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
                 return (
                   <button
                     key={uc.id}
+                    type="button"
                     onClick={() => toggleUseCase(uc.id)}
-                    className={`text-[11px] font-sans px-2.5 py-1 rounded-lg transition-all border ${
+                    className={`text-[11px] font-mono px-2.5 py-1 rounded-none transition-all border-2 ${
                       active
-                        ? 'bg-[#FF1E2D] border-[#FF1E2D] text-white font-bold'
+                        ? 'bg-[#FF1E2D] border-neutral-900 dark:border-white text-white font-bold shadow-[2px_2px_0px_0px_#000000]'
                         : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-neutral-200'
                     }`}
                   >
@@ -459,26 +463,26 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
         <>
           {/* Consumer Socket Pills */}
           <div>
-            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-sans">
-              CPU Socket Match
+            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-mono">
+              // CPU_SOCKET_MATCH
             </label>
             <div className="flex flex-wrap gap-1.5">
               {consumerSockets.map((sock) => {
                 const active = filters.sockets.includes(sock);
                 return (
-                  <HoverBorderGradient
+                  <button
                     key={sock}
+                    type="button"
                     onClick={() => toggleSocket(sock)}
-                    containerClassName="rounded-xl shrink-0"
                     className={cn(
-                      'text-xs font-sans px-3 py-1.5 cursor-pointer transition-all',
+                      'text-xs font-mono px-3 py-1.5 cursor-pointer transition-all rounded-none border-2',
                       active
-                        ? 'bg-[#FF1E2D] text-white font-bold shadow-md shadow-[#FF1E2D]/20'
-                        : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200'
+                        ? 'bg-[#FF1E2D] border-neutral-900 dark:border-white text-white font-bold shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF]'
+                        : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-neutral-200 hover:border-neutral-700'
                     )}
                   >
                     {sock}
-                  </HoverBorderGradient>
+                  </button>
                 );
               })}
             </div>
@@ -486,26 +490,26 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
 
           {/* RAM Generation Pills */}
           <div>
-            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-sans">
-              Memory Generation
+            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-mono">
+              // MEMORY_GENERATION
             </label>
             <div className="flex gap-2">
               {consumerRamTypes.map((rt) => {
                 const active = filters.ramTypes.includes(rt);
                 return (
-                  <HoverBorderGradient
+                  <button
                     key={rt}
+                    type="button"
                     onClick={() => toggleRamType(rt)}
-                    containerClassName="rounded-xl flex-1"
                     className={cn(
-                      'w-full justify-center text-xs font-sans py-1.5 cursor-pointer transition-all',
+                      'w-full justify-center text-xs font-mono py-1.5 cursor-pointer transition-all rounded-none border-2',
                       active
-                        ? 'bg-[#FF1E2D] text-white font-bold shadow-md shadow-[#FF1E2D]/20'
-                        : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200'
+                        ? 'bg-[#FF1E2D] border-neutral-900 dark:border-white text-white font-bold shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF]'
+                        : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-neutral-200 hover:border-neutral-700'
                     )}
                   >
                     {rt}
-                  </HoverBorderGradient>
+                  </button>
                 );
               })}
             </div>
@@ -513,8 +517,8 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
 
           {/* Monitor Resolution Pills */}
           <div>
-            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-sans">
-              Display Resolution
+            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-mono">
+              // DISPLAY_RESOLUTION
             </label>
             <div className="flex flex-wrap gap-1.5">
               {resolutions.map((res) => {
@@ -522,19 +526,19 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
                 const label =
                   res === '1920x1080' ? '1080p FHD' : res === '2560x1440' ? '1440p QHD' : '4K UHD';
                 return (
-                  <HoverBorderGradient
+                  <button
                     key={res}
+                    type="button"
                     onClick={() => toggleResolution(res)}
-                    containerClassName="rounded-xl shrink-0"
                     className={cn(
-                      'text-xs font-sans px-2.5 py-1.5 cursor-pointer transition-all',
+                      'text-xs font-mono px-2.5 py-1.5 cursor-pointer transition-all rounded-none border-2',
                       active
-                        ? 'bg-[#FF1E2D] text-white font-bold shadow-md shadow-[#FF1E2D]/20'
-                        : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200'
+                        ? 'bg-[#FF1E2D] border-neutral-900 dark:border-white text-white font-bold shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF]'
+                        : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-neutral-200 hover:border-neutral-700'
                     )}
                   >
                     {label}
-                  </HoverBorderGradient>
+                  </button>
                 );
               })}
             </div>
@@ -542,26 +546,26 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
 
           {/* Refresh Rate Pills */}
           <div>
-            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-sans">
-              Refresh Rate
+            <label className="text-xs font-bold text-[#FF1E2D] uppercase tracking-wider block mb-2.5 font-mono">
+              // REFRESH_RATE
             </label>
             <div className="grid grid-cols-4 gap-1.5">
               {refreshRates.map((hz) => {
                 const active = filters.refreshRates.includes(hz);
                 return (
-                  <HoverBorderGradient
+                  <button
                     key={hz}
+                    type="button"
                     onClick={() => toggleRefreshRate(hz)}
-                    containerClassName="rounded-xl shrink-0"
                     className={cn(
-                      'w-full justify-center text-xs font-sans py-1 cursor-pointer transition-all',
+                      'w-full justify-center text-xs font-mono py-1 cursor-pointer transition-all rounded-none border-2',
                       active
-                        ? 'bg-[#FF1E2D] text-white font-bold shadow-md shadow-[#FF1E2D]/20'
-                        : 'bg-neutral-950 text-neutral-400 hover:text-neutral-200'
+                        ? 'bg-[#FF1E2D] border-neutral-900 dark:border-white text-white font-bold shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF]'
+                        : 'bg-neutral-950 border-neutral-800 text-neutral-400 hover:text-neutral-200 hover:border-neutral-700'
                     )}
                   >
                     {hz}Hz
-                  </HoverBorderGradient>
+                  </button>
                 );
               })}
             </div>
@@ -570,26 +574,26 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters, setFilter
       )}
 
       {/* In Stock Only Switch */}
-      <div className="pt-2 border-t border-neutral-800 flex items-center justify-between font-sans">
-        <span className="text-xs text-[#FF1E2D] font-bold">In Stock Only</span>
+      <div className="pt-3 border-t-2 border-neutral-800 flex items-center justify-between font-mono">
+        <span className="text-xs text-[#FF1E2D] font-bold">// IN_STOCK_ONLY</span>
         <button
           onClick={() => setFilters((prev) => ({ ...prev, inStockOnly: !prev.inStockOnly }))}
-          className={`w-11 h-6 rounded-full transition-colors relative cursor-pointer ${
-            filters.inStockOnly ? 'bg-emerald-600' : 'bg-neutral-800'
+          className={`w-11 h-6 rounded-none border-2 border-neutral-800 transition-colors relative cursor-pointer ${
+            filters.inStockOnly ? 'bg-emerald-600 border-neutral-900 dark:border-white shadow-[2px_2px_0px_0px_#000000]' : 'bg-neutral-950'
           }`}
         >
           <div
-            className={`w-4 h-4 rounded-full bg-white transition-transform absolute top-1 ${
-              filters.inStockOnly ? 'left-6' : 'left-1'
+            className={`w-4 h-4 rounded-none bg-white transition-transform absolute top-0.5 ${
+              filters.inStockOnly ? 'left-5' : 'left-0.5'
             }`}
           />
         </button>
       </div>
 
       {/* Results Count footer */}
-      <div className="pt-3 border-t border-neutral-800/80 text-[11px] font-sans text-neutral-400 flex items-center justify-between">
-        <span className="text-[#FF1E2D] font-bold uppercase tracking-wider">Verified Parts:</span>
-        <span className="text-white font-bold">{totalCount} items</span>
+      <div className="pt-3 border-t-2 border-neutral-800 text-[11px] font-mono text-neutral-400 flex items-center justify-between">
+        <span className="text-[#FF1E2D] font-bold uppercase tracking-wider">// VERIFIED_PARTS:</span>
+        <span className="text-white font-bold">[{totalCount} ITEMS]</span>
       </div>
     </aside>
   );

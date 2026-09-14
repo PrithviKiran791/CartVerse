@@ -79,10 +79,10 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
     return (
       <div
         onClick={onSelect}
-        className="group relative bg-neutral-900/40 hover:bg-neutral-850/80 border-2 border-dashed border-neutral-800 hover:border-[#FF1E2D]/80 rounded-2xl p-4 sm:p-5 transition-all duration-200 cursor-pointer flex items-center justify-between gap-4"
+        className="group relative bg-white/5 dark:bg-black/30 hover:bg-neutral-900/60 border-2 border-dashed border-neutral-700 dark:border-neutral-700 hover:border-[#FF1E2D] rounded-none p-4 sm:p-5 transition-all duration-150 cursor-pointer flex items-center justify-between gap-4 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] hover:translate-x-[-1px] hover:translate-y-[-1px]"
       >
         <div className="flex items-center gap-4">
-          <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-neutral-950 border border-neutral-800 group-hover:border-[#FF1E2D]/50 group-hover:bg-[#FF1E2D]/10 flex items-center justify-center p-2.5 text-neutral-500 group-hover:text-[#FF1E2D] transition-all shrink-0 shadow-inner">
+          <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-none bg-neutral-950 border-2 border-neutral-900 dark:border-neutral-700 group-hover:border-[#FF1E2D] shadow-[2px_2px_0px_0px_#FF1E2D] flex items-center justify-center p-2.5 text-neutral-500 group-hover:text-[#FF1E2D] transition-all shrink-0">
             {iconSrc ? (
               <img
                 src={iconSrc}
@@ -97,23 +97,23 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
           </div>
 
           <div>
-            <div className="text-[11px] font-sans uppercase tracking-wider text-[#FF1E2D] font-bold">
-              {label}
+            <div className="text-[10px] font-mono uppercase tracking-wider text-[#FF1E2D] font-bold">
+              // {label}
             </div>
-            <div className="text-sm font-bold text-neutral-300 group-hover:text-white transition-colors flex items-center gap-1.5 mt-0.5">
-              <span>+ Choose {categoryName}</span>
+            <div className="text-sm font-mono font-bold text-neutral-300 group-hover:text-white transition-colors flex items-center gap-1.5 mt-0.5">
+              <span>+ CHOOSE {categoryName.toUpperCase()}</span>
             </div>
           </div>
         </div>
 
-        <HoverBorderGradient
+        <button
+          type="button"
           onClick={onSelect}
-          containerClassName="rounded-xl shrink-0"
-          className="bg-neutral-950 text-white group-hover:text-[#FF1E2D] text-xs font-bold px-3.5 py-1.5 flex items-center gap-1.5 cursor-pointer"
+          className="rounded-none border-2 border-neutral-900 dark:border-neutral-700 hover:border-white bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white group-hover:text-[#FF1E2D] text-xs font-mono font-bold px-3.5 py-1.5 flex items-center gap-1.5 shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer shrink-0"
         >
           <Plus className="w-4 h-4 text-[#FF1E2D]" />
-          <span>Select</span>
-        </HoverBorderGradient>
+          <span>SELECT</span>
+        </button>
       </div>
     );
   }
@@ -122,15 +122,15 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
 
   return (
     <div
-      className={`group relative bg-neutral-900/90 border rounded-2xl p-4 sm:p-5 transition-all duration-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg ${
+      className={`group relative bg-white dark:bg-[#121215] border-2 rounded-none p-4 sm:p-5 transition-all duration-150 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] ${
         conflictIssue
-          ? 'border-[#FF1E2D]/70 bg-[#FF1E2D]/10 shadow-[#FF1E2D]/20'
-          : 'border-neutral-800 hover:border-neutral-700'
+          ? 'border-[#FF1E2D] bg-[#FF1E2D]/10'
+          : 'border-neutral-900 dark:border-neutral-700 hover:border-[#FF1E2D]'
       }`}
     >
       {/* Product Image & Info */}
       <div className="flex items-center gap-4 flex-1 min-w-0">
-        <div className="w-16 h-16 rounded-xl bg-neutral-950 border border-neutral-800 p-1.5 flex items-center justify-center shrink-0 group-hover:border-[#FF1E2D]/40 transition-colors">
+        <div className="w-16 h-16 rounded-none bg-neutral-100 dark:bg-neutral-950 border-2 border-neutral-900 dark:border-neutral-700 p-1.5 flex items-center justify-center shrink-0 group-hover:border-[#FF1E2D] shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D] transition-all">
           <img
             src={imgUrl}
             alt={selectedProduct.name}
@@ -149,50 +149,50 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
                 }`}
               />
             )}
-            <span className="text-[10px] font-sans uppercase tracking-wider text-[#FF1E2D] font-bold">
-              {label}
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#FF1E2D] font-bold">
+              // {label}
             </span>
-            <span className="text-[10px] font-sans text-[#FF1E2D] uppercase font-bold">
+            <span className="text-[10px] font-mono text-[#FF1E2D] uppercase font-bold">
               • {selectedProduct.brand}
             </span>
           </div>
 
           <h4
-            className="text-sm font-bold text-white group-hover:text-[#FF1E2D] transition-colors truncate mt-0.5"
+            className="text-sm font-bold font-mono text-neutral-900 dark:text-white group-hover:text-[#FF1E2D] transition-colors truncate mt-0.5"
             title={selectedProduct.name}
           >
             {selectedProduct.name}
           </h4>
 
           {/* Specs Chips */}
-          <div className="flex flex-wrap items-center gap-1.5 mt-1.5">
+          <div className="flex flex-wrap items-center gap-1.5 mt-1.5 font-mono">
             {selectedProduct.specs.socket && (
-              <span className="text-[10px] font-sans bg-neutral-950 px-2 py-0.5 rounded text-cyan-300 border border-neutral-800">
+              <span className="text-[10px] bg-neutral-100 dark:bg-neutral-950 px-2 py-0.5 rounded-none text-cyan-600 dark:text-cyan-300 border border-neutral-300 dark:border-neutral-800">
                 {selectedProduct.specs.socket}
               </span>
             )}
             {selectedProduct.specs.ramType && (
-              <span className="text-[10px] font-sans bg-neutral-950 px-2 py-0.5 rounded text-purple-300 border border-neutral-800">
+              <span className="text-[10px] bg-neutral-100 dark:bg-neutral-950 px-2 py-0.5 rounded-none text-purple-600 dark:text-purple-300 border border-neutral-300 dark:border-neutral-800">
                 {selectedProduct.specs.ramType}
               </span>
             )}
             {selectedProduct.specs.vram && (
-              <span className="text-[10px] font-sans bg-neutral-950 px-2 py-0.5 rounded text-emerald-300 border border-neutral-800">
+              <span className="text-[10px] bg-neutral-100 dark:bg-neutral-950 px-2 py-0.5 rounded-none text-emerald-600 dark:text-emerald-300 border border-neutral-300 dark:border-neutral-800">
                 {selectedProduct.specs.vram}
               </span>
             )}
             {selectedProduct.specs.capacity && (
-              <span className="text-[10px] font-sans bg-neutral-950 px-2 py-0.5 rounded text-amber-300 border border-neutral-800">
+              <span className="text-[10px] bg-neutral-100 dark:bg-neutral-950 px-2 py-0.5 rounded-none text-amber-600 dark:text-amber-300 border border-neutral-300 dark:border-neutral-800">
                 {selectedProduct.specs.capacity}
               </span>
             )}
             {selectedProduct.specs.wattage && (
-              <span className="text-[10px] font-sans bg-neutral-950 px-2 py-0.5 rounded text-yellow-300 border border-neutral-800">
+              <span className="text-[10px] bg-neutral-100 dark:bg-neutral-950 px-2 py-0.5 rounded-none text-yellow-600 dark:text-yellow-300 border border-neutral-300 dark:border-neutral-800">
                 {formatWattage(selectedProduct.specs.wattage)}
               </span>
             )}
             {selectedProduct.specs.tdp && (
-              <span className="text-[10px] font-sans bg-neutral-950 px-2 py-0.5 rounded text-neutral-400 border border-neutral-800">
+              <span className="text-[10px] bg-neutral-100 dark:bg-neutral-950 px-2 py-0.5 rounded-none text-neutral-600 dark:text-neutral-400 border border-neutral-300 dark:border-neutral-800">
                 {formatWattage(selectedProduct.specs.tdp)} TDP
               </span>
             )}
@@ -200,7 +200,7 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
 
           {/* Warning badge if conflict */}
           {conflictIssue && (
-            <div className="flex items-center gap-1.5 text-xs text-[#FF1E2D] font-medium mt-1.5">
+            <div className="flex items-center gap-1.5 text-xs text-[#FF1E2D] font-mono font-bold mt-1.5">
               <AlertCircle className="w-3.5 h-3.5 shrink-0" />
               <span>{conflictIssue.message}</span>
             </div>
@@ -209,27 +209,27 @@ export const ComponentSlotCard: React.FC<ComponentSlotCardProps> = ({
       </div>
 
       {/* Price & Actions */}
-      <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 border-neutral-800">
-        <div className="text-left sm:text-right">
-          <span className="text-base sm:text-lg font-black font-sans text-white">
+      <div className="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 border-neutral-200 dark:border-neutral-800">
+        <div className="text-left sm:text-right font-mono">
+          <span className="text-base sm:text-lg font-black text-neutral-900 dark:text-white">
             {formatCurrency(selectedProduct.price)}
           </span>
-          <span className="text-[10px] text-[#FF1E2D] block font-sans font-bold">Incl. 18% GST</span>
+          <span className="text-[9px] text-[#FF1E2D] block font-bold uppercase">Incl. 18% GST</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <HoverBorderGradient
+          <button
+            type="button"
             onClick={onSelect}
-            containerClassName="rounded-xl shrink-0"
-            className="bg-neutral-950 text-neutral-200 hover:text-white text-xs font-semibold px-3 py-1.5 flex items-center gap-1 cursor-pointer"
+            className="px-3 py-1.5 rounded-none border-2 border-neutral-900 dark:border-neutral-700 hover:border-neutral-900 dark:hover:border-neutral-300 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-200 text-xs font-mono font-bold flex items-center gap-1 shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5 text-[#FF1E2D]" />
-            <span className="hidden md:inline">Change</span>
-          </HoverBorderGradient>
+            <span className="hidden md:inline">CHANGE</span>
+          </button>
 
           <button
             onClick={onRemove}
-            className="p-2 rounded-lg bg-[#FF1E2D]/10 hover:bg-[#FF1E2D]/20 text-[#FF1E2D] hover:text-white transition-colors border border-[#FF1E2D]/30 cursor-pointer"
+            className="p-2 rounded-none bg-[#FF1E2D] hover:bg-[#FF3B48] text-white border-2 border-neutral-900 dark:border-neutral-700 shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
             title="Remove from build"
             aria-label="Remove item"
           >

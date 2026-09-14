@@ -57,7 +57,7 @@
 }
 
 .line-sidebar__index {
-  font-family: 'Inter Tight', Inter, sans-serif;
+  font-family: var(--font-primary);
   margin-right: 0.5rem;
   font-size: 0.8em;
   opacity: calc(0.5 + var(--effect, 0) * 0.5);

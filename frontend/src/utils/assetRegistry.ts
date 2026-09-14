@@ -48,7 +48,10 @@ const CATEGORY_DIR_MAP: Record<string, string[]> = {
   console: ['console'],
   server: ['server'],
   supercomputer: ['supercomputer'],
-  simulator: ['simulators']
+  simulator: ['simulators'],
+  chair: ['chairs'],
+  table: ['tables'],
+  desk: ['tables']
 };
 
 // Populate indices on startup

@@ -14,18 +14,18 @@ export const AssistantSuggestions: React.FC<AssistantSuggestionsProps> = ({
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center gap-1.5 text-[11px] font-bold text-neutral-700 dark:text-neutral-400 uppercase tracking-wider px-1">
+      <div className="flex items-center gap-1.5 text-[10px] font-mono font-bold text-neutral-600 dark:text-neutral-400 uppercase tracking-wider px-1">
         <Sparkles className="w-3 h-3 text-[#FF1E2D]" />
-        Contextual Recommendations
+        PROMPT_SUGGESTIONS
       </div>
-      <div className="grid grid-cols-1 gap-1.5">
+      <div className="grid grid-cols-1 gap-2">
         {suggestions.map((prompt, idx) => (
           <button
             key={idx}
             onClick={() => onSelectPrompt(prompt)}
-            className="group flex items-center justify-between text-left px-3 py-2 text-xs rounded border border-neutral-200 dark:border-neutral-800 bg-white/70 dark:bg-neutral-900/60 hover:border-[#FF1E2D]/50 dark:hover:border-[#FF1E2D]/50 hover:bg-red-50/30 dark:hover:bg-red-950/20 text-neutral-700 dark:text-neutral-300 transition-all duration-150"
+            className="group flex items-center justify-between text-left px-3 py-2 text-xs rounded-none border-2 border-neutral-900 dark:border-neutral-700 bg-white dark:bg-[#151518] shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D] hover:translate-x-[1px] hover:translate-y-[1px] text-neutral-800 dark:text-neutral-200 transition-all font-mono active:shadow-none cursor-pointer"
           >
-            <span className="line-clamp-2 leading-relaxed">{prompt}</span>
+            <span className="line-clamp-2 leading-relaxed text-[11px] font-medium">{prompt}</span>
             <ArrowRight className="w-3.5 h-3.5 text-neutral-400 group-hover:text-[#FF1E2D] group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
           </button>
         ))}

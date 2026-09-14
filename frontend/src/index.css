@@ -5,8 +5,10 @@
 :root {
   --cartverse-red: #FF1E2D;
   --cartverse-red-hover: #FF3B48;
-  --font-primary: "Inter Tight", Inter, system-ui, sans-serif;
-  --font-display: Merriweather, Georgia, serif;
+  --font-primary: "Syne", sans-serif;
+  --font-display: "Archivo Black", sans-serif;
+  --font-syne: "Syne", sans-serif;
+  --font-archivo: "Archivo Black", sans-serif;
 
   --bg-page: #f8fafc;
   --text-page: #0f172a;
@@ -18,6 +20,8 @@
 @theme {
   --font-sans: var(--font-primary);
   --font-display: var(--font-display);
+  --font-syne: var(--font-syne);
+  --font-archivo: var(--font-archivo);
   --color-cartverse-red: #FF1E2D;
   --color-cartverse-red-hover: #FF3B48;
   --color-red-500: #FF1E2D;
@@ -35,23 +39,40 @@ html.dark,
 }
 
 /* ============================================================
-   GLOBAL TYPOGRAPHY RESET — Inter Tight for everything
+   GLOBAL TYPOGRAPHY RESET — Syne & Archivo Black
+   Strictly applied across entire website EXCLUDING About Us (.merriweather-about)
    ============================================================ */
 html,
 body,
 #root {
   font-family: var(--font-primary);
+  font-optical-sizing: auto;
 }
 
-body,
-button,
-input,
-textarea,
-select,
-option,
-label,
-a {
+body:not(:has(.merriweather-about)) *,
+body:not(:has(.merriweather-about)) button,
+body:not(:has(.merriweather-about)) input,
+body:not(:has(.merriweather-about)) textarea,
+body:not(:has(.merriweather-about)) select,
+body:not(:has(.merriweather-about)) option,
+body:not(:has(.merriweather-about)) label,
+body:not(:has(.merriweather-about)) a,
+body:not(:has(.merriweather-about)) p {
   font-family: var(--font-primary);
+  font-optical-sizing: auto;
+}
+
+/* Fallback element reset ensuring Syne on all standard elements outside .merriweather-about */
+button:not(.merriweather-about *),
+input:not(.merriweather-about *),
+textarea:not(.merriweather-about *),
+select:not(.merriweather-about *),
+option:not(.merriweather-about *),
+label:not(.merriweather-about *),
+a:not(.merriweather-about *),
+p:not(.merriweather-about *) {
+  font-family: var(--font-primary);
+  font-optical-sizing: auto;
 }
 
 * {
@@ -68,20 +89,100 @@ body {
   transition: background-color 200ms ease, color 200ms ease;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-primary);
-  font-weight: 700;
-  letter-spacing: -0.025em;
-}
-
-/* Merriweather utility — use only for editorial/hero headings */
-.font-display {
+/* Archivo Black strictly applied to all Headings outside About Us */
+h1:not(.merriweather-about *),
+h2:not(.merriweather-about *),
+h3:not(.merriweather-about *),
+h4:not(.merriweather-about *),
+h5:not(.merriweather-about *),
+h6:not(.merriweather-about *) {
   font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
-/* Remove any terminal appearance from code/pre — use sans instead */
-code, kbd, samp, pre {
-  font-family: var(--font-primary);
+/* Monospace telemetry tokens preserved for technical brutalist specs */
+.font-mono,
+[class*="font-mono"] {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+/* Syne: CSS classes for variable style (weight 400 to 800) */
+.syne-regular,
+.syne-400 {
+  font-family: "Syne", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.syne-medium,
+.syne-500 {
+  font-family: "Syne", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.syne-semibold,
+.syne-600 {
+  font-family: "Syne", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.syne-bold,
+.syne-700 {
+  font-family: "Syne", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.syne-extrabold,
+.syne-800 {
+  font-family: "Syne", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.font-syne {
+  font-family: "Syne", sans-serif;
+  font-optical-sizing: auto;
+}
+
+.font-archivo,
+.archivo-black,
+.font-display {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Merriweather variable style strictly applied to the About Us page */
+.merriweather-about,
+.merriweather-about *,
+.merriweather-about h1,
+.merriweather-about h2,
+.merriweather-about h3,
+.merriweather-about h4,
+.merriweather-about h5,
+.merriweather-about h6,
+.merriweather-about p,
+.merriweather-about span,
+.merriweather-about a,
+.merriweather-about button,
+.merriweather-about dl,
+.merriweather-about dt,
+.merriweather-about dd,
+.merriweather-about div,
+.merriweather-about section {
+  font-family: "Merriweather", serif !important;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100 !important;
 }
 
 /* ============================================================

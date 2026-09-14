@@ -94,18 +94,18 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
   return (
     <div className={`space-y-5 ${className}`}>
       {/* Filters Header */}
-      <div className="flex items-center justify-between pb-3 border-b border-neutral-800/80">
-        <span className="text-xs font-sans font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
+      <div className="flex items-center justify-between pb-3 border-b-2 border-neutral-800">
+        <span className="text-xs font-mono font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
           <SlidersHorizontal className="w-3.5 h-3.5 text-red-500" />
-          <span>SPEC FILTERS</span>
+          <span>// SPEC_FILTERS</span>
         </span>
         {hasActiveFilters && (
           <button
             onClick={clearAllFilters}
-            className="text-[10px] font-sans text-red-400 hover:text-red-300 uppercase tracking-widest flex items-center gap-1 cursor-pointer"
+            className="text-[10px] font-mono text-red-400 hover:text-red-300 uppercase tracking-widest flex items-center gap-1 cursor-pointer font-bold underline"
           >
             <RotateCcw className="w-3 h-3" />
-            <span>RESET</span>
+            <span>[RESET]</span>
           </button>
         )}
       </div>
@@ -114,9 +114,9 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
       {category === 'cpu' && (
         <>
           {/* Socket Filter */}
-          <div className="border border-neutral-800 bg-[#120F17] rounded-lg p-3.5 space-y-2.5">
-            <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-300">
-              SOCKET
+          <div className="border-2 border-neutral-800 dark:border-neutral-700 bg-[#0E0C12] rounded-none p-3.5 space-y-2.5 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D]">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-300">
+              // SOCKET
             </span>
             <div className="space-y-1.5">
               {(brand === 'Intel'
@@ -129,13 +129,13 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
                 return (
                   <label
                     key={sock}
-                    className="flex items-center gap-2 text-xs font-sans text-neutral-400 hover:text-white cursor-pointer select-none"
+                    className="flex items-center gap-2 text-xs font-mono text-neutral-400 hover:text-white cursor-pointer select-none"
                   >
                     <input
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => toggleArrayParam('socket', sock)}
-                      className="rounded bg-neutral-900 border-neutral-700 text-red-600 focus:ring-0"
+                      className="rounded-none bg-neutral-900 border-2 border-neutral-700 text-red-600 focus:ring-0"
                     />
                     <span>{sock}</span>
                   </label>
@@ -145,9 +145,9 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
           </div>
 
           {/* Cores Filter */}
-          <div className="border border-neutral-800 bg-[#120F17] rounded-lg p-3.5 space-y-2.5">
-            <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-300">
-              CORE COUNT
+          <div className="border-2 border-neutral-800 dark:border-neutral-700 bg-[#0E0C12] rounded-none p-3.5 space-y-2.5 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D]">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-300">
+              // CORE_COUNT
             </span>
             <div className="grid grid-cols-2 gap-1.5">
               {[6, 8, 12, 16, 24].map((cores) => {
@@ -157,10 +157,10 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
                     key={cores}
                     type="button"
                     onClick={() => toggleArrayParam('cores', cores)}
-                    className={`px-2.5 py-1.5 text-xs font-sans rounded text-center transition-colors cursor-pointer border ${
+                    className={`px-2.5 py-1.5 text-xs font-mono rounded-none text-center transition-all cursor-pointer border-2 ${
                       isSelected
-                        ? 'bg-red-950/80 border-red-600 text-white font-bold'
-                        : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white'
+                        ? 'bg-red-950 border-red-600 text-white font-bold shadow-[2px_2px_0px_0px_#000000]'
+                        : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700'
                     }`}
                   >
                     {cores} CORES
@@ -174,9 +174,9 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
 
       {/* GPU SPECIFIC FILTERS */}
       {category === 'gpu' && (
-        <div className="border border-neutral-800 bg-[#120F17] rounded-lg p-3.5 space-y-2.5">
-          <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-300">
-            VRAM CAPACITY
+        <div className="border-2 border-neutral-800 dark:border-neutral-700 bg-[#0E0C12] rounded-none p-3.5 space-y-2.5 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D]">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-300">
+            // VRAM_CAPACITY
           </span>
           <div className="grid grid-cols-2 gap-1.5">
             {['8GB', '12GB', '16GB', '24GB'].map((vram) => {
@@ -186,10 +186,10 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
                   key={vram}
                   type="button"
                   onClick={() => toggleArrayParam('vram', vram)}
-                  className={`px-2.5 py-1.5 text-xs font-sans rounded text-center transition-colors cursor-pointer border ${
+                  className={`px-2.5 py-1.5 text-xs font-mono rounded-none text-center transition-all cursor-pointer border-2 ${
                     isSelected
-                      ? 'bg-emerald-950/80 border-emerald-600 text-white font-bold'
-                      : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white'
+                      ? 'bg-emerald-950 border-emerald-600 text-white font-bold shadow-[2px_2px_0px_0px_#000000]'
+                      : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700'
                   }`}
                 >
                   {vram}
@@ -203,9 +203,9 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
       {/* MEMORY SPECIFIC FILTERS */}
       {category === 'ram' && (
         <>
-          <div className="border border-neutral-800 bg-[#120F17] rounded-lg p-3.5 space-y-2.5">
-            <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-300">
-              DDR GENERATION
+          <div className="border-2 border-neutral-800 dark:border-neutral-700 bg-[#0E0C12] rounded-none p-3.5 space-y-2.5 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D]">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-300">
+              // DDR_GENERATION
             </span>
             <div className="grid grid-cols-2 gap-1.5">
               {['DDR5', 'DDR4'].map((type) => {
@@ -215,10 +215,10 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
                     key={type}
                     type="button"
                     onClick={() => toggleArrayParam('ramType', type)}
-                    className={`px-2.5 py-1.5 text-xs font-sans rounded text-center transition-colors cursor-pointer border ${
+                    className={`px-2.5 py-1.5 text-xs font-mono rounded-none text-center transition-all cursor-pointer border-2 ${
                       isSelected
-                        ? 'bg-red-950/80 border-red-600 text-white font-bold'
-                        : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white'
+                        ? 'bg-red-950 border-red-600 text-white font-bold shadow-[2px_2px_0px_0px_#000000]'
+                        : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700'
                     }`}
                   >
                     {type}
@@ -228,9 +228,9 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
             </div>
           </div>
 
-          <div className="border border-neutral-800 bg-[#120F17] rounded-lg p-3.5 space-y-2.5">
-            <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-300">
-              KIT CAPACITY
+          <div className="border-2 border-neutral-800 dark:border-neutral-700 bg-[#0E0C12] rounded-none p-3.5 space-y-2.5 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D]">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-300">
+              // KIT_CAPACITY
             </span>
             <div className="grid grid-cols-2 gap-1.5">
               {['8GB', '16GB', '32GB', '64GB'].map((cap) => {
@@ -240,10 +240,10 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
                     key={cap}
                     type="button"
                     onClick={() => toggleArrayParam('capacity', cap)}
-                    className={`px-2.5 py-1.5 text-xs font-sans rounded text-center transition-colors cursor-pointer border ${
+                    className={`px-2.5 py-1.5 text-xs font-mono rounded-none text-center transition-all cursor-pointer border-2 ${
                       isSelected
-                        ? 'bg-red-950/80 border-red-600 text-white font-bold'
-                        : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white'
+                        ? 'bg-red-950 border-red-600 text-white font-bold shadow-[2px_2px_0px_0px_#000000]'
+                        : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700'
                     }`}
                   >
                     {cap}
@@ -258,9 +258,9 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
       {/* DISPLAYS SPECIFIC FILTERS */}
       {category === 'monitor' && (
         <>
-          <div className="border border-neutral-800 bg-[#120F17] rounded-lg p-3.5 space-y-2.5">
-            <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-300">
-              RESOLUTION
+          <div className="border-2 border-neutral-800 dark:border-neutral-700 bg-[#0E0C12] rounded-none p-3.5 space-y-2.5 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D]">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-300">
+              // RESOLUTION
             </span>
             <div className="space-y-1.5">
               {['4K', '1440p', '1080p'].map((res) => {
@@ -268,13 +268,13 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
                 return (
                   <label
                     key={res}
-                    className="flex items-center gap-2 text-xs font-sans text-neutral-400 hover:text-white cursor-pointer select-none"
+                    className="flex items-center gap-2 text-xs font-mono text-neutral-400 hover:text-white cursor-pointer select-none"
                   >
                     <input
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => toggleArrayParam('resolution', res)}
-                      className="rounded bg-neutral-900 border-neutral-700 text-red-600 focus:ring-0"
+                      className="rounded-none bg-neutral-900 border-2 border-neutral-700 text-red-600 focus:ring-0"
                     />
                     <span>{res}</span>
                   </label>
@@ -283,9 +283,9 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
             </div>
           </div>
 
-          <div className="border border-neutral-800 bg-[#120F17] rounded-lg p-3.5 space-y-2.5">
-            <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-300">
-              PANEL TYPE
+          <div className="border-2 border-neutral-800 dark:border-neutral-700 bg-[#0E0C12] rounded-none p-3.5 space-y-2.5 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D]">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-300">
+              // PANEL_TYPE
             </span>
             <div className="grid grid-cols-2 gap-1.5">
               {['OLED', 'IPS', 'VA'].map((p) => {
@@ -295,10 +295,10 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
                     key={p}
                     type="button"
                     onClick={() => toggleArrayParam('panel', p)}
-                    className={`px-2.5 py-1.5 text-xs font-sans rounded text-center transition-colors cursor-pointer border ${
+                    className={`px-2.5 py-1.5 text-xs font-mono rounded-none text-center transition-all cursor-pointer border-2 ${
                       isSelected
-                        ? 'bg-indigo-950/80 border-indigo-600 text-white font-bold'
-                        : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white'
+                        ? 'bg-indigo-950 border-indigo-600 text-white font-bold shadow-[2px_2px_0px_0px_#000000]'
+                        : 'bg-neutral-900 border-neutral-800 text-neutral-400 hover:text-white hover:border-neutral-700'
                     }`}
                   >
                     {p}
@@ -312,9 +312,9 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
 
       {/* SIMULATOR SPECIFIC FILTERS */}
       {category === 'simulator' && (
-        <div className="border border-neutral-800 bg-[#120F17] rounded-lg p-3.5 space-y-2.5">
-          <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-300">
-            SIMULATOR BRANDS
+        <div className="border-2 border-neutral-800 dark:border-neutral-700 bg-[#0E0C12] rounded-none p-3.5 space-y-2.5 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D]">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-300">
+            // SIMULATOR_BRANDS
           </span>
           <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
             {[
@@ -335,13 +335,13 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
               return (
                 <label
                   key={b}
-                  className="flex items-center gap-2 text-xs font-sans text-neutral-400 hover:text-white cursor-pointer select-none"
+                  className="flex items-center gap-2 text-xs font-mono text-neutral-400 hover:text-white cursor-pointer select-none"
                 >
                   <input
                     type="checkbox"
                     checked={isSelected}
                     onChange={() => toggleArrayParam('brand', b)}
-                    className="rounded bg-neutral-900 border-neutral-700 text-red-600 focus:ring-0"
+                    className="rounded-none bg-neutral-900 border-2 border-neutral-700 text-red-600 focus:ring-0"
                   />
                   <span>{b}</span>
                 </label>
@@ -352,12 +352,11 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
       )}
 
       {/* PRICE RANGE FILTER */}
-
-      <div className="border border-neutral-800 bg-[#120F17] rounded-lg p-3.5 space-y-3">
-        <div className="flex justify-between items-center text-[11px] font-sans font-bold uppercase text-neutral-300">
-          <span>PRICE RANGE</span>
+      <div className="border-2 border-neutral-800 dark:border-neutral-700 bg-[#0E0C12] rounded-none p-3.5 space-y-3 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D]">
+        <div className="flex justify-between items-center text-[11px] font-mono font-bold uppercase text-neutral-300">
+          <span>// PRICE_RANGE</span>
           <span className="text-red-400 font-bold">
-            {formatCurrency(maxPrice)}
+            [{formatCurrency(maxPrice)}]
           </span>
         </div>
         <input
@@ -367,9 +366,9 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
           step={1000}
           value={maxPrice}
           onChange={(e) => handlePriceChange(minPrice, Number(e.target.value))}
-          className="w-full accent-red-600 cursor-pointer"
+          className="w-full accent-red-600 cursor-pointer h-1.5 bg-neutral-800 rounded-none appearance-none"
         />
-        <div className="flex justify-between text-[10px] font-sans text-neutral-500">
+        <div className="flex justify-between text-[10px] font-mono text-neutral-500">
           <span>₹500</span>
           <span>₹3,00,000+</span>
         </div>
@@ -377,26 +376,25 @@ export const ProductFilters: React.FC<ProductFiltersProps> = ({
 
       {/* IN STOCK ONLY TOGGLE */}
       {category !== 'simulator' && (
-        <div className="border border-neutral-800 bg-[#120F17] rounded-lg p-3.5 flex items-center justify-between">
-          <span className="text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-300">
-            IN STOCK ONLY
+        <div className="border-2 border-neutral-800 dark:border-neutral-700 bg-[#0E0C12] rounded-none p-3.5 flex items-center justify-between shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D]">
+          <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-neutral-300">
+            // IN_STOCK_ONLY
           </span>
           <button
             type="button"
             onClick={handleInStockToggle}
-            className={`w-10 h-5 flex items-center rounded-full p-0.5 transition-colors cursor-pointer ${
-              inStockOnly ? 'bg-red-600' : 'bg-neutral-800'
+            className={`w-10 h-5 flex items-center rounded-none p-0.5 border-2 border-neutral-800 transition-colors cursor-pointer ${
+              inStockOnly ? 'bg-red-600 border-neutral-900 dark:border-white shadow-[2px_2px_0px_0px_#000000]' : 'bg-neutral-900'
             }`}
           >
             <div
-              className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${
-                inStockOnly ? 'translate-x-5' : 'translate-x-0'
+              className={`bg-white w-3.5 h-3.5 rounded-none shadow-md transform transition-transform ${
+                inStockOnly ? 'translate-x-4' : 'translate-x-0'
               }`}
             />
           </button>
         </div>
       )}
-
     </div>
   );
 };

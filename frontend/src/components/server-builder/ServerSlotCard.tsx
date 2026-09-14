@@ -72,12 +72,12 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
 
   return (
     <div
-      className={`rounded-2xl border transition-all duration-200 overflow-hidden font-sans ${
+      className={`rounded-none border-2 font-mono transition-all duration-150 overflow-hidden shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] ${
         conflictIssue
-          ? 'bg-red-950/20 border-red-700/60 shadow-lg shadow-red-950/40'
+          ? 'bg-red-950/20 border-red-600'
           : isConfigured
-          ? 'bg-neutral-900/90 border-neutral-800 hover:border-neutral-700 shadow-md'
-          : 'bg-neutral-950/50 border-neutral-900 hover:border-neutral-800 border-dashed'
+          ? 'bg-white dark:bg-[#121215] border-neutral-900 dark:border-neutral-700'
+          : 'bg-white/5 dark:bg-black/30 border-neutral-700 hover:border-[#FF1E2D] border-dashed'
       }`}
     >
       <div className="p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -86,10 +86,10 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
           {/* Component Thumbnail or Placeholder Icon */}
           <div
             onClick={onSelect}
-            className={`w-16 h-16 sm:w-20 sm:h-20 rounded-xl flex items-center justify-center shrink-0 border cursor-pointer overflow-hidden transition-all duration-200 ${
+            className={`w-16 h-16 sm:w-20 sm:h-20 rounded-none flex items-center justify-center shrink-0 border-2 cursor-pointer overflow-hidden transition-all duration-150 ${
               isConfigured
-                ? 'bg-neutral-950 border-neutral-800 hover:border-red-500/50 p-1.5'
-                : 'bg-neutral-900/60 border-neutral-800 text-neutral-500 hover:text-white hover:border-neutral-700'
+                ? 'bg-neutral-100 dark:bg-neutral-950 border-neutral-900 dark:border-neutral-700 shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D] p-1.5'
+                : 'bg-neutral-900 border-neutral-800 text-neutral-500 hover:text-white shadow-[2px_2px_0px_0px_#FF1E2D]'
             }`}
           >
             {isConfigured ? (
@@ -108,14 +108,14 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
           </div>
 
           {/* Details */}
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 font-mono">
             <div className="flex items-center gap-2 mb-1">
               <HardwareIcon name={slotKey === 'cpu2' ? 'cpu' : slotKey} className="w-3.5 h-3.5 object-contain shrink-0" />
-              <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-red-500 bg-red-950/40 px-2 py-0.5 rounded border border-red-900/50">
-                {label}
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-red-500 bg-red-950/40 px-2 py-0.5 rounded-none border border-red-900/50">
+                // {label}
               </span>
               {selectedProduct?.brand && (
-                <span className="text-[10px] font-sans text-neutral-400">
+                <span className="text-[10px] font-mono text-neutral-400">
                   {selectedProduct.brand}
                 </span>
               )}
@@ -123,39 +123,39 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
 
             {isConfigured ? (
               <div>
-                <h4 className="text-sm sm:text-base font-bold text-white truncate tracking-tight">
+                <h4 className="text-sm sm:text-base font-bold text-neutral-900 dark:text-white truncate tracking-tight font-mono">
                   {selectedProduct?.name}
                 </h4>
 
                 {/* Key Spec Badges */}
-                <div className="flex flex-wrap items-center gap-2 mt-1.5 font-sans text-[10px] text-neutral-300">
+                <div className="flex flex-wrap items-center gap-2 mt-1.5 font-mono text-[10px] text-neutral-300">
                   {selectedProduct?.specs.socket && (
-                    <span className="bg-neutral-800 px-2 py-0.5 rounded text-neutral-300 border border-neutral-700">
+                    <span className="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded-none text-neutral-800 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-700">
                       Socket {selectedProduct.specs.socket}
                     </span>
                   )}
                   {selectedProduct?.specs.tdp && (
-                    <span className="bg-neutral-800 px-2 py-0.5 rounded text-amber-400 border border-neutral-700">
+                    <span className="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded-none text-amber-600 dark:text-amber-400 border border-neutral-300 dark:border-neutral-700">
                       {selectedProduct.specs.tdp}W TDP
                     </span>
                   )}
                   {selectedProduct?.memoryType && (
-                    <span className="bg-purple-950/60 px-2 py-0.5 rounded text-purple-300 border border-purple-800/50">
+                    <span className="bg-purple-950/60 px-2 py-0.5 rounded-none text-purple-300 border border-purple-800/50">
                       {selectedProduct.memoryType} ECC
                     </span>
                   )}
                   {selectedProduct?.rackUnits && (
-                    <span className="bg-neutral-800 px-2 py-0.5 rounded text-neutral-200 border border-neutral-700">
+                    <span className="bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded-none text-neutral-800 dark:text-neutral-200 border border-neutral-300 dark:border-neutral-700">
                       {selectedProduct.rackUnits}U Form
                     </span>
                   )}
                   {selectedProduct?.psuRedundancy && (
-                    <span className="bg-emerald-950/60 px-2 py-0.5 rounded text-emerald-300 border border-emerald-800/50">
+                    <span className="bg-emerald-950/60 px-2 py-0.5 rounded-none text-emerald-300 border border-emerald-800/50">
                       {selectedProduct.psuRedundancy} Power
                     </span>
                   )}
                   {selectedProduct?.specs.storageInterface && (
-                    <span className="bg-cyan-950/60 px-2 py-0.5 rounded text-cyan-300 border border-cyan-800/50">
+                    <span className="bg-cyan-950/60 px-2 py-0.5 rounded-none text-cyan-300 border border-cyan-800/50">
                       {selectedProduct.specs.storageInterface}
                     </span>
                   )}
@@ -163,10 +163,10 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
               </div>
             ) : (
               <div>
-                <p className="text-sm font-semibold text-neutral-400">
-                  Select {categoryName}
+                <p className="text-sm font-bold font-mono text-neutral-300">
+                  + CHOOSE {categoryName.toUpperCase()}
                 </p>
-                <p className="text-xs text-neutral-600 mt-0.5 font-sans">
+                <p className="text-xs text-neutral-500 mt-0.5 font-mono">
                   Pin socket, ECC RDIMM, and rack unit verified automatically
                 </p>
               </div>
@@ -175,10 +175,10 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
         </div>
 
         {/* Right: Actions & Price */}
-        <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto shrink-0 gap-2">
+        <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto shrink-0 gap-2 font-mono">
           {isConfigured && (
-            <div className="text-right font-sans">
-              <span className="text-base sm:text-lg font-black text-white">
+            <div className="text-right">
+              <span className="text-base sm:text-lg font-black text-neutral-900 dark:text-white">
                 {formatCurrency(selectedProduct!.price)}
               </span>
             </div>
@@ -189,13 +189,13 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
               <>
                 <button
                   onClick={onSelect}
-                  className="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white rounded-lg text-xs font-sans transition-colors"
+                  className="px-3 py-1.5 rounded-none border-2 border-neutral-900 dark:border-neutral-700 hover:border-neutral-900 dark:hover:border-neutral-300 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-200 text-xs font-mono font-bold uppercase shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
                 >
                   Change
                 </button>
                 <button
                   onClick={onRemove}
-                  className="p-1.5 bg-neutral-900 hover:bg-red-950/80 text-neutral-400 hover:text-red-400 border border-neutral-800 hover:border-red-800/60 rounded-lg transition-colors"
+                  className="p-1.5 rounded-none bg-[#FF1E2D] hover:bg-[#FF3B48] text-white border-2 border-neutral-900 dark:border-neutral-700 shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
                   title="Remove Component"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -204,7 +204,7 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
             ) : (
               <button
                 onClick={onSelect}
-                className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-sans font-bold text-xs rounded-xl shadow-lg shadow-red-950/50 transition-all flex items-center gap-1.5 active:scale-95"
+                className="px-4 py-2 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-none border-2 border-neutral-900 dark:border-white shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF] transition-all flex items-center gap-1.5 active:translate-x-[1px] active:translate-y-[1px] active:shadow-none cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add {categoryName}</span>
@@ -216,11 +216,11 @@ export const ServerSlotCard: React.FC<ServerSlotCardProps> = ({
 
       {/* Conflict / Rejection Warning Bar */}
       {conflictIssue && (
-        <div className="bg-red-950/80 border-t border-red-700/60 px-4 py-2.5 flex items-start gap-2 text-xs font-sans text-red-200">
+        <div className="bg-red-950 border-t-2 border-red-600 px-4 py-2.5 flex items-start gap-2 text-xs font-mono text-red-200">
           <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
           <div className="flex-1">
             <span className="font-bold uppercase tracking-wider block text-red-300 mb-0.5">
-              {conflictIssue.title}
+              // {conflictIssue.title}
             </span>
             <p className="text-[11px] leading-relaxed text-red-200/90">
               {conflictIssue.message}

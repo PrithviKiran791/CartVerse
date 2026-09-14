@@ -139,26 +139,26 @@ export const defaultFooterItems: NavItemType[] = [
 ];
 
 const DefaultFeatureCard = () => (
-  <div className="bg-neutral-950/80 border border-neutral-800 rounded-2xl p-4 space-y-3">
+  <div className="bg-neutral-950 border-2 border-neutral-900 dark:border-neutral-700 rounded-none p-4 space-y-3 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D]">
     <div className="flex items-center justify-between">
-      <div className="flex items-center gap-2 text-xs font-bold text-neutral-200">
+      <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-200">
         <Zap className="w-4 h-4 text-amber-400" />
-        <span>Power & Headroom</span>
+        <span>POWER & HEADROOM</span>
       </div>
-      <span className="text-[10px] font-sans text-emerald-400 bg-emerald-950/80 border border-emerald-800 px-1.5 py-0.5 rounded">
+      <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950 border border-emerald-800 px-1.5 py-0.5 rounded-none font-bold">
         OPTIMAL
       </span>
     </div>
     <div className="space-y-1">
-      <div className="flex justify-between text-[11px] font-sans text-neutral-400">
-        <span>Suggested PSU</span>
-        <span className="text-white font-bold">850W Gold</span>
+      <div className="flex justify-between text-[10px] font-mono text-neutral-400">
+        <span>SUGGESTED PSU</span>
+        <span className="text-white font-bold">[850W GOLD]</span>
       </div>
-      <div className="w-full bg-neutral-800 h-2 rounded-full overflow-hidden">
+      <div className="w-full bg-neutral-800 h-2 rounded-none border border-neutral-700 overflow-hidden">
         <div className="bg-gradient-to-r from-emerald-500 via-amber-500 to-red-500 h-full w-[68%]" />
       </div>
     </div>
-    <p className="text-[10px] text-neutral-400 leading-tight">
+    <p className="text-[10px] font-mono text-neutral-400 leading-tight">
       Real-time wattage estimation calculated live against active build selections.
     </p>
   </div>
@@ -195,18 +195,18 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
   return (
     <aside
       className={cn(
-        'w-full lg:w-72 bg-neutral-900/95 border border-neutral-800 rounded-3xl p-5 shadow-2xl flex flex-col justify-between backdrop-blur-xl space-y-6',
+        'w-full lg:w-72 bg-neutral-900 border-2 border-neutral-900 dark:border-neutral-700 rounded-none sm:rounded-md p-5 shadow-[6px_6px_0px_0px_#000000] dark:shadow-[6px_6px_0px_0px_#FF1E2D] flex flex-col justify-between backdrop-blur-xl space-y-6',
         className
       )}
     >
       <div className="space-y-6">
         {/* Navigation Section Title */}
-        <div className="pb-3 border-b border-neutral-800 flex items-center justify-between">
-          <Typography type="h4" className="text-xs font-sans font-bold uppercase tracking-wider text-neutral-400">
-            Navigation Menu
+        <div className="pb-3 border-b-2 border-neutral-800 flex items-center justify-between">
+          <Typography type="h4" className="text-xs font-mono font-bold uppercase tracking-wider text-neutral-400">
+            // NAV_DECK
           </Typography>
-          <span className="text-[10px] font-sans bg-red-950 text-red-400 border border-red-800 px-2 py-0.5 rounded font-bold">
-            UNTITLED UI
+          <span className="text-[10px] font-mono bg-red-950 text-red-400 border border-red-800 px-2 py-0.5 rounded-none font-bold shadow-[2px_2px_0px_0px_#000000]">
+            SYS.INDEX
           </span>
         </div>
 
@@ -222,7 +222,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                 {hasSub ? (
                   <button
                     onClick={() => toggleGroup(item.label)}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-neutral-300 hover:text-white hover:bg-neutral-800/80 transition-colors"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-none text-xs font-mono font-bold text-neutral-300 hover:text-white hover:bg-neutral-800/80 transition-colors border border-transparent hover:border-neutral-700 cursor-pointer"
                   >
                     <div className="flex items-center gap-2.5">
                       {item.category && getHardwareIcon(item.category) ? (
@@ -241,7 +241,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                     </div>
                     <div className="flex items-center gap-1.5">
                       {item.badge && (
-                        <span className="text-[10px] font-sans bg-neutral-800 text-neutral-300 px-1.5 py-0.5 rounded">
+                        <span className="text-[10px] font-mono bg-neutral-800 text-neutral-300 px-1.5 py-0.5 rounded-none border border-neutral-700">
                           {item.badge}
                         </span>
                       )}
@@ -257,10 +257,10 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                     to={item.href}
                     onClick={(e) => handleItemClick(e, item.category, item.href)}
                     className={cn(
-                      'flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all',
+                      'flex items-center justify-between px-3 py-2 rounded-none text-xs font-mono font-bold transition-all cursor-pointer',
                       activeCategory === item.category
-                        ? 'bg-red-600 text-white shadow-md'
-                        : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80'
+                        ? 'bg-red-600 text-white border-2 border-neutral-900 dark:border-white shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF]'
+                        : 'text-neutral-300 hover:text-white hover:bg-neutral-800/80 border border-transparent hover:border-neutral-700'
                     )}
                   >
                     <div className="flex items-center gap-2.5">
@@ -279,7 +279,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                       <span>{item.label}</span>
                     </div>
                     {item.badge && (
-                      <span className="text-[10px] font-sans bg-red-950 text-red-400 border border-red-800 px-1.5 py-0.5 rounded font-bold">
+                      <span className="text-[10px] font-mono bg-red-950 text-red-400 border border-red-800 px-1.5 py-0.5 rounded-none font-bold">
                         {item.badge}
                       </span>
                     )}
@@ -288,7 +288,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
 
                 {/* Sub-items collapse */}
                 {hasSub && isOpen && (
-                  <div className="pl-6 space-y-1 pt-0.5 border-l border-neutral-800 ml-5">
+                  <div className="pl-6 space-y-1 pt-0.5 border-l-2 border-neutral-800 ml-5">
                     {item.items?.map((sub) => {
                       const SubIcon = sub.icon || LayoutGrid;
                       const isSubActive = activeCategory === sub.category;
@@ -300,10 +300,10 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                           to={sub.href}
                           onClick={(e) => handleItemClick(e, sub.category, sub.href)}
                           className={cn(
-                            'flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all',
+                            'flex items-center justify-between px-2.5 py-1.5 rounded-none text-xs font-mono transition-all',
                             isSubActive
-                              ? 'bg-red-600/20 text-red-400 border border-red-500/40 font-bold'
-                              : 'text-neutral-400 hover:text-neutral-100 hover:bg-neutral-850'
+                              ? 'bg-red-600/20 text-red-400 border-2 border-red-500 font-bold shadow-[2px_2px_0px_0px_#000000]'
+                              : 'text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800 border border-transparent hover:border-neutral-700'
                           )}
                         >
                           <div className="flex items-center gap-2">
@@ -322,7 +322,7 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
                             <span>{sub.label}</span>
                           </div>
                           {sub.badge && (
-                            <span className="text-[9px] font-sans bg-neutral-800 text-amber-400 px-1.5 py-0.5 rounded">
+                            <span className="text-[9px] font-mono bg-neutral-800 text-amber-400 px-1.5 py-0.5 rounded-none border border-neutral-700">
                               {sub.badge}
                             </span>
                           )}
@@ -342,21 +342,21 @@ export const SidebarNavigationSimple: React.FC<SidebarNavigationSimpleProps> = (
 
       {/* Footer Items */}
       {footerItems && footerItems.length > 0 && (
-        <div className="pt-4 border-t border-neutral-800 space-y-1">
+        <div className="pt-4 border-t-2 border-neutral-800 space-y-1">
           {footerItems.map((fItem) => {
             const FIcon = fItem.icon || CheckCircle2;
             return (
               <Link
                 key={fItem.label}
                 to={fItem.href}
-                className="flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold text-neutral-400 hover:text-neutral-100 hover:bg-neutral-850 transition-colors"
+                className="flex items-center justify-between px-3 py-2 rounded-none text-xs font-mono font-semibold text-neutral-400 hover:text-neutral-100 hover:bg-neutral-800 border border-transparent hover:border-neutral-700 transition-colors"
               >
                 <div className="flex items-center gap-2.5">
                   <FIcon className="w-4 h-4 text-neutral-500 shrink-0" />
                   <span>{fItem.label}</span>
                 </div>
                 {fItem.badge && (
-                  <span className="text-[9px] font-sans bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded">
+                  <span className="text-[9px] font-mono bg-emerald-950 text-emerald-400 border border-emerald-800 px-1.5 py-0.5 rounded-none">
                     {fItem.badge}
                   </span>
                 )}

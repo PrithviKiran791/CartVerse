@@ -7,6 +7,7 @@ export function getEndpointMessage(pathname: string, search: string = ''): strin
 
   // Core Pages
   if (pathname === '/') return 'INITIALIZING CARTVERSE HOMEPAGE';
+  if (pathname.startsWith('/about')) return 'RETRIEVING CARTVERSE ARCHITECTURE & MANIFESTO';
   if (pathname.startsWith('/builder') || pathname.startsWith('/pc-builder')) return 'LOADING PC BUILDER STUDIO';
   if (pathname === '/products') return 'INDEXING HARDWARE CATALOG';
   if (pathname.startsWith('/product/')) return 'FETCHING COMPONENT SPECIFICATIONS';
@@ -26,6 +27,7 @@ export function getEndpointMessage(pathname: string, search: string = ''): strin
   if (pathname.startsWith('/gaming-consoles')) return 'CONFIGURING GAMING CONSOLE SYSTEMS';
   if (pathname.startsWith('/cables-headers')) return 'VERIFYING INTERFACE PROTOCOLS';
   if (pathname.startsWith('/displays')) return 'CALIBRATING ULTRA-HD PANEL RESOLUTIONS';
+  if (pathname.startsWith('/workspace') || pathname.startsWith('/tables-chairs') || pathname.startsWith('/desks-chairs')) return 'CONFIGURING ERGONOMIC WORKSPACE & SEATING';
 
   // Shopping, Cart & Transactions
   if (pathname.startsWith('/cart')) return 'SYNCING SECURE CART SYSTEM';

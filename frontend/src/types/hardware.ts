@@ -24,7 +24,9 @@ export type ComponentCategory =
   | 'prebuilt'
   | 'server'
   | 'supercomputer'
-  | 'simulator';
+  | 'simulator'
+  | 'chair'
+  | 'table';
 
 export type CPUSocket = 'AM4' | 'AM5' | 'LGA1200' | 'LGA1700' | 'LGA1851' | 'sTR5' | 'SP3' | 'SP5' | 'LGA4677';
 export type RAMType = 'DDR4' | 'DDR5';

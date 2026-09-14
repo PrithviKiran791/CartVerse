@@ -22,6 +22,7 @@ import {
   Droplets,
   Server,
   Database,
+  Armchair,
 } from 'lucide-react';
 import { mockProducts } from '../data/mockProducts';
 import { getComponentImage } from '../utils/assetRegistry';
@@ -35,6 +36,7 @@ import { MagneticButton } from '../components/ui/magnetic-button';
 import { NoiseBackground } from '../components/ui/noise-background';
 import GradientText from '../components/common/GradientText';
 import ShapeGrid from '../components/common/ShapeGrid';
+import Topography from '../components/ui/Topography';
 import Typography from '../components/ui/Typography';
 import FadeContent from '../components/common/FadeContent';
 import { useTheme } from '../context/ThemeContext';
@@ -132,17 +134,17 @@ export const HomePage: React.FC = () => {
     image: getComponentImage(pc.imageSlug, 'prebuilt'),
     alt: pc.name,
     overlay: (
-      <div className="font-sans text-xs space-y-1 bg-neutral-950/85 p-3 rounded-xl border border-neutral-800/80 backdrop-blur-md">
+      <div className="font-mono text-xs space-y-1 bg-neutral-950/95 p-3 rounded-none border-2 border-neutral-800 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] backdrop-blur-md">
         <div className="flex items-center justify-between gap-1">
-          <p className="font-extrabold text-white text-sm truncate">{pc.name}</p>
-          <span className="text-[9px] bg-[#FF1E2D]/20 text-[#FF1E2D] border border-[#FF1E2D]/50 px-1.5 py-0.5 rounded font-bold shrink-0">
+          <p className="font-bold text-white text-sm truncate">{pc.name}</p>
+          <span className="text-[9px] bg-[#FF1E2D]/20 text-[#FF1E2D] border border-[#FF1E2D] px-1.5 py-0.5 rounded-none font-bold shrink-0">
             {pc.tier}
           </span>
         </div>
         <p className="text-neutral-300 text-[10px] line-clamp-1">{pc.specs}</p>
         <div className="pt-1 flex items-center justify-between">
-          <span className="text-[10px] text-[#FF1E2D] uppercase font-bold">Price:</span>
-          <span className="bg-[#FF1E2D] text-white font-black text-xs px-2 py-0.5 rounded font-sans shadow-md">
+          <span className="text-[10px] text-[#FF1E2D] uppercase font-bold">PRICE:</span>
+          <span className="bg-[#FF1E2D] text-white font-black text-xs px-2 py-0.5 rounded-none font-mono shadow-[2px_2px_0px_0px_#000000]">
             {pc.price}
           </span>
         </div>
@@ -166,15 +168,30 @@ export const HomePage: React.FC = () => {
           id="hero-overview"
           className="relative overflow-hidden pt-12 pb-20 bg-gradient-to-b from-slate-100 via-white to-slate-100 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-950 border-b border-neutral-200 dark:border-neutral-800 transition-colors duration-200"
         >
-          <div className="absolute inset-0 z-0 pointer-events-auto opacity-50">
-            <ShapeGrid
-              speed={0.5}
-              squareSize={40}
-              direction="diagonal"
-              borderColor={isDarkMode ? 'rgba(255, 30, 45, 0.18)' : 'rgba(255, 30, 45, 0.12)'}
-              hoverFillColor="#FF1E2D"
-              shape="square"
-              hoverTrailAmount={3}
+          {/* Red Topography Elevation Lines Background Animation */}
+          <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-85 dark:opacity-80">
+            <Topography
+              lowColor="#800810"
+              midColor="#E31B23"
+              highColor="#FF4D5A"
+              speed={0.35}
+              morphAmount={3.0}
+              morphSpeed={0.06}
+              bands={6.0}
+              thickness={0.03}
+              scale={1.5}
+              pixelSize={1}
+              glow={0.8}
+              colorMode="elevation"
+              contrast={1.0}
+              brightness={1.35}
+              fillBands={false}
+              opacity={0.85}
+              grain={true}
+              grainIntensity={0.04}
+              mouseInteraction={true}
+              mouseRadius={0.35}
+              mouseStrength={0.5}
             />
           </div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#FF1E2D]/10 dark:bg-[#FF1E2D]/15 rounded-full blur-[140px] pointer-events-none z-0" />
@@ -369,6 +386,8 @@ export const HomePage: React.FC = () => {
                 { name: 'AI Systems',          iconKey: 'ai',          icon: Sparkles,  href: '/servers?useCase=ai-training',              count: 'Exascale'   },
                 { name: 'Storage Arrays',      iconKey: 'database',    icon: Database,  href: '/servers?useCase=storage',                  count: 'SAN'        },
                 { name: 'Consoles',            iconKey: 'console',     icon: Gamepad2,  href: '/console',                                  count: 'PS / Xbox'  },
+                { name: 'Desks & Tables',       iconKey: 'table',       icon: Layers,    href: '/workspace?tab=tables',                     count: '20 Desks'   },
+                { name: 'Gaming & Mesh Chairs', iconKey: 'chair',       icon: Armchair,  href: '/workspace?tab=chairs',                     count: '20 Chairs'  },
               ].map((cat, idx) => {
                 const Icon = cat.icon;
                 const iconSrc = getHardwareIcon(cat.iconKey);
@@ -377,9 +396,9 @@ export const HomePage: React.FC = () => {
                   <Link
                     key={idx}
                     to={cat.href}
-                    className="group bg-white hover:bg-neutral-50 dark:bg-neutral-900/80 border border-neutral-200 dark:border-neutral-800 hover:border-[#FF1E2D]/60 rounded-2xl p-4 transition-all flex flex-col items-center text-center shadow-sm hover:shadow-lg dark:shadow-none"
+                    className="group bg-white hover:bg-neutral-50 dark:bg-[#121215] border-2 border-neutral-900 dark:border-neutral-700 hover:border-[#FF1E2D] rounded-none p-4 transition-all duration-150 flex flex-col items-center text-center shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_#000000] dark:hover:shadow-[6px_6px_0px_0px_#FF1E2D]"
                   >
-                    <div className="w-14 h-14 rounded-2xl bg-neutral-100 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 group-hover:border-[#FF1E2D]/50 group-hover:bg-[#FF1E2D]/10 flex items-center justify-center mb-2.5 transition-all duration-300 group-hover:scale-110 shadow-inner text-[#FF1E2D]">
+                    <div className="w-14 h-14 rounded-none bg-neutral-100 dark:bg-neutral-950 border-2 border-neutral-900 dark:border-neutral-700 group-hover:border-[#FF1E2D] shadow-[2px_2px_0px_0px_#FF1E2D] flex items-center justify-center mb-2.5 transition-all text-[#FF1E2D]">
                       {iconSrc ? (
                         <img
                           src={iconSrc}
@@ -393,10 +412,10 @@ export const HomePage: React.FC = () => {
                         <Icon className="w-6 h-6 text-[#FF1E2D] transition-transform duration-300 group-hover:scale-110" />
                       )}
                     </div>
-                    <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200 group-hover:text-[#FF1E2D] dark:group-hover:text-[#FF1E2D] transition-colors line-clamp-1">
+                    <span className="text-xs font-mono font-bold text-neutral-900 dark:text-neutral-200 group-hover:text-[#FF1E2D] dark:group-hover:text-[#FF1E2D] transition-colors line-clamp-1">
                       {cat.name}
                     </span>
-                    <span className="text-[10px] text-[#FF1E2D] font-bold mt-1">{cat.count}</span>
+                    <span className="text-[10px] font-mono text-[#FF1E2D] font-bold mt-1 uppercase">// {cat.count}</span>
                   </Link>
                 );
               })}

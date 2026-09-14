@@ -221,11 +221,11 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product, onViewDe
   };
 
   return (
-    <div className="group flex flex-col justify-between overflow-hidden rounded-lg border border-neutral-200 dark:border-neutral-800/90 bg-white dark:bg-[#120F17] hover:border-[#FF1E2D]/75 transition-all duration-200 hover:shadow-[0_8px_28px_-6px_rgba(255,30,45,0.25)] shadow-sm">
+    <div className="group flex flex-col justify-between overflow-hidden rounded-none border-2 border-neutral-900 dark:border-neutral-700 bg-white dark:bg-[#121215] shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_#000000] dark:hover:shadow-[6px_6px_0px_0px_#FF1E2D] transition-all duration-150">
       {/* Product Image Stage */}
       <div
         onClick={handleNavigateDetails}
-        className="relative h-48 sm:h-52 bg-neutral-100 dark:bg-neutral-950 flex items-center justify-center p-4 border-b border-neutral-200 dark:border-neutral-800/80 overflow-hidden cursor-pointer"
+        className="relative h-48 sm:h-52 bg-neutral-100 dark:bg-neutral-950 flex items-center justify-center p-4 border-b-2 border-neutral-900 dark:border-neutral-800 overflow-hidden cursor-pointer"
       >
         <img
           src={imgUrl}
@@ -236,14 +236,13 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product, onViewDe
 
         {/* Discount Badge */}
         {discountPercent !== null && discountPercent > 0 && product.category !== 'simulator' && !hideOffer && (
-          <span className="absolute top-2.5 left-2.5 text-[10px] font-sans font-bold uppercase tracking-wider bg-[#FF1E2D] text-white px-2 py-0.5 rounded-sm shadow-sm">
+          <span className="absolute top-2.5 left-2.5 text-[9px] font-mono font-bold uppercase tracking-wider bg-[#FF1E2D] text-white px-2 py-0.5 rounded-none border-2 border-neutral-900 dark:border-neutral-700 shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF]">
             {discountPercent}% OFF
           </span>
         )}
 
-
         {/* Brand Badge */}
-        <span className="absolute top-2.5 right-2.5 text-[10px] font-sans font-bold uppercase tracking-wider text-[#FF1E2D] bg-white/90 dark:bg-neutral-900/90 px-2.5 py-0.5 rounded-sm border border-neutral-200 dark:border-neutral-800">
+        <span className="absolute top-2.5 right-2.5 text-[9px] font-mono font-bold uppercase tracking-wider text-[#FF1E2D] bg-white dark:bg-neutral-900 px-2 py-0.5 rounded-none border-2 border-neutral-900 dark:border-neutral-700 shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D]">
           {product.brand}
         </span>
       </div>
@@ -252,18 +251,18 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product, onViewDe
       <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3.5">
         <div>
           {/* Brand & Name */}
-          <div className="text-[10px] font-sans font-bold uppercase tracking-widest text-[#FF1E2D] mb-1">
-            {product.brand}
+          <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#FF1E2D] mb-1">
+            // {product.brand}
           </div>
           <Link
             to={`/product/${product.id}`}
-            className="text-sm sm:text-base font-black text-neutral-900 dark:text-white uppercase tracking-tight group-hover:text-[#FF1E2D] transition-colors line-clamp-2 leading-snug"
+            className="text-sm sm:text-base font-black font-mono text-neutral-900 dark:text-white uppercase tracking-tight group-hover:text-[#FF1E2D] transition-colors line-clamp-2 leading-snug"
           >
             {product.name}
           </Link>
 
           {/* Key Specifications Table */}
-          <div className="mt-3 bg-neutral-50 dark:bg-neutral-900/80 border border-neutral-200 dark:border-neutral-800/80 rounded-md p-2.5">
+          <div className="mt-3 bg-neutral-100 dark:bg-[#0E0E10] border-2 border-neutral-900 dark:border-neutral-800 rounded-none p-2.5 font-mono">
             {renderCategorySpecs()}
           </div>
 
@@ -276,32 +275,31 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product, onViewDe
         </div>
 
         {/* Rating & Stock Status */}
-        <div className="flex items-center justify-between text-xs font-sans pt-1">
+        <div className="flex items-center justify-between text-xs font-mono pt-1">
           {product.category === 'simulator' || hideRating ? (
             <span className="text-[10px] font-mono text-neutral-400 font-bold uppercase tracking-wider">
               {product.subcategory || 'SIMULATOR HARDWARE'}
             </span>
           ) : product.avgRating || product.rating ? (
-            <div className="flex items-center gap-1.5 text-amber-500 dark:text-amber-400 font-bold">
+            <div className="flex items-center gap-1.5 text-amber-500 dark:text-amber-400 font-bold font-mono">
               <Star className="w-3.5 h-3.5 fill-current" />
               <span>{(product.avgRating || product.rating).toFixed(1)}</span>
-              <span className="text-[10px] text-neutral-500 font-normal">
+              <span className="text-[9px] text-neutral-500 font-normal">
                 ({product.reviewCount || product.reviewsCount} REVIEWS)
               </span>
             </div>
           ) : (
-            <div className="flex items-center gap-1 text-[10px] font-sans text-neutral-400 dark:text-neutral-500">
+            <div className="flex items-center gap-1 text-[10px] font-mono text-neutral-400 dark:text-neutral-500">
               <Star className="w-3 h-3 text-neutral-400 dark:text-neutral-600" />
               <span>NEW / UNRATED</span>
             </div>
           )}
 
-
           {product.category !== 'simulator' && !hideStock && (
-            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${
+            <span className={`text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-none border-2 ${
               product.stock > 0
-                ? 'text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/40'
-                : 'text-[#FF1E2D] bg-[#FF1E2D]/10 border border-[#FF1E2D]/30'
+                ? 'text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/60 border-emerald-600'
+                : 'text-[#FF1E2D] bg-[#FF1E2D]/10 border-red-600'
             }`}>
               {product.stock > 0 ? 'IN STOCK' : 'OUT OF STOCK'}
             </span>
@@ -309,26 +307,25 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product, onViewDe
         </div>
 
         {/* Pricing & CTA Actions */}
-        <div className="space-y-2.5 pt-2 border-t border-neutral-200 dark:border-neutral-800/70">
-          <div className="flex items-baseline justify-between">
-            <span className="text-xl font-black text-neutral-900 dark:text-white font-sans tracking-tight">
+        <div className="space-y-2.5 pt-2 border-t-2 border-neutral-200 dark:border-neutral-800">
+          <div className="flex items-baseline justify-between font-mono">
+            <span className="text-xl font-black text-neutral-900 dark:text-white tracking-tight">
               {formatCurrency(product.price)}
             </span>
             {product.category !== 'simulator' && !hideOffer && product.originalPrice && product.originalPrice > product.price && (
-              <span className="text-xs text-neutral-500 line-through font-sans">
+              <span className="text-xs text-neutral-500 line-through">
                 {formatCurrency(product.originalPrice)}
               </span>
             )}
           </div>
 
-
           {/* Action Buttons: ADD TO BUILD & ADD TO CART */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 font-mono">
             {isBuildComponent ? (
               <button
                 type="button"
                 onClick={() => addProductToPCBuild(product)}
-                className="flex items-center justify-center gap-1.5 py-2 px-2 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-neutral-300 hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-[#FF1E2D]/80 text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-800 hover:text-black dark:text-neutral-200 dark:hover:text-white rounded transition-colors cursor-pointer"
+                className="flex items-center justify-center gap-1.5 py-2 px-2 bg-white dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 border-2 border-neutral-900 dark:border-neutral-700 text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-neutral-200 rounded-none shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
                 title="Add to Custom PC Build Slot"
               >
                 <Wrench className="w-3.5 h-3.5 text-[#FF1E2D]" />
@@ -342,7 +339,7 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product, onViewDe
                   toast.success(`Added ${product.name} to Cart`);
                   openCart();
                 }}
-                className="flex items-center justify-center gap-1.5 py-2 px-2 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-900 dark:hover:bg-neutral-800 border border-neutral-300 hover:border-neutral-400 dark:border-neutral-700 dark:hover:border-neutral-600 text-[11px] font-sans font-bold uppercase tracking-wider text-neutral-800 hover:text-black dark:text-neutral-200 dark:hover:text-white rounded transition-colors cursor-pointer"
+                className="flex items-center justify-center gap-1.5 py-2 px-2 bg-white dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 border-2 border-neutral-900 dark:border-neutral-700 text-[10px] font-mono font-bold uppercase tracking-wider text-neutral-900 dark:text-neutral-200 rounded-none shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.2)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
               >
                 <ShoppingBag className="w-3.5 h-3.5 text-[#FF1E2D]" />
                 <span>BUY NOW</span>
@@ -356,7 +353,7 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product, onViewDe
                 toast.success(`Added ${product.name} to Cart`);
                 openCart();
               }}
-              className="flex items-center justify-center gap-1.5 py-2 px-2 bg-[#FF1E2D] hover:bg-[#FF3B48] text-[11px] font-sans font-bold uppercase tracking-wider text-white rounded transition-colors cursor-pointer shadow-sm"
+              className="flex items-center justify-center gap-1.5 py-2 px-2 bg-[#FF1E2D] hover:bg-[#FF3B48] border-2 border-neutral-900 dark:border-neutral-700 text-[10px] font-mono font-bold uppercase tracking-wider text-white rounded-none shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
             >
               <ShoppingBag className="w-3.5 h-3.5" />
               <span>ADD TO CART</span>
@@ -367,7 +364,7 @@ export const ProductCard: React.FC<ProductCardProps> = memo(({ product, onViewDe
           <button
             type="button"
             onClick={handleNavigateDetails}
-            className="w-full text-center text-[10px] font-sans font-bold uppercase tracking-widest text-[#FF1E2D] hover:text-[#FF3B48] transition-colors pt-1 cursor-pointer"
+            className="w-full text-center text-[10px] font-mono font-bold uppercase tracking-widest text-[#FF1E2D] hover:text-[#FF3B48] transition-colors pt-1 cursor-pointer"
           >
             [ VIEW DETAILS → ]
           </button>

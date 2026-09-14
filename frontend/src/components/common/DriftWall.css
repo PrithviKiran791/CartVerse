@@ -163,7 +163,7 @@ html:not(.dark) .drift-wall__card-info {
 }
 
 .drift-wall__category-tag {
-  font-family: 'Inter Tight', Inter, sans-serif;
+  font-family: var(--font-primary);
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -176,7 +176,7 @@ html:not(.dark) .drift-wall__card-info {
 }
 
 .drift-wall__brand-tag {
-  font-family: 'Inter Tight', Inter, sans-serif;
+  font-family: var(--font-primary);
   font-size: 8.5px;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -193,7 +193,7 @@ html:not(.dark) .drift-wall__brand-tag {
 }
 
 .drift-wall__title {
-  font-family: 'Inter Tight', Inter, sans-serif;
+  font-family: var(--font-primary);
   font-size: 11px;
   font-weight: 700;
   color: #f4f4f5;
@@ -216,7 +216,7 @@ html:not(.dark) .drift-wall__title {
 }
 
 .drift-wall__price {
-  font-family: 'Inter Tight', Inter, sans-serif;
+  font-family: var(--font-primary);
   font-size: 11px;
   font-weight: 800;
   color: #FF1E2D;
@@ -224,7 +224,7 @@ html:not(.dark) .drift-wall__title {
 }
 
 .drift-wall__cta {
-  font-family: 'Inter Tight', Inter, sans-serif;
+  font-family: var(--font-primary);
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;

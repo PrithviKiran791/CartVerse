@@ -23,26 +23,34 @@ export interface FontSettings {
 
 export const AVAILABLE_FONTS: FontOption[] = [
   {
-    id: 'inter-tight',
-    label: 'Inter Tight',
-    family: '"Inter Tight", Inter, system-ui, sans-serif',
+    id: 'syne',
+    label: 'Syne',
+    family: '"Syne", sans-serif',
     category: 'sans',
-    description: 'Primary UI font for all CartVerse interfaces.',
+    description: 'Primary UI and body font for CartVerse.',
     bestFor: 'all',
+  },
+  {
+    id: 'archivo-black',
+    label: 'Archivo Black',
+    family: '"Archivo Black", sans-serif',
+    category: 'display',
+    description: 'Technical brutalist display font for headings and banners.',
+    bestFor: 'heading',
   },
   {
     id: 'merriweather',
     label: 'Merriweather',
     family: 'Merriweather, Georgia, serif',
     category: 'display',
-    description: 'Editorial/display font for hero headings and promotional content.',
+    description: 'Editorial serif font strictly reserved for the About Us page.',
     bestFor: 'heading',
   },
 ];
 
 const DEFAULT_SETTINGS: FontSettings = {
-  headingFontId: 'inter-tight',
-  bodyFontId: 'inter-tight',
+  headingFontId: 'archivo-black',
+  bodyFontId: 'syne',
 };
 
 interface FontContextType {
@@ -54,14 +62,15 @@ interface FontContextType {
 
 const FontContext = createContext<FontContextType | undefined>(undefined);
 
-const interTight = AVAILABLE_FONTS[0];
+const syneFont = AVAILABLE_FONTS[0];
+const archivoBlackFont = AVAILABLE_FONTS[1];
 
 export const FontProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const value = useMemo<FontContextType>(
     () => ({
       settings: DEFAULT_SETTINGS,
-      activeHeadingFont: interTight,
-      activeBodyFont: interTight,
+      activeHeadingFont: archivoBlackFont,
+      activeBodyFont: syneFont,
       availableFonts: AVAILABLE_FONTS,
     }),
     []

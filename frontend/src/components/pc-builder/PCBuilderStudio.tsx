@@ -101,19 +101,20 @@ export const PCBuilderStudio: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative z-10">
         {/* Studio Header */}
+        {/* Studio Header */}
         <FadeContent blur={true} duration={800} easing="ease-out" initialOpacity={0}>
-          <div className="bg-gradient-to-r from-neutral-900 via-neutral-950 to-red-950/40 border border-neutral-800 rounded-3xl p-8 mb-8 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+          <div className="bg-[#0E0E11] border-2 sm:border-[3px] border-neutral-900 dark:border-neutral-700 rounded-none sm:rounded-md p-6 sm:p-8 mb-8 relative overflow-hidden shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#FF1E2D]">
             {/* Aceternity Animated Background Boxes */}
             <div className="absolute inset-0 w-full h-full bg-neutral-950/70 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
             <Boxes />
             <div className="absolute right-0 top-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div>
-                <div className="flex items-center gap-2 text-xs font-sans text-[#FF1E2D] uppercase tracking-widest mb-2 font-bold">
+                <div className="flex items-center gap-2 text-xs font-mono text-[#FF1E2D] uppercase tracking-wider mb-2 font-bold">
                   <Cpu className="w-4 h-4 text-[#FF1E2D]" />
-                  CartVerse Interactive Hardware Studio
+                  // SYS.STUDIO // RIG_CONFIGURATOR_v2
                 </div>
-                <Typography type="h1" className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+                <Typography type="h1" className="text-3xl sm:text-5xl font-black text-white tracking-tight font-mono uppercase">
                   Custom PC Builder & Configurator
                 </Typography>
                 <Typography type="body-sm" color="muted" className="mt-2 max-w-2xl leading-relaxed">
@@ -121,21 +122,14 @@ export const PCBuilderStudio: React.FC = () => {
                 </Typography>
               </div>
 
-              <NoiseBackground
-                containerClassName="w-fit p-1.5 rounded-full shrink-0 shadow-2xl"
-                gradientColors={[
-                  'rgb(255, 100, 150)',
-                  'rgb(100, 150, 255)',
-                  'rgb(255, 200, 100)',
-                ]}
-              >
+              <div className="shrink-0">
                 <button
                   onClick={() => openSlotPicker('cpu')}
-                  className="h-full w-full cursor-pointer rounded-full bg-neutral-950 hover:bg-neutral-900 px-6 py-3 text-xs font-black uppercase tracking-wider text-white shadow-[0px_1px_0px_0px_rgba(255,255,255,0.25)_inset,0px_1px_0px_0px_rgba(0,0,0,0.9)] transition-all duration-100 active:scale-95 flex items-center gap-2"
+                  className="cursor-pointer rounded-none border-2 border-neutral-900 dark:border-white bg-[#FF1E2D] hover:bg-[#FF3B48] px-6 py-3.5 text-xs font-mono font-bold uppercase tracking-wider text-white shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FFFFFF] transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center gap-2"
                 >
                   <span>Start Component Selection &rarr;</span>
                 </button>
-              </NoiseBackground>
+              </div>
             </div>
           </div>
         </FadeContent>
@@ -144,7 +138,10 @@ export const PCBuilderStudio: React.FC = () => {
         <ContainerScroll
           titleComponent={
             <div className="text-center mb-6">
-              <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight mt-2">
+              <div className="font-mono text-[10px] text-[#FF1E2D] font-bold tracking-wider uppercase mb-1">
+                // ACTIVE_WORKBENCH
+              </div>
+              <Typography type="h2" className="text-2xl sm:text-3xl font-black text-white tracking-tight uppercase font-mono mt-1">
                 Configure Core Hardware & Peripherals
               </Typography>
               <Typography type="body-sm" color="muted" className="mt-1 max-w-xl mx-auto">
@@ -157,14 +154,14 @@ export const PCBuilderStudio: React.FC = () => {
           <div className="space-y-8">
             {/* Core System Components */}
             <div>
-              <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
+              <div className="flex items-center justify-between pb-3 mb-4 border-b-2 border-neutral-900 dark:border-neutral-800">
                 <div className="flex items-center gap-2.5">
                   <img src={getHardwareIcon('cpu')} alt="" className="w-5 h-5 object-contain shrink-0" />
-                  <Typography type="h3" className="text-sm font-bold text-white uppercase tracking-wider">
+                  <Typography type="h3" className="text-sm font-mono font-bold text-white uppercase tracking-wider">
                     Core System Architecture
                   </Typography>
                 </div>
-                <span className="text-[11px] font-sans text-[#FF1E2D] font-bold uppercase tracking-wider">Essential PC Slots</span>
+                <span className="text-[10px] font-mono text-[#FF1E2D] font-bold uppercase tracking-wider">// CORE_SLOTS [8]</span>
               </div>
 
               <div className="space-y-3">
@@ -185,14 +182,14 @@ export const PCBuilderStudio: React.FC = () => {
 
             {/* Peripherals & Accessories */}
             <div>
-              <div className="flex items-center justify-between pb-3 mb-4 border-b border-neutral-800">
+              <div className="flex items-center justify-between pb-3 mb-4 border-b-2 border-neutral-900 dark:border-neutral-800">
                 <div className="flex items-center gap-2.5">
                   <img src={getHardwareIcon('monitor')} alt="" className="w-5 h-5 object-contain shrink-0 dark:invert dark:brightness-125" />
-                  <Typography type="h3" className="text-sm font-bold text-white uppercase tracking-wider">
+                  <Typography type="h3" className="text-sm font-mono font-bold text-white uppercase tracking-wider">
                     Cooling, Displays & Peripherals
                   </Typography>
                 </div>
-                <span className="text-[11px] font-sans text-[#FF1E2D] font-bold uppercase tracking-wider">Optional Battle Station Gear</span>
+                <span className="text-[10px] font-mono text-[#FF1E2D] font-bold uppercase tracking-wider">// AUX_GEAR [5]</span>
               </div>
 
               <div className="space-y-3">

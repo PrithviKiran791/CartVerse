@@ -83,16 +83,16 @@ export const ThermalSystemsPage: React.FC = () => {
 
         {/* Page Header */}
         <FadeContent blur={true} duration={800} easing="ease-out" initialOpacity={0}>
-          <div className="border-b border-neutral-800 pb-8 mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-cyan-950/60 border border-cyan-800/40 text-cyan-400 text-xs font-sans font-bold uppercase tracking-widest mb-3">
+          <div className="border-b-2 border-neutral-800 pb-8 mb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-cyan-950/60 border-2 border-cyan-500 text-cyan-400 text-xs font-mono font-bold uppercase tracking-widest mb-3 shadow-[2px_2px_0px_0px_#06B6D4]">
               <Droplets className="w-3.5 h-3.5" />
-              <span>THERMODYNAMICS & HEAT TRANSFER</span>
+              <span>// THERMODYNAMICS & HEAT TRANSFER</span>
             </div>
             <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white uppercase font-sans">
               THERMAL SYSTEMS
             </h1>
-            <p className="mt-2 text-sm sm:text-base text-neutral-400 max-w-2xl font-sans uppercase tracking-wider">
-              KEEP YOUR RIG RUNNING COLD.
+            <p className="mt-2 text-xs sm:text-sm text-neutral-400 max-w-2xl font-mono uppercase tracking-wider">
+              [THERMAL_MANAGEMENT] // LIQUID AIOs, DUAL-TOWER HEAT SINKS & ULTRA-CONDUCTIVE COMPOUNDS
             </p>
           </div>
         </FadeContent>
@@ -104,7 +104,7 @@ export const ThermalSystemsPage: React.FC = () => {
               <Link
                 key={cat.id}
                 to={cat.route}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-neutral-800 bg-[#120F17] p-6 hover:border-cyan-500/80 transition-all duration-300 hover:shadow-[0_10px_35px_-10px_rgba(6,182,212,0.3)] cursor-pointer"
+                className="group relative flex flex-col justify-between overflow-hidden rounded-none border-2 border-neutral-700 bg-[#120F17] p-6 hover:border-cyan-400 transition-all duration-200 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#06B6D4] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_#000000] dark:hover:shadow-[6px_6px_0px_0px_#06B6D4] cursor-pointer"
               >
                 <div className="absolute right-[-20px] bottom-[-20px] w-56 h-56 pointer-events-none opacity-20 group-hover:opacity-55 group-hover:scale-105 transition-all duration-300">
                   <img
@@ -117,15 +117,15 @@ export const ThermalSystemsPage: React.FC = () => {
 
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-cyan-400 bg-cyan-950/80 px-2.5 py-0.5 rounded border border-cyan-800/40">
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-cyan-400 bg-cyan-950/80 px-2.5 py-1 rounded-none border-2 border-cyan-500 shadow-[2px_2px_0px_0px_#06B6D4]">
                       {cat.badge}
                     </span>
                   </div>
 
-                  <h3 className="text-2xl font-black text-white tracking-tight uppercase group-hover:text-cyan-400 transition-colors">
+                  <h3 className="text-2xl font-black text-white tracking-tight uppercase group-hover:text-cyan-400 transition-colors font-sans">
                     {cat.title}
                   </h3>
-                  <div className="text-xs font-bold text-neutral-300 mb-2 font-sans">
+                  <div className="text-xs font-bold text-neutral-300 mb-2 font-mono">
                     {cat.subtitle}
                   </div>
 
@@ -133,17 +133,17 @@ export const ThermalSystemsPage: React.FC = () => {
                     {cat.desc}
                   </p>
 
-                  <div className="flex flex-wrap gap-1.5 text-[10px] font-sans text-neutral-400 mb-6">
+                  <div className="flex flex-wrap gap-1.5 text-[10px] font-mono text-neutral-300 mb-6">
                     {cat.tags.map((t, idx) => (
-                      <span key={idx} className="bg-neutral-900 px-2 py-0.5 rounded border border-neutral-800">
+                      <span key={idx} className="bg-neutral-900 px-2 py-0.5 rounded-none border border-neutral-700">
                         {t}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="relative z-10 pt-4 border-t border-neutral-800/80 flex items-center justify-between">
-                  <span className="text-xs font-sans font-bold uppercase tracking-widest text-cyan-400 group-hover:text-cyan-300 flex items-center gap-2">
+                <div className="relative z-10 pt-4 border-t-2 border-neutral-800 flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold uppercase tracking-widest text-cyan-400 group-hover:text-white flex items-center gap-2">
                     EXPLORE {cat.title}
                     <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
                   </span>

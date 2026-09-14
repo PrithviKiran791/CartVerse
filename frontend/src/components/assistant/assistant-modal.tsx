@@ -44,7 +44,7 @@ export const AssistantModal: React.FC = () => {
             className="fixed inset-0 bg-black/50 z-40 sm:hidden backdrop-blur-xs"
           />
 
-          {/* Assistant window */}
+          {/* Assistant window with Technical Brutalism Effect */}
           <motion.div
             ref={modalRef}
             initial={{ opacity: 0, y: 30, scale: 0.96 }}
@@ -53,7 +53,7 @@ export const AssistantModal: React.FC = () => {
             transition={{ duration: 0.22, ease: 'easeOut' }}
             role="dialog"
             aria-label="CartVerse Assistant"
-            className="fixed bottom-0 right-0 sm:bottom-20 sm:right-6 z-50 w-full sm:w-[440px] h-[92vh] sm:h-[660px] sm:max-h-[85vh] bg-white dark:bg-[#101012] border border-neutral-200 dark:border-neutral-800 rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden font-sans"
+            className="fixed bottom-0 right-0 sm:bottom-20 sm:right-6 z-50 w-full sm:w-[450px] h-[92vh] sm:h-[680px] sm:max-h-[85vh] bg-white dark:bg-[#0E0E10] border-2 border-neutral-900 dark:border-neutral-700 rounded-none sm:rounded-md shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#FF1E2D] flex flex-col overflow-hidden font-sans"
           >
             {/* Registered tool UIs */}
             <SearchProductsTool />

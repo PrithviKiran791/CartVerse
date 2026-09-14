@@ -29,6 +29,7 @@ A modern, high-performance gaming PC configuration and e-commerce platform engin
   - [5. Interactive 3D Visual Showcases](#5-interactive-3d-visual-showcases)
   - [6. Slide-Over Cart & Checkout](#6-slide-over-cart--checkout)
   - [7. AI Shopping & PC Build Assistant (assistant-ui)](#7-ai-shopping--pc-build-assistant-assistant-ui)
+  - [8. Dedicated Workspace & Battlestation Setup (Desks & Ergonomic Chairs)](#8-dedicated-workspace--battlestation-setup-desks--ergonomic-chairs)
 - [Design Philosophy & Color System](#-design-philosophy--color-system)
 - [Architecture & Directory Structure](#-architecture--directory-structure)
 - [Compatibility & Calculation Engine](#-compatibility--calculation-engine)
@@ -96,6 +97,17 @@ A modern, high-performance gaming PC configuration and e-commerce platform engin
 - **Compatibility & Power Checks**: Leverages CartVerse hardware metadata to check socket matchups, DDR generations, and PSU wattage headroom.
 - **Strict Brand Typography**: Inherits global **Inter Tight** typography and CartVerse styling tokens, with zero monospace or terminal chatbot appearance.
 
+### 8. Dedicated Workspace & Battlestation Setup (Desks & Ergonomic Chairs)
+- **Curated Battlestation Furniture**: Dedicated catalog of 40 hand-selected models featuring 20 desks (Standard fixed-frame, Dual-Motor Sit-Stand, L-Shaped Corner Rigs) and 20 ergonomic chairs (Full-mesh executive chairs, Premium gaming bucket seats with frog tilt mechanisms).
+- **Minimalist Technical Blueprint UI**: Distraction-free, high-density interface with quick-toggle segment chips, live INR price sorting, clean technical specification tags (dimensions, materials, weight capacity, tilt mechanism, lumbar support, target desktop rig), and zero visual clutter.
+- **Hardware Clearance & Selection Matrix**:
+  - *Monitor Depth Rule*: Desks $\ge$ 700mm required for displays $\ge$ 27" or multi-monitor arm mounts to ensure healthy focal distance.
+  - *Monitor Arm C-Clamp Compatibility*: Pre-calculated rear overhang checks ($\ge$ 50mm clearance) avoiding frame collisions.
+  - *Motor Payload Safety Margin*: Sit-stand desks calculated with dynamic gross weight factoring heavy full-tower custom water-cooled rigs + multiple monitors.
+  - *Mechanism Tiering*: Distinguishes butterfly tilt mechanisms from heavy-duty multi-functional frog tilt mechanisms with lockable recline angles.
+- **1-Click Cart Integration**: Direct `toCartProduct()` mapper enabling instant cart dispatch with real-time stock and checkout calculation alongside PC hardware.
+- **Specification Blueprint Modal**: Interactive blueprint peek modal providing deep technical specs, target use-case breakdowns, and manufacturer links.
+
 ---
 
 ## 🎨 Design Philosophy & Color System
@@ -122,13 +134,23 @@ CartVerse is engineered with a **Technical Brutalist** aesthetic:
 CartVerse/
 ├── .gitignore
 ├── README.md
+├── backend/
+│   ├── config/                # Database & environment configurations
+│   ├── controllers/           # API route controllers
+│   ├── middleware/            # Auth, rate limiting & error handling
+│   ├── models/                # Sequelize ORM schema models
+│   ├── routes/                # Express API endpoints (products, orders, chat...)
+│   ├── seeder.js              # Database seed runner
+│   └── server.js              # Express 5 server root
 └── frontend/
     ├── public/
     │   ├── web_icon.png           # CartVerse favicon & browser tab icon
     │   └── Spin_logo.png          # Turbine fan asset
     ├── src/
     │   ├── assets/
-    │   │   ├── Components/        # 80+ Local hardware asset images
+    │   │   ├── Components/        # 120+ Local hardware & battlestation assets
+    │   │   │   ├── Chairs/        # Ergonomic mesh & gaming chair models
+    │   │   │   ├── Tables/        # Motorized sit-stand & fixed-frame desks
     │   │   │   ├── CPU_Image/     # Intel & AMD processors
     │   │   │   ├── GPU/           # NVIDIA & Radeon graphics cards
     │   │   │   ├── Motherboards/  # ASUS, MSI, Gigabyte motherboards
@@ -146,7 +168,8 @@ CartVerse/
     │   │   ├── reviews/           # ProductReviewsSection, ProductComments
     │   │   └── ui/                # MagneticButton, NoiseBackground, 3D cards
     │   ├── data/
-    │   │   └── mockProducts.ts    # 500+ Verified hardware items with full specs
+    │   │   ├── mockProducts.ts    # 500+ Verified hardware items with full specs
+    │   │   └── workspaceFurnitureData.ts # 40 Curated desks & chairs + clearance rules
     │   ├── hooks/
     │   │   └── useAssistantContext.ts # Live route, cart & builder context gathering
     │   ├── pages/
@@ -154,6 +177,7 @@ CartVerse/
     │   │   ├── PCBuilderPage.tsx  # Interactive builder studio page
     │   │   ├── ProductsPage.tsx   # Catalog & hardware filter engine
     │   │   ├── ProductDetailsPage.tsx # Individual component breakdown
+    │   │   ├── WorkspaceFurniturePage.tsx # Minimalist battlestation furniture studio
     │   │   └── CartPage.tsx       # Full cart review & checkout route
     │   ├── store/
     │   │   ├── useAssistantStore.ts # AI assistant drawer & queued prompt state
@@ -161,13 +185,13 @@ CartVerse/
     │   │   ├── usePCBuilderStore.ts # Rig configuration & selection state
     │   │   └── useUIStore.ts      # Modals, drawers, and quick search state
     │   ├── types/
-    │   │   ├── hardware.ts        # TypeScript interfaces for all PC parts
+    │   │   ├── hardware.ts        # TypeScript interfaces for PC parts, desks & chairs
     │   │   └── reviews.ts         # Review & ratings data models
     │   ├── utils/
     │   │   ├── assetRegistry.ts   # Dynamic Vite image resolver & SVG fallback engine
     │   │   ├── compatibilityEngine.ts # Core socket & wattage validator
     │   │   └── formatters.ts      # Indian currency (INR ₹) & wattage formatters
-    │   ├── App.tsx                # Master app router & providers
+    │   ├── App.tsx                # Master app router (`/workspace`, `/builder`, etc.)
     │   ├── index.css              # Global styles & Tailwind v4 directives
     │   └── main.tsx               # Client React root entrypoint
     ├── package.json

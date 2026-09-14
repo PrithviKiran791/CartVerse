@@ -287,7 +287,7 @@ export const ProductCatalog: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-neutral-900 via-neutral-900/90 to-red-950/40 border border-neutral-800 rounded-3xl p-6 sm:p-8 mb-8 backdrop-blur-xl relative overflow-hidden shadow-2xl">
+      <div className="bg-gradient-to-r from-neutral-900 via-neutral-900/90 to-red-950/40 border-2 sm:border-[3px] border-neutral-900 dark:border-neutral-700 rounded-none sm:rounded-md p-6 sm:p-8 mb-8 backdrop-blur-xl relative overflow-hidden shadow-[10px_10px_0px_0px_#000000] dark:shadow-[10px_10px_0px_0px_#FF1E2D]">
         {/* Animated PC Hardware Visual (Right side, behind content) */}
         <picture className="absolute right-0 top-1/2 -translate-y-1/2 w-full sm:w-[56%] lg:w-[50%] h-full pointer-events-none z-0 overflow-hidden">
           <source srcSet="/assets/animations/catalog-hardware.webp" type="image/webp" />
@@ -314,21 +314,21 @@ export const ProductCatalog: React.FC = () => {
 
         {/* Content */}
         <div className="relative z-10 max-w-2xl">
-          <div className="flex items-center gap-2 text-xs font-sans text-[#FF1E2D] font-bold uppercase tracking-wider mb-2">
+          <div className="flex items-center gap-2 text-xs font-mono text-[#FF1E2D] font-bold uppercase tracking-wider mb-2">
             <Sparkles className="w-4 h-4" />
-            Direct Indian Channel Hardware
+            // SYS.CATALOG // ENTERPRISE_&_CONSUMER_HARDWARE
           </div>
-          <Typography type="h1" className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+          <Typography type="h1" className="text-3xl sm:text-4xl font-black text-white tracking-tight uppercase font-sans">
             PC Hardware & Components Catalog
           </Typography>
-          <Typography type="body-sm" color="muted" className="mt-2 leading-relaxed">
+          <Typography type="body-sm" color="muted" className="mt-2 leading-relaxed font-mono text-xs text-neutral-400">
             Browse our comprehensive inventory of processors, GPUs, motherboards, high-speed RAM, NVMe SSDs, and peripherals with real-time stock and compatibility validation.
           </Typography>
         </div>
       </div>
 
       {/* Control bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8 bg-neutral-900/80 p-4 rounded-2xl border border-neutral-800">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8 bg-neutral-900/90 p-4 rounded-none border-2 border-neutral-900 dark:border-neutral-700 shadow-[6px_6px_0px_0px_#000000] dark:shadow-[6px_6px_0px_0px_#FF1E2D]">
         {/* Search Input */}
         <div className="relative flex-1 max-w-md">
           <input
@@ -336,7 +336,7 @@ export const ProductCatalog: React.FC = () => {
             placeholder="Search within hardware catalog..."
             value={filters.searchQuery}
             onChange={(e) => setFilters((prev) => ({ ...prev, searchQuery: e.target.value }))}
-            className="w-full bg-neutral-950 border border-neutral-800 rounded-lg pl-9 pr-8 py-2 text-xs text-neutral-200 placeholder-neutral-500 outline-none focus:border-[#FF1E2D]"
+            className="w-full bg-neutral-950 border-2 border-neutral-800 dark:border-neutral-700 rounded-none pl-9 pr-8 py-2 text-xs font-mono text-neutral-200 placeholder-neutral-500 outline-none focus:border-[#FF1E2D]"
           />
           <Search className="w-4 h-4 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2" />
           {filters.searchQuery && (
@@ -354,10 +354,10 @@ export const ProductCatalog: React.FC = () => {
           {/* Mobile Filter Toggle */}
           <button
             onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-            className="lg:hidden flex items-center gap-1.5 px-3 py-2 rounded-lg bg-neutral-800 text-xs font-bold text-neutral-200 border border-neutral-700"
+            className="lg:hidden flex items-center gap-1.5 px-3 py-2 rounded-none bg-neutral-900 text-xs font-mono font-bold text-neutral-200 border-2 border-neutral-900 dark:border-neutral-700 shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             <SlidersHorizontal className="w-3.5 h-3.5 text-[#FF1E2D]" />
-            <span>Filters</span>
+            <span>FILTERS</span>
           </button>
 
           {/* Sort selector */}
@@ -370,7 +370,7 @@ export const ProductCatalog: React.FC = () => {
                   sortBy: e.target.value as FilterState['sortBy'],
                 }))
               }
-              className="bg-neutral-950 border border-neutral-800 text-neutral-300 text-xs rounded-lg px-3 py-2 outline-none focus:border-[#FF1E2D] cursor-pointer"
+              className="bg-neutral-950 border-2 border-neutral-800 dark:border-neutral-700 text-neutral-300 text-xs font-mono rounded-none px-3 py-2 outline-none focus:border-[#FF1E2D] cursor-pointer"
             >
               <option value="featured">Featured First</option>
               <option value="price-asc">Price: Low to High</option>
@@ -385,11 +385,11 @@ export const ProductCatalog: React.FC = () => {
       {/* Active filter pills */}
       {hasActiveFilters && (
         <div className="flex flex-wrap items-center gap-2 mb-6 text-xs">
-          <span className="text-[#FF1E2D] font-bold font-sans">Active Filters:</span>
+          <span className="text-[#FF1E2D] font-mono font-bold uppercase tracking-wider">// ACTIVE_FILTERS:</span>
           {filters.category !== 'all' && (
-            <span className="bg-[#FF1E2D]/20 border border-[#FF1E2D]/50 text-[#FF1E2D] px-2.5 py-1 rounded-full flex items-center gap-1.5 font-sans font-bold">
+            <span className="bg-[#FF1E2D]/20 border-2 border-[#FF1E2D] text-[#FF1E2D] px-2.5 py-1 rounded-none shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D] flex items-center gap-1.5 font-mono font-bold">
               <HardwareIcon name={filters.category} className="w-3.5 h-3.5 object-contain" />
-              <span>Category: {filters.category.toUpperCase()}</span>
+              <span>CATEGORY: {filters.category.toUpperCase()}</span>
               <X
                 className="w-3 h-3 cursor-pointer hover:text-white ml-0.5"
                 onClick={() => setFilters((p) => ({ ...p, category: 'all' }))}
@@ -409,9 +409,9 @@ export const ProductCatalog: React.FC = () => {
             return (
               <span
                 key={uc}
-                className="bg-red-950/70 border border-red-800 text-red-300 px-2.5 py-1 rounded-full flex items-center gap-1 font-sans font-bold shadow-sm"
+                className="bg-red-950/70 border-2 border-red-800 text-red-300 px-2.5 py-1 rounded-none shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D] flex items-center gap-1 font-mono font-bold"
               >
-                Workload: {labelMap[uc] || uc}
+                WORKLOAD: {labelMap[uc] || uc}
                 <X
                   className="w-3 h-3 cursor-pointer hover:text-white ml-1"
                   onClick={() =>
@@ -427,9 +427,9 @@ export const ProductCatalog: React.FC = () => {
           {filters.sockets.map((sock) => (
             <span
               key={sock}
-              className="bg-neutral-800 border border-neutral-700 text-cyan-300 px-2.5 py-1 rounded-full flex items-center gap-1 font-sans"
+              className="bg-neutral-900 border-2 border-neutral-700 text-cyan-300 px-2.5 py-1 rounded-none shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D] flex items-center gap-1 font-mono"
             >
-              Socket: {sock}
+              SOCKET: {sock}
               <X
                 className="w-3 h-3 cursor-pointer hover:text-white"
                 onClick={() =>
@@ -441,7 +441,7 @@ export const ProductCatalog: React.FC = () => {
           {filters.ramTypes.map((rt) => (
             <span
               key={rt}
-              className="bg-neutral-800 border border-neutral-700 text-purple-300 px-2.5 py-1 rounded-full flex items-center gap-1 font-sans"
+              className="bg-neutral-900 border-2 border-neutral-700 text-purple-300 px-2.5 py-1 rounded-none shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D] flex items-center gap-1 font-mono"
             >
               RAM: {rt}
               <X
@@ -455,9 +455,9 @@ export const ProductCatalog: React.FC = () => {
           {filters.memoryTypes && filters.memoryTypes.map((mt) => (
             <span
               key={mt}
-              className="bg-neutral-800 border border-neutral-700 text-indigo-300 px-2.5 py-1 rounded-full flex items-center gap-1 font-sans"
+              className="bg-neutral-900 border-2 border-neutral-700 text-indigo-300 px-2.5 py-1 rounded-none shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D] flex items-center gap-1 font-mono"
             >
-              Memory: {mt}
+              MEMORY: {mt}
               <X
                 className="w-3 h-3 cursor-pointer hover:text-white"
                 onClick={() =>
@@ -469,9 +469,9 @@ export const ProductCatalog: React.FC = () => {
           {filters.rackUnits && filters.rackUnits.map((ru) => (
             <span
               key={ru}
-              className="bg-neutral-800 border border-neutral-700 text-amber-300 px-2.5 py-1 rounded-full flex items-center gap-1 font-sans"
+              className="bg-neutral-900 border-2 border-neutral-700 text-amber-300 px-2.5 py-1 rounded-none shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D] flex items-center gap-1 font-mono"
             >
-              Rack: {ru}U
+              RACK: {ru}U
               <X
                 className="w-3 h-3 cursor-pointer hover:text-white"
                 onClick={() =>
@@ -481,8 +481,8 @@ export const ProductCatalog: React.FC = () => {
             </span>
           ))}
           {filters.inStockOnly && (
-            <span className="bg-emerald-950/60 border border-emerald-800 text-emerald-300 px-2.5 py-1 rounded-full flex items-center gap-1 font-sans">
-              In Stock Only
+            <span className="bg-emerald-950/60 border-2 border-emerald-800 text-emerald-300 px-2.5 py-1 rounded-none shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D] flex items-center gap-1 font-mono">
+              IN_STOCK_ONLY
               <X
                 className="w-3 h-3 cursor-pointer hover:text-white"
                 onClick={() => setFilters((p) => ({ ...p, inStockOnly: false }))}
@@ -509,9 +509,9 @@ export const ProductCatalog: React.FC = () => {
                 useCases: [],
               })
             }
-            className="text-neutral-400 hover:text-[#FF1E2D] font-bold text-xs underline cursor-pointer ml-2"
+            className="text-neutral-400 hover:text-[#FF1E2D] font-mono font-bold text-xs underline cursor-pointer ml-2"
           >
-            Clear All
+            [CLEAR_ALL]
           </button>
         </div>
       )}
@@ -538,12 +538,12 @@ export const ProductCatalog: React.FC = () => {
         <div className="flex-1 min-w-0">
           {/* Faceted Grid View */}
           {sortedProducts.length === 0 ? (
-            <div className="bg-neutral-900/60 border border-neutral-800 rounded-2xl p-12 text-center">
-              <div className="w-16 h-16 rounded-full bg-neutral-800 mx-auto flex items-center justify-center mb-4 text-neutral-500">
+            <div className="bg-neutral-900/90 border-2 border-neutral-900 dark:border-neutral-700 rounded-none sm:rounded-md p-12 text-center shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#FF1E2D]">
+              <div className="w-16 h-16 rounded-none bg-neutral-800 border-2 border-neutral-700 mx-auto flex items-center justify-center mb-4 text-neutral-400 shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FF1E2D]">
                 <Search className="w-8 h-8" />
               </div>
-              <h3 className="text-lg font-bold text-white mb-2">No Matching Hardware Found</h3>
-              <p className="text-xs text-neutral-400 max-w-md mx-auto mb-6">
+              <h3 className="text-lg font-mono font-bold text-white mb-2 uppercase tracking-wide">// NO_MATCHING_HARDWARE_FOUND</h3>
+              <p className="text-xs font-mono text-neutral-400 max-w-md mx-auto mb-6">
                 We couldn't find any components matching your active filters or search query. Try broadening your criteria.
               </p>
               <button
@@ -567,9 +567,9 @@ export const ProductCatalog: React.FC = () => {
                     useCases: [],
                   });
                 }}
-                className="px-5 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white text-xs font-bold rounded-lg transition-all cursor-pointer shadow-md"
+                className="px-5 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white text-xs font-mono font-bold rounded-none border-2 border-neutral-900 dark:border-white shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FFFFFF] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
               >
-                Clear All Filters
+                RESET_ALL_FILTERS
               </button>
             </div>
           ) : (
@@ -583,22 +583,22 @@ export const ProductCatalog: React.FC = () => {
               {/* Progressive Loading & Pagination Controls */}
               {visibleCount < sortedProducts.length && (
                 <div className="pt-6 pb-2 text-center flex flex-col items-center gap-3">
-                  <p className="text-xs font-sans text-neutral-400">
-                    Showing <span className="text-white font-bold">{Math.min(visibleCount, sortedProducts.length)}</span> of{' '}
-                    <span className="text-[#FF1E2D] font-bold">{sortedProducts.length}</span> models
+                  <p className="text-xs font-mono text-neutral-400">
+                    SHOWING <span className="text-white font-bold">[{Math.min(visibleCount, sortedProducts.length)}]</span> OF{' '}
+                    <span className="text-[#FF1E2D] font-bold">[{sortedProducts.length}]</span> MODELS
                   </p>
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => setVisibleCount((prev) => prev + 24)}
-                      className="px-6 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-bold text-xs rounded-xl transition-all shadow-lg hover:shadow-[#FF1E2D]/30 cursor-pointer"
+                      className="px-6 py-2.5 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white font-mono font-bold text-xs rounded-none border-2 border-neutral-900 dark:border-white shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FFFFFF] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
                     >
-                      Load More Hardware (+24)
+                      LOAD MORE HARDWARE (+24)
                     </button>
                     <button
                       onClick={() => setVisibleCount(sortedProducts.length)}
-                      className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 border border-neutral-750 text-neutral-300 hover:text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
+                      className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 border-2 border-neutral-900 dark:border-neutral-700 text-neutral-300 hover:text-white font-mono font-bold text-xs rounded-none shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
                     >
-                      View All ({sortedProducts.length})
+                      VIEW ALL ({sortedProducts.length})
                     </button>
                   </div>
                 </div>
@@ -607,7 +607,7 @@ export const ProductCatalog: React.FC = () => {
           )}
 
           {/* Hardware Telemetry Terminal Matrix (Catalog Below Part) */}
-          <div className="relative w-full h-[320px] sm:h-[380px] mt-16 rounded-3xl border border-neutral-800/90 overflow-hidden bg-neutral-950 shadow-2xl">
+          <div className="relative w-full h-[320px] sm:h-[380px] mt-16 rounded-none sm:rounded-md border-2 sm:border-[3px] border-neutral-900 dark:border-neutral-700 overflow-hidden bg-neutral-950 shadow-[10px_10px_0px_0px_#000000] dark:shadow-[10px_10px_0px_0px_#FF1E2D]">
             <div className="absolute inset-0 z-0">
               <FaultyTerminal
                 scale={1.5}
@@ -638,26 +638,26 @@ export const ProductCatalog: React.FC = () => {
             <div className="relative z-20 h-full p-6 sm:p-10 flex flex-col justify-between pointer-events-none">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#FF1E2D] animate-pulse" />
-                  <span className="text-xs font-sans font-bold tracking-widest text-[#FF1E2D] uppercase bg-[#FF1E2D]/15 px-2.5 py-1 rounded border border-[#FF1E2D]/40">
+                  <span className="w-2.5 h-2.5 rounded-none bg-[#FF1E2D] animate-pulse" />
+                  <span className="text-xs font-mono font-bold tracking-widest text-[#FF1E2D] uppercase bg-[#FF1E2D]/15 px-2.5 py-1 rounded-none border-2 border-[#FF1E2D]/50 shadow-[2px_2px_0px_0px_#000000]">
                     ENTERPRISE CATALOG TELEMETRY // HARDWARE MATRIX
                   </span>
                 </div>
-                <span className="text-[11px] font-sans text-neutral-400 bg-neutral-900/80 px-3 py-1 rounded-full border border-neutral-800">
+                <span className="text-[11px] font-mono text-neutral-400 bg-neutral-900/90 px-3 py-1 rounded-none border-2 border-neutral-800 shadow-[2px_2px_0px_0px_#000000]">
                   MULTI-COLOR MATRIX // RED • YELLOW • GREY • BLACK
                 </span>
               </div>
 
               <div className="max-w-xl">
-                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight font-sans">
+                <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight uppercase font-sans">
                   Real-Time Component Bus Telemetry
                 </h3>
-                <p className="text-xs sm:text-sm text-neutral-300 font-sans mt-1.5 leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-1.5 leading-relaxed">
                   Live stock telemetry across enterprise and consumer component categories with automated architectural validation.
                 </p>
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t border-neutral-800/80 text-xs font-sans pointer-events-auto">
+              <div className="flex flex-wrap items-center justify-between gap-4 pt-4 border-t-2 border-neutral-800 text-xs font-mono pointer-events-auto">
                 <div className="flex items-center gap-4 text-neutral-400">
                   <span className="text-[#FF1E2D] font-bold">● RED // ARCHITECTURE</span>
                   <span className="text-amber-400 font-bold">● YELLOW // GLITCH/BUS</span>
@@ -666,9 +666,9 @@ export const ProductCatalog: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-[#FF1E2D]/60 text-white font-sans font-bold text-xs rounded-xl transition-all cursor-pointer shadow-lg"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-900 hover:bg-neutral-800 border-2 border-neutral-900 dark:border-neutral-700 hover:border-[#FF1E2D] text-white font-mono font-bold text-xs rounded-none shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FF1E2D] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
                 >
-                  <span>Back to Top</span>
+                  <span>BACK_TO_TOP</span>
                   <ArrowUpDown className="w-3.5 h-3.5" />
                 </button>
               </div>

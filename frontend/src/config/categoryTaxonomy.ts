@@ -434,5 +434,38 @@ export const CATEGORY_TAXONOMY: PrimaryCategoryConfig[] = [
       },
     ],
   },
+  {
+    id: 'workspace',
+    title: 'Desks & Seating Setup',
+    navLabel: 'Workspace',
+    subtitle: 'ERGONOMIC SIT-STAND DESKS & ESPORTS SEATING.',
+    route: '/workspace',
+    bannerImage: 'Tables/Secretlab MAGNUS Pro.webp',
+    category: 'table',
+    color: '#120F17',
+    description: 'Motorized dual-motor sit-stand desks, L-shaped corner battlestations, and BIFMA Class 4 ergonomic chairs.',
+    subcategories: [
+      {
+        id: 'desks',
+        name: 'Tables & Desks',
+        shortDesc: 'Sit-stand motorized desks, fixed-frame tables, and corner gaming battlestations',
+        route: '/workspace?tab=tables',
+        imageSlug: 'Tables/Secretlab MAGNUS Pro.webp',
+        category: 'table',
+        badge: 'Sit-Stand & Fixed',
+        techSpecs: ['Dual-Motor Height Adjust', 'Anti-Collision Gyro', 'Up to 120kg Load Capacity'],
+      },
+      {
+        id: 'chairs',
+        name: 'Ergonomic & Gaming Chairs',
+        shortDesc: 'Dynamic breathable mesh task chairs and 180° recline bucket seats',
+        route: '/workspace?tab=chairs',
+        imageSlug: 'Chairs/Secretlab TITAN Evo.jpeg',
+        category: 'chair',
+        badge: 'Class 4 BIFMA',
+        techSpecs: ['Multi-Tilt Frog Mechanism', 'Integrated 4-Way Lumbar', 'Full Elastomeric Mesh'],
+      },
+    ],
+  },
 ];
 

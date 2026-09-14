@@ -97,11 +97,9 @@ export const Card = ({
       style={{
         rotateX: rotate,
         scale,
-        boxShadow:
-          '0 25px 60px -15px rgba(0,0,0,0.8), 0 0 40px 2px rgba(255, 30, 45,0.12)',
       }}
       className={cn(
-        "max-w-6xl mx-auto w-full border border-neutral-800/90 bg-neutral-900/60 backdrop-blur-xl rounded-3xl p-6 sm:p-8 shadow-2xl transition-shadow",
+        "max-w-6xl mx-auto w-full border-2 sm:border-[3px] border-neutral-900 dark:border-neutral-700 bg-neutral-950/95 backdrop-blur-xl rounded-none sm:rounded-md p-6 sm:p-8 shadow-[10px_10px_0px_0px_#000000] dark:shadow-[10px_10px_0px_0px_#FF1E2D] transition-shadow",
         className
       )}
     >

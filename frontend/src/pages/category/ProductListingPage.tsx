@@ -19,6 +19,7 @@ import { ProductFilters } from '../../components/catalog/ProductFilters';
 import ShapeGrid from '../../components/common/ShapeGrid';
 import FadeContent from '../../components/common/FadeContent';
 import { Boxes } from '../../components/ui/background-boxes';
+import Topography from '../../components/ui/Topography';
 
 export const ProductListingPage: React.FC = () => {
   const location = useLocation();
@@ -702,9 +703,39 @@ export const ProductListingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0A0A0C] text-neutral-100 relative pb-24 overflow-hidden">
-      {/* Aceternity Full-Page Background Boxes & Radial Mask */}
-      <div className="absolute inset-0 w-full h-full bg-[#0A0A0C]/85 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-      <Boxes className="opacity-35" />
+      {/* Background: Red Topography Animation for Simulators, Boxes for other categories */}
+      {routeMeta.category === 'simulator' || location.pathname.startsWith('/simulators') ? (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-85 dark:opacity-80">
+          <Topography
+            lowColor="#800810"
+            midColor="#E31B23"
+            highColor="#FF4D5A"
+            speed={0.35}
+            morphAmount={3.0}
+            morphSpeed={0.06}
+            bands={6.0}
+            thickness={0.03}
+            scale={1.5}
+            pixelSize={1}
+            glow={0.8}
+            colorMode="elevation"
+            contrast={1.0}
+            brightness={1.35}
+            fillBands={false}
+            opacity={0.85}
+            grain={true}
+            grainIntensity={0.04}
+            mouseInteraction={true}
+            mouseRadius={0.35}
+            mouseStrength={0.5}
+          />
+        </div>
+      ) : (
+        <>
+          <div className="absolute inset-0 w-full h-full bg-[#0A0A0C]/85 z-0 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
+          <Boxes className="opacity-35" />
+        </>
+      )}
 
       <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
         {/* Clickable Breadcrumbs & Back Navigation */}
@@ -715,20 +746,20 @@ export const ProductListingPage: React.FC = () => {
 
         {/* Category Header with Product Count Badge */}
         <FadeContent blur={true} duration={800} easing="ease-out" initialOpacity={0}>
-          <div className="border-b border-neutral-800 pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="border-2 border-neutral-900 dark:border-neutral-700 rounded-none sm:rounded-md p-5 sm:p-6 mb-8 bg-neutral-900/90 shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#FF1E2D] flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-sans uppercase tracking-widest text-[#FF1E2D] font-bold bg-red-950/80 px-2.5 py-0.5 rounded border border-red-800/40">
-                  OFFICIAL HARDWARE CATALOG
+                <span className="text-xs font-mono uppercase tracking-widest text-[#FF1E2D] font-bold bg-red-950 px-2.5 py-0.5 rounded-none border border-red-800 shadow-[2px_2px_0px_0px_#000000]">
+                  // OFFICIAL_CATALOG
                 </span>
-                <span className="text-xs font-sans font-bold text-neutral-300">
-                  {filteredProducts.length} PRODUCTS
+                <span className="text-xs font-mono font-bold text-neutral-300">
+                  [{filteredProducts.length} PRODUCTS]
                 </span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase font-sans">
                 {routeMeta.title}
               </h1>
-              <p className="mt-1 text-xs sm:text-sm text-neutral-400 font-sans">
+              <p className="mt-1 text-xs sm:text-sm text-neutral-400 font-mono">
                 {routeMeta.subtitle}
               </p>
             </div>
@@ -743,7 +774,7 @@ export const ProductListingPage: React.FC = () => {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search CPUs, GPUs, RAM..."
-                    className="w-full pl-9 pr-4 py-2 rounded-md bg-neutral-900 border border-neutral-800 text-xs font-sans text-white placeholder-neutral-500 focus:outline-none focus:border-red-500"
+                    className="w-full pl-9 pr-4 py-2 rounded-none bg-neutral-950 border-2 border-neutral-800 dark:border-neutral-700 text-xs font-mono text-white placeholder-neutral-500 focus:outline-none focus:border-red-500"
                   />
                   {searchQuery && (
                     <button
@@ -758,7 +789,7 @@ export const ProductListingPage: React.FC = () => {
 
               <button
                 onClick={() => setIsMobileFiltersOpen(true)}
-                className="md:hidden flex items-center gap-2 px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-md text-xs font-sans text-white cursor-pointer"
+                className="md:hidden flex items-center gap-2 px-3 py-2 bg-neutral-900 border-2 border-neutral-900 dark:border-neutral-700 rounded-none text-xs font-mono text-white cursor-pointer shadow-[2px_2px_0px_0px_#000000]"
               >
                 <Filter className="w-4 h-4 text-[#FF1E2D]" />
                 <span>FILTERS</span>
@@ -770,7 +801,7 @@ export const ProductListingPage: React.FC = () => {
         {/* Simulators Sub-Category Quick Filter Pills */}
         {routeMeta.category === 'simulator' && (
           <FadeContent blur={true} duration={850} delay={50} easing="ease-out" initialOpacity={0}>
-            <div className="mb-6 flex flex-wrap items-center gap-2 border-b border-neutral-800/80 pb-4">
+            <div className="mb-6 flex flex-wrap items-center gap-2 border-b-2 border-neutral-800 pb-4">
               {[
                 { label: 'All Sim Gear', path: '/simulators' },
                 { label: 'Wheel Bases & Bundles', path: '/simulators/wheel-bases' },
@@ -784,10 +815,10 @@ export const ProductListingPage: React.FC = () => {
                   <Link
                     key={pill.path}
                     to={pill.path}
-                    className={`px-3.5 py-1.5 rounded-lg text-xs font-sans font-medium transition-all ${
+                    className={`px-3.5 py-1.5 rounded-none text-xs font-mono font-medium transition-all border-2 ${
                       isActive
-                        ? 'bg-[#FF1E2D] text-white font-bold shadow-[0_0_12px_rgba(255,30,45,0.4)]'
-                        : 'bg-neutral-900 border border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700'
+                        ? 'bg-[#FF1E2D] text-white font-bold border-neutral-900 dark:border-white shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FFFFFF]'
+                        : 'bg-neutral-900 border-neutral-800 text-neutral-300 hover:text-white hover:border-neutral-700'
                     }`}
                   >
                     {pill.label}
@@ -846,18 +877,18 @@ export const ProductListingPage: React.FC = () => {
             {/* Product Grid & Top Sort Bar */}
             <main className="md:col-span-3 space-y-6">
               {/* Sort Controls Bar */}
-              <div className="flex items-center justify-between bg-neutral-900/60 border border-neutral-800/80 rounded-lg px-4 py-2.5">
-                <span className="text-xs font-sans text-neutral-400">
-                  SHOWING <strong className="text-white">{visibleProducts.length}</strong> OF <strong className="text-white">{filteredProducts.length}</strong>
+              <div className="flex items-center justify-between bg-neutral-900/90 border-2 border-neutral-900 dark:border-neutral-700 rounded-none px-4 py-2.5 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D]">
+                <span className="text-xs font-mono text-neutral-400">
+                  SHOWING <strong className="text-white">[{visibleProducts.length}]</strong> OF <strong className="text-white">[{filteredProducts.length}]</strong>
                 </span>
 
                 <div className="flex items-center gap-2">
                   <ArrowUpDown className="w-3.5 h-3.5 text-[#FF1E2D]" />
-                  <span className="text-xs font-sans uppercase text-[#FF1E2D] font-bold">SORT:</span>
+                  <span className="text-xs font-mono uppercase text-[#FF1E2D] font-bold">SORT:</span>
                   <select
                     value={sortBy}
                     onChange={handleSortChange}
-                    className="bg-neutral-950 border border-neutral-800 rounded px-2.5 py-1 text-xs font-sans text-white focus:outline-none focus:border-red-500 cursor-pointer"
+                    className="bg-neutral-950 border-2 border-neutral-800 dark:border-neutral-700 rounded-none px-2.5 py-1 text-xs font-mono text-white focus:outline-none focus:border-red-500 cursor-pointer"
                   >
                     <option value="recommended">Recommended</option>
                     <option value="price-asc">Price — Low to High</option>
@@ -866,7 +897,6 @@ export const ProductListingPage: React.FC = () => {
                     <option value="newest">Newest</option>
                     {routeMeta.category !== 'simulator' && <option value="popularity">Popularity</option>}
                   </select>
-
                 </div>
               </div>
 
@@ -879,28 +909,28 @@ export const ProductListingPage: React.FC = () => {
                 </div>
               ) : filteredProducts.length === 0 ? (
                 /* Empty Results State */
-                <div className="border border-neutral-800 bg-[#120F17] rounded-xl p-12 text-center space-y-4">
-                  <div className="w-14 h-14 rounded-full bg-red-950/60 border border-red-800/40 text-[#FF1E2D] flex items-center justify-center mx-auto">
+                <div className="border-2 border-neutral-900 dark:border-neutral-700 bg-[#0E0C12] rounded-none sm:rounded-md p-12 text-center space-y-4 shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#FF1E2D]">
+                  <div className="w-14 h-14 rounded-none bg-red-950 border-2 border-red-800 text-[#FF1E2D] flex items-center justify-center mx-auto shadow-[2px_2px_0px_0px_#000000]">
                     <Flame className="w-7 h-7" />
                   </div>
-                  <h3 className="text-2xl font-black text-white uppercase tracking-tight">
-                    NO HARDWARE FOUND
+                  <h3 className="text-2xl font-mono font-black text-white uppercase tracking-tight">
+                    // NO_HARDWARE_FOUND
                   </h3>
-                  <p className="text-xs sm:text-sm text-neutral-400 font-sans max-w-md mx-auto">
+                  <p className="text-xs sm:text-sm text-neutral-400 font-mono max-w-md mx-auto">
                     Try adjusting your filters or search terms to find available products.
                   </p>
                   <div className="pt-3 flex justify-center gap-3">
                     <button
                       onClick={handleClearFilters}
-                      className="px-5 py-2.5 bg-[#FF1E2D] hover:bg-red-700 text-white text-xs font-sans font-bold uppercase rounded transition-colors cursor-pointer"
+                      className="px-5 py-2.5 bg-[#FF1E2D] hover:bg-red-700 text-white text-xs font-mono font-bold uppercase rounded-none border-2 border-neutral-900 dark:border-white shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FFFFFF] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
                     >
-                      CLEAR FILTERS
+                      CLEAR_FILTERS
                     </button>
                     <Link
                       to="/products"
-                      className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-300 text-xs font-sans font-bold uppercase rounded transition-colors"
+                      className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 border-2 border-neutral-900 dark:border-neutral-700 text-neutral-300 text-xs font-mono font-bold uppercase rounded-none shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
                     >
-                      EXPLORE HARDWARE HUB
+                      EXPLORE_CATALOG
                     </Link>
                   </div>
                 </div>
@@ -916,9 +946,7 @@ export const ProductListingPage: React.FC = () => {
                         hideOffer={routeMeta.category === 'simulator'}
                         hideStock={routeMeta.category === 'simulator'}
                       />
-
                     ))}
-
                   </div>
 
                   {/* Pagination / Load More */}
@@ -926,7 +954,7 @@ export const ProductListingPage: React.FC = () => {
                     <div className="pt-6 text-center">
                       <button
                         onClick={() => setVisibleCount((prev) => prev + 18)}
-                        className="px-8 py-3 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 hover:border-red-500/80 text-xs font-sans font-bold uppercase tracking-widest text-white rounded-lg transition-colors cursor-pointer"
+                        className="px-8 py-3 bg-neutral-900 hover:bg-neutral-800 border-2 border-neutral-900 dark:border-neutral-700 hover:border-red-500 text-xs font-mono font-bold uppercase tracking-widest text-white rounded-none shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all cursor-pointer"
                       >
                         LOAD MORE HARDWARE (+18)
                       </button>

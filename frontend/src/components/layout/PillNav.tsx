@@ -12,6 +12,7 @@ export interface PillNavItem {
 export interface PillNavProps {
   logo?: string;
   logoAlt?: string;
+  logoHref?: string;
   items?: PillNavItem[];
   activeHref?: string;
   className?: string;
@@ -27,6 +28,7 @@ export interface PillNavProps {
 export const PillNav: React.FC<PillNavProps> = ({
   logo,
   logoAlt = 'CartVerse Logo',
+  logoHref = '/about',
   items = [
     { label: 'Home', href: '/' },
     { label: 'Catalog', href: '/products' },
@@ -60,7 +62,7 @@ export const PillNav: React.FC<PillNavProps> = ({
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Brand Logo */}
-        <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
+        <Link to={logoHref || "/about"} className="flex items-center gap-2.5 shrink-0 group" aria-label="About CartVerse" title="About CartVerse">
           {logo ? (
             <div className="flex items-center gap-2.5">
               <div className="h-10 w-10 rounded-2xl bg-neutral-900 border border-neutral-700/60 p-1 flex items-center justify-center shadow-md group-hover:border-[#FF1E2D] group-hover:scale-105 transition-all duration-300">

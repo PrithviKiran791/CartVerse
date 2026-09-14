@@ -30,6 +30,7 @@ const OrderConfirmationPage = lazy(() => import('./pages/OrderConfirmationPage')
 const OrdersPage = lazy(() => import('./pages/OrdersPage'));
 const OrderDetailPage = lazy(() => import('./pages/OrderDetailPage'));
 const TransactionsPage = lazy(() => import('./pages/TransactionsPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
 
 // Hierarchical Category Hub & Product Listing Pages
 const ProcessorsGpusPage = lazy(() => import('./pages/category/ProcessorsGpusPage'));
@@ -39,6 +40,7 @@ const CablesHeadersPage = lazy(() => import('./pages/category/CablesHeadersPage'
 const DisplaysPage = lazy(() => import('./pages/category/DisplaysPage'));
 const ProductListingPage = lazy(() => import('./pages/category/ProductListingPage'));
 const ProductCatalog = lazy(() => import('./components/catalog/ProductCatalog'));
+const WorkspaceFurniturePage = lazy(() => import('./pages/WorkspaceFurniturePage'));
 
 // Servers & Supercomputers Vertical Pages
 const ServersLandingPage = lazy(() => import('./pages/ServersLandingPage'));
@@ -99,6 +101,8 @@ export function App() {
                   <Routes>
                     {/* Public Routes */}
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/about" element={<AboutPage />} />
+                    <Route path="/about-us" element={<AboutPage />} />
                     <Route path="/builder" element={<PCBuilderPage />} />
                     <Route path="/pc-builder" element={<PCBuilderPage />} />
                     <Route path="/products" element={<ProductsPage />} />
@@ -136,6 +140,11 @@ export function App() {
                     {/* Driving Simulators Product Listing Routes */}
                     <Route path="/simulators" element={<ProductListingPage />} />
                     <Route path="/simulators/:subcategoryId" element={<ProductListingPage />} />
+
+                    {/* Workspace & Seating Routes (Tables, Desks, Ergonomic & Gaming Chairs) */}
+                    <Route path="/workspace" element={<WorkspaceFurniturePage />} />
+                    <Route path="/tables-chairs" element={<WorkspaceFurniturePage />} />
+                    <Route path="/desks-chairs" element={<WorkspaceFurniturePage />} />
 
 
                     {/* Public Shopping, Cart & Guest Checkout Routes */}

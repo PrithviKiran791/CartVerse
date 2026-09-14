@@ -253,13 +253,13 @@ export const PreConfiguredServersPage: React.FC = () => {
               {curatedProfiles.map((profile) => (
                 <div
                   key={profile.id}
-                  className="bg-neutral-900/90 border border-neutral-800 hover:border-neutral-700 rounded-3xl p-6 backdrop-blur-md shadow-2xl flex flex-col justify-between transition-all group"
+                  className="bg-[#0E0E11] border-2 border-neutral-800 hover:border-[#FF1E2D] rounded-none p-6 shadow-[6px_6px_0px_0px_#000000] dark:shadow-[6px_6px_0px_0px_#FF1E2D] flex flex-col justify-between transition-all group font-mono"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2.5">
                         {profile.icon && (
-                          <div className="w-10 h-10 rounded-xl bg-neutral-900 border border-red-900/40 flex items-center justify-center p-2 shadow-inner group-hover:border-red-500/60 transition-colors">
+                          <div className="w-10 h-10 rounded-none bg-neutral-900 border-2 border-red-900/60 flex items-center justify-center p-2 shadow-[2px_2px_0px_0px_#FF1E2D] group-hover:border-red-500 transition-colors">
                             <img
                               src={profile.icon}
                               alt={profile.title}
@@ -267,24 +267,24 @@ export const PreConfiguredServersPage: React.FC = () => {
                             />
                           </div>
                         )}
-                        <span className="text-[10px] font-sans font-bold bg-red-950 text-[#FF1E2D] px-2.5 py-1 rounded border border-red-800/60">
-                          {profile.badge}
+                        <span className="text-[10px] font-mono font-bold bg-red-950 text-[#FF1E2D] px-2.5 py-1 rounded-none border border-red-800/60 uppercase">
+                          // {profile.badge}
                         </span>
                       </div>
-                      <span className="text-xs font-sans font-bold text-neutral-400">
-                        {profile.rackUnits}U Rackmount
+                      <span className="text-xs font-mono font-bold text-neutral-400">
+                        {profile.rackUnits}U RACK
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-bold text-white tracking-tight">
+                    <h3 className="text-lg font-bold font-mono text-white tracking-tight">
                       {profile.title}
                     </h3>
 
-                    <p className="text-xs text-neutral-400 font-sans mt-2 leading-relaxed">
+                    <p className="text-xs text-neutral-400 font-mono mt-2 leading-relaxed">
                       {profile.description}
                     </p>
 
-                    <div className="mt-5 pt-4 border-t border-neutral-800/80 space-y-2 font-sans text-xs">
+                    <div className="mt-5 pt-4 border-t-2 border-neutral-800 space-y-2 font-mono text-xs">
                       {profile.specs.map((sp, idx) => (
                         <div key={idx} className="flex justify-between items-start gap-2">
                           <span className="text-[#FF1E2D] font-bold shrink-0">{sp.label}:</span>
@@ -294,17 +294,17 @@ export const PreConfiguredServersPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="mt-6 pt-5 border-t border-neutral-800/80">
-                    <div className="flex items-baseline justify-between mb-4">
-                      <span className="text-[10px] font-sans text-neutral-500 uppercase">Estimated Build</span>
-                      <span className="text-xl font-black font-sans text-white">
+                  <div className="mt-6 pt-5 border-t-2 border-neutral-800">
+                    <div className="flex items-baseline justify-between mb-4 font-mono">
+                      <span className="text-[10px] text-neutral-500 uppercase">// EST. BUILD</span>
+                      <span className="text-xl font-black text-white">
                         {formatCurrency(profile.price)}
                       </span>
                     </div>
 
                     <button
                       onClick={profile.setupBuild}
-                      className="w-full py-3 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white rounded-xl text-xs font-sans font-bold transition-all shadow-lg shadow-red-950/50 flex items-center justify-center gap-2 active:scale-95"
+                      className="w-full py-3 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white rounded-none border-2 border-neutral-900 dark:border-white text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#FFFFFF] flex items-center justify-center gap-2 active:translate-x-[1px] active:translate-y-[1px] active:shadow-none cursor-pointer"
                     >
                       <Cpu className="w-4 h-4" />
                       <span>Customize in Server Studio</span>
@@ -334,10 +334,10 @@ export const PreConfiguredServersPage: React.FC = () => {
                 return (
                   <div
                     key={srv.id}
-                    className="bg-neutral-900/90 border border-neutral-800 hover:border-neutral-700 rounded-2xl p-5 backdrop-blur-md shadow-xl flex flex-col justify-between transition-all"
+                    className="bg-[#0E0E11] border-2 border-neutral-800 hover:border-[#FF1E2D] rounded-none p-5 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] flex flex-col justify-between transition-all font-mono"
                   >
                     <div>
-                      <div className="w-full h-44 bg-neutral-950 rounded-xl p-3 border border-neutral-800/80 mb-4 flex items-center justify-center overflow-hidden">
+                      <div className="w-full h-44 bg-neutral-950 rounded-none p-3 border-2 border-neutral-800 mb-4 flex items-center justify-center overflow-hidden">
                         <img
                           src={img}
                           alt={srv.name}
@@ -346,23 +346,23 @@ export const PreConfiguredServersPage: React.FC = () => {
                       </div>
 
                       <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-[10px] font-sans font-bold text-neutral-400 uppercase">
-                          {srv.brand} • {s?.formFactor}
+                        <span className="text-[10px] font-mono font-bold text-neutral-400 uppercase">
+                          // {srv.brand} • {s?.formFactor}
                         </span>
-                        <span className="text-[10px] font-sans font-bold bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded border border-neutral-700">
+                        <span className="text-[10px] font-mono font-bold bg-neutral-800 text-neutral-300 px-2 py-0.5 rounded-none border border-neutral-700">
                           {s?.managementEngine}
                         </span>
                       </div>
 
-                      <h3 className="text-base font-bold text-white tracking-tight">
+                      <h3 className="text-base font-bold font-mono text-white tracking-tight">
                         {srv.name}
                       </h3>
 
-                      <p className="text-xs text-neutral-400 font-sans mt-1 line-clamp-2">
+                      <p className="text-xs text-neutral-400 font-mono mt-1 line-clamp-2">
                         {srv.description}
                       </p>
 
-                      <div className="mt-4 pt-3 border-t border-neutral-800/80 space-y-1.5 font-sans text-xs">
+                      <div className="mt-4 pt-3 border-t-2 border-neutral-800 space-y-1.5 font-mono text-xs">
                         <div className="flex justify-between text-neutral-400">
                           <span>Sockets:</span>
                           <span className="text-white font-bold">{s?.processorSockets}</span>
@@ -382,12 +382,12 @@ export const PreConfiguredServersPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="mt-5 pt-4 border-t border-neutral-800/80 flex items-center justify-between gap-2">
+                    <div className="mt-5 pt-4 border-t-2 border-neutral-800 flex items-center justify-between gap-2 font-mono">
                       <div>
-                        <span className="text-[9px] font-sans text-neutral-500 uppercase block">
-                          Market Estimate
+                        <span className="text-[9px] text-neutral-500 uppercase block">
+                          // ESTIMATE
                         </span>
-                        <span className="text-base font-black font-sans text-white">
+                        <span className="text-base font-black text-white">
                           {formatCurrency(srv.price)}
                         </span>
                       </div>
@@ -395,13 +395,13 @@ export const PreConfiguredServersPage: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <Link
                           to={`/servers/${srv.id}`}
-                          className="px-3 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white rounded-xl text-xs font-sans font-bold transition-colors"
+                          className="px-3 py-2 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white rounded-none border-2 border-neutral-700 text-xs font-mono font-bold shadow-[2px_2px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all"
                         >
                           Specs
                         </Link>
                         <button
                           onClick={() => handleAddToCart(srv)}
-                          className="px-4 py-2 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white rounded-xl text-xs font-sans font-bold transition-all shadow-md shadow-red-950/40 flex items-center gap-1.5 active:scale-95"
+                          className="px-4 py-2 bg-[#FF1E2D] hover:bg-[#FF3B48] text-white rounded-none border-2 border-neutral-900 dark:border-white text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#FFFFFF] flex items-center gap-1.5 active:translate-x-[1px] active:translate-y-[1px] active:shadow-none cursor-pointer"
                         >
                           <ShoppingCart className="w-3.5 h-3.5" />
                           <span>Order</span>
@@ -420,7 +420,7 @@ export const PreConfiguredServersPage: React.FC = () => {
           <div className="mb-14">
             <div className="flex items-center gap-2 mb-6 pb-2 border-b border-neutral-800">
               <Zap className="w-4 h-4 text-amber-500" />
-              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-sans">
+              <h2 className="text-lg font-bold text-white uppercase tracking-wider font-mono">
                 Leading Top500 Supercomputing Topologies (8 Global Systems)
               </h2>
             </div>
@@ -433,10 +433,10 @@ export const PreConfiguredServersPage: React.FC = () => {
                 return (
                   <div
                     key={sc.id}
-                    className="bg-neutral-900/90 border border-neutral-800 hover:border-neutral-700 rounded-2xl p-5 backdrop-blur-md shadow-xl flex flex-col justify-between transition-all"
+                    className="bg-[#0E0E11] border-2 border-neutral-800 hover:border-[#FF1E2D] rounded-none p-5 shadow-[4px_4px_0px_0px_#000000] dark:shadow-[4px_4px_0px_0px_#FF1E2D] flex flex-col justify-between transition-all font-mono"
                   >
                     <div>
-                      <div className="w-full h-36 bg-neutral-950 rounded-xl p-2.5 border border-neutral-800/80 mb-4 flex items-center justify-center overflow-hidden">
+                      <div className="w-full h-36 bg-neutral-950 rounded-none p-2.5 border-2 border-neutral-800 mb-4 flex items-center justify-center overflow-hidden">
                         <img
                           src={img}
                           alt={sc.name}
@@ -444,19 +444,19 @@ export const PreConfiguredServersPage: React.FC = () => {
                         />
                       </div>
 
-                      <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#FF1E2D] bg-red-950/60 px-2 py-0.5 rounded border border-red-800/50">
+                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#FF1E2D] bg-red-950/60 px-2 py-0.5 rounded-none border border-red-800/50">
                         {s?.peakCompute}
                       </span>
 
-                      <h3 className="text-base font-bold text-white tracking-tight mt-2">
+                      <h3 className="text-base font-bold font-mono text-white tracking-tight mt-2">
                         {sc.name}
                       </h3>
 
-                      <p className="text-[11px] font-sans text-neutral-400 mt-1 line-clamp-1">
+                      <p className="text-[11px] font-mono text-neutral-400 mt-1 line-clamp-1">
                         {s?.operatingInstitutionCountry}
                       </p>
 
-                      <div className="mt-3 pt-3 border-t border-neutral-800/80 space-y-1.5 font-sans text-xs">
+                      <div className="mt-3 pt-3 border-t-2 border-neutral-800 space-y-1.5 font-mono text-xs">
                         <div className="flex justify-between text-neutral-400">
                           <span>Topology:</span>
                           <span className="text-white font-bold truncate max-w-[140px]">{s?.coreHardwareTopology}</span>
@@ -476,10 +476,10 @@ export const PreConfiguredServersPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="mt-5 pt-4 border-t border-neutral-800/80 flex items-center justify-between gap-2">
+                    <div className="mt-5 pt-4 border-t-2 border-neutral-800 flex items-center justify-between gap-2 font-mono">
                       <Link
                         to={`/servers/${sc.id}`}
-                        className="w-full py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-xs font-sans font-bold text-center border border-neutral-700 transition-colors block"
+                        className="w-full py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-none text-xs font-mono font-bold text-center border-2 border-neutral-700 shadow-[2px_2px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all block"
                       >
                         Inspect Topology &rarr;
                       </Link>
