@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, X, ShoppingCart, Cpu, ChevronRight, Sparkles } from 'lucide-react';
-import { mockProducts } from '../../data/mockProducts';
+import { Search, X, ShoppingCart, Cpu, ChevronRight, Sparkles, Loader2 } from 'lucide-react';
+import { searchCatalog } from '../../api/searchApi';
 import { Product } from '../../types/hardware';
 import { getComponentImage } from '../../utils/assetRegistry';
 import { formatCurrency } from '../../utils/formatters';
@@ -17,7 +17,9 @@ interface QuickSearchModalProps {
 export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({ isOpen, onClose }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
   const navigate = useNavigate();
   const { addItem } = useCartStore();
   const { addToast } = useUIStore();
@@ -31,7 +33,7 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({ isOpen, onCl
     }
   }, [isOpen]);
 
-  // Handle escape key
+  // Handle escape key and enter key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
@@ -42,26 +44,41 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({ isOpen, onCl
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
+  // 250ms Debounced search using Search Service API
   useEffect(() => {
-    const q = query.trim().toLowerCase();
+    const q = query.trim();
     if (!q) {
       setResults([]);
+      setIsLoading(false);
       return;
     }
 
-    const filtered = mockProducts
-      .filter((p) => {
-        return (
-          p.name.toLowerCase().includes(q) ||
-          p.brand.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q) ||
-          p.subcategory.toLowerCase().includes(q) ||
-          p.tags?.some((t) => t.toLowerCase().includes(q))
-        );
-      })
-      .slice(0, 8); // Top 8 matches
+    setIsLoading(true);
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
 
-    setResults(filtered);
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    const timer = setTimeout(async () => {
+      try {
+        const data = await searchCatalog({ q, per_page: 8 }, controller.signal);
+        const mapped = (data.hits || []).map((h) => h.document as unknown as Product);
+        setResults(mapped);
+      } catch (err: any) {
+        if (err.name !== 'AbortError') {
+          console.error('[QuickSearchModal] Search error:', err);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    }, 250);
+
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
   }, [query]);
 
   if (!isOpen) return null;
@@ -90,12 +107,22 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({ isOpen, onCl
       <div className="relative w-full max-w-2xl bg-[#121118] border border-neutral-800 rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-[80vh]">
         {/* Search Header Input */}
         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-neutral-800 bg-[#16151f]">
-          <Search className="w-5 h-5 text-red-500 shrink-0" />
+          {isLoading ? (
+            <Loader2 className="w-5 h-5 text-red-500 animate-spin shrink-0" />
+          ) : (
+            <Search className="w-5 h-5 text-red-500 shrink-0" />
+          )}
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && query.trim()) {
+                onClose();
+                navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+              }
+            }}
             placeholder="Search processors, GPUs, motherboards, prebuilt PCs..."
             className="w-full bg-transparent text-neutral-100 placeholder-neutral-500 font-medium focus:outline-none text-base"
           />
@@ -104,7 +131,7 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({ isOpen, onCl
           )}
           <button
             onClick={onClose}
-            className="px-2.5 py-1 rounded-lg text-xs font-semibold text-neutral-400 bg-neutral-800 hover:text-white transition-colors"
+            className="px-2.5 py-1 rounded-lg text-xs font-semibold text-neutral-400 bg-neutral-800 hover:text-white transition-colors cursor-pointer"
           >
             ESC
           </button>
@@ -186,11 +213,11 @@ export const QuickSearchModal: React.FC<QuickSearchModalProps> = ({ isOpen, onCl
             <button
               onClick={() => {
                 onClose();
-                navigate(`/products?search=${encodeURIComponent(query)}`);
+                navigate(`/search?q=${encodeURIComponent(query)}`);
               }}
-              className="text-red-400 font-medium hover:underline flex items-center gap-1"
+              className="text-red-400 font-medium hover:underline flex items-center gap-1 cursor-pointer"
             >
-              View all results in Catalog <ChevronRight className="w-3 h-3" />
+              View all results in Hardware Search <ChevronRight className="w-3 h-3" />
             </button>
           </div>
         )}

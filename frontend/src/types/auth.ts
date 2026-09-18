@@ -33,6 +33,7 @@ export interface AuthState {
   // Actions
   login: (credentials: LoginCredentials) => Promise<boolean>;
   signup: (data: SignupData) => Promise<boolean>;
+  loginWithFirebase: (firebaseData: { email: string; name?: string; uid?: string }) => Promise<boolean>;
   logout: () => Promise<void>;
   hydrateFromStorage: () => Promise<void>;
   clearError: () => void;

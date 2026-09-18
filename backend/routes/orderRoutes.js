@@ -10,7 +10,12 @@ const router = express.Router();
 
 router.route('/')
   .post(protect, orderValidator, validate, createOrder)
-  .get(protect, admin, getOrders);
+  .get(protect, (req, res, next) => {
+    if (req.user && req.user.isAdmin) {
+      return getOrders(req, res, next);
+    }
+    return getMyOrders(req, res, next);
+  });
 
 router.get('/mine', protect, getMyOrders);
 router.get('/:id', protect, getOrderById);

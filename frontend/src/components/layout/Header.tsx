@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import PillNav from './PillNav';
+import { SearchCombobox } from '../search/SearchCombobox';
 import { GooeyInput } from '../ui/gooey-input';
 import { ShoppingBag, Search, LogIn, LogOut, User as UserIcon, Package, CreditCard } from 'lucide-react';
 import { useCartStore } from '../../store/useCartStore';
@@ -85,26 +86,11 @@ export const Header: React.FC = () => {
           />
         </div>
 
-        {/* Aceternity UI Gooey Search Bar, Theme Switcher & Cart Drawer Trigger */}
+        {/* Production Search Combobox, Theme Switcher & Cart Drawer Trigger */}
         <div className="shrink-0 flex items-center justify-end gap-1.5 sm:gap-2 lg:gap-2.5">
-          {/* GooeyInput Search Bar */}
-          <div className="flex items-center">
-            <GooeyInput
-              placeholder="Search..."
-              collapsedWidth={105}
-              expandedWidth={220}
-              expandedOffset={36}
-              gooeyBlur={4}
-              value={searchValue}
-              onValueChange={(val) => setSearchValue(val)}
-              onSubmit={handleSearchSubmit}
-              classNames={{
-                root: "relative",
-                trigger: "bg-neutral-100 dark:bg-[#16151f] text-neutral-800 dark:text-neutral-200 ring-1 ring-neutral-300 dark:ring-[#392e4e] hover:ring-[#FF1E2D]/50 shadow-sm dark:shadow-md font-sans",
-                bubbleSurface: "bg-neutral-100 dark:bg-[#16151f] text-[#FF1E2D] ring-1 ring-neutral-300 dark:ring-[#392e4e] hover:ring-[#FF1E2D] shadow-sm dark:shadow-md",
-                input: "text-neutral-900 dark:text-neutral-100 placeholder:text-neutral-500 font-sans",
-              }}
-            />
+          {/* Search Combobox Bar */}
+          <div className="flex items-center w-36 sm:w-48 md:w-56 lg:w-64">
+            <SearchCombobox placeholder="Search..." />
           </div>
 
           {/* White and Dark Theme Switcher */}

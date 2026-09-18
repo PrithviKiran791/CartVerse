@@ -51,13 +51,22 @@ export const OrdersPage: React.FC = () => {
         headers,
       });
 
-      if (!res.ok) throw new Error('Failed to fetch orders');
+      if (!res.ok) {
+        if (res.status === 401) {
+          useAuthStore.getState().logout();
+          toast.error('Your session has expired. Please sign in again.');
+          navigate('/login?redirect=/orders');
+          return;
+        }
+        throw new Error('Failed to fetch orders');
+      }
       const data = await res.json();
-      setOrders(data.orders || []);
+      const list = Array.isArray(data) ? data : (data.orders || []);
+      setOrders(list);
       setTotalPages(data.pages || 1);
       setPage(data.page || 1);
     } catch (err: any) {
-      toast.error('Unable to retrieve orders history');
+      toast.error(err?.message || 'Unable to retrieve orders history');
     } finally {
       setLoading(false);
     }
@@ -137,8 +146,9 @@ export const OrdersPage: React.FC = () => {
   const filteredOrders = orders.filter((order) => {
     if (!searchQuery.trim()) return true;
     const q = searchQuery.toLowerCase();
+    const orderId = String(order.id || order._id || '');
     return (
-      order._id?.toLowerCase().includes(q) ||
+      orderId.toLowerCase().includes(q) ||
       order.orderItems?.some((item: any) => item.name?.toLowerCase().includes(q))
     );
   });
@@ -246,11 +256,12 @@ export const OrdersPage: React.FC = () => {
       ) : (
         <div className="space-y-4">
           {filteredOrders.map((order) => {
-            const shortId = order._id.substring(0, 8);
+            const orderId = String(order.id || order._id || '');
+            const shortId = orderId ? orderId.substring(0, 8) : 'ORD';
             return (
               <div
-                key={order._id}
-                onClick={() => navigate(`/orders/${order._id}`)}
+                key={orderId || Math.random().toString()}
+                onClick={() => navigate(`/orders/${orderId}`)}
                 className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5 sm:p-6 space-y-4 hover:border-neutral-700 transition-all cursor-pointer group"
               >
                 {/* Order Meta Header */}
@@ -261,11 +272,11 @@ export const OrdersPage: React.FC = () => {
                         #{shortId}...
                         <button
                           type="button"
-                          onClick={(e) => handleCopyId(order._id, e)}
+                          onClick={(e) => handleCopyId(orderId, e)}
                           title="Copy Full Order ID"
                           className="text-neutral-500 hover:text-white p-0.5 rounded transition-colors"
                         >
-                          {copiedId === order._id ? (
+                          {copiedId === orderId ? (
                             <Check className="w-3.5 h-3.5 text-emerald-400" />
                           ) : (
                             <Copy className="w-3.5 h-3.5" />
@@ -316,7 +327,7 @@ export const OrdersPage: React.FC = () => {
                 {/* Items Thumbnails Stack */}
                 <div className="flex items-center gap-3 overflow-x-auto py-1 scrollbar-none">
                   {order.orderItems?.map((item: any, i: number) => {
-                    const imgUrl = getComponentImage(item.image);
+                    const imgUrl = getComponentImage(item.image || item.imageSlug);
                     return (
                       <div
                         key={i}

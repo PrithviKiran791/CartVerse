@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import { Op } from 'sequelize';
-import { Product, Review, sequelize } from '../models/index.js';
+import { Product, Review, Outbox, sequelize } from '../models/index.js';
 
 // @route GET /api/products
 export const getProducts = asyncHandler(async (req, res) => {
@@ -100,15 +100,29 @@ export const getTopProducts = asyncHandler(async (req, res) => {
 export const createProduct = asyncHandler(async (req, res) => {
   const { name, brand, category, subcategory, price, originalPrice, imageSlug, stock, specs, tags, description, sku, productId } = req.body;
 
-  const product = await Product.create({
-    userId: req.user.id,
-    productId: productId || `CV-${Date.now()}`,
-    sku: sku || `SKU-${Date.now()}`,
-    name, brand, category, subcategory, price, originalPrice, imageSlug, stock,
-    specs: specs || {}, tags: tags || [], description,
-  });
+  const t = await sequelize.transaction();
+  try {
+    const product = await Product.create({
+      userId: req.user.id,
+      productId: productId || `CV-${Date.now()}`,
+      sku: sku || `SKU-${Date.now()}`,
+      name, brand, category, subcategory, price, originalPrice, imageSlug, stock,
+      specs: specs || {}, tags: tags || [], description,
+    }, { transaction: t });
 
-  res.status(201).json(product);
+    await Outbox.create({
+      aggregateType: 'Product',
+      aggregateId: product.productId,
+      eventType: 'created',
+      payload: product.toJSON(),
+    }, { transaction: t });
+
+    await t.commit();
+    res.status(201).json(product);
+  } catch (err) {
+    await t.rollback();
+    throw err;
+  }
 });
 
 // @route PUT /api/products/:id (admin)
@@ -125,8 +139,23 @@ export const updateProduct = asyncHandler(async (req, res) => {
     if (req.body[field] !== undefined) updates[field] = req.body[field];
   }
 
-  await product.update(updates);
-  res.json(product);
+  const t = await sequelize.transaction();
+  try {
+    await product.update(updates, { transaction: t });
+
+    await Outbox.create({
+      aggregateType: 'Product',
+      aggregateId: product.productId,
+      eventType: 'updated',
+      payload: product.toJSON(),
+    }, { transaction: t });
+
+    await t.commit();
+    res.json(product);
+  } catch (err) {
+    await t.rollback();
+    throw err;
+  }
 });
 
 // @route DELETE /api/products/:id (admin)
@@ -136,8 +165,25 @@ export const deleteProduct = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error('Product not found');
   }
-  await product.destroy();
-  res.json({ message: 'Product removed' });
+
+  const t = await sequelize.transaction();
+  try {
+    const productId = product.productId;
+    await product.destroy({ transaction: t });
+
+    await Outbox.create({
+      aggregateType: 'Product',
+      aggregateId: productId,
+      eventType: 'deleted',
+      payload: { productId },
+    }, { transaction: t });
+
+    await t.commit();
+    res.json({ message: 'Product removed' });
+  } catch (err) {
+    await t.rollback();
+    throw err;
+  }
 });
 
 // @route POST /api/products/:id/reviews
@@ -156,18 +202,32 @@ export const createProductReview = asyncHandler(async (req, res) => {
     throw new Error('You have already reviewed this product');
   }
 
-  await Review.create({
-    productRefId: product.id,
-    userId: req.user.id,
-    name: req.user.name,
-    rating: Number(rating),
-    comment,
-  });
+  const t = await sequelize.transaction();
+  try {
+    await Review.create({
+      productRefId: product.id,
+      userId: req.user.id,
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+    }, { transaction: t });
 
-  const reviews = await Review.findAll({ where: { productRefId: product.id } });
-  product.reviewsCount = reviews.length;
-  product.rating = reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
-  await product.save();
+    const reviews = await Review.findAll({ where: { productRefId: product.id }, transaction: t });
+    product.reviewsCount = reviews.length;
+    product.rating = reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length;
+    await product.save({ transaction: t });
 
-  res.status(201).json({ message: 'Review added' });
+    await Outbox.create({
+      aggregateType: 'Product',
+      aggregateId: product.productId,
+      eventType: 'updated',
+      payload: product.toJSON(),
+    }, { transaction: t });
+
+    await t.commit();
+    res.status(201).json({ message: 'Review added' });
+  } catch (err) {
+    await t.rollback();
+    throw err;
+  }
 });

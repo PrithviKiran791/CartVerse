@@ -115,6 +115,7 @@ export const OrderDetailPage: React.FC = () => {
 
   const handleRetryPayment = async () => {
     if (!order || !token) return;
+    const currentOrderId = order.id || order._id;
     setIsRetrying(true);
     try {
       const res = await fetch(`${BASE_URL}/payments/create-order`, {
@@ -124,7 +125,7 @@ export const OrderDetailPage: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          orderId: order._id,
+          orderId: currentOrderId,
         }),
       });
 
@@ -140,7 +141,7 @@ export const OrderDetailPage: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            orderId: order._id,
+            orderId: currentOrderId,
             razorpay_order_id: paymentData.razorpayOrderId,
             razorpay_payment_id: `pay_retry_${Date.now()}`,
             razorpay_signature: 'test_signature_mock',
@@ -160,7 +161,7 @@ export const OrderDetailPage: React.FC = () => {
         amount: paymentData.amount,
         currency: paymentData.currency || 'INR',
         name: 'CartVerse PC Studio',
-        description: `Order Retry #${order._id.substring(0, 8)}`,
+        description: `Order Retry #${(currentOrderId || '').substring(0, 8)}`,
         order_id: paymentData.razorpayOrderId,
         prefill: {
           name: order.shippingAddress?.name,
@@ -179,7 +180,7 @@ export const OrderDetailPage: React.FC = () => {
                 Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify({
-                orderId: order._id,
+                orderId: currentOrderId,
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
@@ -203,7 +204,7 @@ export const OrderDetailPage: React.FC = () => {
                 Authorization: `Bearer ${token}`,
               },
               body: JSON.stringify({
-                orderId: order._id,
+                orderId: currentOrderId,
                 razorpay_order_id: paymentData.razorpayOrderId,
                 failureReason: 'User dismissed retry payment modal',
               }),
@@ -314,12 +315,12 @@ export const OrderDetailPage: React.FC = () => {
               <span>Orders</span>
             </Link>
             <span>/</span>
-            <span className="text-white font-bold">#{order._id}</span>
+            <span className="text-white font-bold">#{order.id || order._id}</span>
           </div>
 
           <div className="flex items-center gap-3 pt-1">
             <h1 className="text-2xl sm:text-3xl font-black text-white font-sans">
-              Order #{order._id.substring(0, 10)}...
+              Order #{(order.id || order._id || '').substring(0, 10)}...
             </h1>
             <span className={`text-[10px] font-sans font-bold uppercase px-2.5 py-0.5 rounded border ${getOrderStatusBadge(order.status)}`}>
               {order.status || 'PLACED'}
@@ -439,7 +440,7 @@ export const OrderDetailPage: React.FC = () => {
 
           <div className="space-y-3 divide-y divide-neutral-800/60">
             {order.orderItems?.map((item: any, idx: number) => {
-              const imgUrl = getComponentImage(item.image);
+              const imgUrl = getComponentImage(item.image || item.imageSlug);
               const isBundle = item.name?.includes(':');
               const isExpanded = expandedBuilds[idx];
 
@@ -588,8 +589,8 @@ export const OrderDetailPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-neutral-800/50 text-neutral-300">
-                {transactions.map((tx: any) => (
-                  <tr key={tx._id} className="hover:bg-neutral-850/40 transition-colors">
+                {transactions.map((tx: any, idx: number) => (
+                  <tr key={tx.id || tx._id || idx} className="hover:bg-neutral-850/40 transition-colors">
                     <td className="py-3 text-neutral-400 whitespace-nowrap">
                       {new Date(tx.createdAt).toLocaleString('en-IN', {
                         month: 'short',

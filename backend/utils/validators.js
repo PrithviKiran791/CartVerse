@@ -48,11 +48,20 @@ export const productValidator = [
 
 export const orderValidator = [
   body('orderItems').isArray({ min: 1 }).withMessage('Order must contain at least one item'),
-  body('orderItems.*.productId').trim().notEmpty(),
-  body('orderItems.*.qty').isInt({ min: 1 }),
-  body('shippingAddress.address').trim().notEmpty(),
-  body('shippingAddress.city').trim().notEmpty(),
-  body('shippingAddress.postalCode').trim().notEmpty(),
-  body('shippingAddress.country').trim().notEmpty(),
-  body('paymentMethod').trim().notEmpty(),
+  body('orderItems.*.qty').isInt({ min: 1 }).withMessage('Quantity must be at least 1'),
+  body('orderItems.*').custom((item) => {
+    if (!item.productId && !item.product && !item.id) {
+      throw new Error('Product identifier is required for each item');
+    }
+    return true;
+  }),
+  body('shippingAddress.address').trim().notEmpty().withMessage('Shipping address is required'),
+  body('shippingAddress.city').trim().notEmpty().withMessage('City is required'),
+  body('shippingAddress').custom((addr) => {
+    if (!addr.postalCode && !addr.pincode) {
+      throw new Error('Postal code or pincode is required');
+    }
+    return true;
+  }),
+  body('paymentMethod').trim().notEmpty().withMessage('Payment method is required'),
 ]; 

@@ -1,0 +1,25 @@
+{
+  "name": "cartverse-search-service",
+  "version": "1.0.0",
+  "description": "Production search microservice for CartVerse using Typesense with PostgreSQL fallback",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "reindex": "node scripts/reindex.js",
+    "test": "node --test tests/searchService.test.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.2.0",
+    "ioredis": "^5.4.1",
+    "lru-cache": "^10.2.2",
+    "pg": "^8.11.5",
+    "sequelize": "^6.37.3",
+    "typesense": "^1.8.2"
+  },
+  "devDependencies": {}
+}

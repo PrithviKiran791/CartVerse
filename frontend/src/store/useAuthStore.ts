@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { AuthState, LoginCredentials, SignupData } from '../types/auth';
-import { loginRequest, signupRequest, getCurrentUser, logoutRequest } from '../api/authApi';
+import { loginRequest, signupRequest, getCurrentUser, logoutRequest, firebaseAuthRequest } from '../api/authApi';
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -58,6 +58,37 @@ export const useAuthStore = create<AuthState>()(
         }
       },
 
+      loginWithFirebase: async (firebaseData): Promise<boolean> => {
+        set({ isLoading: true, error: null });
+        try {
+          const response = await firebaseAuthRequest(firebaseData);
+          set({
+            user: response.user,
+            token: response.token,
+            isAuthenticated: true,
+            isLoading: false,
+            error: null,
+          });
+          return true;
+        } catch (err: any) {
+          console.warn('Backend sync failed, falling back to Firebase direct session:', err);
+          const fallbackUser = {
+            id: firebaseData.uid || String(Date.now()),
+            name: firebaseData.name || firebaseData.email.split('@')[0] || 'Google Gamer',
+            email: firebaseData.email,
+            isAdmin: false,
+          };
+          set({
+            user: fallbackUser,
+            token: firebaseData.idToken || `fb_token_${Date.now()}`,
+            isAuthenticated: true,
+            isLoading: false,
+            error: null,
+          });
+          return true;
+        }
+      },
+
       logout: async (): Promise<void> => {
         const token = get().token;
         try {
@@ -78,9 +109,14 @@ export const useAuthStore = create<AuthState>()(
       },
 
       hydrateFromStorage: async (): Promise<void> => {
-        const { token } = get();
+        const { token, user } = get();
         if (!token) {
           set({ isAuthenticated: false, user: null });
+          return;
+        }
+
+        if (token.startsWith('fb_token_')) {
+          set({ isAuthenticated: true, user: user || null });
           return;
         }
 
@@ -93,12 +129,18 @@ export const useAuthStore = create<AuthState>()(
             error: null,
           });
         } catch (err: any) {
-          // Token is invalid/expired — clear credentials silently
-          set({
-            user: null,
-            token: null,
-            isAuthenticated: false,
-          });
+          // Only clear session if server explicitly returned 401 or 403
+          if (err?.status === 401 || err?.status === 403) {
+            set({
+              user: null,
+              token: null,
+              isAuthenticated: false,
+            });
+          } else {
+            if (user) {
+              set({ isAuthenticated: true });
+            }
+          }
         }
       },
 

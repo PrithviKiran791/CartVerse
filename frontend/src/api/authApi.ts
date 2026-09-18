@@ -160,6 +160,20 @@ export async function signupRequest(data: SignupData): Promise<AuthResponse> {
 }
 
 /**
+ * Authenticates or synchronizes Firebase user with backend database
+ */
+export async function firebaseAuthRequest(firebaseData: { email: string; name?: string; uid?: string }): Promise<AuthResponse> {
+  const data = await request<any>(
+    `${BASE_URL}/users/firebase`,
+    {
+      method: 'POST',
+      body: JSON.stringify(firebaseData),
+    }
+  );
+  return normalizeAuthResponse(data);
+}
+
+/**
  * Fetches the currently authenticated user's profile using JWT token
  */
 export async function getCurrentUser(token?: string): Promise<User> {

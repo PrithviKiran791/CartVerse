@@ -5,6 +5,8 @@ import Product from './productModel.js';
 import Review from './reviewModel.js';
 import Order from './orderModel.js';
 import OrderItem from './orderItemModel.js';
+import Outbox from './outboxModel.js';
+import SearchAnalytics from './searchAnalyticsModel.js';
 
 // =====================================================
 // USER ↔ PRODUCT
@@ -127,4 +129,6 @@ export {
   Review,
   Order,
   OrderItem,
+  Outbox,
+  SearchAnalytics,
 };

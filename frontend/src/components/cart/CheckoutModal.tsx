@@ -42,7 +42,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   onOrderSuccess,
 }) => {
   const navigate = useNavigate();
-  const { user, token } = useAuthStore();
+  const { user, token, isAuthenticated } = useAuthStore();
   const { items, bundles, clearCart, getSubtotal } = useCartStore();
   const toast = useToastStore();
 
@@ -64,8 +64,10 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const prepareOrderItems = () => {
     const list: any[] = [];
     items.forEach((i) => {
+      const pid = (i.product as any).productId || i.product.id || (i.product as any)._id;
       list.push({
-        product: i.product.id || i.product._id,
+        productId: pid,
+        product: pid,
         name: i.product.name,
         price: i.product.price,
         qty: i.quantity,
@@ -75,8 +77,10 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
     bundles.forEach((b) => {
       b.items.forEach((item) => {
+        const pid = (item.product as any).productId || item.product.id || (item.product as any)._id;
         list.push({
-          product: item.product.id || item.product._id,
+          productId: pid,
+          product: pid,
           name: `${b.title}: ${item.product.name}`,
           price: item.product.price,
           qty: item.quantity,
@@ -90,6 +94,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   const handlePlaceOrder = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
+
+    if (!user && !isAuthenticated && !token) {
+      toast.error('Please log in or create an account to place an order.');
+      setIsProcessing(false);
+      onClose();
+      navigate('/login?redirect=/cart');
+      return;
+    }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email || !emailRegex.test(formData.email.trim())) {
@@ -119,11 +131,18 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         headers['x-guest-id'] = storedGuestId;
       }
 
+      const formattedShippingAddress = {
+        ...formData,
+        postalCode: formData.pincode,
+        pincode: formData.pincode,
+        country: 'India',
+      };
+
       // 1. Cash on Delivery (COD) Flow
       if (paymentMethod === 'cod') {
         const orderPayload = {
           orderItems,
-          shippingAddress: formData,
+          shippingAddress: formattedShippingAddress,
           paymentMethod: 'cod',
           itemsPrice: subtotal,
           taxPrice: gstAmount,
@@ -145,7 +164,15 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         }
 
         if (!res.ok) {
-          const errData = await res.json();
+          const errData = await res.json().catch(() => ({}));
+          if (res.status === 401) {
+            useAuthStore.getState().logout();
+            toast.error('Your session has expired. Please sign in again to complete your order.');
+            setIsProcessing(false);
+            onClose();
+            navigate('/login?redirect=/cart');
+            return;
+          }
           throw new Error(errData.message || 'Failed to place COD order');
         }
 
@@ -153,7 +180,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         clearCart();
         onOrderSuccess();
         onClose();
-        navigate(`/order-confirmation/${createdOrder._id}?email=${encodeURIComponent(formData.email.trim())}`);
+        navigate(`/order-confirmation/${createdOrder.id || createdOrder._id}?email=${encodeURIComponent(formData.email.trim())}`);
         return;
       }
 
@@ -175,6 +202,14 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       }
 
       if (!createRes.ok) {
+        if (createRes.status === 401) {
+          useAuthStore.getState().logout();
+          toast.error('Your session has expired. Please sign in again to complete your order.');
+          setIsProcessing(false);
+          onClose();
+          navigate('/login?redirect=/cart');
+          return;
+        }
         throw new Error('Failed to initiate payment gateway session');
       }
 
@@ -192,7 +227,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             razorpay_order_id: paymentData.razorpayOrderId,
             razorpay_payment_id: `pay_${Date.now()}`,
             razorpay_signature: 'test_signature_mock',
-            shippingAddress: formData,
+            shippingAddress: formattedShippingAddress,
             orderItems,
             itemsPrice: subtotal,
             taxPrice: gstAmount,
@@ -208,7 +243,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
         clearCart();
         onOrderSuccess();
         onClose();
-        navigate(`/order-confirmation/${confirmedOrder._id}?email=${encodeURIComponent(formData.email.trim())}`);
+        navigate(`/order-confirmation/${confirmedOrder.id || confirmedOrder._id}?email=${encodeURIComponent(formData.email.trim())}`);
         return;
       }
 
@@ -239,7 +274,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
-                shippingAddress: formData,
+                shippingAddress: formattedShippingAddress,
                 orderItems,
                 itemsPrice: subtotal,
                 taxPrice: gstAmount,
@@ -255,7 +290,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             clearCart();
             onOrderSuccess();
             onClose();
-            navigate(`/order-confirmation/${verifiedOrder._id}?email=${encodeURIComponent(formData.email.trim())}`);
+            navigate(`/order-confirmation/${verifiedOrder.id || verifiedOrder._id}?email=${encodeURIComponent(formData.email.trim())}`);
           } catch (err: any) {
             toast.error(err.message || 'Payment verification failed');
             setIsProcessing(false);
@@ -347,7 +382,24 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
           {/* Form */}
           <form onSubmit={handlePlaceOrder} className="p-6 overflow-y-auto space-y-6">
-
+            {!user && !isAuthenticated && (
+              <div className="p-3.5 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-between gap-3 text-xs text-amber-200">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>You must be signed in to complete and track your order.</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClose();
+                    navigate('/login?redirect=/cart');
+                  }}
+                  className="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-black font-bold rounded-lg shrink-0 cursor-pointer text-[11px]"
+                >
+                  Sign In / Register
+                </button>
+              </div>
+            )}
 
             {/* Shipping Details */}
             <div>

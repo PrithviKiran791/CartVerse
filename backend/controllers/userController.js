@@ -14,8 +14,8 @@ export const registerUser = asyncHandler(async (req, res) => {
 
   const user = await User.create({ name, email, password }); // isAdmin always defaults false
 
-  generateToken(res, user.id);
-  res.status(201).json({ id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin });
+  const token = generateToken(res, user.id);
+  res.status(201).json({ id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin, token });
 });
 
 // @route POST /api/users/login
@@ -29,8 +29,31 @@ export const loginUser = asyncHandler(async (req, res) => {
     throw new Error('Invalid email or password');
   }
 
-  generateToken(res, user.id);
-  res.json({ id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin });
+  const token = generateToken(res, user.id);
+  res.json({ id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin, token });
+});
+
+// @route POST /api/users/firebase
+export const firebaseAuth = asyncHandler(async (req, res) => {
+  const { email, name } = req.body;
+
+  if (!email) {
+    res.status(400);
+    throw new Error('Email is required for authentication');
+  }
+
+  let user = await User.findOne({ where: { email: email.toLowerCase().trim() } });
+  if (!user) {
+    const randomPassword = Math.random().toString(36).slice(-10) + 'A1!';
+    user = await User.create({
+      name: name || email.split('@')[0] || 'CartVerse Gamer',
+      email: email.toLowerCase().trim(),
+      password: randomPassword,
+    });
+  }
+
+  const token = generateToken(res, user.id);
+  res.json({ id: user.id, name: user.name, email: user.email, isAdmin: user.isAdmin, token });
 });
 
 // @route POST /api/users/logout
@@ -64,9 +87,9 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
   if (req.body.password) user.password = req.body.password;
 
   await user.save();
-  generateToken(res, user.id);
+  const token = generateToken(res, user.id);
 
-  res.json({ id: user.id, name: user.name, email: user.email, phone: user.phone, isAdmin: user.isAdmin });
+  res.json({ id: user.id, name: user.name, email: user.email, phone: user.phone, isAdmin: user.isAdmin, token });
 });
 
 // @route GET /api/users (admin)

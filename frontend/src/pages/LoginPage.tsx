@@ -2,10 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { ShieldAlert, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { useAuthStore } from '../store/useAuthStore';
+import {
+  auth,
+  googleProvider,
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+} from '../config/firebase';
 import { Boxes } from '../components/ui/background-boxes';
 import webIcon from '../assets/icons/web_icon.png';
 import {
-  IconBrandGithub,
   IconBrandGoogle,
 } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
@@ -35,6 +41,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
   const {
     login: storeLogin,
     signup: storeSignup,
+    loginWithFirebase,
     isLoading: storeLoading,
     error: storeError,
     clearError,
@@ -55,6 +62,34 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
   const [clientError, setClientError] = useState<string | null>(null);
   const [localLoading, setLocalLoading] = useState(false);
 
+  // Check for Firebase redirect sign-in result on load
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (result && result.user) {
+          const fbUser = result.user;
+          const idToken = await fbUser.getIdToken();
+          const success = await loginWithFirebase({
+            email: fbUser.email || '',
+            name: fbUser.displayName || 'Google Gamer',
+            uid: fbUser.uid,
+            idToken,
+          });
+          if (success) {
+            navigate(redirectUrl, { replace: true });
+          }
+        }
+      })
+      .catch((err: any) => {
+        console.error('Firebase redirect sign-in error:', err);
+        if (err?.code === 'auth/operation-not-allowed') {
+          setClientError('Google sign-in is not enabled in Firebase. Please enable the Google provider in Firebase Console (Authentication > Sign-in method) and select a project support email.');
+        } else if (err?.code === 'auth/unauthorized-domain') {
+          setClientError('This domain is not authorized in Firebase. Please add localhost under Firebase Console > Authentication > Settings > Authorized domains.');
+        }
+      });
+  }, [loginWithFirebase, navigate, redirectUrl]);
+
   // If already authenticated, redirect immediately
   useEffect(() => {
     if (isAuthenticated) {
@@ -74,18 +109,53 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
     return emailRegex.test(val.trim());
   };
 
-  const handleSocialClick = (provider: string) => {
+  const handleSocialClick = async (provider: string) => {
     setClientError(null);
-    if (provider === 'github') {
-      setEmail('developer@github.com');
-      setPassword('demoGithubPass123');
-      setFirstName('Linus');
-      setLastName('Torvalds');
-    } else if (provider === 'google') {
-      setEmail('user@gmail.com');
-      setPassword('demoGooglePass123');
-      setFirstName('Ada');
-      setLastName('Lovelace');
+    clearError();
+
+    if (provider === 'google') {
+      try {
+        setLocalLoading(true);
+        let fbUser: any = null;
+        try {
+          const result = await signInWithPopup(auth, googleProvider);
+          fbUser = result.user;
+        } catch (popupErr: any) {
+          if (popupErr?.code === 'auth/popup-blocked') {
+            await signInWithRedirect(auth, googleProvider);
+            return;
+          }
+          throw popupErr;
+        }
+
+        if (fbUser) {
+          const idToken = await fbUser.getIdToken();
+          const success = await loginWithFirebase({
+            email: fbUser.email || '',
+            name: fbUser.displayName || 'Google Gamer',
+            uid: fbUser.uid,
+            idToken,
+          });
+          if (success) {
+            navigate(redirectUrl, { replace: true });
+          }
+        }
+      } catch (err: any) {
+        console.error('Firebase Google Auth error:', err);
+        if (err?.code === 'auth/popup-closed-by-user') {
+          setClientError('Google sign-in popup was closed before completing.');
+        } else if (err?.code === 'auth/cancelled-popup-request') {
+          // Ignore cancelled requests
+        } else if (err?.code === 'auth/operation-not-allowed') {
+          setClientError('Google Sign-In is disabled in your Firebase Console. Go to Firebase Console -> Authentication -> Sign-in method, click Google, toggle Enable, select your Project support email, and click Save.');
+        } else if (err?.code === 'auth/unauthorized-domain') {
+          setClientError(`Domain "${window.location.hostname}" is not authorized in Firebase. Add it under Firebase Console -> Authentication -> Settings -> Authorized domains.`);
+        } else {
+          setClientError(err?.message || 'Google sign-in failed. Please try again.');
+        }
+      } finally {
+        setLocalLoading(false);
+      }
     }
   };
 
@@ -313,21 +383,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onSignup }) => {
             <Button
               type="button"
               variant="neutral"
+              disabled={isLoading}
               onClick={() => handleSocialClick('google')}
               className="w-full flex items-center justify-center gap-2"
             >
               <IconBrandGoogle className="h-4 w-4" />
-              <span>Login with Google</span>
-            </Button>
-
-            <Button
-              type="button"
-              variant="neutral"
-              onClick={() => handleSocialClick('github')}
-              className="w-full flex items-center justify-center gap-2"
-            >
-              <IconBrandGithub className="h-4 w-4" />
-              <span>Login with GitHub</span>
+              <span>{localLoading ? 'Connecting to Google...' : 'Login with Google'}</span>
             </Button>
 
             <div className="mt-4 text-center text-sm font-sans text-neutral-600 dark:text-neutral-400">

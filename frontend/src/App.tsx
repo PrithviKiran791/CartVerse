@@ -31,6 +31,7 @@ const OrdersPage = lazy(() => import('./pages/OrdersPage'));
 const OrderDetailPage = lazy(() => import('./pages/OrderDetailPage'));
 const TransactionsPage = lazy(() => import('./pages/TransactionsPage'));
 const AboutPage = lazy(() => import('./pages/AboutPage'));
+const SearchResultsPage = lazy(() => import('./pages/SearchResultsPage').then((m) => ({ default: m.SearchResultsPage })));
 
 // Hierarchical Category Hub & Product Listing Pages
 const ProcessorsGpusPage = lazy(() => import('./pages/category/ProcessorsGpusPage'));
@@ -115,7 +116,7 @@ export function App() {
                         <LoadingScreen
                           fullScreen={true}
                           duration={0}
-                          message="SYSTEM TELEMETRY // BRUTALIST KERNEL ACTIVE"
+                          message="PREPARING YOUR EXPERIENCE..."
                         />
                       }
                     />
@@ -157,7 +158,8 @@ export function App() {
                     <Route path="/desks-chairs" element={<WorkspaceFurniturePage />} />
 
 
-                    {/* Public Shopping, Cart & Guest Checkout Routes */}
+                    {/* Public Shopping, Search, Cart & Guest Checkout Routes */}
+                    <Route path="/search" element={<SearchResultsPage />} />
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/checkout" element={<CartPage />} />
                     <Route path="/order-confirmation/:orderId" element={<OrderConfirmationPage />} />

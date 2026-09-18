@@ -39,27 +39,7 @@ const Product = sequelize.define(
     },
 
     category: {
-      type: DataTypes.ENUM(
-        'cpu',
-        'gpu',
-        'motherboard',
-        'ram',
-        'ssd',
-        'hdd',
-        'psu',
-        'cabinet',
-        'cooler',
-        'monitor',
-        'keyboard',
-        'mouse',
-        'mousepad',
-        'headphones',
-        'speakers',
-        'webcam',
-        'controller',
-        'cables',
-        'prebuilt'
-      ),
+      type: DataTypes.STRING(50),
       allowNull: false,
     },
 

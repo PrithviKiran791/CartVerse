@@ -1,33 +1,21 @@
-/* CartVerse Technical Brutalist Loading Screen Styles */
+/* CartVerse Minimalist Loading Screen Styles */
 
-.brutalist-grid-bg {
-  background-color: #08080C;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 32px 32px;
+.minimal-loading-backdrop {
+  background-color: #0A0A0C;
+  background-image: radial-gradient(circle at 50% 45%, rgba(255, 30, 45, 0.05) 0%, transparent 60%);
 }
 
-.cartverse-fan-logo {
-  width: 76px;
-  height: 76px;
+.cartverse-minimal-logo {
+  width: 52px;
+  height: 52px;
   object-fit: contain;
   will-change: transform;
   transform-origin: 50% 50%;
-  animation: cartverse-fan-spin 1.1s linear infinite;
+  animation: cartverse-fan-spin 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
   user-select: none;
   pointer-events: none;
-  filter: drop-shadow(0 0 10px rgba(255, 30, 45, 0.5));
 }
 
-@media (max-width: 640px) {
-  .cartverse-fan-logo {
-    width: 64px;
-    height: 64px;
-  }
-}
-
-/* Clockwise continuous rotation animation */
 @keyframes cartverse-fan-spin {
   0% {
     transform: rotate(0deg);
@@ -37,51 +25,45 @@
   }
 }
 
-/* Animated hazard stripe pattern for the progress bar */
-@keyframes brutalist-stripe-move {
+.cartverse-glow-ring {
+  animation: cartverse-pulse-glow 2.4s ease-in-out infinite alternate;
+}
+
+@keyframes cartverse-pulse-glow {
   0% {
-    background-position: 0 0;
+    opacity: 0.2;
+    transform: scale(0.96);
   }
   100% {
-    background-position: 32px 0;
+    opacity: 0.6;
+    transform: scale(1.04);
   }
 }
 
-.brutalist-stripes {
-  background-image: linear-gradient(
-    45deg,
-    rgba(0, 0, 0, 0.28) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(0, 0, 0, 0.28) 50%,
-    rgba(0, 0, 0, 0.28) 75%,
-    transparent 75%,
-    transparent
-  );
-  background-size: 16px 16px;
-  animation: brutalist-stripe-move 0.8s linear infinite;
+/* Indeterminate shimmer animation for loading bar */
+.minimal-shimmer-bar {
+  background: linear-gradient(90deg, transparent, rgba(255, 30, 45, 0.9), transparent);
+  animation: minimal-shimmer 1.5s infinite ease-in-out;
 }
 
-/* Blinking terminal cursor */
-@keyframes brutalist-cursor-blink {
-  0%, 49% {
-    opacity: 1;
+@keyframes minimal-shimmer {
+  0% {
+    transform: translateX(-100%);
   }
-  50%, 100% {
-    opacity: 0;
+  100% {
+    transform: translateX(100%);
   }
-}
-
-.brutalist-cursor {
-  animation: brutalist-cursor-blink 0.8s infinite;
 }
 
 /* Respect user reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .cartverse-fan-logo {
+  .cartverse-minimal-logo {
     animation: none !important;
   }
-  .brutalist-stripes {
+  .cartverse-glow-ring {
+    animation: none !important;
+  }
+  .minimal-shimmer-bar {
     animation: none !important;
   }
 }

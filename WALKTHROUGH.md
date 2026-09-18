@@ -244,8 +244,8 @@ PAYPAL_CLIENT_ID=sb
 CLIENT_URL=http://localhost:5173
 
 # Razorpay Test Mode
-RAZORPAY_KEY_ID=rzp_test_CartVerse2026Key
-RAZORPAY_KEY_SECRET=rzp_test_secret_CartVerse2026Secret
+RAZORPAY_KEY_ID=rzp_test_TdP8zwDyWEG1FE
+RAZORPAY_KEY_SECRET=iD84xu9zm9Ed2vW8f3NqU2me
 RAZORPAY_WEBHOOK_SECRET=rzp_webhook_secret_2026
 
 # Cloudinary Storage

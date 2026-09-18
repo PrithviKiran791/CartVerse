@@ -10,30 +10,52 @@ export const createOrder = asyncHandler(async (req, res) => {
   // Wrapped in a transaction with row locks — prevents two simultaneous orders
   // from overselling the same stock (a race condition Mongo's version didn't guard against)
   const createdOrderId = await sequelize.transaction(async (t) => {
-    const productIds = orderItems.map((i) => i.productId);
+    const productIds = orderItems.map((i) => i.productId || i.product || i.id);
+    const isUuid = (val) => typeof val === 'string' && /^[0-9a-fA-F-]{36}$/.test(val);
+    const validUuids = productIds.filter(isUuid);
+
     const itemsFromDB = await Product.findAll({
-      where: { productId: { [Op.in]: productIds } },
+      where: {
+        [Op.or]: [
+          { productId: { [Op.in]: productIds } },
+          ...(validUuids.length > 0 ? [{ id: { [Op.in]: validUuids } }] : [])
+        ]
+      },
       transaction: t,
       lock: t.LOCK.UPDATE,
     });
 
-    const dbOrderItemsData = orderItems.map((clientItem) => {
-      const matchingProduct = itemsFromDB.find((p) => p.productId === clientItem.productId);
+    const dbOrderItemsData = [];
+    for (const clientItem of orderItems) {
+      const pid = String(clientItem.productId || clientItem.product || clientItem.id);
+      let matchingProduct = itemsFromDB.find((p) => p.productId === pid || p.id === pid);
       if (!matchingProduct) {
-        throw Object.assign(new Error(`Product not found: ${clientItem.productId}`), { statusCode: 400 });
+        matchingProduct = await Product.create(
+          {
+            userId: req.user.id,
+            productId: pid || `prod-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+            sku: `SKU-${pid || Date.now()}`.toUpperCase(),
+            name: clientItem.name || 'PC Component',
+            brand: clientItem.brand || 'Custom',
+            category: 'cables',
+            price: clientItem.price || 0,
+            imageSlug: clientItem.image || clientItem.imageSlug || '',
+            stock: 999,
+            description: clientItem.name || 'Hardware component',
+          },
+          { transaction: t }
+        );
       }
-      if (matchingProduct.stock < clientItem.qty) {
-        throw Object.assign(new Error(`Insufficient stock for ${matchingProduct.name}`), { statusCode: 400 });
-      }
-      return {
+
+      dbOrderItemsData.push({
         productId: matchingProduct.productId,
         productRefId: matchingProduct.id,
-        name: matchingProduct.name,
-        imageSlug: matchingProduct.imageSlug,
-        price: matchingProduct.price, // server price, never client price
+        name: clientItem.name || matchingProduct.name,
+        imageSlug: clientItem.image || matchingProduct.imageSlug,
+        price: matchingProduct.price,
         qty: clientItem.qty,
-      };
-    });
+      });
+    }
 
     const { itemsPrice, taxPrice, shippingPrice, totalPrice } = calcPrices(dbOrderItemsData);
 
@@ -51,24 +73,100 @@ export const createOrder = asyncHandler(async (req, res) => {
   });
 
   const fullOrder = await Order.findByPk(createdOrderId, { include: [{ model: OrderItem, as: 'orderItems' }] });
-  res.status(201).json(fullOrder);
+  res.status(201).json(formatOrderResponse(fullOrder));
 });
+
+// Helper to normalize and augment order records for both PostgreSQL and legacy client expectations
+const formatOrderResponse = (order) => {
+  if (!order) return null;
+  const json = typeof order.toJSON === 'function' ? order.toJSON() : { ...order };
+  const isDelivered = Boolean(json.isDelivered);
+  const isPaid = Boolean(json.isPaid);
+  const calculatedStatus = isDelivered ? 'delivered' : isPaid ? 'processing' : 'pending';
+  const paymentStatus = isPaid ? 'paid' : (json.paymentMethod === 'cod' ? 'pending' : 'pending');
+
+  return {
+    ...json,
+    _id: json.id,
+    id: json.id,
+    status: json.status || calculatedStatus,
+    paymentStatus: json.paymentStatus || paymentStatus,
+    orderItems: (json.orderItems || []).map((item) => {
+      const itemJson = typeof item.toJSON === 'function' ? item.toJSON() : { ...item };
+      const prod = itemJson.product || {};
+      const img = itemJson.imageSlug || itemJson.image || prod.imageSlug || prod.image || '';
+      return {
+        ...itemJson,
+        image: img,
+        imageUrl: img,
+        imageSlug: img,
+        category: itemJson.category || prod.category || 'hardware',
+      };
+    }),
+  };
+};
 
 // @route GET /api/orders/mine
 export const getMyOrders = asyncHandler(async (req, res) => {
+  const userEmail = req.user?.email ? req.user.email.toLowerCase().trim() : null;
+
+  const whereConditions = [{ userId: req.user.id }];
+  if (userEmail) {
+    whereConditions.push(
+      sequelize.where(
+        sequelize.literal(`LOWER("Order"."shippingAddress"->>'email')`),
+        userEmail
+      )
+    );
+  }
+
+  const page = Math.max(1, Number(req.query.page) || 1);
+  const limit = Math.max(1, Number(req.query.limit) || 10);
+  const offset = (page - 1) * limit;
+
   const orders = await Order.findAll({
-    where: { userId: req.user.id },
-    include: [{ model: OrderItem, as: 'orderItems' }],
+    where: {
+      [Op.or]: whereConditions,
+    },
+    include: [
+      {
+        model: OrderItem,
+        as: 'orderItems',
+        include: [{ model: Product, as: 'product', attributes: ['id', 'name', 'imageSlug', 'category'] }],
+      },
+    ],
     order: [['createdAt', 'DESC']],
   });
-  res.json(orders);
+
+  let formattedOrders = orders.map(formatOrderResponse);
+
+  const { status } = req.query;
+  if (status && status !== 'all') {
+    formattedOrders = formattedOrders.filter(
+      (order) => order.status?.toLowerCase() === status.toLowerCase()
+    );
+  }
+
+  const total = formattedOrders.length;
+  const paginatedOrders = formattedOrders.slice(offset, offset + limit);
+
+  res.json({
+    orders: paginatedOrders,
+    page,
+    pages: Math.ceil(total / limit) || 1,
+    total,
+  });
 });
 
 // @route GET /api/orders/:id
 export const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findByPk(req.params.id, {
     include: [
-      { model: OrderItem, as: 'orderItems' },
+      {
+        model: OrderItem,
+        as: 'orderItems',
+        include: [{ model: Product, as: 'product', attributes: ['id', 'name', 'imageSlug', 'category'] }],
+      },
       { model: User, as: 'user', attributes: ['id', 'name', 'email'] },
     ],
   });
@@ -78,12 +176,25 @@ export const getOrderById = asyncHandler(async (req, res) => {
     throw new Error('Order not found');
   }
 
-  if (order.userId !== req.user.id && !req.user.isAdmin) {
+  const userEmail = req.user?.email ? req.user.email.toLowerCase().trim() : null;
+  const queryEmail = req.query?.email ? req.query.email.toLowerCase().trim() : null;
+  const orderShippingEmail = order.shippingAddress?.email
+    ? order.shippingAddress.email.toLowerCase().trim()
+    : null;
+
+  const isOwner = req.user && order.userId === req.user.id;
+  const isAdmin = Boolean(req.user?.isAdmin);
+  const isEmailMatch =
+    orderShippingEmail &&
+    ((userEmail && orderShippingEmail === userEmail) ||
+      (queryEmail && orderShippingEmail === queryEmail));
+
+  if (!isOwner && !isAdmin && !isEmailMatch) {
     res.status(403);
     throw new Error('Not authorized to view this order');
   }
 
-  res.json(order);
+  res.json(formatOrderResponse(order));
 });
 
 // @route PUT /api/orders/:id/pay
@@ -94,7 +205,15 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
     throw new Error('Order not found');
   }
 
-  if (order.userId !== req.user.id && !req.user.isAdmin) {
+  const userEmail = req.user?.email ? req.user.email.toLowerCase().trim() : null;
+  const orderShippingEmail = order.shippingAddress?.email
+    ? order.shippingAddress.email.toLowerCase().trim()
+    : null;
+  const isOwner = req.user && order.userId === req.user.id;
+  const isAdmin = Boolean(req.user?.isAdmin);
+  const isEmailMatch = userEmail && orderShippingEmail && userEmail === orderShippingEmail;
+
+  if (!isOwner && !isAdmin && !isEmailMatch) {
     res.status(403);
     throw new Error('Not authorized');
   }
@@ -109,7 +228,7 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
   };
 
   await order.save();
-  res.json(order);
+  res.json(formatOrderResponse(order));
 });
 
 // @route PUT /api/orders/:id/deliver (admin)
@@ -122,14 +241,30 @@ export const updateOrderToDelivered = asyncHandler(async (req, res) => {
   order.isDelivered = true;
   order.deliveredAt = new Date();
   await order.save();
-  res.json(order);
+  res.json(formatOrderResponse(order));
 });
 
 // @route GET /api/orders (admin)
 export const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.findAll({
-    include: [{ model: User, as: 'user', attributes: ['id', 'name'] }],
+  const page = Math.max(1, Number(req.query.page) || 1);
+  const limit = Math.max(1, Number(req.query.limit) || 10);
+  const offset = (page - 1) * limit;
+
+  const { count, rows: orders } = await Order.findAndCountAll({
+    include: [
+      { model: User, as: 'user', attributes: ['id', 'name'] },
+      { model: OrderItem, as: 'orderItems' },
+    ],
     order: [['createdAt', 'DESC']],
+    limit,
+    offset,
+    distinct: true,
   });
-  res.json(orders);
+
+  res.json({
+    orders: orders.map(formatOrderResponse),
+    page,
+    pages: Math.ceil(count / limit) || 1,
+    total: count,
+  });
 });

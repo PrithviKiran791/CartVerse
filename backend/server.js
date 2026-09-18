@@ -24,6 +24,7 @@ import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import configRoutes from './routes/configRoutes.js';
 import chatRoutes from './routes/chatRoutes.js';
+import paymentRoutes from './routes/paymentRoutes.js';
 
 const requiredEnvVariables = [
   'POSTGRES_HOST',
@@ -83,6 +84,34 @@ app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/config', configRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/payments', paymentRoutes);
+
+// Proxy search requests to dedicated search-service microservice
+app.use('/api/v1/search', async (req, res) => {
+  const searchServiceUrl = process.env.SEARCH_SERVICE_URL || 'http://localhost:5001';
+  const targetUrl = `${searchServiceUrl}${req.originalUrl}`;
+  try {
+    const fetchOptions = {
+      method: req.method,
+      headers: {
+        'content-type': 'application/json',
+        'x-forwarded-for': req.ip || req.connection?.remoteAddress,
+        'user-agent': req.headers['user-agent'] || '',
+      },
+    };
+    if (['POST', 'PUT', 'PATCH'].includes(req.method) && req.body && Object.keys(req.body).length > 0) {
+      fetchOptions.body = JSON.stringify(req.body);
+    }
+    const serviceRes = await fetch(targetUrl, fetchOptions);
+    const data = await serviceRes.json();
+    return res.status(serviceRes.status).json(data);
+  } catch (err) {
+    return res.status(503).json({
+      error: 'Search service temporarily unavailable',
+      message: err.message,
+    });
+  }
+});
 
 
 app.use(notFound);

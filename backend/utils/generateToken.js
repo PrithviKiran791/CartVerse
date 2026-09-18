@@ -12,7 +12,7 @@ const generateToken = (res, userId) => {
   res.cookie('jwt', token, {
     httpOnly: true, // not accessible via JS — mitigates XSS token theft
     secure: process.env.NODE_ENV === 'production', // HTTPS only in prod
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict', // CSRF protection
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // CSRF protection and cross-port dev support
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     path: '/',
   });

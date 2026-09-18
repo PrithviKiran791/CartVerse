@@ -1,7 +1,7 @@
 import express from 'express';
 import {
   registerUser, loginUser, logoutUser, getUserProfile, updateUserProfile,
-  getUsers, getUserById, updateUser, deleteUser,
+  getUsers, getUserById, updateUser, deleteUser, firebaseAuth,
 } from '../controllers/userController.js';
 import { protect, admin } from '../middleware/authMiddleware.js';
 import { authLimiter } from '../middleware/rateLimiter.js';
@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.post('/', authLimiter, registerValidator, validate, registerUser);
 router.post('/login', authLimiter, loginValidator, validate, loginUser);
+router.post('/firebase', authLimiter, firebaseAuth);
 router.post('/logout', logoutUser);
 
 router.route('/profile')
